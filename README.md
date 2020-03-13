@@ -23,11 +23,15 @@ FastOS 是一个 Java EE 企业级快速开发平台，基于经典技术组合�
 
 1.  本项目设计思路借鉴了当前gitee中 开源项目中后台管理框架众多优秀项目的设计思路
 #### 演示图
-| ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170120_65f3b718_1816537.png "屏幕截图.png")    |  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170633_0140a448_1816537.png "屏幕截图.png")   |
-| ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170152_68ab5a8e_1816537.png "屏幕截图.png") | ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170228_a0198e2a_1816537.png "屏幕截图.png") |
-|  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170254_b0b1994c_1816537.png "屏幕截图.png")   |  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170330_fd6f7796_1816537.png "屏幕截图.png")   |
-|  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170417_b8324b3c_1816537.png "屏幕截图.png")   |   ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170534_5b572da8_1816537.png "屏幕截图.png")  |
-|  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170552_1f9bc7c4_1816537.png "屏幕截图.png")   |     |
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170120_65f3b718_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170633_0140a448_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170152_68ab5a8e_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170228_a0198e2a_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170254_b0b1994c_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170330_fd6f7796_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170417_b8324b3c_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170534_5b572da8_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0313/170552_1f9bc7c4_1816537.png "屏幕截图.png")
 
 #### 码云特技
 
