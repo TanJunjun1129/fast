@@ -13,14 +13,21 @@ FastOS 是一个 Java EE 企业级快速开发平台，基于经典技术组合�
 5.   _持久层框架：MyBatis-Plus 3.3.1_ 
 6.   _定时任务: Quartz _ 
 7.   _数据库连接池：Druid 1.10.1 _ 
-8.   _工具类：Hutool 4.5.8_ 
+9.   数据库: Mysql5.7
+10.  分布式缓存数据库: Redis 4.0.9
+11.   _工具类：Hutool 4.5.8_ 
  
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  需要准备环境 Mysql5.7以上、 JDK 1.8、 Maven 3.3 、Redis4.X 以上 、开发工具 eclipse 或者 IEDA
+2.  下载源码 git clone https://gitee.com/zhouhuanOGP/J2EEFAST.git
+3.  编译代码
+    找到根目录下 pom.xml，执行 mvn clean install 命令编译一键打包。
+    一般来说不会有什么问题，如果还是编译不成功，可以按照优先级逐个编译试一试。
+4.  导入数据库
+    db目录里initDb.sql 有建库建表语句按步骤执行即可
+5.  
 
 #### 使用说明
 
