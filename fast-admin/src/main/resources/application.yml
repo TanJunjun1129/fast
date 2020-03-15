@@ -6,16 +6,16 @@ server:
     servlet:
         context-path: /admin
     #ssl:
-    #   key-store: classpath:www.lixinfintech.com.pfx
+    #   key-store: classpath:
     #   key-store-type: PKCS12
-    #   key-store-password: 'lixin12345'
+    #   key-store-password: ''
     #开启springBoot 对输出页面进行压缩
     compression:
         enabled: true
         mime-types: 'application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain'
 # mysql
 spring:
-    # 正式环境  Dev|测试环境Test
+    # 正式环境  Dev|测试环境 Test
     profiles:
         active: Test
     servlet:

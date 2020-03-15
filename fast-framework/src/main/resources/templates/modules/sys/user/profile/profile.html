@@ -214,7 +214,7 @@
                             }
                         },
                         dataFilter: function(data, type) {
-                            return $.validate.unique(data);
+                            return opt.validate.unique(data);
                         }
                     }
                 }
@@ -238,7 +238,7 @@
 	    }
 
 	    function resultExe(r){
-            if(r.code == web_status.SUCCESS){
+            if(r.code == opt.variable.web_status.SUCCESS){
                  opt.modal.success($.i18n.prop("操作成功!"), function () {
                      parent.location.reload();
                      return;

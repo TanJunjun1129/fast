@@ -10,13 +10,12 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>fast-framework</artifactId>
-	<name>FASTOS 核心模块</name>
+	<name>fast 核心模块</name>
 	<description>
-	    FASTOS 核心模块
+		fast 核心模块
 	</description>
 	
 	<dependencies>
-	
 	    <!-- <dependency>
 			<groupId>com.fast</groupId>
 			<artifactId>fast-common</artifactId>

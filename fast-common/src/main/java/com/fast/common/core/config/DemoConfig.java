@@ -57,7 +57,6 @@ public class DemoConfig {
         	HttpServletRequest request = (HttpServletRequest)servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
             String url = request.getRequestURI();
-            System.err.println(url);
             if("POST".equals(request.getMethod())) {
             	String[] filters = new String[]{"edit","del","remove","clean","updateAvatar",
             			"updateUser","resetPwd","updatePass","genCode"};
