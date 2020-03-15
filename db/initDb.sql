@@ -661,4 +661,72 @@ CREATE TABLE `sys_user_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户与角色对应关系';
 
+-- 代码生成器表
+DROP TABLE IF EXISTS `gen_table`;
+
+CREATE TABLE `gen_table` (
+  `table_id` BIGINT(20) NOT NULL COMMENT '编号',
+  `table_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表名称',
+  `table_comment` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表描述',
+  `class_name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '实体类名称',
+  `tpl_category` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作）',
+  `package_name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成包路径',
+  `module_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成模块名',
+  `business_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成业务名',
+  `function_name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能名',
+  `function_author` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能作者',
+  `actions_type` CHAR(50) COLLATE utf8mb4_bin DEFAULT 'default' COMMENT '操作按钮风格(default,icon)',
+  `is_cover` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'N' COMMENT '生成代码是否覆盖替换',
+  `is_del` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'Y' COMMENT '只有一个页面 是否需要删除功能',
+  `run_path` VARCHAR(200) COLLATE utf8mb4_bin DEFAULT '/' COMMENT '生成路径(不填默认项目路径)',
+  `options` VARCHAR(1000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '其它生成选项',
+  `parent_id` BIGINT(20) DEFAULT '0' COMMENT '上级菜单ID',
+  `parent_name` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '父菜单名称',
+  `menu_name` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单名称',
+  `module_codes` VARCHAR(100) COLLATE utf8mb4_bin DEFAULT 'core' COMMENT '归属模块（多个用逗号隔开）',
+  `menu_order` INT(11) DEFAULT '0' COMMENT '菜单排序',
+  `menu_icon` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单图标',
+  `menu_target` VARCHAR(20) COLLATE utf8mb4_bin DEFAULT '' COMMENT '目标(打开方式)',
+  `db_type` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '数据库类型(0 主数据库 1从数据库)',
+  `create_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
+  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `update_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
+  `update_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+  `remark` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`table_id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表';
+
+-- 代码生成字段对应表
+DROP TABLE IF EXISTS `gen_table_column`;
+
+CREATE TABLE `gen_table_column` (
+  `column_id` BIGINT(20) NOT NULL COMMENT '编号',
+  `table_id` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '归属表编号',
+  `column_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列名称',
+  `column_comment` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列描述',
+  `column_type` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列类型',
+  `java_type` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA类型',
+  `java_field` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA字段名',
+  `is_plus` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '是否未MapperPlus（1是）',
+  `is_pk` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否主键（1是）',
+  `is_increment` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否自增（1是）',
+  `is_required` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否必填（1是）',
+  `is_insert` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否为插入字段（1是）',
+  `is_edit` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否编辑字段（1是）',
+  `is_list` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否列表字段（1是）',
+  `is_query` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否查询字段（1是）',
+  `query_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+  `html_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `edit_info` VARCHAR(2000) COLLATE utf8mb4_bin DEFAULT '' COMMENT '字段说明',
+  `dict_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典类型',
+  `circle_type` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'T' COMMENT '字段说明样式T 普通形 Q 黄色问号弹出型 R红色明显提示',
+  `is_table_sort` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '字段是否为表sortable 1是',
+  `sort` INT(11) DEFAULT NULL COMMENT '排序',
+  `create_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
+  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `update_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
+  `update_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`column_id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表字段';
+
 /****************************************************************************************/
