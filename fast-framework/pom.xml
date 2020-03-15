@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>fast</artifactId>
+		<groupId>com.fast</groupId>
+		<version>3.2.0</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>fast-framework</artifactId>
+	<name>FASTOS 核心模块</name>
+	<description>
+	    FASTOS 核心模块
+	</description>
+	
+	<dependencies>
+	
+	    <!-- <dependency>
+			<groupId>com.fast</groupId>
+			<artifactId>fast-common</artifactId>
+		</dependency> -->
+		
+		 <dependency>
+			<groupId>com.fast</groupId>
+			<artifactId>fast-common</artifactId>
+		</dependency>
+	     
+	     <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		 </dependency>
+	     <dependency>
+		    <groupId>org.apache.shiro</groupId>
+		    <artifactId>shiro-core</artifactId>
+		</dependency>
+
+		<!-- Java图形验证码-->
+		<dependency>
+			<groupId>com.github.whvcse</groupId>
+			<artifactId>easy-captcha</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.shiro</groupId>
+		    <artifactId>shiro-spring</artifactId>
+		</dependency>
+		<!--   -->
+		<dependency>
+		  <groupId>net.mingsoft</groupId>
+		  <artifactId>shiro-freemarker-tags</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>kaptcha</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP-java6</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<!-- <build>
+		<plugins>
+			打jar包的插件
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					不打包资源文件（配置文件和依赖包分开）
+					<excludes>
+						<exclude>templates/**</exclude>
+						<exclude>mapper/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
+
+</project>

@@ -1,0 +1,30 @@
+----任务表字段增加
+ALTER TABLE `schedule_job` ADD `job_group` VARCHAR(64) DEFAULT 'DEFAULT' COMMENT '任务组名';
+ALTER TABLE `schedule_job` ADD `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者';
+ALTER TABLE `schedule_job` ADD `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者';
+ALTER TABLE `schedule_job` ADD `update_time` datetime COMMENT '更新时间';
+ALTER TABLE `schedule_job` ADD `job_name` VARCHAR(64) DEFAULT '' COMMENT '任务名称';
+
+ALTER TABLE `schedule_job_log` ADD `job_group` VARCHAR(64) DEFAULT 'DEFAULT' COMMENT '任务组名';
+ALTER TABLE `schedule_job_log` ADD `job_name` VARCHAR(64) DEFAULT '' COMMENT '任务名称';
+
+----菜单表新增字段
+ALTER TABLE `sys_menu` ADD `target`  varchar(20) DEFAULT '' COMMENT '目标(打开方式)';
+
+insert into `sys_dict_type` (`dict_name`, `dict_type`, `is_sys`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('国际化语言类型','sys_lang_type','Y','0','admin','2020-01-05 14:15:33','admin','2019-12-17 22:21:09','国际化语言');
+insert into `sys_dict_type` (`dict_name`, `dict_type`, `is_sys`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('菜单类型','sys_menu_type','Y','0','admin','2020-02-01 16:39:17','',NULL,'菜单类型');
+INSERT INTO `sys_dict_type` (`dict_name`, `dict_type`, `is_sys`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES(菜单目标','sys_menu_target','Y','0','admin','2020-02-07 10:46:07','',NULL,'左侧菜单打开呈现方式');
+
+insert into `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('2','한국어','ko_KR','sys_lang_type','','Y','','default','N','0','admin','2020-01-29 22:47:51','admin','2020-01-08 07:15:59','韩语');
+insert into `sys_dict_data` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('3','日本語','ja_JP','sys_lang_type','','Y','','default','N','0','admin','2020-01-29 23:11:28','',NULL,'日本语言');
+insert into `sys_dict_data` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('4','中文(繁體)','hkzh_TW','sys_lang_type','','Y','','default','N','0','admin','2020-01-30 11:19:35','',NULL,'中文简体');
+insert into `sys_dict_data` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('0','目录','0','sys_menu_type','label label-success','Y','','','N','0','admin','2020-02-01 16:42:21','',NULL,'菜单目录');
+insert into `sys_dict_data` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('1','菜单','1','sys_menu_type','label label-primary','Y','','','Y','0','admin','2020-02-01 16:44:06','',NULL,'菜单');
+insert into `sys_dict_data` ( `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) values('2','按钮','2','sys_menu_type','label label-warning','Y','','','N','0','admin','2020-02-01 16:50:27','',NULL,'权限按钮');
+insert into `sys_config` (`param_name`, `param_key`, `param_value`, `config_type`, `remark`, `create_by`, `create_time`, `update_time`, `update_by`) values('登陆排挤','SYS_IS_LOGIN','1','Y','同一账户只能一个人登陆 0 支持 1不支持','admin','2020-01-10 18:50:31','2019-12-23 01:40:16','admin');
+insert into `sys_config` (`param_name`, `param_key`, `param_value`, `config_type`, `remark`, `create_by`, `create_time`, `update_time`, `update_by`) values('屏保时间','SYS_LOCK_SCEREEN','{\"time\":30,\"flag\":true}','Y','是否开启true  false 自动屏保及时间(分钟)','admin','2020-01-18 19:29:17','2019-12-31 00:28:26','admin');
+insert into `sys_config` (`param_name`, `param_key`, `param_value`, `config_type`, `remark`, `create_by`, `create_time`, `update_time`, `update_by`) values('主框架页-默认皮肤样式名称','SYS_INDEX_SKINNAME','skin-blue-light','Y','skin-black-light、skin-black、skin-blue-light、skin-blue、skin-green-light、skin-green、skin-purple-light、skin-purple、skin-red-light、skin-red、skin-yellow-light、skin-yellow','admin','2020-02-03 11:31:11',NULL,'');
+INSERT INTO `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('0','Tab打开','_tab','sys_menu_target','','Y','','primary','Y','0','admin','2020-02-07 10:50:17','admin','2020-01-12 22:10:20','菜单打开已TAB形式打开');
+INSERT INTO `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('1','新窗口','_blank','sys_menu_target','','Y','','info','N','0','admin','2020-02-07 10:53:07','admin','2020-01-12 22:10:31','在新窗口打开_blank');
+INSERT INTO `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('2','弹出窗体','_alert','sys_menu_target','','Y','','warning','N','0','admin','2020-02-07 10:54:51','admin','2020-01-12 22:10:40','弹出窗口形式');
+INSERT INTO `sys_dict_data` (`dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `is_sys`, `css_style`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('3','全屏','_fullscreen','sys_menu_target','','Y','','danger','N','0','admin','2020-02-07 13:30:58','admin','2020-01-12 22:24:11','打开窗体全屏显示');
