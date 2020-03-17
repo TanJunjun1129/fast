@@ -128,7 +128,12 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
-		
+
+         <!-- lisence验证 -->
+          <dependency>
+              <groupId>de.schlichtherle.truelicense</groupId>
+              <artifactId>truelicense-core</artifactId>
+          </dependency>
 	<!-- 	<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15</artifactId>

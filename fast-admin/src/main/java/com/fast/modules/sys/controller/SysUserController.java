@@ -92,7 +92,7 @@ public class SysUserController extends AbstractController {
 	public String edit(@PathVariable("userId") Long userId,ModelMap mmap){
 		
 		SysUserEntity user = sysUserService.selectByUserId(userId);
-		// 获取用户所属的角色列表
+		// 获取用户所属的角色列表resetPwd
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
 
 		List<SysUserDeptEntity> deptIdList = sysUserDeptService.queryListByUserId(userId);

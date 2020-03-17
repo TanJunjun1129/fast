@@ -241,6 +241,48 @@ public class EnctryptTools {
         //res = Encrypt(res, key1);
         return HexUtil.bytesToHexStr(res, 0, 4).toUpperCase().getBytes();
     }
+
+
+	public static String SM4Mac(byte[] keyValue, byte[] data)
+	{
+		//把报文以8字节分组，最后一组不足8字节补0,
+		//byte[] data = Encoding.Default.GetBytes(mac);
+		int datalen = data.length;
+		datalen += (16 - datalen % 16) % 16; //不足16位不足16位
+		byte[] secdata = new byte[datalen];
+		System.arraycopy(data, 0, secdata, 0, data.length);
+		for (int i = data.length; i < datalen; i++)
+		{
+			secdata[i] = 0x00;
+		}
+		byte[] res = new byte[16];
+		byte[] temp = new byte[16];
+
+		//yte[] key1 = new byte[8];
+		//byte[] key2 = new byte[8];
+
+		//Array.Copy(keyValue, 0, key1, 0, key1.Length); //左部分
+		//Array.Copy(keyValue, 8, key2, 0, key1.Length); //右部分
+
+		/**按每8个字节做异或 **/
+		int arrayLen = datalen / 16;
+		for (int i = 0; i < arrayLen; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				// DESEncrypt0(secdata[i * 8 + j], key1);
+				temp[j] = secdata[i * 16 + j];
+				temp[j] ^= res[j];
+			}
+			//res = Encrypt(temp, key1);
+			// res = SM4.EncriptB(temp, keyValue);
+			SM4.GMSM4(temp, temp.length, keyValue, res, SM4.ENCRYPT);
+			//res = convertHexStrToByteArray(Encrypt3Des(convertByteArrayToHexStr(res), key));
+		}
+		//res = Decrypt(res, key2);
+		//res = Encrypt(res, key1);
+		return HexUtil.convertByteArrayToHexStr(res);
+	}
     
     /**
      * 兴业VTM 网银加密方法

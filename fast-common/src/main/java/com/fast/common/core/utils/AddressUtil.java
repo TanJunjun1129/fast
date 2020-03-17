@@ -18,10 +18,9 @@ import cn.hutool.json.JSONUtil;
 public class AddressUtil {
 	
 	 private static final Logger 					LOG 					= LoggerFactory.getLogger(AddressUtil.class);
-	 public  static final String 					IP_URL 					=  "http://apis.juhe.cn/ip/ipNew?ip={}&key=852a85daddca9ff842bf4a4a6b8fdf81";
-	 
-	 public static String getRealAddressByIp(String ip) {
-		String address = "XX XX";
+     public static final String IP_URL =  "http://api.map.baidu.com/location/ip?ak=gRhqOOqPOQzvM8nMRnVoQswejvggglqY&ip={}&coor=bd09ll";
+     public static String getRealAddressByIP(String ip) {
+        String address = "XX XX";
         // 内网不查询
         if (NetUtil.isInnerIP(ip))
         {
@@ -30,27 +29,33 @@ public class AddressUtil {
         JSONObject obj;
         try
         {
-        	HttpResponse body = HttpRequest.get(StrUtil.format(IP_URL, ip)).charset(CharsetUtil.CHARSET_GBK).execute();
+            System.err.println(StrUtil.format(IP_URL, ip));
+            HttpResponse body = HttpRequest.get(StrUtil.format(IP_URL, ip)).charset("GBK").execute();
+
             if (StrUtil.isBlank(body.body()))
             {
-            	LOG.error("获取地理位置异常 {}", ip);
+                LOG.error("获取地理位置异常 {}", ip);
                 return address;
             }
             obj = JSONUtil.parseObj(body.body());
-            int errorCode = obj.getInt("error_code",-1);
-            if(errorCode == 0) {
-            	JSONObject data = obj.getJSONObject("result");
-            	String country = data.getStr("Country", "中国");
-            	String province = data.getStr("Province", "上海");
-            	String city = data.getStr("City", "上海市");
-            	String isp = data.getStr("Isp", "联通");
-            	address = StrUtil.format("{} {}-{} {}", country,province,city,isp);
+            System.err.println(obj.toString());
+            //{"address":"CN|上海|上海|None|CHINANET|0|0","content":{"address_detail":{"province":"上海市","city":"上海市","street":"","district":"","street_number":"","city_code":289},"address":"上海市","point":{"x":"121.48789949","y":"31.24916171"}},"status":0}
+            int error_code = obj.getInt("status",-1);
+            if(error_code == 0) {
+                JSONObject data = obj.getJSONObject("content");
+                String country = obj.getStr("address", "CN|上海|上海|None|CHINANET|0|0").split("\\|")[0];
+                String province = data.getJSONObject("address_detail").getStr("Province", "上海");
+                String city = data.getJSONObject("address_detail").getStr("city", "上海市");
+                //String Isp = data.getStr("Isp", "联通");
+                address = StrUtil.format("{} {}-{}", country,province,city);
+            }else {
+                LOG.error("获取地理位置异常 -->", obj.toString());
             }
         }
         catch (Exception e)
         {
-        	LOG.error("获取地理位置异常 {}", ip);
+            LOG.error("获取地理位置异常 {}", ip);
         }
         return address;
-	 }
+    }
 }

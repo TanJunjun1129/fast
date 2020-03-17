@@ -1614,7 +1614,7 @@ if (typeof jQuery === "undefined") {
                 if (result.code == opt.variable.web_status.SUCCESS && opt.table.options.type == opt.variable.table_type.bootstrapTable) {
                     opt.success($.i18n.prop("操作成功!"))
                     $.table.refresh();
-                } else if (result.code == opt.variable.web_status.SUCCESS && opt.table.options.type == opt.variable.bootstrapTreeTable) {
+                } else if (result.code == opt.variable.web_status.SUCCESS && opt.table.options.type == opt.variable.table_type.bootstrapTreeTable) {
                     opt.success($.i18n.prop("操作成功!"))
                     $.treeTable.refresh();
                 } else if (result.code == opt.variable.web_status.WARNING) {

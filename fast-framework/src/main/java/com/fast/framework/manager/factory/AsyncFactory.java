@@ -38,7 +38,7 @@ public class AsyncFactory {
 			@Override
 			public void run(){
 				// 远程查询操作地点
-				operLog.setOperLocation(AddressUtil.getRealAddressByIp(operLog.getOperIp()));
+				operLog.setOperLocation(AddressUtil.getRealAddressByIP(operLog.getOperIp()));
 				SpringUtil.getBean(SysLogService.class).save(operLog);
 			}
 		};
@@ -67,7 +67,7 @@ public class AsyncFactory {
 	                SysLoginInfoEntity logininfor = new SysLoginInfoEntity();
 	                logininfor.setUsername(username);
 	                logininfor.setIpaddr(ip);
-	                logininfor.setLoginLocation(AddressUtil.getRealAddressByIp(ip));
+	                logininfor.setLoginLocation(AddressUtil.getRealAddressByIP(ip));
 	                logininfor.setBrowser(browser);
 	                logininfor.setOs(os);
 					logininfor.setCompId(compId);

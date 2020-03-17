@@ -535,7 +535,14 @@
                 <version>${lombok.versin}</version>
             </dependency>
 
-            
+            <!-- lisence验证 -->
+            <!-- https://mvnrepository.com/artifact/de.schlichtherle.truelicense/truelicense-core -->
+            <dependency>
+                <groupId>de.schlichtherle.truelicense</groupId>
+                <artifactId>truelicense-core</artifactId>
+                <version>1.33</version>
+            </dependency>
+
             <!-- netty 框架-->
             <dependency>
                 <groupId>io.netty</groupId>

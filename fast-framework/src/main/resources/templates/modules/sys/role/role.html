@@ -84,8 +84,8 @@
                                 actions.push('<a class="' + editFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "启用"/>" onclick="enable(\'' + row.roleId + '\')"><i class="glyphicon glyphicon-ok-circle"></i></a> ');
                             }
                             actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="opt.operate.del(\'' + row.roleId + '\')"><i class="fa fa-trash-o"></i></a> ');
-                            var info = "<a  class='btn btn-default btn-xs' onclick='authorization(" + row.roleId + ",this);'><i class='fa icon-check'></i> <@ctx.i18n text = "授权菜单"/></a>&nbsp;";
-                            info += "<a  class='btn btn-default btn-xs' onclick='authUser(" + row.roleId + ");'><i class='fa icon-user'></i> <@ctx.i18n text = "分配用户"/></a>&nbsp;";
+                            var info = "<a  class='btn btn-default btn-xs' onclick=javascript:authorization(\'" + row.roleId + "\');><i class='fa icon-check'></i> <@ctx.i18n text = "授权菜单"/></a>&nbsp;";
+                            info += "<a  class='btn btn-default btn-xs' onclick=javascript:authUser(\'" + row.roleId + "\');><i class='fa icon-user'></i> <@ctx.i18n text = "分配用户"/></a>&nbsp;";
                             actions.push('<a tabindex="0" class="' + delFlag + '" role="button" data-container="body" data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" data-content="'+info+'"><i class="fa fa-chevron-circle-right"  title="<@ctx.i18n text = "更多操作"/>"></i></a>');
                             return actions.join('');
                         }}]
@@ -110,7 +110,7 @@
     }
     
     /*授权菜单*/
-    function authorization(roleId,o) {
+    function authorization(roleId) {
         opt.modal.open("<@ctx.i18n text = "授权菜单"/>", prefix + "/authorization/" + roleId,1100,500);
         return;
     }

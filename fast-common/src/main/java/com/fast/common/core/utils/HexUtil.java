@@ -252,5 +252,22 @@ public class HexUtil extends cn.hutool.core.util.HexUtil{
 			}
 			return bytes;
 		}
+
+		/**
+		 * 不足16位倍数补足
+		 * @param data
+		 * @return
+		 */
+		public static byte[] BytesTo16K(byte[] data){
+			int datalen = data.length;
+			datalen += (16 - datalen % 16) % 16; //不足16位不足16位
+			byte[] secdata = new byte[datalen];
+			System.arraycopy(data, 0, secdata, 0, data.length);
+			for (int i = data.length; i < datalen; i++)
+			{
+				secdata[i] = 32;
+			}
+			return secdata;
+		}
 	
 }

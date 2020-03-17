@@ -107,9 +107,14 @@
                             actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "启用"/>" onclick="enable(\'' + row.userId + '\')"><i class="glyphicon glyphicon-ok-circle"></i></a> ');
                         }
                         actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="opt.operate.del(\'' + row.userId + '\')"><i class="fa fa-trash-o"></i></a> ');
-                        var info = "<a  class='btn btn-default btn-xs' onclick='resetPwd(" + row.userId + ");'><i class='fa icon-key'></i> <@ctx.i18n text = "重置密码"/></a>&nbsp;";
-                        info += "<a  class='btn btn-default btn-xs' onclick='authRole(" + row.userId + ");'><i class='fa icon-check'></i> <@ctx.i18n text = "分配角色"/></a>&nbsp;";
-                        actions.push('<a tabindex="0" class="' + resetPwdFlag + '" role="button" data-container="body" data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" data-content="'+info+'"><i class="fa fa-chevron-circle-right" title="<@ctx.i18n text = "更多操作"/>"></i></a>');
+
+                        <#--var info = "<a  class='btn btn-default btn-xs' onclick='resetPwd(\"" + row.userId + "\");'><i class='fa icon-key'></i> <@ctx.i18n text = "重置密码"/></a>";-->
+                        <#--info += "<a  class='btn btn-default btn-xs' onclick='authRole(\"" + row.userId +"\");'><i class='fa icon-check'></i> <@ctx.i18n text = "分配角色"/></a>";-->
+                        var info = "<a  class='btn btn-default btn-xs' onclick=javascript:resetPwd(\'" + row.userId + "\');><i class='fa icon-key'></i> <@ctx.i18n text = "重置密码"/></a>&nbsp;";
+                        info += "<a  class='btn btn-default btn-xs' onclick=javascript:authRole(\'" + row.userId +"\');><i class='fa icon-check'></i> <@ctx.i18n text = "分配角色"/></a>";
+                        actions.push('<a tabindex="0" class="' + resetPwdFlag + '" role="button" data-container="body" ' +
+                            'data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" ' +
+                            'data-content="'+info+'"><i class="fa fa-chevron-circle-right" title="<@ctx.i18n text = "更多操作"/>"></i></a>');
                         return actions.join('');
                     }
                 }
@@ -121,6 +126,7 @@
     
     /* 用户管理-重置密码 */
     function resetPwd(userId) {
+        console.log("userId:" +userId)
         var url = prefix + '/resetPwd/' + userId;
         opt.modal.open("重置密码", url,'800', '225');
     }
@@ -144,10 +150,6 @@
         opt.modal.openTab("<@ctx.i18n text = "用户分配角色"/>", prefix + "/authRole/" + userId);
         return;
     }
-
-    var  a = resetPwd;
-    console.log(a);
-    console.log(opt.common.isPromise('resetPwd'));
 
 </script>
 </@footer>

@@ -77,6 +77,7 @@ public class MybatisDataSourceAutoConfiguration {
             dbNames = StrUtil.split(datasourceNames, ",");
     		
     		temp.setMap(new HashMap<Object, Object>(dbNames.length + 1));
+
         }
         catch (FileNotFoundException e){
         	e.printStackTrace();

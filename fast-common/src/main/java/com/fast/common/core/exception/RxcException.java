@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class RxcException extends RuntimeException {
+
 	private static final long 					serialVersionUID 					= 1L;
 	private String 								msg;
 	private String 								code 								= "50000";

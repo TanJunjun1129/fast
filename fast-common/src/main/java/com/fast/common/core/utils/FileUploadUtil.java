@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import com.fast.common.core.exception.RxcException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fast.common.core.exception.FileNameLengthLimitExceededException;
-import com.fast.common.core.exception.FileSizeLimitExceededException;
 import com.fast.common.core.exception.InvalidExtensionException;
 import com.fast.common.core.io.file.MimeType;
 
@@ -89,17 +88,15 @@ public class FileUploadUtil {
      * @param baseDir 相对应用的基目录
      * @param file 上传的文件
      * @return 返回上传成功的文件名
-     * @throws FileSizeLimitExceededException 如果超出最大大小
-     * @throws FileNameLengthLimitExceededException 文件名太长
      * @throws IOException 比如读写文件出错时
      * @throws InvalidExtensionException 文件校验异常
      */
     public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
-            throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
-            InvalidExtensionException{
+            throws RxcException,
+            InvalidExtensionException, IOException {
         int fileNamelength = file.getOriginalFilename().length();
         if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH){
-            throw new FileNameLengthLimitExceededException(FileUploadUtil.DEFAULT_FILE_NAME_LENGTH);
+            throw new RxcException("10004","文件太大");
         }
 
         assertAllowed(file, allowedExtension);
@@ -161,16 +158,15 @@ public class FileUploadUtil {
      *
      * @param file 上传的文件
      * @return
-     * @throws FileSizeLimitExceededException 如果超出最大大小
      * @throws InvalidExtensionException
      */
     public static final void assertAllowed(MultipartFile file, String[] allowedExtension)
-            throws FileSizeLimitExceededException, InvalidExtensionException
+            throws InvalidExtensionException
     {
         long size = file.getSize();
         if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE)
         {
-            throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
+            throw new RxcException("10004","文件太大");
         }
 
         String fileName = file.getOriginalFilename();
