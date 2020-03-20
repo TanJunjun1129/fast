@@ -123,7 +123,7 @@
                             <p>
                             <h4><@ctx.i18n text = "上次登陆时间"/> :
                                 <#if user.loginTime?exists>
-                                    ${user.loginTime?datetime('yyyy-dd-MM HH:mm:ss')}
+                                    ${user.loginTime?string('yyyy-dd-MM HH:mm:ss')}
                                 </#if>
                                 </h4>
                             <small><@ctx.i18n text = "上次登陆地点"/>:${user.loginLocation?default("/")}</small>
