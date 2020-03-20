@@ -236,7 +236,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	public boolean checkMobileUnique(SysUserEntity user) {
 		Long userId = ToolUtil.isEmpty(user.getUserId())?-1L:user.getUserId();
 		SysUserEntity info = this.baseMapper.checkMobileUnique(user.getMobile());
-		if(!ToolUtil.isEmpty(info) && info.getUserId() != userId){
+		if(ToolUtil.isNotEmpty(info) && !info.getUserId().equals(userId)){ //1241000425446158338 //1241000425446158338
 			return  false;
 		}
 		return true;

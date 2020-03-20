@@ -93,6 +93,7 @@
 					<excludes>
 						<exclude>templates/**</exclude>
 						<exclude>mapper/**</exclude>
+						<exclude>statics/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

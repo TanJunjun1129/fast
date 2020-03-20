@@ -2,6 +2,7 @@ package com.fast.framework.sys.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -11,7 +12,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("sys_user_role")
 public class SysUserRoleEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@TableId
+	
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

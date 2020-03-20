@@ -12,6 +12,7 @@ import com.fast.framework.sys.entity.*;
 import com.fast.framework.sys.service.*;
 import com.fast.framework.utils.Global;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,6 @@ import com.fast.common.core.utils.ValidatorUtil;
 import com.fast.framework.utils.AbstractController;
 import com.fast.framework.utils.Constant;
 import com.fast.framework.utils.ShiroUtils;
-
 import cn.hutool.json.JSONUtil;
 
 /**
@@ -227,7 +227,7 @@ public class SysUserController extends AbstractController {
 		if (!flag) {
 			return R.error(ToolUtil.message("sys.user.oldPasswordError"));
 		}
-		if (ShiroUtils.getUserId() == user.getUserId())
+		if (ShiroUtils.getUserId().equals(user.getUserId()))
 		{
 			SysUserEntity user0 =  getUser();
 			user0.setPwdSecurityLevel(user.getPwdSecurityLevel());
@@ -260,8 +260,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping(value = "/checkMobileUnique", method = RequestMethod.POST)
 	@ResponseBody
-	public R checkMobileUnique(SysUserEntity user)
-	{
+	public R checkMobileUnique(SysUserEntity user){
 		if(sysUserService.checkMobileUnique(user)){
 			return R.ok();
 		}
@@ -347,4 +346,30 @@ public class SysUserController extends AbstractController {
 		return  sysUserRoleService.insertUserAuths(userId, roleIds)?R.ok() : R.error();
 	}
 
+	/**
+	 * 删除用户
+	 */
+	@BussinessLog(title = "角色管理", businessType = BusinessType.DELETE)
+	@RequestMapping( value = "/del", method = RequestMethod.POST)
+	@RequiresPermissions("sys:user:del")
+	@ResponseBody
+	public R delete(Long[] ids) {
+		if(getUserId().equals(Constant.SUPER_ADMIN) ||
+				ShiroUtils.isPermissions(Constant.SU_ADMIN)){
+			if (ArrayUtils.contains(ids, getUserId())) {
+				return R.error("当前用户不能删除");
+			}
+
+			// 删除 用户与角色 关联表
+			sysUserRoleService.deleteByUserIdBatch(ids);
+			// 删除 用户与地区 关联表
+			sysUserDeptService.deleteByUserIdBatch(ids);
+			//删除 用户
+			sysUserService.removeByIds(Arrays.asList(ids));
+
+			return R.ok();
+		}else{
+			return R.error(ToolUtil.message("sys.msg.permissions"));
+		}
+	}
 }

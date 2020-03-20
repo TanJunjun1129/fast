@@ -97,24 +97,29 @@ public class SysUserOnlineController extends AbstractController {
     @ResponseBody
     public R monitorOut(String[] ids) {
 
-        for(String sessionId: ids){
-            if (getUser().getSid().equals(sessionId)) {
-                return R.error("自己不能踢自己下线操作!");
-            }
-            Collection<Session> list = ((DefaultSessionManager) ((DefaultSecurityManager) SecurityUtils
-                    .getSecurityManager()).getSessionManager()).getSessionDAO().getActiveSessions();
-            for (Session session : list) {
-                Subject s = new Subject.Builder().session(session).buildSubject();
-                if (s.isAuthenticated()) {
-                    SysUserEntity user = (SysUserEntity)s.getPrincipal();
-                    if (session.getId().toString().equals(sessionId)) {
-                        redisUtil.set("sys:session:" +  user.getUsername(), "00002", RedisUtil.MINUTE);
-                        session.stop();
-                        s.logout();
+        try{
+            for(String sessionId: ids){
+                if (getUser().getSid().equals(sessionId)) {
+                    return R.error("自己不能踢自己下线操作!");
+                }
+                Collection<Session> list = ((DefaultSessionManager) ((DefaultSecurityManager) SecurityUtils
+                        .getSecurityManager()).getSessionManager()).getSessionDAO().getActiveSessions();
+                for (Session session : list) {
+                    Subject s = new Subject.Builder().session(session).buildSubject();
+                    if (s.isAuthenticated()) {
+                        SysUserEntity user = (SysUserEntity)s.getPrincipal();
+                        if (session.getId().toString().equals(sessionId)) {
+                            redisUtil.set("sys:session:" +  user.getUsername(), "00002", RedisUtil.MINUTE);
+                            session.stop();
+                            s.logout();
+                        }
                     }
                 }
             }
+            return R.ok();
+        }catch (Exception e){
+            logger.error("提出用户异常!",e);
+            return R.error("提出用户异常!");
         }
-        return R.ok();
     }
 }

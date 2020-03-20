@@ -68,7 +68,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
 			sysUserRoleEntity.setRoleId(roleId);
 			list.add(sysUserRoleEntity);
 		}
-		return this.baseMapper.batchUserRole(list) > 0;
+		return this.saveBatch(list);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
 			sysUserRoleEntity.setRoleId(roleId);
 			list.add(sysUserRoleEntity);
 		}
-		return this.baseMapper.batchUserRole(list) > 0;
+		return this.saveBatch(list);
 	}
 
 //	@Override
