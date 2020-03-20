@@ -4,6 +4,8 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import com.fast.common.core.constants.ConfigConstant;
 import de.schlichtherle.license.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +33,13 @@ public class LicenseVerify {
 
         LicenseContent result = null;
         //1. 安装证书
-        LicenseManager licenseManager =new LicenseManager(initLicenseParam(param));
+        LicenseManager licenseManager =new CustomLicenseManager(initLicenseParam(param));
         // 先卸载证书 == 给null
         licenseManager.uninstall();
         // 安装
         result = licenseManager.install(FileUtil.file(param.getLicensePath()));
+
+        ConfigConstant.AUTHORIZATION_TIME = StrUtil.format("{} - {}",DatePattern.NORM_DATETIME_FORMAT.format(result.getNotBefore()),DatePattern.NORM_DATETIME_FORMAT.format(result.getNotAfter()));
 
         LOG.info(MessageFormat.format("证书安装成功，证书有效期：{0} - {1}",DatePattern.NORM_DATETIME_FORMAT.format(result.getNotBefore()),
                 DatePattern.NORM_DATETIME_FORMAT.format(result.getNotAfter())));

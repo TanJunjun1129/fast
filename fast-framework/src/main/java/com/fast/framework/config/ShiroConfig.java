@@ -1,12 +1,20 @@
 package com.fast.framework.config;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.fast.common.core.utils.ToolUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.config.ConfigurationException;
+import org.apache.shiro.io.ResourceUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -18,7 +26,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.fast.framework.shiro.RedisShiroSessionDAO;
@@ -31,6 +41,42 @@ import com.fast.framework.shiro.realm.UserRealm;
 @Configuration
 public class ShiroConfig {
 
+	/**
+	 * Session超时时间，单位为毫秒（默认30分钟）
+	 */
+	@Value("${shiro.session.expireTime: 30}")
+	private int expireTime;
+
+	/**
+	 * 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 (默认设置5分钟)
+	 */
+	@Value("${shiro.session.validationTime: 5}")
+	private int validationTime;
+
+	/**
+	 * 设置Cookie的域名
+	 */
+	@Value("${shiro.cookie.domain: ''}")
+	private String domain;
+
+	/**
+	 * 设置cookie的有效访问路径设置与项目路径一直
+	 */
+	@Value("${server.servlet.contextPath: /fast}")
+	private String path;
+
+	/**
+	 * 设置HttpOnly属性
+	 */
+	@Value("${shiro.cookie.httpOnly: true}")
+	private boolean httpOnly;
+
+	/**
+	 * 设置Cookie的过期时间，秒为单位
+	 */
+	@Value("${shiro.cookie.maxAge: 30}")
+	private int maxAge;
+
 	@Bean("sessionManager")
 	public SessionManager sessionManager(RedisShiroSessionDAO redisShiroSessionDAO,
 			@Value("${framework.redis.open}") boolean redisOpen,
@@ -39,22 +85,24 @@ public class ShiroConfig {
 		Collection<SessionListener> listeners = new ArrayList<SessionListener>();
 		// 配置监听
 		listeners.add(sessionListener());
+
 		sessionManager.setSessionListeners(listeners);
 
 		// 设置session过期时间为1小时(单位：毫秒)，默认为30分钟
-		sessionManager.setGlobalSessionTimeout(1000 * 60 * 30);
+		sessionManager.setGlobalSessionTimeout(1000 * 60 * expireTime);
 		// 去掉 JSESSIONID
 		sessionManager.setSessionIdUrlRewritingEnabled(false);
+
 		// 是否开启删除无效的session对象 默认为true
 		sessionManager.setDeleteInvalidSessions(true);
+
 		// 是否开启定时调度器进行检测过期session 默认为true
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 
 		// 设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
 		// 设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler
 		// 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
-		// 暂时设置为 5秒 用来测试
-		sessionManager.setSessionValidationInterval(1000 * 60 * 10);
+		sessionManager.setSessionValidationInterval(1000 * 60 * validationTime);
 
 		// 如果开启redis缓存且framework.shiro.redis=true，则shiro session存到redis里
 		if (redisOpen && shiroRedis) {
@@ -64,37 +112,57 @@ public class ShiroConfig {
 		return sessionManager;
 	}
 
-//	//配置shiro session 的一个管理器
-//    @Bean(name = "sessionManager")
-//    public DefaultWebSessionManager getDefaultWebSessionManager(@Qualifier("sessionDAO") MemorySessionDAO sessionDAO,
-//                                                                @Qualifier("sessionIdCookie") SimpleCookie simpleCookie)
-//    {
-//        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-//		// 设置session过期时间为1小时(单位：毫秒)，默认为30分钟
-//		sessionManager.setGlobalSessionTimeout(60 * 60 * 1000);
-//		sessionManager.setSessionValidationSchedulerEnabled(true);
-//		sessionManager.setSessionIdUrlRewritingEnabled(false);
-//        sessionManager.setSessionDAO(sessionDAO);
-//        sessionManager.setSessionIdCookie(simpleCookie);
-//        return sessionManager;
-//    }
+	/**
+	 * 缓存管理器 使用Ehcache实现
+	 */
+	@Bean
+	public EhCacheManager getEhCacheManager() {
+		net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("fastOs");
+		EhCacheManager em = new EhCacheManager();
+		if (ToolUtil.isEmpty(cacheManager)) {
+			em.setCacheManager(new net.sf.ehcache.CacheManager(getCacheManagerConfigFileInputStream()));
+			return em;
+		}
+		else {
+			em.setCacheManager(cacheManager);
+			return em;
+		}
+	}
 
-//	/**
-//	 * 配置缓存
-//	 * 
-//	 * @return
-//	 */
-//	@Bean
-//	public EhCacheManager getEhCacheManager() {
-//		EhCacheManager em = new EhCacheManager();
-//		em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
-//		return em;
-//	}
+	/**
+	 * 返回配置文件流 避免ehcache配置文件一直被占用，无法完全销毁项目重新部署
+	 */
+	protected InputStream getCacheManagerConfigFileInputStream() {
+		String configFile = "classpath:ehcache/ehcache-shiro.xml";
+		InputStream inputStream = null;
+		try {
+			inputStream = ResourceUtils.getInputStreamForPath(configFile);
+			byte[] b = IOUtils.toByteArray(inputStream);
+			InputStream in = new ByteArrayInputStream(b);
+			return in;
+		}
+		catch (IOException e) {
+			throw new ConfigurationException(
+					"Unable to obtain input stream for cacheManagerConfigFile [" + configFile + "]", e);
+		}
+		finally {
+			IOUtils.closeQuietly(inputStream);
+		}
+	}
 
-	// 配置session的缓存管理器
 	@Bean(name = "shiroCacheManager")
 	public MemoryConstrainedCacheManager getMemoryConstrainedCacheManager() {
 		return new MemoryConstrainedCacheManager();
+	}
+
+	/**
+	 * 自定义Realm
+	 */
+	@Bean
+	public UserRealm userRealm(EhCacheManager cacheManager) {
+		UserRealm userRealm = new UserRealm();
+		userRealm.setCacheManager(cacheManager);
+		return userRealm;
 	}
 
 	@Bean("securityManager")
@@ -107,14 +175,15 @@ public class ShiroConfig {
 		
 		// 记住我
         securityManager.setRememberMeManager(rememberMeManager());
-        
-        //<!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
-        //securityManager.setCacheManager(getEhCacheManager());
-		securityManager.setSessionManager(sessionManager);
+
+        securityManager.setCacheManager(getEhCacheManager());
+
+        securityManager.setSessionManager(sessionManager);
 		
-		//securityManager.setRememberMeManager(null);
+		//securityManager.setRememberMeManager(null); //取消记住我
 		return securityManager;
 	}
+
 	
 	
 	/**
@@ -123,10 +192,10 @@ public class ShiroConfig {
     public SimpleCookie rememberMeCookie()
     {
         SimpleCookie cookie = new SimpleCookie("rememberMe");
-        cookie.setDomain("");
-        cookie.setPath("/admin");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(15 * 24 * 60 * 60);
+        cookie.setDomain(domain);
+        cookie.setPath(path);
+        cookie.setHttpOnly(httpOnly);
+        cookie.setMaxAge(maxAge * 24 * 60 * 60);
         return cookie;
     }
 	
@@ -178,7 +247,7 @@ public class ShiroConfig {
 	}
 
 	@Bean("lifecycleBeanPostProcessor")
-	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+	public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
 	}
 
@@ -190,7 +259,7 @@ public class ShiroConfig {
 	}
 
 	@Bean
-	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor( @Qualifier("securityManager")SecurityManager securityManager) {
 		AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
 		advisor.setSecurityManager(securityManager);
 		return advisor;

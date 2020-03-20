@@ -1,5 +1,6 @@
 package com.fast.modules.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.fast.common.core.utils.AssertUtil;
 import com.fast.common.core.utils.CheckPassWord;
 import com.fast.common.core.utils.FileUploadUtil;
@@ -69,7 +70,10 @@ public class SysProfileController extends AbstractController {
     public R updateAvatar(@RequestParam("avatarfile") MultipartFile file){
         try{
             if (!file.isEmpty()){
-                String avatar = FileUploadUtil.upload(Global.getAvatarPath(), file);
+                String avatar = FileUploadUtil.uploadWeb(Global.getAvatarPath(), file);
+                //avatar = "/profile/" + StrUtil.subSufByLength(avatar,avatar.indexOf(Global.getAvatarPath()) + 1);
+                //StrUtil.indexOf(avatar,Global.getAvatarPath())
+                //avatar.substring(avatar.indexOf(Global.getAvatarPath()),avatar.length());
                 if (sysUserService.updateAvatar(getUserId(),avatar)){
                     SysUserEntity user = getUser();
                     user.setAvatar(avatar);

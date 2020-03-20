@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>Linux服务器获取信息</p>
- *
+ * 若再linux 系统运行 获取不到硬件信息,请检查权限是否够,很大原因是权限问题
  * @author: zhouzhou Emall:18774995071@163.com
  * @date: 2020-03-16 20:03
  * @web: https://www.j2eefast.com
@@ -18,15 +18,14 @@ import java.util.stream.Collectors;
 public class LinuxServerInfos  extends  AbstractServerInfos{
 
     @Override
-    protected String getIpAddress() throws Exception {
-        String result = null;
+    protected List<String> getIpAddress() throws Exception {
+        List<String> result = null;
 
         //获取所有网络接口
         List<InetAddress> inetAddresses = getLocalAllInetAddress();
 
         if(inetAddresses != null && inetAddresses.size() > 0){
-            result =  String.join("#", inetAddresses.stream().map(InetAddress::getHostAddress)
-                    .distinct().map(String::toLowerCase).collect(Collectors.toList()));
+            result = inetAddresses.stream().map(InetAddress::getHostAddress).distinct().map(String::toLowerCase).collect(Collectors.toList());
         }
 
         return result;

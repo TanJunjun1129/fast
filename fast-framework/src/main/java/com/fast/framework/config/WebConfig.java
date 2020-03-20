@@ -8,6 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fast.common.core.license.interceptor.LicenseCheckInterceptor;
 import com.fast.framework.interceptor.RepeatSubmitInterceptor;
 import com.fast.framework.utils.Constant;
 import com.fast.framework.utils.Global;
@@ -41,8 +42,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
-//    @Autowired
-//    private RequestMappingHandlerMapping requestMappingHandlerMapping;
+
+    @Autowired
+    private LicenseCheckInterceptor LicenseCheckInterceptor;
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -77,6 +79,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(LicenseCheckInterceptor).addPathPatterns("/**");
     	registry.addInterceptor(myInterceptor).addPathPatterns("/**");
         registry.addInterceptor(lockHandlerInterceptorAdapter).addPathPatterns("/**");
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");

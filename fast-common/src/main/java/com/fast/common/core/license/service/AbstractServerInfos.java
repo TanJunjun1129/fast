@@ -44,7 +44,7 @@ public abstract class AbstractServerInfos {
     /**
      * 获取IP地址
      */
-    protected abstract String getIpAddress() throws Exception;
+    protected abstract List<String> getIpAddress() throws Exception;
 
     /**
      * 获取Mac地址

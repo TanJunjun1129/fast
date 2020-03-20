@@ -43,7 +43,7 @@ import com.fast.framework.utils.ShiroUtils;
  * @author zhouzhou
  * @date 2020-03-12 20:57
  */
-@Component
+//@Component
 public class UserRealm extends AuthorizingRealm {
 	
 	private final static Logger 					LOG 					= LoggerFactory.getLogger(UserRealm.class);
@@ -69,28 +69,28 @@ public class UserRealm extends AuthorizingRealm {
 		Long userId = user.getUserId();
 
 		List<String> permsList;
-
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		// 系统管理员，拥有最高权限
-		if (userId == Constant.SUPER_ADMIN) {
-			List<SysMenuEntity> menuList = sysMenuDao.selectList(null);
-			permsList = new ArrayList<>(menuList.size());
-			for (SysMenuEntity menu : menuList) {
-				permsList.add(menu.getPerms());
-			}
+		if (userId.equals(Constant.SUPER_ADMIN)) {
+//			List<SysMenuEntity> menuList = sysMenuDao.selectList(null);
+//			permsList = new ArrayList<>(menuList.size());
+//			for (SysMenuEntity menu : menuList) {
+//				permsList.add(menu.getPerms());
+//			}
+			info.addRole("ADMIN");
+			info.addStringPermission("*:*:*");
 		} else {
 			permsList = sysUserDao.queryAllPerms(userId);
-		}
-		
-		// 用户权限列表
-		Set<String> permsSet = new HashSet<>();
-		for (String perms : permsList) {
-			if (ToolUtil.isEmpty(perms)) {
-				continue;
+			// 用户权限列表
+			Set<String> permsSet = new HashSet<>();
+			for (String perms : permsList) {
+				if (ToolUtil.isEmpty(perms)) {
+					continue;
+				}
+				permsSet.addAll(Arrays.asList(perms.trim().split(",")));
 			}
-			permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+			info.setStringPermissions(permsSet);
 		}
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		info.setStringPermissions(permsSet);
 		return info;
 	}
 

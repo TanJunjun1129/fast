@@ -1,10 +1,9 @@
 package com.fast.common.core.license;
 
 import cn.hutool.core.util.CharsetUtil;
-import de.schlichtherle.license.LicenseContent;
-import de.schlichtherle.license.LicenseManager;
-import de.schlichtherle.license.LicenseNotary;
-import de.schlichtherle.license.LicenseParam;
+import com.fast.common.core.constants.ConfigConstant;
+import com.fast.common.core.utils.ToolUtil;
+import de.schlichtherle.license.*;
 import de.schlichtherle.xml.GenericCertificate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,9 +73,69 @@ public class CustomLicenseManager  extends LicenseManager {
         final GenericCertificate certificate = getPrivacyGuard().key2cert(key);
         notary.verify(certificate);
         final LicenseContent content = (LicenseContent)this.load(certificate.getEncoded());
-        // 增加额外的自己的license校验方法，校验ip、mac、cpu序列号等
+        // 增加额外的自己的license校验方法，校验 机器码等
         this.validate(content);
         setLicenseKey(key);
+        setCertificate(certificate);
+        return content;
+    }
+
+
+    /**
+     * <p>重写validate方法，增加机器码与IP校验</p>
+     * */
+    @Override
+    protected synchronized void validate(final LicenseContent content)
+            throws LicenseContentException {
+
+        //1、 首先调用父类的validate方法
+        super.validate(content);
+
+        //2、 然后校验自定义的License参数
+        //License中可被允许的参数信息
+        LicenseCheck expectedCheck = (LicenseCheck) content.getExtra();
+
+        if(ToolUtil.isNotEmpty(expectedCheck) && ToolUtil.isNotEmpty(ConfigConstant.FAST_OS_SN )){
+
+            if(ToolUtil.isNotEmpty(expectedCheck.getFastSn())){
+                if(!expectedCheck.getFastSn().toUpperCase().equals(ConfigConstant.FAST_OS_SN.toUpperCase())){
+                    LOG.error("证书无效，当前服务器的注册码未激活!");
+                    throw new LicenseContentException("证书无效，当前服务器的注册码未激活!");
+                }
+            }else{
+                LOG.error("证书无效，当前服务器的注册码未激活!");
+                throw new LicenseContentException("证书无效，当前服务器的注册码未激活!");
+            }
+
+            //校验IP地址
+            if(expectedCheck.isIpCheck() && !checkIpAddress(expectedCheck.getIpAddress(),ConfigConstant.FAST_IPS)){
+                LOG.error("证书无效，当前服务器的IP没在授权范围内"+expectedCheck.getIpAddress()+"");
+                throw new LicenseContentException("证书无效，当前服务器的IP没在授权范围内");
+            }
+        }else{
+            LOG.error("证书无效或不能获取服务器硬件信息");
+            throw new LicenseContentException("证书无效或不能获取服务器硬件信息");
+        }
+    }
+
+    /**
+     * <p>重写verify方法</p>
+     */
+    @Override
+    protected synchronized LicenseContent verify(final LicenseNotary notary)
+            throws Exception {
+
+        // Load license key from preferences,
+        final byte[] key = getLicenseKey();
+        if (null == key){
+            throw new NoLicenseInstalledException(getLicenseParam().getSubject());
+        }
+
+        GenericCertificate certificate = getPrivacyGuard().key2cert(key);
+        notary.verify(certificate);
+        final LicenseContent content = (LicenseContent)this.load(certificate.getEncoded());
+        // 增加额外的自己的license校验方法，校验 机器码等
+        this.validate(content);
         setCertificate(certificate);
         return content;
     }

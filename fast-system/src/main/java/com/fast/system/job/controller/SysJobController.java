@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import com.fast.common.core.utils.PageUtil;
 import com.fast.common.core.utils.R;
 import com.fast.common.core.utils.ValidatorUtil;

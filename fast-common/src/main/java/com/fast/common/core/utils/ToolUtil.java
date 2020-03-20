@@ -1,12 +1,15 @@
 package com.fast.common.core.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -19,7 +22,8 @@ import cn.hutool.core.util.StrUtil;
  * @date 2020-03-11 15:02
  */
 public class ToolUtil{
-	
+
+	private static int 							counter 							= 0;
 	
 	/**
      * 获取随机字符,自定义长度
@@ -190,5 +194,30 @@ public class ToolUtil{
 			}
 		}
 		return sw.toString();
+	}
+
+	public static boolean isBoolIp(String ipAddress) {
+		String ip = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+		Pattern pattern = Pattern.compile(ip);
+		Matcher matcher = pattern.matcher(ipAddress);
+		return matcher.matches();
+	}
+
+
+	public static String createFolder(String folder){
+		folder += File.separator + DateUtil.format(new Date(),"yyyy") + File.separator + DateUtil.format(new Date(),"MM") +
+				File.separator + DateUtil.format(new Date(),"dd")+ File.separator;
+		FileUtil.mkdir(folder);
+		return folder;
+	}
+
+
+	/**
+	 * 编码文件名
+	 */
+	public static String encodingFilename(String fileName) {
+		fileName = fileName.replace("_", " ");
+		fileName = Md5Util.hash(fileName + System.nanoTime() + counter++);
+		return fileName;
 	}
 }

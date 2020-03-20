@@ -2,11 +2,8 @@ package com.fast.framework.shiro.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.google.code.kaptcha.Constants;
-
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.fast.common.core.exception.RxcException;
 import com.fast.common.core.manager.AsyncManager;
 import com.fast.common.core.utils.R;
@@ -40,15 +37,13 @@ public class SysLoginService {
 	@Autowired
 	private SysUserDao sysUserDao;
 	
-	
 	public SysUserEntity login(String username, String password) {
 	
 		Integer number = redisUtil.get(RedisKeys.getUserLoginKey(username),Integer.class);
 		
 		String captcha = (String) ServletUtil.getRequest().getParameter("captcha");
 		if( (number != null  && number >= Global.getLoginNumCode()) || ToolUtil.isNotEmpty(captcha)) {
-			String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-//			String captcha = (String) ServletUtils.getRequest().getParameter("captcha");
+			String kaptcha = ShiroUtils.getKaptcha(Constant.KAPTCHA_SESSION_KEY);
 			if (ToolUtil.isEmpty(captcha) || !captcha.equalsIgnoreCase(kaptcha)) {
 				throw new RxcException(ToolUtil.message("sys.login.code.error"),"50004");
 			}

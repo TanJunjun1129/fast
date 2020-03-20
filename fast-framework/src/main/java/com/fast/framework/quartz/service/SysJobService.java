@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -27,7 +28,7 @@ import com.fast.framework.utils.CronUtils;
  */
 @Service
 public class SysJobService extends ServiceImpl<SysJobMapper,SysJobEntity>{
-	
+
 	@Autowired
 	private Scheduler scheduler;
 	

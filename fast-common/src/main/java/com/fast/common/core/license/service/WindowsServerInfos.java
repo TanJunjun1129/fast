@@ -16,15 +16,14 @@ import java.util.stream.Collectors;
 public class WindowsServerInfos  extends AbstractServerInfos{
 
     @Override
-    protected String getIpAddress() throws Exception {
-        String result = null;
+    protected List<String> getIpAddress() throws Exception {
+        List<String> result = null;
 
         //获取所有网络接口
         List<InetAddress> inetAddresses = getLocalAllInetAddress();
 
         if(inetAddresses != null && inetAddresses.size() > 0){
-            result =  String.join("#", inetAddresses.stream().map(InetAddress::getHostAddress)
-                    .distinct().map(String::toLowerCase).collect(Collectors.toList()));
+            result = inetAddresses.stream().map(InetAddress::getHostAddress).distinct().map(String::toLowerCase).collect(Collectors.toList());
         }
 
         return result;

@@ -4,8 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import com.fast.common.core.manager.AsyncManager;
 import com.fast.common.core.utils.BeanUtil;
 import com.fast.common.core.utils.SpringUtil;
+import com.fast.framework.manager.factory.AsyncFactory;
 import com.fast.framework.quartz.entity.SysJobEntity;
 import com.fast.framework.quartz.entity.SysJobLogEntity;
 import com.fast.framework.quartz.service.SysJobLogService;
@@ -70,9 +72,12 @@ public class ScheduleJob extends QuartzJobBean {
 			// 任务状态 0：成功 1：失败
 			log.setStatus(Constant.ScheduleStatus.PAUSE.getValue());
 			log.setError(StringUtils.substring(e.toString(), 0, 2000));
-		} finally {
-			// 获取spring bean 
+		}finally {
+			// 保存数据库
+			//AsyncManager.me().execute(AsyncFactory.jobLog(log));
 			SpringUtil.getBean(SysJobLogService.class).save(log);
 		}
+		//
+
 	}
 }

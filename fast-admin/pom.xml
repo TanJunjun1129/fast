@@ -26,20 +26,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
-		 <!-- spring 项目热部署 修改Java 自己重启 导致quartz 获取对象错误
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        end-->
-        
-        <!-- 应用模块 公交
-		<dependency>
-			<groupId>com.fast</groupId>
-			<artifactId>fast-bcs</artifactId>
-		</dependency>-->
+
 		<!-- 无引用 核心项目-->
 		<dependency>
 			<groupId>com.fast</groupId>
@@ -50,12 +37,7 @@
 		  <groupId>p6spy</groupId>
 		  <artifactId>p6spy</artifactId>
 		</dependency>
-		 
-		 <!-- 应用模块 综合前置
-		<dependency>
-			<groupId>com.fast</groupId>
-			<artifactId>fast-bankstp</artifactId>
-		</dependency>-->
+
 	</dependencies>
 
 	<build>
@@ -79,33 +61,7 @@
 					<!--<skipTests>true</skipTests>-->
 				</configuration>
 			</plugin>
-			<!--
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-					<fork>true</fork>  如果没有该配置，devtools不会生效
-				</configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>   
-                <groupId>org.apache.maven.plugins</groupId>   
-                <artifactId>maven-war-plugin</artifactId>   
-                <version>3.0.0</version>   
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>${project.artifactId}</warName>
-                </configuration>   
-		   </plugin>   
-        </plugins>
-        <finalName>${project.artifactId}</finalName>
-		-->
+
 		<!-- 打jar包的插件 -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -137,6 +93,7 @@
 					<exclude>*.pfx</exclude>
 					<exclude>build/**</exclude>
 					<exclude>*.properties</exclude>
+					<exclude>license/**</exclude>
 				</excludes>
 			</configuration>
 		</plugin>

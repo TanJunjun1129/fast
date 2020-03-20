@@ -11,6 +11,7 @@ import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,8 @@ public class BaseInitialze  implements ApplicationRunner {
 
     @Autowired
     private SysModuleService sysModuleService;
-    @Autowired
+	@Qualifier("schedulerFactoryBean")
+	@Autowired
 	private Scheduler scheduler;
     @Autowired
     private SysJobService sysJobService;

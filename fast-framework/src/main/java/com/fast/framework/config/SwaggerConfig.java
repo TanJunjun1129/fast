@@ -30,8 +30,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("通用快速开发框架").description("framework-admin文档")
-				.termsOfServiceUrl("http://www.spring.io").version("3.2.0").build();
+		return new ApiInfoBuilder().title("FASTOS").description("FASTOS文档")
+				.termsOfServiceUrl("http://www.j2eefast.com").version("3.2.0").build();
 	}
 
 }

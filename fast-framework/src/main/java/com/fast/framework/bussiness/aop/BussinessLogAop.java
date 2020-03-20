@@ -6,6 +6,7 @@ import java.util.Map;
 import com.fast.common.core.utils.JSON;
 import com.fast.common.core.utils.ServletUtil;
 import com.fast.common.core.utils.ToolUtil;
+import com.fast.framework.log.entity.SysOperLogEntity;
 import com.fast.framework.manager.factory.AsyncFactory;
 import com.fast.framework.sys.entity.SysUserEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Component;
 import com.fast.common.core.business.annotaion.BussinessLog;
 import com.fast.common.core.enums.BusinessStatus;
 import com.fast.common.core.manager.AsyncManager;
-import com.fast.framework.sys.entity.SysLogEntity;
 import com.fast.framework.utils.ShiroUtils;
 
 /**
@@ -72,7 +72,7 @@ public class BussinessLogAop {
 			SysUserEntity currentUser = ShiroUtils.getUserEntity();
 
 			// *========数据库日志=========*//
-			SysLogEntity operLog = new SysLogEntity();
+			SysOperLogEntity operLog = new SysOperLogEntity();
 			operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
 			// 请求的地址
 			String ip = ShiroUtils.getIp();
@@ -123,7 +123,7 @@ public class BussinessLogAop {
 	/**
 	 * 获取注解中对方法的描述信息 用于Controller层注解
 	 */
-	public void getControllerMethodDescription(BussinessLog log, SysLogEntity operLog) throws Exception
+	public void getControllerMethodDescription(BussinessLog log, SysOperLogEntity operLog) throws Exception
 	{
 		// 设置action动作
 		operLog.setBusinessType(log.businessType().ordinal());
@@ -142,7 +142,7 @@ public class BussinessLogAop {
 	/**
 	 * 获取请求的参数，放到log中
 	 */
-	private void setRequestValue(SysLogEntity operLog) throws Exception{
+	private void setRequestValue(SysOperLogEntity operLog) throws Exception{
 		Map<String, String[]> map = ServletUtil.getRequest().getParameterMap();
 		String params = JSON.marshal(map);
 		operLog.setOperParam(StringUtils.substring(params, 0, 2000));

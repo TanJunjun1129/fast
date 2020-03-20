@@ -431,9 +431,9 @@ CREATE TABLE `sys_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统日志';
 
 -- 系统访问记录
-DROP TABLE IF EXISTS `sys_logininfor`;
+DROP TABLE IF EXISTS `sys_login_infor`;
 
-CREATE TABLE `sys_logininfor` (
+CREATE TABLE `sys_login_infor` (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `username` varchar(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '登录账号',
   `ipaddr` varchar(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '登录IP地址',

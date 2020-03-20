@@ -1,11 +1,10 @@
 package com.fast.framework.manager.factory;
 
 import java.util.TimerTask;
-
 import com.fast.framework.log.entity.SysLoginInfoEntity;
+import com.fast.framework.log.entity.SysOperLogEntity;
 import com.fast.framework.log.service.SysLoginInfoSerice;
-import com.fast.framework.sys.entity.SysLogEntity;
-import com.fast.framework.sys.service.SysLogService;
+import com.fast.framework.log.service.SysOperLogSerice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fast.common.core.utils.AddressUtil;
@@ -32,18 +31,18 @@ public class AsyncFactory {
 	 * @param operLog 操作日志信息
 	 * @return 任务task
 	 */
-	public static TimerTask recordOper(final SysLogEntity operLog){
+	public static TimerTask recordOper(final SysOperLogEntity operLog){
 		
 		return new TimerTask(){
 			@Override
 			public void run(){
 				// 远程查询操作地点
 				operLog.setOperLocation(AddressUtil.getRealAddressByIP(operLog.getOperIp()));
-				SpringUtil.getBean(SysLogService.class).save(operLog);
+				SpringUtil.getBean(SysOperLogSerice.class).save(operLog);
 			}
 		};
 	}
-	 
+
 	 /**
 	     * 记录登陆信息
 	     * 

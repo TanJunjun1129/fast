@@ -7,10 +7,13 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fast.common.core.license.annotation.FastLicense;
 import com.fast.common.core.utils.*;
 import com.fast.framework.manager.factory.AsyncFactory;
 import com.fast.framework.sys.entity.SysRoleEntity;
 import com.fast.framework.sys.service.SysRoleService;
+import com.fast.framework.utils.Constant;
 import com.fast.framework.utils.Global;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.base.Captcha;
@@ -31,7 +34,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.google.code.kaptcha.Constants;
 import com.fast.common.core.crypto.SoftEncryption;
 import com.fast.common.core.exception.RxcException;
 import com.fast.common.core.exception.ServiceException;
@@ -71,7 +73,7 @@ public class SysLoginController {
 		GifCaptcha gifCaptcha = new GifCaptcha(130,48,4);
 		gifCaptcha.setCharType(Captcha.TYPE_DEFAULT);
 		String result = gifCaptcha.text();
-		ShiroUtils.setSessionAttribute(Constants.KAPTCHA_SESSION_KEY, result);
+		ShiroUtils.setSessionAttribute(Constant.KAPTCHA_SESSION_KEY, result);
 		gifCaptcha.out(response.getOutputStream());
 	}
 
@@ -83,6 +85,7 @@ public class SysLoginController {
 	 * @author zhouzhou
 	 * @date 2020-03-07 14:47
 	 */
+	@FastLicense
 	@ResponseBody
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public R login(String username, String password, String captcha, Boolean rememberMe, HttpServletRequest request) {
@@ -209,7 +212,7 @@ public class SysLoginController {
 				Integer number = redisUtil.get(RedisKeys.getUserLoginKey(username),Integer.class); //用户锁屏密码错误次数
 
 				if( number != null  && number >= Global.getLoginNumCode()) {
-					String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+					String kaptcha = ShiroUtils.getKaptcha(Constant.KAPTCHA_SESSION_KEY);
 					String captcha = (String) ServletUtil.getRequest().getParameter("captcha");
 					if (ToolUtil.isEmpty(captcha) || !captcha.equalsIgnoreCase(kaptcha)) {
 						throw new RxcException(ToolUtil.message("sys.login.code.error"),"50004");

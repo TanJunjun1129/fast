@@ -39,6 +39,10 @@
             <directory>../fast-generator/src/main/resources</directory>
             <outputDirectory>${file.separator}</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>../fast-framework/src/main/resources</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+        </fileSet>
         <!-- ######################################################################-->
         <fileSet>  
             <directory>${project.build.directory}</directory>

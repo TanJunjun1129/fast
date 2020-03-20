@@ -1,8 +1,7 @@
 /*!
  * Copyright (c) 2020-Now http://www.j2eefast.com All rights reserved.
- *
  * fastJS 封装常用方法
- * @author ZhouHuan
+ * @author ZhouHuan 二次封装 新增若干方法优化部分BUG
  * @date 2020-02-20
  * @version v1.0.10
  */
@@ -91,11 +90,13 @@ if (typeof jQuery === "undefined") {
                 }
             })
         },
+
         debug: function (message) {
             if (window.console && opt.variable.debug) {
                 console.log(message)
             }
         },
+
         toast: function(){
             if ($.toast) {
                 return $.toast
@@ -113,6 +114,7 @@ if (typeof jQuery === "undefined") {
             } catch (e) {}
             return null
         }(),
+
         error: function (msg,callback) {
                 opt.modal.enable(); //显示提交按钮
                 if(opt.toast){
@@ -138,6 +140,7 @@ if (typeof jQuery === "undefined") {
                 }
 
         },
+
         success: function (msg,callback) {
             if(opt.toast){
                 opt.toast({
@@ -170,6 +173,7 @@ if (typeof jQuery === "undefined") {
             }
 
         },
+
         warning:function(text,callback){
             if(opt.toast){
                 opt.toast({
@@ -202,6 +206,7 @@ if (typeof jQuery === "undefined") {
             opt.storage.set('skin', cls)
             return false
         },
+
         createMenuItem: function(dataUrl, menuName) {
             if(top.location !== self.location) {
                 var dataIndex = opt.common.randomString(16);
@@ -242,6 +247,7 @@ if (typeof jQuery === "undefined") {
                 });
             }
         },
+
         closeItem: function(dataId){
             if(top.location!=self.location){
                 var topWindow = $(window.parent.document);
@@ -272,6 +278,7 @@ if (typeof jQuery === "undefined") {
                 window.close();
             }
         },
+
         //页面遮罩
         block: function(value,element){
             if(opt.common.isNotEmpty(element)){
@@ -280,12 +287,26 @@ if (typeof jQuery === "undefined") {
                 $.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + $.i18n.prop(value) + '</div>' });
             }
         },
+
         unblock: function(element){
             if(opt.common.isNotEmpty(element)){
                 $(element).unblock();
             }else{
                 $.unblockUI();
             }
+        },
+
+        //模板引擎调用
+        template: function (id, data, callback) {
+            var tpl = String($("#" + id).html()).replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
+                data = data || [];
+            if (typeof callback == "function") {
+                laytpl(tpl).render(data || [], function (render) {
+                    callback(render)
+                });
+                return null
+            }
+            return laytpl(tpl).render(data || [])
         },
 
         //获取系统cookie
@@ -3336,6 +3357,124 @@ if (typeof jQuery === "undefined") {
             }
         }
     });
+}();
+/**
+ * 页面模板引擎
+ * 声明: 引用layui.laytpl 作者:贤心
+ * j2eefast.com zhouzhou 二次封装
+ */
+!function () {
+    var config = {
+        open: '{{',
+        close: '}}'
+    };
+
+    var tool = {
+        exp: function(str){
+            return new RegExp(str, 'g');
+        },
+        //匹配满足规则内容
+        query: function(type, _, __){
+            var types = [
+                '#([\\s\\S])+?',   //js语句
+                '([^{#}])*?' //普通字段
+            ][type || 0];
+            return exp((_||'') + config.open + types + config.close + (__||''));
+        },
+        escape: function(html){
+            return String(html||'').replace(/&(?!#?[a-zA-Z0-9]+;)/g, '&amp;')
+                .replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+        },
+        error: function(e, tplog){
+            var error = 'Laytpl Error：';
+            typeof console === 'object' && console.error(error + e + '\n'+ (tplog || ''));
+            return error + e;
+        }
+    };
+
+    var exp = tool.exp, Tpl = function(tpl){
+        this.tpl = tpl;
+    };
+
+    Tpl.pt = Tpl.prototype;
+
+    window.errors = 0;
+
+    //编译模版
+    Tpl.pt.parse = function(tpl, data){
+        var that = this, tplog = tpl;
+        var jss = exp('^'+config.open+'#', ''), jsse = exp(config.close+'$', '');
+
+        tpl = tpl.replace(/\s+|\r|\t|\n/g, ' ')
+            .replace(exp(config.open+'#'), config.open+'# ')
+            .replace(exp(config.close+'}'), '} '+config.close).replace(/\\/g, '\\\\')
+
+            //不匹配指定区域的内容
+            .replace(exp(config.open + '!(.+?)!' + config.close), function(str){
+                str = str.replace(exp('^'+ config.open + '!'), '')
+                    .replace(exp('!'+ config.close), '')
+                    .replace(exp(config.open + '|' + config.close), function(tag){
+                        return tag.replace(/(.)/g, '\\$1')
+                    });
+                return str
+            })
+
+            //匹配JS规则内容
+            .replace(/(?="|')/g, '\\').replace(tool.query(), function(str){
+                str = str.replace(jss, '').replace(jsse, '');
+                return '";' + str.replace(/\\/g, '') + ';view+="';
+            })
+
+            //匹配普通字段
+            .replace(tool.query(1), function(str){
+                var start = '"+(';
+                if(str.replace(/\s/g, '') === config.open+config.close){
+                    return '';
+                }
+                str = str.replace(exp(config.open+'|'+config.close), '');
+                if(/^=/.test(str)){
+                    str = str.replace(/^=/, '');
+                    start = '"+_escape_(';
+                }
+                return start + str.replace(/\\/g, '') + ')+"';
+            });
+
+        tpl = '"use strict";var view = "' + tpl + '";return view;';
+
+        try{
+            that.cache = tpl = new Function('d, _escape_', tpl);
+            return tpl(data, tool.escape);
+        } catch(e){
+            delete that.cache;
+            return tool.error(e, tplog);
+        }
+    };
+
+    Tpl.pt.render = function(data, callback){
+        var that = this, tpl;
+        if(!data) return tool.error('no data');
+        tpl = that.cache ? that.cache(data, tool.escape) : that.parse(that.tpl, data);
+        if(!callback) return tpl;
+        callback(tpl);
+    };
+
+    var laytpl = function(tpl){
+        if(typeof tpl !== 'string') return tool.error('Template not found');
+        return new Tpl(tpl);
+    };
+
+    laytpl.config = function(options){
+        options = options || {};
+        for(var i in options){
+            config[i] = options[i];
+        }
+    };
+
+    laytpl.v = '1.2.0';
+
+    "function" == typeof define ? define(function () {
+        return laytpl
+    }) : "undefined" != typeof exports ? module.exports = laytpl : window.laytpl = laytpl
 }();
 
 /* BoxWidget()

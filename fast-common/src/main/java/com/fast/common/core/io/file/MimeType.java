@@ -18,6 +18,8 @@ public class MimeType {
             "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
             // 压缩文件
             "rar", "zip", "gz", "bz2",
+            //许可证书
+            "lic",
             // pdf
             "pdf" };
 

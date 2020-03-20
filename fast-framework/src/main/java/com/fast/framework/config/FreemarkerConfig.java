@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import com.fast.framework.utils.*;
 
+import com.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.TemplateException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 //import com.fast.framework.shiro.ShiroTag;
-import com.jagregory.shiro.freemarker.ShiroTags;
 
 /**
  * Freemarker配置

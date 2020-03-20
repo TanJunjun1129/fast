@@ -28,8 +28,7 @@ import com.fast.framework.sys.service.SysModuleService;
  */
 @Controller
 @RequestMapping("/sys/module")
-public class SysModuleController extends AbstractController
-{
+public class SysModuleController extends AbstractController {
     private String urlPrefix = "modules/sys/module";
 
     @Autowired

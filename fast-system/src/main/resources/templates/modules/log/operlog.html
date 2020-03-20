@@ -57,7 +57,7 @@
 		</a>
 	</@shiro.hasPermission>
 	<@shiro.hasPermission name="sys:log:clean">
-		<a class="btn btn-danger" onclick="$.operate.clean()">
+		<a class="btn btn-danger" onclick="opt.operate.clean()">
 			<i class="fa fa-trash"></i> 清空
 		</a>
 	</@shiro.hasPermission>
@@ -74,7 +74,7 @@
 			url: prefix + "/list",
 			cleanUrl: prefix + "/clean",
 			detailUrl: prefix + "/detail/{id}",
-			delUrl: prefix + "/remove",
+			delUrl: prefix + "/del",
 			sortName: "operTime",
 			sortOrder: "desc",
 			uniqueId: "operId", /* 唯一ID */

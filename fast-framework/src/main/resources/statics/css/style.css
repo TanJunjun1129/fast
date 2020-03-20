@@ -1,5 +1,5 @@
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 100;
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Source Sans Pro',sans-serif;
 }
 
 h1 {
@@ -5475,6 +5475,7 @@ ins {
 
 del {
     background-color: #ffc6c6;
+    text-decoration: none;
 }
 
 #small-chat {

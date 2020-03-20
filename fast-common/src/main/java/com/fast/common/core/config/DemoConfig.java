@@ -11,6 +11,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,15 +29,25 @@ import cn.hutool.json.JSONUtil;
  * @date 2020-03-13 14:42
  */
 @Configuration
-@ConditionalOnProperty(prefix = "fast", name = "demoMode", havingValue="true")
+@ConditionalOnProperty(prefix = "fast.demoMode", name = "enabled", havingValue="true")
 public class DemoConfig {
-	
+
+	/**
+	 * 拦截规则
+	 */
+	@Value("${fast.demoMode.post: edit,del,remove,clean,updateAvatar,updateUser,resetPwd,updatePass,genCode,uploadLic}")
+	private String post;
+	@Value("${fast.demoMode.get: del,remove,clean,dirTreeData}")
+	private String get;
+	@Value("${fast.demoMode.urlPatterns: /sys/*,/tool/*}")
+	private String urlPatterns;
 	@Bean
     public FilterRegistrationBean demoFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setDispatcherTypes(DispatcherType.REQUEST);
         registration.setFilter(new DemoFilter());
-        registration.addUrlPatterns("/sys/*","/tool/*");
+		registration.setOrder(Integer.MAX_VALUE);
+        registration.addUrlPatterns(urlPatterns.split(","));
         registration.setName("demoFilter");
         return registration;
     }
@@ -58,8 +70,7 @@ public class DemoConfig {
             HttpServletResponse response = (HttpServletResponse) servletResponse;
             String url = request.getRequestURI();
             if("POST".equals(request.getMethod())) {
-            	String[] filters = new String[]{"edit","del","remove","clean","updateAvatar",
-            			"updateUser","resetPwd","updatePass","genCode"};
+            	String[] filters = post.split(",");
             	 //判断是否包含
                 for(String filter : filters){
                     if(url.indexOf(filter) != -1){
@@ -73,7 +84,7 @@ public class DemoConfig {
             }
             
             if("GET".equals(request.getMethod())) {
-            	String[] filters = new String[]{"del","remove","clean","dirTreeData"};
+            	String[] filters = get.split(",");
            	   //判断是否包含
                for(String filter : filters){
                    if(url.indexOf(filter) != -1){

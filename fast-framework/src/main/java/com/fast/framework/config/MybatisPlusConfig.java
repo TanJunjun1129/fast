@@ -1,5 +1,7 @@
 package com.fast.framework.config;
 
+import com.fast.common.core.datasources.MybatisPulsMetaObjectHandler;
+import com.fast.framework.utils.ShiroUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,22 @@ public class MybatisPlusConfig {
 	@Bean
 	public PaginationInterceptor paginationInterceptor() {
 		return new PaginationInterceptor();
+	}
+
+	@Bean
+	public MybatisPulsMetaObjectHandler gunsMpFieldHandler() {
+		return new MybatisPulsMetaObjectHandler() {
+
+			@Override
+			protected String getUserUniqueId() {
+				try {
+					return ShiroUtils.getLoginName();
+				} catch (Exception e) {
+					//如果获取不到当前用户就存空id
+					return "/";
+				}
+			}
+		};
 	}
 	
 }

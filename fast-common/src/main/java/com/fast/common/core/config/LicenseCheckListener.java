@@ -69,25 +69,21 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
                 getFastServerInfos();
                 //9c26b8bc19781e4cb2e0db7edae17907
                 LOG.info("///////////////////////////////////////////");
-                LOG.info("------>>>>>>FAST系统机器码["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
-                        (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_KEY))+"]<<<<<-----------");
+                LOG.info("------>>>>>>FASTOS 机器码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
+                        (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_KEY))+"] 校验码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
+                        (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_VERIFY_KEY)).substring(0,6)+"]<<<<<-----------");
+                LOG.info("IP:"+ConfigConstant.FAST_IPS.toString());
                 LOG.info("///////////////////////////////////////////");
 
                 //安装
                 LOG.info("++++++++ 开始安装证书 ++++++++");
 
-                LicenseVerifyParam param = new LicenseVerifyParam();
-                param.setSubject(subject);
-                param.setPublicAlias(publicAlias);
-                param.setStorePass(storePass);
-                param.setLicensePath(licensePath);
-                param.setPublicKeysStorePath(publicKeysStorePath);
+                LicenseVerifyParam param = this.getVerifyParam();
 
                 LicenseVerify licenseVerify = new LicenseVerify();
                 //安装证书
                 licenseVerify.install(param);
                 //验证证书唯一码是否有效
-
 
                 LOG.info("++++++++ 证书安装结束 ++++++++");
 
@@ -116,6 +112,17 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
                         abstractServerInfos = new LinuxServerInfos();
                 }
                 abstractServerInfos.getServerInfos();
+
+        }
+
+        public  LicenseVerifyParam getVerifyParam(){
+            LicenseVerifyParam param = new LicenseVerifyParam();
+            param.setSubject(subject);
+            param.setPublicAlias(publicAlias);
+            param.setStorePass(storePass);
+            param.setLicensePath(licensePath);
+            param.setPublicKeysStorePath(publicKeysStorePath);
+            return param;
         }
 
 }

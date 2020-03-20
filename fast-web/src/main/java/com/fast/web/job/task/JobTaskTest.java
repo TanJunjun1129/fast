@@ -1,4 +1,4 @@
-package com.lixinos.web.job.task;
+package com.fast.web.job.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,6 @@ public class JobTaskTest {
 	public void fastParams(String params) {
 		System.out.println("==================///////////测试定时任务开始////////////////=====================");
 		logger.info("我是带参数的test方法，正在被执行，参数为：" + params);
-		try {
-			Thread.sleep(1000L);
-		} catch (Exception e) {
-			logger.error("异常", e);
-		}
 		System.out.println("==================///////////测试定时任务完成////////////////=====================");
 	}
 	

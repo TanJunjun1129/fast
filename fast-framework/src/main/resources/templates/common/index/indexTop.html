@@ -121,7 +121,11 @@
                             <img src="${ctxStatic}${user.avatar?default("/statics/img/user2-160x160.jpg")}"
                                  class="img-circle" alt="User Image">
                             <p>
-                            <h4><@ctx.i18n text = "上次登陆时间"/> :${user.loginTime?string('yyyy-dd-MM HH:mm:ss')}</h4>
+                            <h4><@ctx.i18n text = "上次登陆时间"/> :
+                                <#if user.loginTime?exists>
+                                    ${user.loginTime?datetime('yyyy-dd-MM HH:mm:ss')}
+                                </#if>
+                                </h4>
                             <small><@ctx.i18n text = "上次登陆地点"/>:${user.loginLocation?default("/")}</small>
                             </p>
                         </li>

@@ -4,6 +4,9 @@ package com.fast.framework.utils;
  * 常量
  */
 public class Constant {
+
+	public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION_KEY";
+
 	/** 超级管理员ID */
 	public static final Long SUPER_ADMIN = 1L;
 

@@ -43,18 +43,30 @@ public class FileUploadUtil {
         return defaultBaseDir;
     }
 
+
+
     /**
-     * 以默认配置进行文件上传
      *
      * @param file 上传的文件
      * @return 文件名称
      * @throws Exception
      */
-    public static final String upload(MultipartFile file) throws IOException
+    public static final String uploadFile(String baseDir,MultipartFile file) throws IOException
     {
         try
         {
-            return upload(getDefaultBaseDir(), file, MimeType.DEFAULT_ALLOWED_EXTENSION);
+            int fileNamelength = file.getOriginalFilename().length();
+            if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH){
+                throw new RxcException("10004","文件太大");
+            }
+
+            assertAllowed(file, MimeType.DEFAULT_ALLOWED_EXTENSION);
+
+            String fileName = extractFilename(file);
+
+            File desc = getAbsoluteFile(baseDir, fileName);
+            file.transferTo(desc);
+            return baseDir + File.separator + fileName;
         }
         catch (Exception e)
         {
@@ -70,7 +82,7 @@ public class FileUploadUtil {
      * @return 文件名称
      * @throws IOException
      */
-    public static final String upload(String baseDir, MultipartFile file) throws IOException
+    public static final String uploadWeb(String baseDir, MultipartFile file) throws IOException
     {
         try
         {
@@ -112,16 +124,14 @@ public class FileUploadUtil {
     /**
      * 编码文件名
      */
-    public static final String extractFilename(MultipartFile file)
-    {
+    public static final String extractFilename(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
-        fileName = DateFormatUtils.format(new Date(), "yyyy/MM/dd")+ "/" + encodingFilename(fileName) + "." + extension;
+        fileName = DateFormatUtils.format(new Date(), "yyyy/MM/dd") + File.separator + ToolUtil.encodingFilename(fileName) + "." + extension;
         return fileName;
     }
 
-    private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException
-    {
+    private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
         File desc = new File(uploadDir + File.separator + fileName);
 
         if (!desc.getParentFile().exists())
@@ -137,21 +147,14 @@ public class FileUploadUtil {
 
     private static final String getPathFileName(String uploadDir, String fileName) throws IOException
     {
+        //D:/fast/uploadPath
         int dirLastIndex = uploadDir.lastIndexOf("/") + 1;
         String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
         String pathFileName =  "/profile/" + currentDir + "/" + fileName;
         return pathFileName;
     }
 
-    /**
-     * 编码文件名
-     */
-    private static final String encodingFilename(String fileName)
-    {
-        fileName = fileName.replace("_", " ");
-        fileName = Md5Util.hash(fileName + System.nanoTime() + counter++);
-        return fileName;
-    }
+
 
     /**
      * 文件大小校验
