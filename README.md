@@ -7,14 +7,14 @@ FastOS 是一个 Java EE 企业级快速开发平台，基于经典技术组合�
  **软件架构说明** 
 
 1.  _核心框架：Spring Boot 2.2.5.RELEASE_ 
-2.   _安全框架：Apache Shiro_ 
-3.   _模板引擎：Freemarker _ 
+2.   _安全框架：Apache Shiro 1.4.2_ 
+3.   _模板引擎：Freemarker_ 
 4.   _前端：AdminLTE 2.3.8, Bootstrap 3.3.7, Bootstrap-Table 1.11.0, JQuery 3.3.1_ 
 5.   _持久层框架：MyBatis-Plus 3.3.1_ 
-6.   _定时任务: Quartz _ 
-7.   _数据库连接池：Druid 1.10.1 _ 
-9.   数据库: Mysql5.7
-10.  分布式缓存数据库: Redis 4.0.9
+6.   _定时任务: Quartz_ 
+7.   _数据库连接池：Druid 1.10.1_ 
+9.   _数据库: Mysql5.7_
+10.  _分布式缓存数据库: Redis 4.0.9_
 11.   _工具类：Hutool 4.5.8_ 
 
 #### 内置功能
