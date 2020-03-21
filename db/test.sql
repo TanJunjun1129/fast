@@ -16,14 +16,130 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`fastdb` /*!40100 DEFAULT CHARACTER SET 
 
 USE `fastdb`;
 
+/*Data for the table `gen_table` */
+
+insert  into `gen_table`(`table_id`,`table_name`,`table_comment`,`class_name`,`tpl_category`,`package_name`,`module_name`,`business_name`,`function_name`,`function_author`,`actions_type`,`is_cover`,`is_del`,`run_path`,`options`,`parent_id`,`parent_name`,`menu_name`,`module_codes`,`menu_order`,`menu_icon`,`menu_target`,`db_type`,`create_by`,`create_time`,`update_by`,`update_time`,`remark`) values 
+(1239004110656675841,'sys_menu','菜单管理','sysMenu','crud','com.lixinos.','','menu','菜单管理','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:47','','2020-03-14 16:39:47',NULL),
+(1239105384429412353,'sys_user','系统用户','sysUser','crud','com.fast.','','user','系统用户','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:48','','2020-03-15 08:47:27',NULL),
+(1239712012342198273,'sys_user_role','用户与角色对应关系','sysUserRole','crud','com.fast.','','role','用户与角色对应关系','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:49','',NULL,NULL),
+(1239718775166664706,'sys_post','岗位信息表','sysPost','crud','com.fast.','','post','岗位信息','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:48','','2020-03-14 16:39:48',NULL),
+(1239798100645707778,'sys_user_post','用户与岗位关联表','sysUserPost','crud','com.fast.','','post','用户与岗位关联','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:49','',NULL,NULL),
+(1239857593454755842,'sys_role','角色','sysRole','crud','com.fast.','','role','角色','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:48','','2020-03-14 16:39:48',NULL),
+(1240112551181746177,'sys_log','系统日志','sysLog','crud','com.fast.','','log','系统日志','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:46','',NULL,NULL),
+(1240501016994054146,'sys_user_comp','用户关联公司表','sysUserComp','crud','com.fast.','','comp','用户关联公司','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:48','','2020-03-17 19:50:41',NULL),
+(1240559259426553858,'sys_login_infor','系统访问记录','sysLoginInfor','crud','com.fast.','','infor','系统访问记录','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:47','','2020-03-19 16:39:23',NULL),
+(1240919179669864449,'sys_role_module','角色对应模块表','sysRoleModule','crud','com.fast.','','module','角色对应模块','ZhouHuan','default','N','Y','/',NULL,0,'','','core',0,'','','0','admin','2020-03-14 16:39:48','','2020-03-14 16:39:48',NULL);
+
+/*Data for the table `gen_table_column` */
+
+insert  into `gen_table_column`(`column_id`,`table_id`,`column_name`,`column_comment`,`column_type`,`java_type`,`java_field`,`is_plus`,`is_pk`,`is_increment`,`is_required`,`is_insert`,`is_edit`,`is_list`,`is_query`,`query_type`,`html_type`,`edit_info`,`dict_type`,`circle_type`,`is_table_sort`,`sort`,`create_by`,`create_time`,`update_by`,`update_time`) values 
+(1239004111218712578,'1239004110656675841','menu_id','主键','bigint(20)','Long','menuId','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-15 09:42:54','',NULL),
+(1239004111466176514,'1239004110656675841','parent_id','父菜单ID，一级菜单为0','bigint(20)','Long','parentId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',2,'admin','2020-03-15 09:42:54','',NULL),
+(1239004111713640450,'1239004110656675841','name','菜单名称','varchar(50)','String','name','0','0','0',NULL,'1','1','1','1','LIKE','input','','','T','0',3,'admin','2020-03-15 09:42:54','',NULL),
+(1239004111948521473,'1239004110656675841','url','菜单URL','varchar(200)','String','url','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',4,'admin','2020-03-15 09:42:55','',NULL),
+(1239004112179208193,'1239004110656675841','module_codes','归属模块（多个用逗号隔开）','varchar(500)','String','moduleCodes','0','0','0',NULL,'1','1','1','1','EQ','textarea','','','T','0',5,'admin','2020-03-15 09:42:55','',NULL),
+(1239004112405700609,'1239004110656675841','target','目标(打开方式)','varchar(20)','String','target','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',6,'admin','2020-03-15 09:42:55','',NULL),
+(1239004112636387330,'1239004110656675841','perms','授权(多个用逗号分隔，如：user:list,user:create)','varchar(500)','String','perms','0','0','0',NULL,'1','1','1','1','EQ','textarea','','','T','0',7,'admin','2020-03-15 09:42:55','',NULL),
+(1239004112867074049,'1239004110656675841','type','类型   0：目录   1：菜单   2：按钮','int(11)','Long','type','0','0','0',NULL,'1','1','1','1','EQ','select','','','T','0',8,'admin','2020-03-15 09:42:55','',NULL),
+(1239004113097760769,'1239004110656675841','icon','菜单图标','varchar(50)','String','icon','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',9,'admin','2020-03-15 09:42:55','',NULL),
+(1239004113328447490,'1239004110656675841','order_num','排序','int(11)','Long','orderNum','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',10,'admin','2020-03-15 09:42:55','',NULL),
+(1239004113567522818,'1239004110656675841','hide','是否删除  1：隐藏  0：正常','tinyint(4)','Integer','hide','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',11,'admin','2020-03-15 09:42:55','',NULL),
+(1239004113794015233,'1239004110656675841','create_by','创建者','varchar(64)','String','createBy','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',12,'admin','2020-03-15 09:42:55','',NULL),
+(1239004114049867777,'1239004110656675841','create_time','创建时间','datetime','Date','createTime','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','datetime','','','T','0',13,'admin','2020-03-15 09:42:55','',NULL),
+(1239004114318303233,'1239004110656675841','update_by','更新者','varchar(64)','String','updateBy','0','0','0',NULL,'1','1',NULL,NULL,'EQ','input','','','T','0',14,'admin','2020-03-15 09:42:55','',NULL),
+(1239004114590932994,'1239004110656675841','update_time','更新时间','datetime','Date','updateTime','0','0','0',NULL,'1','1',NULL,NULL,'EQ','datetime','','','T','0',15,'admin','2020-03-15 09:42:55','',NULL),
+(1239004114884534274,'1239004110656675841','remark','备注','varchar(500)','String','remark','0','0','0',NULL,'1','1','1',NULL,'EQ','textarea','','','T','0',16,'admin','2020-03-15 09:42:55','',NULL),
+(1239105384983060481,'1239105384429412353','user_id','主键','bigint(20)','Long','userId','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-15 16:25:20','',NULL),
+(1239105385243107329,'1239105384429412353','username','登陆账号','varchar(50)','String','username','0','1','0',NULL,'1',NULL,NULL,NULL,'LIKE','input','','','T','0',2,'admin','2020-03-15 16:25:20','',NULL),
+(1239105385486376961,'1239105384429412353','name','姓名','varchar(500)','String','name','0','0','0',NULL,'1','1','1','1','LIKE','textarea','','','T','0',3,'admin','2020-03-15 16:25:20','',NULL),
+(1239105385721257985,'1239105384429412353','password','密码','varchar(100)','String','password','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',4,'admin','2020-03-15 16:25:20','',NULL),
+(1239105385947750401,'1239105384429412353','salt','盐','varchar(20)','String','salt','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',5,'admin','2020-03-15 16:25:20','',NULL),
+(1239105386174242817,'1239105384429412353','email','邮箱','varchar(100)','String','email','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',6,'admin','2020-03-15 16:25:20','',NULL),
+(1239105386404929538,'1239105384429412353','mobile','手机号','varchar(100)','String','mobile','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',7,'admin','2020-03-15 16:25:20','',NULL),
+(1239105386631421953,'1239105384429412353','status','状态  1：禁用   0：正常','char(1)','String','status','0','0','0',NULL,'1','1','1','1','EQ','radio','','','T','0',8,'admin','2020-03-15 16:25:20','',NULL),
+(1239105386857914370,'1239105384429412353','pwd_security_level','密码安全级别（0初始 1很弱 2弱 3安全 4很安全）','char(1)','String','pwdSecurityLevel','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',9,'admin','2020-03-15 16:25:20','',NULL),
+(1239105387080212482,'1239105384429412353','pwd_update_date','密码最后更新时间','datetime','Date','pwdUpdateDate','0','0','0',NULL,'1','1','1','1','EQ','datetime','','','T','0',10,'admin','2020-03-15 16:25:20','',NULL),
+(1239105387315093505,'1239105384429412353','comp_id','公司ID','bigint(20)','Long','compId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',11,'admin','2020-03-15 16:25:20','',NULL),
+(1239105387541585921,'1239105384429412353','dept_id','部门ID','bigint(20)','Long','deptId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',12,'admin','2020-03-15 16:25:21','',NULL),
+(1239105387772272642,'1239105384429412353','create_time','创建时间','datetime','Date','createTime','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','datetime','','','T','0',13,'admin','2020-03-15 16:25:21','',NULL),
+(1239105387994570753,'1239105384429412353','card_id','用户对应卡号','varchar(50)','String','cardId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',14,'admin','2020-03-15 16:25:21','',NULL),
+(1239105388225257473,'1239105384429412353','avatar','用户头像','varchar(100)','String','avatar','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',15,'admin','2020-03-15 16:25:21','',NULL),
+(1239105388447555586,'1239105384429412353','update_time','更新时间','datetime','Date','updateTime','0','0','0',NULL,'1','1',NULL,NULL,'EQ','datetime','','','T','0',16,'admin','2020-03-15 16:25:21','',NULL),
+(1239105388682436609,'1239105384429412353','update_by','更新者','varchar(64)','String','updateBy','0','0','0',NULL,'1','1',NULL,NULL,'EQ','input','','','T','0',17,'admin','2020-03-15 16:25:21','',NULL),
+(1239105388904734722,'1239105384429412353','create_by','创建者','varchar(64)','String','createBy','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',18,'admin','2020-03-15 16:25:21','',NULL),
+(1239105389127032834,'1239105384429412353','remark','备注','varchar(1000)','String','remark','0','0','0',NULL,'1','1','1',NULL,'EQ','textarea','','','T','0',19,'admin','2020-03-15 16:25:21','',NULL),
+(1239712012849709058,'1239712012342198273','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-17 08:35:51','',NULL),
+(1239712013147504641,'1239712012342198273','user_id','用户ID','bigint(20)','Long','userId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',2,'admin','2020-03-17 08:35:51','',NULL),
+(1239712013394968577,'1239712012342198273','role_id','角色ID','bigint(20)','Long','roleId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-17 08:35:51','',NULL),
+(1239718775632232449,'1239718775166664706','post_id','主键','bigint(20)','Long','postId','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-17 09:02:44','',NULL),
+(1239718775946805249,'1239718775166664706','post_code','岗位编码','varchar(64)','String','postCode','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',2,'admin','2020-03-17 09:02:44','',NULL),
+(1239718776194269185,'1239718775166664706','post_name','岗位名称','varchar(50)','String','postName','0','0','0','1','1','1','1','1','LIKE','input','','','T','0',3,'admin','2020-03-17 09:02:44','',NULL),
+(1239718776458510338,'1239718775166664706','post_sort','显示顺序','int(4)','Integer','postSort','0','0','0','1','1','1','1','1','EQ','input','','','T','0',4,'admin','2020-03-17 09:02:44','',NULL),
+(1239718776722751490,'1239718775166664706','post_type','岗位分类','char(1)','String','postType','0','0','0',NULL,'1','1','1','1','EQ','select','','','T','0',5,'admin','2020-03-17 09:02:44','',NULL),
+(1239718776974409730,'1239718775166664706','status','状态（0正常 1停用）','char(1)','String','status','0','0','0','1','1','1','1','1','EQ','radio','','','T','0',6,'admin','2020-03-17 09:02:44','',NULL),
+(1239718777209290753,'1239718775166664706','create_by','创建者','varchar(64)','String','createBy','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',7,'admin','2020-03-17 09:02:44','',NULL),
+(1239718777444171777,'1239718775166664706','create_time','创建时间','datetime','Date','createTime','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','datetime','','','T','0',8,'admin','2020-03-17 09:02:44','',NULL),
+(1239718777670664193,'1239718775166664706','update_by','更新者','varchar(64)','String','updateBy','0','0','0',NULL,'1','1',NULL,NULL,'EQ','input','','','T','0',9,'admin','2020-03-17 09:02:44','',NULL),
+(1239718777905545218,'1239718775166664706','update_time','更新时间','datetime','Date','updateTime','0','0','0',NULL,'1','1',NULL,NULL,'EQ','datetime','','','T','0',10,'admin','2020-03-17 09:02:44','',NULL),
+(1239718778148814849,'1239718775166664706','remark','备注','varchar(500)','String','remark','0','0','0',NULL,'1','1','1',NULL,'EQ','textarea','','','T','0',11,'admin','2020-03-17 09:02:44','',NULL),
+(1239798101052555266,'1239798100645707778','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-17 14:17:56','',NULL),
+(1239798101312602114,'1239798100645707778','user_id','用户ID','bigint(20)','Long','userId','0','0','0','1','1','1','1','1','EQ','input','','','T','0',2,'admin','2020-03-17 14:17:56','',NULL),
+(1239798101543288833,'1239798100645707778','post_code','岗位ID','varchar(64)','String','postCode','0','0','0','1','1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-17 14:17:56','',NULL),
+(1239857593840631810,'1239857593454755842','role_id','主键','bigint(20)','Long','roleId','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-17 18:14:20','',NULL),
+(1239857594067124226,'1239857593454755842','role_name','角色名称','varchar(100)','String','roleName','0','0','0',NULL,'1','1','1','1','LIKE','input','','','T','0',2,'admin','2020-03-17 18:14:21','',NULL),
+(1239857594293616641,'1239857593454755842','dept_id','部门ID[暂停使用]','bigint(20)','Long','deptId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-17 18:14:21','',NULL),
+(1239857594511720449,'1239857593454755842','create_time','创建时间','datetime','Date','createTime','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','datetime','','','T','0',4,'admin','2020-03-17 18:14:21','',NULL),
+(1239857594742407169,'1239857593454755842','role_key','角色权限字符串','varchar(100)','String','roleKey','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',5,'admin','2020-03-17 18:14:21','',NULL),
+(1239857594964705282,'1239857593454755842','role_sort','显示顺序','int(4)','Integer','roleSort','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',6,'admin','2020-03-17 18:14:21','',NULL),
+(1239857595182809089,'1239857593454755842','del_flag','删除标志（0代表存在 1代表删除）','char(1)','String','delFlag','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',7,'admin','2020-03-17 18:14:21','',NULL),
+(1239857595409301506,'1239857593454755842','create_by','创建者','varchar(64)','String','createBy','0','0','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',8,'admin','2020-03-17 18:14:21','',NULL),
+(1239857595631599618,'1239857593454755842','update_by','更新者','varchar(64)','String','updateBy','0','0','0',NULL,'1','1',NULL,NULL,'EQ','input','','','T','0',9,'admin','2020-03-17 18:14:21','',NULL),
+(1239857595849703426,'1239857593454755842','update_time','更新时间','datetime','Date','updateTime','0','0','0',NULL,'1','1',NULL,NULL,'EQ','datetime','','','T','0',10,'admin','2020-03-17 18:14:21','',NULL),
+(1239857596088778754,'1239857593454755842','remark','备注','varchar(100)','String','remark','0','0','0',NULL,'1','1','1',NULL,'EQ','input','','','T','0',11,'admin','2020-03-17 18:14:21','',NULL),
+(1239857596311076866,'1239857593454755842','status','角色状态（0正常 1停用）','char(1)','String','status','0','0','0',NULL,'1','1','1','1','EQ','radio','','','T','0',12,'admin','2020-03-17 18:14:21','',NULL),
+(1240112551555039233,'1240112551181746177','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-18 11:07:27','',NULL),
+(1240112551768948737,'1240112551181746177','username','用户名','varchar(50)','String','username','0','0','0',NULL,'1','1','1','1','LIKE','input','','','T','0',2,'admin','2020-03-18 11:07:27','',NULL),
+(1240112551982858241,'1240112551181746177','operation','用户操作','varchar(50)','String','operation','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-18 11:07:27','',NULL),
+(1240112552200962050,'1240112551181746177','method','请求方法','varchar(200)','String','method','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',4,'admin','2020-03-18 11:07:27','',NULL),
+(1240112552419065858,'1240112551181746177','params','请求参数','varchar(5000)','String','params','0','0','0',NULL,'1','1','1','1','EQ','textarea','','','T','0',5,'admin','2020-03-18 11:07:27','',NULL),
+(1240112552637169665,'1240112551181746177','time','执行时长(毫秒)','bigint(20)','Long','time','0','0','0','1','1','1','1','1','EQ','input','','','T','0',6,'admin','2020-03-18 11:07:27','',NULL),
+(1240112552851079170,'1240112551181746177','ip','IP地址','varchar(64)','String','ip','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',7,'admin','2020-03-18 11:07:27','',NULL),
+(1240112553060794370,'1240112551181746177','create_date','创建时间','datetime','Date','createDate','0','0','0',NULL,'1','1','1','1','EQ','datetime','','','T','0',8,'admin','2020-03-18 11:07:27','',NULL),
+(1240501017417678849,'1240501016994054146','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-19 12:51:05','',NULL),
+(1240501017694502913,'1240501016994054146','user_id','用户ID','bigint(20)','Long','userId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',2,'admin','2020-03-19 12:51:05','',NULL),
+(1240501017954549761,'1240501016994054146','comp_id','公司ID','bigint(20)','Long','compId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-19 12:51:05','',NULL),
+(1240559259837595649,'1240559259426553858','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-19 16:42:31','',NULL),
+(1240559260072476674,'1240559259426553858','username','登录账号','varchar(50)','String','username','0','0','0',NULL,'1','1','1','1','LIKE','input','','','T','0',2,'admin','2020-03-19 16:42:31','',NULL),
+(1240559260340912129,'1240559259426553858','ipaddr','登录IP地址','varchar(50)','String','ipaddr','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-19 16:42:31','',NULL),
+(1240559260584181761,'1240559259426553858','login_location','登录地点','varchar(255)','String','loginLocation','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',4,'admin','2020-03-19 16:42:31','',NULL),
+(1240559260814868481,'1240559259426553858','browser','浏览器类型','varchar(50)','String','browser','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',5,'admin','2020-03-19 16:42:31','',NULL),
+(1240559261087498242,'1240559259426553858','os','系统类型','varchar(50)','String','os','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',6,'admin','2020-03-19 16:42:31','',NULL),
+(1240559261334962177,'1240559259426553858','mobile','移动平台(0) 电脑设备(1)','char(1)','String','mobile','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',7,'admin','2020-03-19 16:42:31','',NULL),
+(1240559261578231810,'1240559259426553858','status','登录状态（00000成功 其他失败）','varchar(10)','String','status','0','0','0',NULL,'1','1','1','1','EQ','radio','','','T','0',8,'admin','2020-03-19 16:42:31','',NULL),
+(1240559262043799553,'1240559259426553858','msg','提示消息','varchar(255)','String','msg','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',9,'admin','2020-03-19 16:42:31','',NULL),
+(1240559262274486274,'1240559259426553858','login_time','访问时间','datetime','Date','loginTime','0','0','0',NULL,'1','1','1','1','EQ','datetime','','','T','0',10,'admin','2020-03-19 16:42:31','',NULL),
+(1240559262530338818,'1240559259426553858','comp_id','公司ID','bigint(20)','Long','compId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',11,'admin','2020-03-19 16:42:31','',NULL),
+(1240919180076711937,'1240919179669864449','id','主键','bigint(20)','Long','id','0','1','0',NULL,'1',NULL,NULL,NULL,'EQ','input','','','T','0',1,'admin','2020-03-20 16:32:42','',NULL),
+(1240919180303204354,'1240919179669864449','role_id','权限ID','bigint(20)','Long','roleId','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',2,'admin','2020-03-20 16:32:42','',NULL),
+(1240919180538085377,'1240919179669864449','module_code','模块编码','varchar(64)','String','moduleCode','0','0','0',NULL,'1','1','1','1','EQ','input','','','T','0',3,'admin','2020-03-20 16:32:42','',NULL);
+
 /*Data for the table `sys_comp` */
 
 insert  into `sys_comp`(`comp_id`,`parent_id`,`name`,`remark`,`order_num`,`del_flag`,`status`,`create_time`,`create_by`,`update_by`,`update_time`) values 
 (1,0,'总公司','根部公司',0,'0','0','2019-12-21 23:54:41','','',NULL),
-(1236303334564106350,1,'北京有限公司','北京公司',2,'0','0','2020-03-15 16:31:16','','',NULL),
-(1239875326212898817,1,'南京有限公司','',3,'0','0','2020-03-17 19:24:48','admin','',NULL);
+(1236303334564106350,1,'北京有限公司','北京公司',2,'0','0','2020-03-15 16:31:16','','admin','2020-03-20 23:33:40'),
+(1239875326212898817,1,'南京有限公司','',3,'0','0','2020-03-17 19:24:48','admin','admin','2020-03-20 23:33:31'),
+(1241024147242586113,1,'上海法斯特有限公司','',0,'0','0','2020-03-20 10:29:48','admin','admin','2020-03-20 23:33:20');
 
 /*Data for the table `sys_comp_dept` */
+
+insert  into `sys_comp_dept`(`id`,`comp_id`,`dept_id`) values 
+(1241025032186204161,1241024147242586113,2),
+(1241025032186204162,1241024147242586113,1241024879228325889),
+(1241025032194592769,1241024147242586113,1241024945540272130),
+(1241025079393095682,1239875326212898817,1239913616460955650),
+(1241025116063895554,1236303334564106350,1238849577246834689),
+(1241025116076478466,1236303334564106350,1241024822970126337);
 
 /*Data for the table `sys_config` */
 
@@ -31,7 +147,7 @@ insert  into `sys_config`(`id`,`param_name`,`param_key`,`param_value`,`config_ty
 (1,'云存储','CLOUD_STORAGE_CONFIG_KEY','{\"type\":1,\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"qiniuBucketName\":\"ios-app\",\"aliyunDomain\":\"\",\"aliyunPrefix\":\"\",\"aliyunEndPoint\":\"\",\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qcloudBucketName\":\"\"}','Y','0','云存储配置信息','','2019-12-24 10:12:02',NULL,''),
 (2,'项目标题','SYS_CONFIG_TITLE','FAST云系统OS','Y','0','系统名称','','2019-12-24 10:12:03','2020-02-10 19:14:21','admin'),
 (4,'项目版本','SYS_CONFIG_VERSION','2.0.2','Y','0','系统版本','','2019-12-24 10:12:07','2020-01-01 19:10:31','admin'),
-(5,'系统参数','SYS_CONFIG_KEY','{\"login_maxCount\":100,\"login_NumCount\":3,\"lock_time\":5,\"company\":\"j2eefast.com\",\"copyrightYear\":\"2020\",\"ipc\":\"沪ICP备19011039号\"}','Y','0','系统参数配置、登陆错误次数锁定账户时间、所属公司','','2019-12-24 10:12:08','2020-02-13 07:07:51','admin'),
+(5,'系统参数','SYS_CONFIG_KEY','{\"login_maxCount\":100,\"login_NumCount\":3,\"lock_time\":5,\"company\":\"j2eefast.com\",\"copyrightYear\":\"2020\",\"ipc\":\"湘ICP备20005342号\"}','Y','0','系统参数配置、登陆错误次数锁定账户时间、所属公司','','2019-12-24 10:12:08','2020-03-20 23:45:51','admin'),
 (7,'JS版本','SYS_CONFIG_DV_VERSION','20191224','Y','0','JS\\CSS版本-日期表示','','2019-12-24 10:12:11','2019-12-05 20:09:35','admin'),
 (8,'项目小标题','SYS_CONFIG_TITLE_MINI','FOS','Y','0','系统简称','','2019-12-24 10:12:13','2020-02-10 19:14:31','admin'),
 (11,'上传路径','SYS_CONFIG_PROFILE','/home/fast/fastweb/file/uploadPath','Y','0','项目静态文件','','2019-12-24 10:12:18','2020-03-14 23:13:47','admin'),
@@ -40,14 +156,20 @@ insert  into `sys_config`(`id`,`param_name`,`param_key`,`param_value`,`config_ty
 (14,'登陆排挤','SYS_IS_LOGIN','1','Y','0','同一账户只能一个人登陆 0 支持 1不支持','admin','2020-01-10 18:50:31','2019-12-23 01:40:16','admin'),
 (15,'屏保时间','SYS_LOCK_SCEREEN','{\"time\":30,\"flag\":true}','Y','0','是否开启true  false 自动屏保及时间(分钟)','admin','2020-01-18 19:29:17','2019-12-31 00:28:26','admin'),
 (16,'主框架页-默认皮肤样式名称','SYS_INDEX_SKINNAME','skin-blue-light','Y','0','skin-black-light、skin-black、skin-blue-light、skin-blue、skin-green-light、skin-green、skin-purple-light、skin-purple、skin-red-light、skin-red、skin-yellow-light、skin-yellow','admin','2020-02-03 11:31:11','2020-01-10 12:06:06','admin'),
-(17,'项目文件库','SYS_CONFIG_FILE','/home/fast/fastweb/file','Y','0','系统默认文件库','admin','2020-02-13 14:56:22','2020-03-14 23:08:41','admin');
+(17,'项目文件库','SYS_CONFIG_FILE','/home/fast/fastweb/file/temp','Y','0','系统默认文件库','admin','2020-02-13 14:56:22','2020-03-20 23:46:26','admin');
 
 /*Data for the table `sys_dept` */
 
 insert  into `sys_dept`(`dept_id`,`parent_id`,`name`,`type`,`order_num`,`del_flag`,`status`,`create_time`,`create_by`,`update_by`,`update_time`,`remark`) values 
 (1,0,'中国',0,0,'0','0','2019-12-22 13:14:30',NULL,NULL,NULL,''),
 (2,1,'上海市',0,1,'0','0','2019-12-22 13:14:32',NULL,NULL,NULL,''),
-(1238849577246834689,1,'北京市',0,1,'0','0','2020-03-14 23:28:51','admin','',NULL,'');
+(1238849577246834689,1,'北京市',0,1,'0','0','2020-03-14 23:28:51','admin','',NULL,''),
+(1239913616460955650,1,'南京市',0,2,'0','0','2020-03-17 21:56:57','admin','',NULL,''),
+(1241024269615599618,1,'湖南省',0,3,'0','0','2020-03-20 10:30:18','admin','',NULL,''),
+(1241024322249920514,1241024269615599618,'长沙市',0,0,'0','0','2020-03-20 10:30:30','admin','',NULL,''),
+(1241024822970126337,1238849577246834689,'朝阳区',0,0,'0','0','2020-03-20 10:32:30','admin','',NULL,''),
+(1241024879228325889,2,'浦东新区',0,0,'0','0','2020-03-20 10:32:43','admin','',NULL,''),
+(1241024945540272130,2,'闵行区',0,1,'0','0','2020-03-20 10:32:59','admin','',NULL,'');
 
 /*Data for the table `sys_dict_data` */
 
@@ -2171,17 +2293,64 @@ insert  into `sys_index`(`help_topic_id`,`temp`) values
 
 insert  into `sys_job`(`job_id`,`bean_name`,`method_name`,`params`,`cron_expression`,`del_flag`,`status`,`remark`,`create_time`,`job_group`,`create_by`,`update_by`,`update_time`,`job_name`) values 
 (1239107312446103553,'jobTaskTest','fastParams','123','0 */5 6-23 * * ?','0','0','fastParams有参数','2020-03-15 16:32:59','DEFAULT','admin','',NULL,'测试任务'),
-(1239107405597401090,'fastParams','fastNoParms','','0 */5 6-23 * * ?','0','0','测试任务无参','2020-03-15 16:33:22','DEFAULT','admin','',NULL,'测试任务无参');
+(1239107405597401090,'fastParams','fastNoParms','','0 */5 6-23 * * ?','1','0','测试任务无参','2020-03-15 16:33:22','DEFAULT','admin','',NULL,'测试任务无参');
 
 /*Data for the table `sys_job_log` */
 
-/*Data for the table `sys_log` */
-
-/*Data for the table `sys_login_infor` */
-
-insert  into `sys_login_infor`(`id`,`username`,`ipaddr`,`login_location`,`browser`,`os`,`mobile`,`status`,`msg`,`login_time`,`comp_id`) values 
-(1236599645930754050,'admin','192.168.0.100','内网IP','Chrome','Windows 10 or Windows Server 2016','1','00000','登陆成功!','2020-03-08 02:28:25',1),
-(1239892793123471361,'admin','223.166.104.22','XX XX','Chrome','Windows 10 or Windows Server 2016','1','00000','登陆成功!','2020-03-17 20:34:13',1);
+insert  into `sys_job_log`(`log_id`,`job_id`,`bean_name`,`method_name`,`params`,`status`,`error`,`times`,`create_time`,`job_name`,`job_group`) values 
+(1241022938964267009,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,3,'2020-03-20 10:25:00','测试任务','DEFAULT'),
+(1241022941149499394,1239107405597401090,'fastParams','fastNoParms','','1','org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'fastParams\' available',3,'2020-03-20 10:25:01','测试任务无参','DEFAULT'),
+(1241024197150609409,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-20 10:30:00','测试任务','DEFAULT'),
+(1241024199553945601,1239107405597401090,'fastParams','fastNoParms','','1','org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'fastParams\' available',1,'2020-03-20 10:30:01','测试任务无参','DEFAULT'),
+(1241025455446003713,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-20 10:35:00','测试任务','DEFAULT'),
+(1241025458541400066,1239107405597401090,'fastParams','fastNoParms','','1','org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'fastParams\' available',1,'2020-03-20 10:35:01','测试任务无参','DEFAULT'),
+(1241026713657511937,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-20 10:40:00','测试任务','DEFAULT'),
+(1241027972087123969,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-20 10:45:00','测试任务','DEFAULT'),
+(1241029229658836994,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,3,'2020-03-20 23:50:00','测试任务','DEFAULT'),
+(1241030488510140418,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-20 10:55:00','测试任务','DEFAULT'),
+(1241039394130956290,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,2,'2020-03-21 00:30:24','测试任务','DEFAULT'),
+(1241039409582772226,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,2,'2020-03-21 00:30:27','测试任务','DEFAULT'),
+(1241122342968561665,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,2,'2020-03-21 06:00:00','测试任务','DEFAULT'),
+(1241123601217818625,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 06:05:00','测试任务','DEFAULT'),
+(1241124859500630017,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 06:10:00','测试任务','DEFAULT'),
+(1241126117804412929,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 06:15:00','测试任务','DEFAULT'),
+(1241127376087224321,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 06:20:00','测试任务','DEFAULT'),
+(1241128634432950274,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 06:25:00','测试任务','DEFAULT'),
+(1241129892749316097,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 06:30:00','测试任务','DEFAULT'),
+(1241131150981795841,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 06:35:00','测试任务','DEFAULT'),
+(1241132409327521793,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 06:40:00','测试任务','DEFAULT'),
+(1241133667539030017,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 06:45:00','测试任务','DEFAULT'),
+(1241134925905727490,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 06:50:00','测试任务','DEFAULT'),
+(1241136184125624322,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,2,'2020-03-21 06:55:00','测试任务','DEFAULT'),
+(1241137442454573057,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:00:00','测试任务','DEFAULT'),
+(1241138700825464834,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:05:00','测试任务','DEFAULT'),
+(1241139959011807233,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:10:00','测试任务','DEFAULT'),
+(1241141217303007233,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:15:00','测试任务','DEFAULT'),
+(1241142475577430017,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:20:00','测试任务','DEFAULT'),
+(1241143733897990145,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:25:00','测试任务','DEFAULT'),
+(1241144992172412930,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:30:00','测试任务','DEFAULT'),
+(1241146250488778753,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 07:35:00','测试任务','DEFAULT'),
+(1241147508767395841,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:40:00','测试任务','DEFAULT'),
+(1241148767033430017,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:45:00','测试任务','DEFAULT'),
+(1241150025337212930,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:50:00','测试任务','DEFAULT'),
+(1241151283678744577,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 07:55:00','测试任务','DEFAULT'),
+(1241152541919612929,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:00:00','测试任务','DEFAULT'),
+(1241153800223395842,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:05:00','测试任务','DEFAULT'),
+(1241155058485235714,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 08:10:00','测试任务','DEFAULT'),
+(1241156316789018626,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:15:00','测试任务','DEFAULT'),
+(1241157575092801538,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:20:00','测试任务','DEFAULT'),
+(1241158833396584450,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:25:00','测试任务','DEFAULT'),
+(1241160091658424322,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:30:00','测试任务','DEFAULT'),
+(1241161349949624321,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 08:35:00','测试任务','DEFAULT'),
+(1241162608245018625,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:40:00','测试任务','DEFAULT'),
+(1241163866569773057,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:45:00','测试任务','DEFAULT'),
+(1241165125074849794,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,3,'2020-03-21 08:50:00','测试任务','DEFAULT'),
+(1241166383185694722,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 08:55:00','测试任务','DEFAULT'),
+(1241167641489477633,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 09:00:00','测试任务','DEFAULT'),
+(1241168899726151681,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 09:05:00','测试任务','DEFAULT'),
+(1241170158059294721,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,1,'2020-03-21 09:10:00','测试任务','DEFAULT'),
+(1241171416321134593,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,0,'2020-03-21 09:15:00','测试任务','DEFAULT'),
+(1241172674612334593,1239107312446103553,'jobTaskTest','fastParams','123','0',NULL,2,'2020-03-21 09:20:00','测试任务','DEFAULT');
 
 /*Data for the table `sys_menu` */
 
@@ -2251,7 +2420,6 @@ insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`module_codes`,`targe
 (110,108,'月报表','#','core','','',1,'fa fa-file',1,1,'',NULL,'',NULL,''),
 (111,108,'年报表','#','core','','',1,'fa fa-file',2,1,'',NULL,'',NULL,''),
 (112,108,'故障报表','#','core','','',1,'fa fa-file',3,1,'',NULL,'',NULL,''),
-(113,108,'库房处理报表','#','core','','',1,'fa fa-file',4,1,'',NULL,'',NULL,''),
 (114,0,'数据分析',NULL,'core','','',0,'fa fa-database',8,1,'',NULL,'',NULL,''),
 (115,114,'司机上班情况','#','core','','',1,'fa fa-calendar',0,0,'',NULL,'',NULL,''),
 (116,114,'公交车流量统计','#','core','','',1,'fa fa-line-chart',1,0,'',NULL,'',NULL,''),
@@ -2344,7 +2512,9 @@ insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`module_codes`,`targe
 (206,202,'删除','','bcs','','bcs:user:del',2,'',3,0,'admin','2020-03-01 15:24:21','',NULL,''),
 (207,152,'删除','','bcs','','bcs:box:del',2,'',3,0,'admin','2020-03-06 10:32:42','',NULL,''),
 (208,152,'查看','','bcs','','bcs:box:list',2,'',4,0,'admin','2020-03-06 10:35:04','',NULL,''),
-(1239727704613388289,0,'111','1111111','core','_tab','111111',1,'fa fa-podcast',1111111,0,'admin','2020-03-17 09:38:12','',NULL,'');
+(1241023067553239042,70,'产品许可','sys/license','core','_tab','sys:license:view',1,'fa fa-send-o',13,0,'admin','2020-03-20 10:25:31','admin','2020-03-20 23:26:47',''),
+(1241023310755762177,1241023067553239042,'上传许可','','core','','sys:license:upload',2,'',0,0,'admin','2020-03-20 10:26:29','',NULL,''),
+(1241023877494312961,1241023067553239042,'生成许可','','core','','sys:license:creatLicense',2,'',1,0,'admin','2020-03-20 10:28:44','',NULL,'');
 
 /*Data for the table `sys_module` */
 
@@ -2352,6 +2522,7 @@ insert  into `sys_module`(`id`,`module_code`,`module_name`,`description`,`main_c
 (1,'core','核心模块','用户、角色、组织、模块、菜单、字典、参数、系统相关功能','com.fast.framework.controller.SysPageController','fa  icon-settings','2.0.2',NULL,'0','0','admin','2020-02-14 17:31:35','admin','2020-02-14 17:31:35','初始版本'),
 (2,'bcs','公交系统','公交项目系统功能 终端、交易、库房等功能','com.lixinos.bcs.common.config.InitializeConfig','fa fa-lastfm','2.0.2',NULL,'0','2','admin','2020-02-14 20:36:37','admin','2020-02-07 19:07:19','初始版本');
 
+/*Data for the table `sys_post` */
 
 insert  into `sys_post`(`post_id`,`post_code`,`post_name`,`post_sort`,`post_type`,`status`,`create_by`,`create_time`,`update_by`,`update_time`,`remark`) values 
 (1,'CEO','董事长',1,'1','0','admin','2018-03-16 11:33:00','admin','2020-02-13 09:10:01',''),
@@ -2655,8 +2826,13 @@ insert  into `sys_role_module`(`id`,`role_id`,`module_code`) values
 /*Data for the table `sys_user` */
 
 insert  into `sys_user`(`user_id`,`username`,`name`,`password`,`salt`,`email`,`mobile`,`status`,`pwd_security_level`,`pwd_update_date`,`comp_id`,`dept_id`,`create_time`,`card_id`,`avatar`,`update_time`,`update_by`,`create_by`,`remark`) values 
-(1,'admin','超级管理员','77191ae6693e6db3e9ac44d57059bc046a5e93633b6700e95829b71c3b70dbfc','9rAjzhlpiE4cKEzJyy85','18774995071@163.com','18774995071','0','2','2019-12-11 19:45:08',1,1,'2018-05-11 11:11:11',NULL,'/profile/avatar/2020/03/15/01fa4b90869447cbfd0627203ef0c085.png','2020-03-15 08:47:27','admin','',''),
-(1239817862977224705,'010010','运营部','07e500a50375a7fe0861704329e9a9bec167daa2977a017216ae592deb1f28bb','qD21n98emqZfpZqB0wRD','','15212365486','0','2',NULL,1,NULL,'2020-03-17 15:36:28','','',NULL,'','admin','');
+(1,'admin','超级管理员','77191ae6693e6db3e9ac44d57059bc046a5e93633b6700e95829b71c3b70dbfc','9rAjzhlpiE4cKEzJyy85','18774995071@163.com','18774995071','0','2','2019-12-11 19:45:08',1,1,'2018-05-11 11:11:11',NULL,'/profile/avatar/2020/03/15/01fa4b90869447cbfd0627203ef0c085.png','2020-03-20 23:38:57','admin','',''),
+(1239914383204892673,'00213','张三','5c723a29ad9c7e121a7fbab2ebb61eecedd01fe6b53c6669fbc9afcde8a64bed','fYVZAd8QY5UjCQOmrzEv','18774994072@163.com','18774994072','1','2',NULL,1236303334564106200,NULL,'2020-03-17 22:00:00','','',NULL,'','admin',''),
+(1239915009632583681,'00214','李四','4a47fa6905203f74987cb944b70046fec94b31a6093795cf27495730d982f866','ag6XnFV1GZFh9mkkK07g','18772321312@163.com','18772321312','0','2',NULL,1239875326212898800,NULL,'2020-03-17 22:02:29','','',NULL,'','admin',''),
+(1241025732404285442,'00215','张飞','ce569a6848f33c6a83456cd13a01856ce87ffa20782589209baa07d46c21a5f8','Q5KYgikJnbyNVIfBSa7y','751312449@qq.com','18774994013','1','3',NULL,1241024147242586000,NULL,'2020-03-20 10:36:06','','',NULL,'','admin',''),
+(1241025930912305153,'00216','刘备','75b1edd180537cfbfda48b9804be81b49611d90fd138f4052376f932c544300c','xtp0Y8cmxZrPry6grUjV','123456@qq.com','13234234234','0','3',NULL,1241024147242586000,NULL,'2020-03-20 10:36:54','','',NULL,'','admin',''),
+(1241026155169157122,'00217','关羽','5c1bb325893922bce7862bf1378b8e1d27a4f11377060412577d7939df221846','YhdOkzb7E1P2IxOv9sa7','123213@QQ.com','18742342223','0','1',NULL,1236303334564106200,NULL,'2020-03-20 10:37:47','','',NULL,'','admin',''),
+(1241026312006766594,'00219','曹操','887b4faee94959097f56d2190e4df2bafd3242d67053e3c9967773d502be6893','1Zsbae3oS46CLxIJDyDi','zhouhuan@lixinfintech.com','15645645645','1','3',NULL,1239875326212898800,NULL,'2020-03-20 10:38:25','','',NULL,'','admin','');
 
 /*Data for the table `sys_user_comp` */
 
@@ -2666,14 +2842,33 @@ insert  into `sys_user_comp`(`id`,`user_id`,`comp_id`) values
 /*Data for the table `sys_user_dept` */
 
 insert  into `sys_user_dept`(`id`,`user_id`,`dept_id`) values 
-(1239817863451181058,1239817862977224705,1238849577246834689);
+(1239913958166708226,1239817862977224700,1239913616460955650),
+(1239914383976644610,1239914383204892673,1238849577246834689),
+(1239915010437890049,1239915009632583681,1239913616460955650),
+(1241025733536747522,1241025732404285442,1241024879228325889),
+(1241025931860217857,1241025930912305153,1241024945540272130),
+(1241026156259676161,1241026155169157122,1241024822970126337),
+(1241026313185366018,1241026312006766594,1239913616460955650),
+(1241026447092715521,1,1241024269615599618),
+(1241026447214350338,1,1241024322249920514);
 
 /*Data for the table `sys_user_post` */
 
 /*Data for the table `sys_user_role` */
 
 insert  into `sys_user_role`(`id`,`user_id`,`role_id`) values 
-(1239817863224688642,1239817862977224705,8);
+(1239913957210406914,1239817862977224700,8),
+(1239914383632711681,1239914383204892673,8),
+(1239915010068791298,1239915009632583681,2),
+(1241025732920184834,1241025732404285442,4),
+(1241025732936962050,1241025732404285442,6),
+(1241025931281403905,1241025930912305153,4),
+(1241025931289792514,1241025930912305153,7),
+(1241026155693445121,1241026155169157122,2),
+(1241026155701833729,1241026155169157122,4),
+(1241026312552026113,1241026312006766594,3),
+(1241026312564609026,1241026312006766594,8),
+(1241026446119636994,1,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

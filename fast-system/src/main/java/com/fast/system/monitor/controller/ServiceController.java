@@ -29,7 +29,7 @@ public class ServiceController extends AbstractController {
 	
 	private final static Logger 					LOG 					= LoggerFactory.getLogger(ServiceController.class);
 	private String 									urlPrefix 				= "modules/monitor";
-	@Value("${fast.demoMode: false}")
+	@Value("${fast.demoMode.enabled: false}")
 	private Boolean 								demoMode;
 	
 	@RequiresPermissions("sys:server:view")

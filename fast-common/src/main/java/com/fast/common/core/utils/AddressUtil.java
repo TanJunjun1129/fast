@@ -38,14 +38,13 @@ public class AddressUtil {
                 return address;
             }
             obj = JSONUtil.parseObj(body.body());
-            System.err.println(obj.toString());
             //{"address":"CN|上海|上海|None|CHINANET|0|0","content":{"address_detail":{"province":"上海市","city":"上海市","street":"","district":"","street_number":"","city_code":289},"address":"上海市","point":{"x":"121.48789949","y":"31.24916171"}},"status":0}
             int error_code = obj.getInt("status",-1);
             if(error_code == 0) {
-                JSONObject data = obj.getJSONObject("content");
+                JSONObject data = obj.getJSONObject("content").getJSONObject("address_detail");
                 String country = obj.getStr("address", "CN|上海|上海|None|CHINANET|0|0").split("\\|")[0];
-                String province = data.getJSONObject("address_detail").getStr("Province", "上海");
-                String city = data.getJSONObject("address_detail").getStr("city", "上海市");
+                String province = data.getStr("province", "上海");
+                String city = data.getStr("city", "上海市");
                 //String Isp = data.getStr("Isp", "联通");
                 address = StrUtil.format("{} {}-{}", country,province,city);
             }else {
