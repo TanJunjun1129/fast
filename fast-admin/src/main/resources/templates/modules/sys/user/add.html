@@ -199,10 +199,6 @@
                         {
                             name:'deptIdList',
                             value:'arr'
-                        },
-                        {
-                            name:'compId',
-                            value:'num'
                         }
                     ]
                 };
@@ -211,23 +207,9 @@
                 var status = $("input[id='status']").is(':checked') == true ? 0 :1;
                 data.push({"name": "status", "value": status});
                 data.push({"name": "roleIdList", "value": postIds});
-                // opt.operate.saveTab(baseURL+'sys/user/add',data,resultExe);
-                // opt.modal.loading($.i18n.prop("数据加载中，请稍后..."));
                 opt.operate.saveTab(prefix + "/add", data);
 	        }
 	    }
-
-	    function resultExe(r) {
-            if(r.code == web_status.SUCCESS){
-                opt.modal.success($.i18n.prop("操作成功!"),function () {
-                    $.operate.successTab();
-                    return
-                });
-            }else{
-                opt.modal.warning(r.msg);
-                return;
-            }
-        }
          
         /*用户管理-新增-选择公司树*/
         function selectCompTree() {
