@@ -4969,6 +4969,11 @@ insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`module_codes`,`targe
 
 (1241023877494312961,1241023067553239042,'生成许可','','core','','sys:license:creatLicense',2,'',1,0,'admin','2020-03-20 10:28:44','',NULL,'');
 
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `module_codes`, `target`, `perms`, `type`, `icon`, `order_num`, `hide`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('1241544436850233346','0','项目帮助','','core','',NULL,'0','fa icon-link','11','0','admin','2020-03-21 17:57:15','admin','2020-02-21 04:01:22','');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `module_codes`, `target`, `perms`, `type`, `icon`, `order_num`, `hide`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('1241551431233835010','1241544436850233346','在线提问','https://gitee.com/zhouhuanOGP/J2EEFAST/issues','core','_tab','','1','fa fa-question-circle','0','0','admin','2020-03-21 18:25:03','',NULL,'');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `module_codes`, `target`, `perms`, `type`, `icon`, `order_num`, `hide`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES('1241552388105572354','1241544436850233346','在线文档','https://gitee.com/zhouhuanOGP/J2EEFAST/wikis/pages','core','_alert','','1','fa fa-wordpress','1','0','admin','2020-03-21 18:28:51','',NULL,'');
+
+
 /*Data for the table `sys_module` */
 
 insert  into `sys_module`(`id`,`module_code`,`module_name`,`description`,`main_class_name`,`icon`,`current_version`,`upgrade_info`,`del_flag`,`status`,`create_by`,`create_time`,`update_by`,`update_time`,`remark`) values 
