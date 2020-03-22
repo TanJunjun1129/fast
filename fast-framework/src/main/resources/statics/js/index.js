@@ -303,7 +303,7 @@ $(function () {
                 icon: "fa-close",
                 callback: function(key, opt) {
                     if($(this).attr("lay-id") != 0){
-                        window.opt.$trigger.find('i').trigger("click");
+                        opt.$trigger.find('i').trigger("click");
                     }
                 }
             },
