@@ -62,7 +62,7 @@ public class SysPageController{
 	@GetMapping("upbw/index")
 	public String upbw(ModelMap mmap)
 	{
-		return "modules/upbw/index";
+		return "modules/sys/upbw/index";
 	}
 
 
