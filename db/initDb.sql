@@ -19,7 +19,7 @@ GRANT ALL PRIVILEGES ON `fastdb`.* TO 'fast'@'localhost' IDENTIFIED BY 'fast@123
 ***************************相关表*****************************/
 /*
 SQLyog Ultimate v12.3.1 (64 bit)
-MySQL - 5.7.26 : Database - fastdb
+MySQL - 5.7.24 : Database - fastdb
 *********************************************************************
 */
 
@@ -40,128 +40,128 @@ USE `fastdb`;
 DROP TABLE IF EXISTS `gen_table`;
 
 CREATE TABLE `gen_table` (
-  `table_id` BIGINT(20) NOT NULL COMMENT '编号',
-  `table_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表名称',
-  `table_comment` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表描述',
-  `class_name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '实体类名称',
-  `tpl_category` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作）',
-  `package_name` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成包路径',
-  `module_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成模块名',
-  `business_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成业务名',
-  `function_name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能名',
-  `function_author` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能作者',
-  `actions_type` CHAR(50) COLLATE utf8mb4_bin DEFAULT 'default' COMMENT '操作按钮风格(default,icon)',
-  `is_cover` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'N' COMMENT '生成代码是否覆盖替换',
-  `is_del` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'Y' COMMENT '只有一个页面 是否需要删除功能',
-  `run_path` VARCHAR(200) COLLATE utf8mb4_bin DEFAULT '/' COMMENT '生成路径(不填默认项目路径)',
-  `options` VARCHAR(1000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '其它生成选项',
-  `parent_id` BIGINT(20) DEFAULT '0' COMMENT '上级菜单ID',
-  `parent_name` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '父菜单名称',
-  `menu_name` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单名称',
-  `module_codes` VARCHAR(100) COLLATE utf8mb4_bin DEFAULT 'core' COMMENT '归属模块（多个用逗号隔开）',
-  `menu_order` INT(11) DEFAULT '0' COMMENT '菜单排序',
-  `menu_icon` VARCHAR(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单图标',
-  `menu_target` VARCHAR(20) COLLATE utf8mb4_bin DEFAULT '' COMMENT '目标(打开方式)',
-  `db_type` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '数据库类型(0 主数据库 1从数据库)',
-  `create_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
-  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `update_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
-  `update_time` DATETIME DEFAULT NULL COMMENT '更新时间',
-  `remark` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  `table_id` bigint(20) NOT NULL COMMENT '编号',
+  `table_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表名称',
+  `table_comment` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '表描述',
+  `class_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '实体类名称',
+  `tpl_category` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作）',
+  `package_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成包路径',
+  `module_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成模块名',
+  `business_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成业务名',
+  `function_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能名',
+  `function_author` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '生成功能作者',
+  `actions_type` char(50) COLLATE utf8mb4_bin DEFAULT 'default' COMMENT '操作按钮风格(default,icon)',
+  `is_cover` char(1) COLLATE utf8mb4_bin DEFAULT 'N' COMMENT '生成代码是否覆盖替换',
+  `is_del` char(1) COLLATE utf8mb4_bin DEFAULT 'Y' COMMENT '只有一个页面 是否需要删除功能',
+  `run_path` varchar(200) COLLATE utf8mb4_bin DEFAULT '/' COMMENT '生成路径(不填默认项目路径)',
+  `options` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '其它生成选项',
+  `parent_id` bigint(20) DEFAULT '0' COMMENT '上级菜单ID',
+  `parent_name` varchar(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '父菜单名称',
+  `menu_name` varchar(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单名称',
+  `module_codes` varchar(100) COLLATE utf8mb4_bin DEFAULT 'core' COMMENT '归属模块（多个用逗号隔开）',
+  `menu_order` int(11) DEFAULT '0' COMMENT '菜单排序',
+  `menu_icon` varchar(50) COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单图标',
+  `menu_target` varchar(20) COLLATE utf8mb4_bin DEFAULT '' COMMENT '目标(打开方式)',
+  `db_type` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '数据库类型(0 主数据库 1从数据库)',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表';
 
 /*Table structure for table `gen_table_column` */
 
 DROP TABLE IF EXISTS `gen_table_column`;
 
 CREATE TABLE `gen_table_column` (
-  `column_id` BIGINT(20) NOT NULL COMMENT '编号',
-  `table_id` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '归属表编号',
-  `column_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列名称',
-  `column_comment` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列描述',
-  `column_type` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列类型',
-  `java_type` VARCHAR(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA类型',
-  `java_field` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA字段名',
-  `is_plus` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '是否未MapperPlus（1是）',
-  `is_pk` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否主键（1是）',
-  `is_increment` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否自增（1是）',
-  `is_required` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否必填（1是）',
-  `is_insert` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否为插入字段（1是）',
-  `is_edit` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否编辑字段（1是）',
-  `is_list` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否列表字段（1是）',
-  `is_query` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否查询字段（1是）',
-  `query_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
-  `html_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-  `edit_info` VARCHAR(2000) COLLATE utf8mb4_bin DEFAULT '' COMMENT '字段说明',
-  `dict_type` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典类型',
-  `circle_type` CHAR(1) COLLATE utf8mb4_bin DEFAULT 'T' COMMENT '字段说明样式T 普通形 Q 黄色问号弹出型 R红色明显提示',
-  `is_table_sort` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '字段是否为表sortable 1是',
-  `sort` INT(11) DEFAULT NULL COMMENT '排序',
-  `create_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
-  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `update_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
-  `update_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+  `column_id` bigint(20) NOT NULL COMMENT '编号',
+  `table_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '归属表编号',
+  `column_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列名称',
+  `column_comment` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列描述',
+  `column_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '列类型',
+  `java_type` varchar(500) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA类型',
+  `java_field` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT 'JAVA字段名',
+  `is_plus` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '是否未MapperPlus（1是）',
+  `is_pk` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否主键（1是）',
+  `is_increment` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否自增（1是）',
+  `is_required` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否必填（1是）',
+  `is_insert` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否为插入字段（1是）',
+  `is_edit` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否编辑字段（1是）',
+  `is_list` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否列表字段（1是）',
+  `is_query` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '是否查询字段（1是）',
+  `query_type` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+  `html_type` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `edit_info` varchar(2000) COLLATE utf8mb4_bin DEFAULT '' COMMENT '字段说明',
+  `dict_type` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典类型',
+  `circle_type` char(1) COLLATE utf8mb4_bin DEFAULT 'T' COMMENT '字段说明样式T 普通形 Q 黄色问号弹出型 R红色明显提示',
+  `is_table_sort` char(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '0' COMMENT '字段是否为表sortable 1是',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表字段';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成业务表字段';
 
 /*Table structure for table `qrtz_blob_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_blob_triggers`;
 
 CREATE TABLE `qrtz_blob_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `BLOB_DATA` BLOB,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `BLOB_DATA` blob,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `SCHED_NAME` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_calendars` */
 
 DROP TABLE IF EXISTS `qrtz_calendars`;
 
 CREATE TABLE `qrtz_calendars` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `CALENDAR_NAME` VARCHAR(200) NOT NULL,
-  `CALENDAR` BLOB NOT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `CALENDAR_NAME` varchar(200) NOT NULL,
+  `CALENDAR` blob NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`CALENDAR_NAME`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_cron_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_cron_triggers`;
 
 CREATE TABLE `qrtz_cron_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `CRON_EXPRESSION` VARCHAR(120) NOT NULL,
-  `TIME_ZONE_ID` VARCHAR(80) DEFAULT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `CRON_EXPRESSION` varchar(120) NOT NULL,
+  `TIME_ZONE_ID` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_fired_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_fired_triggers`;
 
 CREATE TABLE `qrtz_fired_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `ENTRY_ID` VARCHAR(95) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `INSTANCE_NAME` VARCHAR(200) NOT NULL,
-  `FIRED_TIME` BIGINT(13) NOT NULL,
-  `SCHED_TIME` BIGINT(13) NOT NULL,
-  `PRIORITY` INT(11) NOT NULL,
-  `STATE` VARCHAR(16) NOT NULL,
-  `JOB_NAME` VARCHAR(200) DEFAULT NULL,
-  `JOB_GROUP` VARCHAR(200) DEFAULT NULL,
-  `IS_NONCONCURRENT` VARCHAR(1) DEFAULT NULL,
-  `REQUESTS_RECOVERY` VARCHAR(1) DEFAULT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `ENTRY_ID` varchar(95) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `INSTANCE_NAME` varchar(200) NOT NULL,
+  `FIRED_TIME` bigint(13) NOT NULL,
+  `SCHED_TIME` bigint(13) NOT NULL,
+  `PRIORITY` int(11) NOT NULL,
+  `STATE` varchar(16) NOT NULL,
+  `JOB_NAME` varchar(200) DEFAULT NULL,
+  `JOB_GROUP` varchar(200) DEFAULT NULL,
+  `IS_NONCONCURRENT` varchar(1) DEFAULT NULL,
+  `REQUESTS_RECOVERY` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`ENTRY_ID`),
   KEY `IDX_QRTZ_FT_TRIG_INST_NAME` (`SCHED_NAME`,`INSTANCE_NAME`),
   KEY `IDX_QRTZ_FT_INST_JOB_REQ_RCVRY` (`SCHED_NAME`,`INSTANCE_NAME`,`REQUESTS_RECOVERY`),
@@ -169,119 +169,119 @@ CREATE TABLE `qrtz_fired_triggers` (
   KEY `IDX_QRTZ_FT_JG` (`SCHED_NAME`,`JOB_GROUP`),
   KEY `IDX_QRTZ_FT_T_G` (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `IDX_QRTZ_FT_TG` (`SCHED_NAME`,`TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_job_details` */
 
 DROP TABLE IF EXISTS `qrtz_job_details`;
 
 CREATE TABLE `qrtz_job_details` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `JOB_NAME` VARCHAR(200) NOT NULL,
-  `JOB_GROUP` VARCHAR(200) NOT NULL,
-  `DESCRIPTION` VARCHAR(250) DEFAULT NULL,
-  `JOB_CLASS_NAME` VARCHAR(250) NOT NULL,
-  `IS_DURABLE` VARCHAR(1) NOT NULL,
-  `IS_NONCONCURRENT` VARCHAR(1) NOT NULL,
-  `IS_UPDATE_DATA` VARCHAR(1) NOT NULL,
-  `REQUESTS_RECOVERY` VARCHAR(1) NOT NULL,
-  `JOB_DATA` BLOB,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `JOB_NAME` varchar(200) NOT NULL,
+  `JOB_GROUP` varchar(200) NOT NULL,
+  `DESCRIPTION` varchar(250) DEFAULT NULL,
+  `JOB_CLASS_NAME` varchar(250) NOT NULL,
+  `IS_DURABLE` varchar(1) NOT NULL,
+  `IS_NONCONCURRENT` varchar(1) NOT NULL,
+  `IS_UPDATE_DATA` varchar(1) NOT NULL,
+  `REQUESTS_RECOVERY` varchar(1) NOT NULL,
+  `JOB_DATA` blob,
   PRIMARY KEY (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`),
   KEY `IDX_QRTZ_J_REQ_RECOVERY` (`SCHED_NAME`,`REQUESTS_RECOVERY`),
   KEY `IDX_QRTZ_J_GRP` (`SCHED_NAME`,`JOB_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_locks` */
 
 DROP TABLE IF EXISTS `qrtz_locks`;
 
 CREATE TABLE `qrtz_locks` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `LOCK_NAME` VARCHAR(40) NOT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `LOCK_NAME` varchar(40) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`LOCK_NAME`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_paused_trigger_grps` */
 
 DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
 
 CREATE TABLE `qrtz_paused_trigger_grps` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_scheduler_state` */
 
 DROP TABLE IF EXISTS `qrtz_scheduler_state`;
 
 CREATE TABLE `qrtz_scheduler_state` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `INSTANCE_NAME` VARCHAR(200) NOT NULL,
-  `LAST_CHECKIN_TIME` BIGINT(13) NOT NULL,
-  `CHECKIN_INTERVAL` BIGINT(13) NOT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `INSTANCE_NAME` varchar(200) NOT NULL,
+  `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
+  `CHECKIN_INTERVAL` bigint(13) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`INSTANCE_NAME`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_simple_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_simple_triggers`;
 
 CREATE TABLE `qrtz_simple_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `REPEAT_COUNT` BIGINT(7) NOT NULL,
-  `REPEAT_INTERVAL` BIGINT(12) NOT NULL,
-  `TIMES_TRIGGERED` BIGINT(10) NOT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `REPEAT_COUNT` bigint(7) NOT NULL,
+  `REPEAT_INTERVAL` bigint(12) NOT NULL,
+  `TIMES_TRIGGERED` bigint(10) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_simprop_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
 
 CREATE TABLE `qrtz_simprop_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `STR_PROP_1` VARCHAR(512) DEFAULT NULL,
-  `STR_PROP_2` VARCHAR(512) DEFAULT NULL,
-  `STR_PROP_3` VARCHAR(512) DEFAULT NULL,
-  `INT_PROP_1` INT(11) DEFAULT NULL,
-  `INT_PROP_2` INT(11) DEFAULT NULL,
-  `LONG_PROP_1` BIGINT(20) DEFAULT NULL,
-  `LONG_PROP_2` BIGINT(20) DEFAULT NULL,
-  `DEC_PROP_1` DECIMAL(13,4) DEFAULT NULL,
-  `DEC_PROP_2` DECIMAL(13,4) DEFAULT NULL,
-  `BOOL_PROP_1` VARCHAR(1) DEFAULT NULL,
-  `BOOL_PROP_2` VARCHAR(1) DEFAULT NULL,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `STR_PROP_1` varchar(512) DEFAULT NULL,
+  `STR_PROP_2` varchar(512) DEFAULT NULL,
+  `STR_PROP_3` varchar(512) DEFAULT NULL,
+  `INT_PROP_1` int(11) DEFAULT NULL,
+  `INT_PROP_2` int(11) DEFAULT NULL,
+  `LONG_PROP_1` bigint(20) DEFAULT NULL,
+  `LONG_PROP_2` bigint(20) DEFAULT NULL,
+  `DEC_PROP_1` decimal(13,4) DEFAULT NULL,
+  `DEC_PROP_2` decimal(13,4) DEFAULT NULL,
+  `BOOL_PROP_1` varchar(1) DEFAULT NULL,
+  `BOOL_PROP_2` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `qrtz_triggers` */
 
 DROP TABLE IF EXISTS `qrtz_triggers`;
 
 CREATE TABLE `qrtz_triggers` (
-  `SCHED_NAME` VARCHAR(120) NOT NULL,
-  `TRIGGER_NAME` VARCHAR(200) NOT NULL,
-  `TRIGGER_GROUP` VARCHAR(200) NOT NULL,
-  `JOB_NAME` VARCHAR(200) NOT NULL,
-  `JOB_GROUP` VARCHAR(200) NOT NULL,
-  `DESCRIPTION` VARCHAR(250) DEFAULT NULL,
-  `NEXT_FIRE_TIME` BIGINT(13) DEFAULT NULL,
-  `PREV_FIRE_TIME` BIGINT(13) DEFAULT NULL,
-  `PRIORITY` INT(11) DEFAULT NULL,
-  `TRIGGER_STATE` VARCHAR(16) NOT NULL,
-  `TRIGGER_TYPE` VARCHAR(8) NOT NULL,
-  `START_TIME` BIGINT(13) NOT NULL,
-  `END_TIME` BIGINT(13) DEFAULT NULL,
-  `CALENDAR_NAME` VARCHAR(200) DEFAULT NULL,
-  `MISFIRE_INSTR` SMALLINT(2) DEFAULT NULL,
-  `JOB_DATA` BLOB,
+  `SCHED_NAME` varchar(120) NOT NULL,
+  `TRIGGER_NAME` varchar(200) NOT NULL,
+  `TRIGGER_GROUP` varchar(200) NOT NULL,
+  `JOB_NAME` varchar(200) NOT NULL,
+  `JOB_GROUP` varchar(200) NOT NULL,
+  `DESCRIPTION` varchar(250) DEFAULT NULL,
+  `NEXT_FIRE_TIME` bigint(13) DEFAULT NULL,
+  `PREV_FIRE_TIME` bigint(13) DEFAULT NULL,
+  `PRIORITY` int(11) DEFAULT NULL,
+  `TRIGGER_STATE` varchar(16) NOT NULL,
+  `TRIGGER_TYPE` varchar(8) NOT NULL,
+  `START_TIME` bigint(13) NOT NULL,
+  `END_TIME` bigint(13) DEFAULT NULL,
+  `CALENDAR_NAME` varchar(200) DEFAULT NULL,
+  `MISFIRE_INSTR` smallint(2) DEFAULT NULL,
+  `JOB_DATA` blob,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`),
   KEY `IDX_QRTZ_T_J` (`SCHED_NAME`,`JOB_NAME`,`JOB_GROUP`),
   KEY `IDX_QRTZ_T_JG` (`SCHED_NAME`,`JOB_GROUP`),
@@ -296,85 +296,85 @@ CREATE TABLE `qrtz_triggers` (
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_STATE`),
   KEY `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP` (`SCHED_NAME`,`MISFIRE_INSTR`,`NEXT_FIRE_TIME`,`TRIGGER_GROUP`,`TRIGGER_STATE`),
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `sys_comp` */
 
 DROP TABLE IF EXISTS `sys_comp`;
 
 CREATE TABLE `sys_comp` (
-  `comp_id` BIGINT(20) NOT NULL COMMENT '公司主键id',
-  `parent_id` BIGINT(20) DEFAULT NULL COMMENT '上级公司ID，一级公司为0',
-  `name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '公司名称',
-  `remark` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '描述',
-  `order_num` INT(11) DEFAULT NULL COMMENT '排序',
-  `del_flag` CHAR(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
-  `status` CHAR(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `create_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '',
-  `update_by` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '',
-  `update_time` DATETIME DEFAULT NULL,
+  `comp_id` bigint(20) NOT NULL COMMENT '公司主键id',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级公司ID，一级公司为0',
+  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '公司名称',
+  `remark` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '描述',
+  `order_num` int(11) DEFAULT NULL COMMENT '排序',
+  `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
+  `status` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '',
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`comp_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='公司表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='公司表';
 
 /*Table structure for table `sys_comp_dept` */
 
 DROP TABLE IF EXISTS `sys_comp_dept`;
 
 CREATE TABLE `sys_comp_dept` (
-  `id` BIGINT(20) NOT NULL COMMENT '主键id',
-  `comp_id` BIGINT(20) DEFAULT NULL COMMENT '公司ID',
-  `dept_id` BIGINT(20) DEFAULT NULL COMMENT '地区ID',
+  `id` bigint(20) NOT NULL COMMENT '主键id',
+  `comp_id` bigint(20) DEFAULT NULL COMMENT '公司ID',
+  `dept_id` bigint(20) DEFAULT NULL COMMENT '地区ID',
   PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='公司对应地区关系';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='公司对应地区关系';
 
 /*Table structure for table `sys_config` */
 
 DROP TABLE IF EXISTS `sys_config`;
 
 CREATE TABLE `sys_config` (
-  `id` BIGINT(20) NOT NULL COMMENT '主键',
-  `param_name` VARCHAR(100) CHARACTER SET utf8 DEFAULT '' COMMENT '参数名称',
-  `param_key` VARCHAR(50) CHARACTER SET utf8 DEFAULT '' COMMENT '参数Key',
-  `param_value` VARCHAR(10000) CHARACTER SET utf8 DEFAULT '' COMMENT '参数值 Value',
-  `config_type` CHAR(1) CHARACTER SET utf8 DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
-  `del_flag` CHAR(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
-  `remark` VARCHAR(500) CHARACTER SET utf8 DEFAULT '' COMMENT '备注',
-  `create_by` VARCHAR(64) CHARACTER SET utf8 DEFAULT '' COMMENT '创建者',
-  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
-  `update_time` DATETIME DEFAULT NULL COMMENT '更新者',
-  `update_by` VARCHAR(64) CHARACTER SET utf8 DEFAULT '' COMMENT '更新时间',
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `param_name` varchar(100) CHARACTER SET utf8 DEFAULT '' COMMENT '参数名称',
+  `param_key` varchar(50) CHARACTER SET utf8 DEFAULT '' COMMENT '参数Key',
+  `param_value` varchar(10000) CHARACTER SET utf8 DEFAULT '' COMMENT '参数值 Value',
+  `config_type` char(1) CHARACTER SET utf8 DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
+  `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
+  `remark` varchar(500) CHARACTER SET utf8 DEFAULT '' COMMENT '备注',
+  `create_by` varchar(64) CHARACTER SET utf8 DEFAULT '' COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新者',
+  `update_by` varchar(64) CHARACTER SET utf8 DEFAULT '' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `param_key` (`param_key`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统配置信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统配置信息表';
 
 /*Table structure for table `sys_dept` */
 
 DROP TABLE IF EXISTS `sys_dept`;
 
 CREATE TABLE `sys_dept` (
-  `dept_id` BIGINT(20) NOT NULL COMMENT '主键id',
-  `parent_id` BIGINT(20) DEFAULT NULL COMMENT '上级部门ID，一级部门为0',
-  `name` VARCHAR(50) CHARACTER SET utf8 DEFAULT '' COMMENT '部门名称',
-  `type` INT(11) DEFAULT NULL COMMENT '类型  0: 地区 1:线路',
-  `order_num` INT(11) DEFAULT NULL COMMENT '排序',
-  `del_flag` CHAR(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
-  `status` CHAR(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_time` DATETIME DEFAULT NULL,
-  `create_by` VARCHAR(64) CHARACTER SET utf8 DEFAULT '',
-  `update_by` VARCHAR(64) CHARACTER SET utf8 DEFAULT '',
-  `update_time` DATETIME DEFAULT NULL,
-  `remark` VARCHAR(200) CHARACTER SET utf8 DEFAULT '',
+  `dept_id` bigint(20) NOT NULL COMMENT '主键id',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级部门ID，一级部门为0',
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT '' COMMENT '部门名称',
+  `type` int(11) DEFAULT NULL COMMENT '类型  0: 地区 1:线路',
+  `order_num` int(11) DEFAULT NULL COMMENT '排序',
+  `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志 0：正常 1：删除',
+  `status` char(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_time` datetime DEFAULT NULL,
+  `create_by` varchar(64) CHARACTER SET utf8 DEFAULT '',
+  `update_by` varchar(64) CHARACTER SET utf8 DEFAULT '',
+  `update_time` datetime DEFAULT NULL,
+  `remark` varchar(200) CHARACTER SET utf8 DEFAULT '',
   PRIMARY KEY (`dept_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='部门管理/地区管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='部门管理/地区管理';
 
 /*Table structure for table `sys_dict_data` */
 
 DROP TABLE IF EXISTS `sys_dict_data`;
 
 CREATE TABLE `sys_dict_data` (
-  `dict_code` BIGINT(20) NOT NULL COMMENT '字典主键',
-  `dict_sort` INT(4) DEFAULT '0' COMMENT '字典排序',
+  `dict_code` bigint(20) NOT NULL COMMENT '字典主键',
+  `dict_sort` int(4) DEFAULT '0' COMMENT '字典排序',
   `dict_label` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典标签',
   `dict_value` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典键值',
   `dict_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT '' COMMENT '字典类型',
@@ -547,6 +547,27 @@ CREATE TABLE `sys_module` (
   PRIMARY KEY (`id`,`module_code`),
   UNIQUE KEY `module_code` (`module_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='模块表';
+
+/*Table structure for table `sys_notice` */
+
+DROP TABLE IF EXISTS `sys_notice`;
+
+CREATE TABLE `sys_notice` (
+  `id` bigint(20) unsigned zerofill NOT NULL COMMENT '主键ID',
+  `notice_title` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公告标题',
+  `notice_tip_title` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公告提示栏',
+  `start_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '开始时间',
+  `end_time` timestamp NULL DEFAULT NULL COMMENT '结束时间',
+  `status` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态 0 正常 1关闭 2失效',
+  `create_by` varchar(64) COLLATE utf8mb4_bin DEFAULT '' COMMENT '创建者',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) COLLATE utf8mb4_bin DEFAULT '' COMMENT '更新者',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(200) COLLATE utf8mb4_bin DEFAULT '' COMMENT '备注',
+  `html_no` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '静态页编号',
+  `notice_type` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公告类型 0通知 1公告',
+  `notice_level` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '通过公告等级级别 0 普通 1紧急 2严重'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Table structure for table `sys_oper_log` */
 
