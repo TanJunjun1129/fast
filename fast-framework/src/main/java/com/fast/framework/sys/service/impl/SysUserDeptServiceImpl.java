@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fast.common.core.utils.MapUtil;
 import com.fast.framework.sys.service.SysUserDeptService;
-import com.fast.framework.annotation.DataSource;
 import com.fast.framework.sys.dao.SysUserDeptDao;
 import com.fast.framework.sys.entity.SysUserDeptEntity;
 

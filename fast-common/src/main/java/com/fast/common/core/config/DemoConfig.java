@@ -11,20 +11,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.fast.common.core.constants.ConfigConstant;
 import com.fast.common.core.utils.R;
-
 import cn.hutool.json.JSONUtil;
 
 /**
- * 演示模式禁止修改 删除 新增 操作 
+ * 演示模式禁止修改 删除 新增 操作
  * @author zhouzhou
  * @date 2020-03-13 14:42
  */
@@ -64,14 +61,15 @@ public class DemoConfig {
         }
 
         @Override
-        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, 
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
         		FilterChain filterChain) throws IOException, ServletException {
         	HttpServletRequest request = (HttpServletRequest)servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
             String url = request.getRequestURI();
+
             if("POST".equals(request.getMethod())) {
-            	String[] filters = post.split(",");
-            	 //判断是否包含
+                String[] filters = post.split(",");
+                //判断是否包含
                 for(String filter : filters){
                     if(url.indexOf(filter) != -1){
                         R r = R.error("10001", ConfigConstant.DEOM_MODE_PROMPT);
@@ -82,20 +80,21 @@ public class DemoConfig {
                     }
                 }
             }
-            
+
             if("GET".equals(request.getMethod())) {
-            	String[] filters = get.split(",");
-           	   //判断是否包含
-               for(String filter : filters){
-                   if(url.indexOf(filter) != -1){
-                       R r = R.error("10001", ConfigConstant.DEOM_MODE_PROMPT);
-                       String json = JSONUtil.toJsonStr(r);
-                       response.setContentType("application/json;charset=utf-8");
-                       response.getWriter().print(json);
-                       return;
-                   }
-               }
+                String[] filters = get.split(",");
+                //判断是否包含
+                for(String filter : filters){
+                    if(url.indexOf(filter) != -1){
+                        R r = R.error("10001", ConfigConstant.DEOM_MODE_PROMPT);
+                        String json = JSONUtil.toJsonStr(r);
+                        response.setContentType("application/json;charset=utf-8");
+                        response.getWriter().print(json);
+                        return;
+                    }
+                }
             }
+
             filterChain.doFilter(servletRequest, servletResponse);
         }
 

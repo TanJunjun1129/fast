@@ -1,6 +1,7 @@
 package com.fast.framework.config;
 
 import com.fast.common.core.datasources.MybatisPulsMetaObjectHandler;
+import com.fast.common.core.mutidatasource.annotaion.aop.MultiSourceAop;
 import com.fast.framework.utils.ShiroUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,14 @@ public class MybatisPlusConfig {
 				}
 			}
 		};
+	}
+
+	/**
+	 * 多数据源切换的aop
+	 */
+	@Bean
+	public MultiSourceAop multiSourceExAop() {
+		return new MultiSourceAop();
 	}
 	
 }

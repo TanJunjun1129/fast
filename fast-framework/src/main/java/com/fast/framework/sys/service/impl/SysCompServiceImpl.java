@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fast.framework.sys.service.SysCompDeptService;
 import com.fast.framework.sys.service.SysCompService;
@@ -22,7 +20,6 @@ import com.fast.framework.utils.ShiroUtils;
 import com.fast.common.core.base.entity.Ztree;
 import com.fast.common.core.utils.ToolUtil;
 import com.fast.framework.annotation.DataFilter;
-import com.fast.framework.annotation.DataSource;
 import com.fast.framework.sys.dao.SysCompDao;
 import com.fast.framework.sys.entity.SysCompEntity;
 import com.fast.framework.sys.entity.SysUserEntity;

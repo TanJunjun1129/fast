@@ -261,7 +261,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 			menuList = this.baseMapper.selectMenuList(menu);
 		}
 		else{
-			menuList = this.baseMapper.selectMenuListByUserId(userId,StrUtil.nullToEmpty(menu.getName()),menu.getHide());
+			menuList = this.baseMapper.selectMenuListByUserId(userId,menu.getName(),menu.getHide());
 		}
 		return menuList;
 	}

@@ -111,14 +111,14 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="javascript:void(0);" class="dropdown-toggle">
-                        <img src="${ctxStatic}${user.avatar?default("/statics/img/user2-160x160.jpg")}"
+                        <img src="${ctxStatic}<#if user.avatar?? && user.avatar!="">${user.avatar}<#else>/statics/img/user2-160x160.jpg</#if>"
                              class="user-image" alt="User Image">
                         <span class="hidden-xs">${user.name}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- 头像图片User image -->
                         <li class="user-header">
-                            <img src="${ctxStatic}${user.avatar?default("/statics/img/user2-160x160.jpg")}"
+                            <img src="${ctxStatic}<#if user.avatar?? && user.avatar!="">${user.avatar}<#else>/statics/img/user2-160x160.jpg</#if>"
                                  class="img-circle" alt="User Image">
                             <p>
                             <h4><@ctx.i18n text = "上次登陆时间"/> :

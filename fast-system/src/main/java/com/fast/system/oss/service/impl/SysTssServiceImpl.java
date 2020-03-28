@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fast.common.core.utils.PageUtil;
-import com.fast.framework.annotation.DataSource;
 import com.fast.common.core.page.Query;
 import com.fast.system.oss.dao.SysTssDao;
 import com.fast.system.oss.entity.SysTssEntity;
@@ -18,15 +17,13 @@ import com.fast.system.oss.service.SysTssService;
 public class SysTssServiceImpl extends ServiceImpl<SysTssDao, SysTssEntity> implements SysTssService {
 
 	@Override
-	@DataSource(name = "db1")
-	public PageUtil queryPage(Map<String, Object> params) {
+    public PageUtil queryPage(Map<String, Object> params) {
 		Page<SysTssEntity> page = this.baseMapper.selectPage(new Query<SysTssEntity>(params).getPage(),null);
 		return new PageUtil(page);
 	}
 
 	@Override
-	@DataSource(name = "db1")
-	public SysTssEntity selectByVs(String version) {
+    public SysTssEntity selectByVs(String version) {
 		return this.getOne(new QueryWrapper<SysTssEntity>().eq("version", version));
 	}
 

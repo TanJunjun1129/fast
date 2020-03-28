@@ -104,7 +104,7 @@ public class SysConfigController extends AbstractController {
 		}
 		config.setCreateBy(getUser().getUsername());
 		config.setCreateTime(new Date());
-		sysConfigService.save(config);
+		sysConfigService.insert(config);
 		return R.ok();
 	}
 

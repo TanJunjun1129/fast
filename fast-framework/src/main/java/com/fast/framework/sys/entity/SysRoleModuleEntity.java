@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class SysRoleModuleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     private Long roleId;

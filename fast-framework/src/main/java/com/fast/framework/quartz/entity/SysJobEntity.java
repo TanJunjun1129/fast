@@ -69,6 +69,13 @@ public class SysJobEntity extends BaseEntity {
 	 */
 	private String status;
 
+	public String getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
 
 	/**
 	 * 设置：任务id

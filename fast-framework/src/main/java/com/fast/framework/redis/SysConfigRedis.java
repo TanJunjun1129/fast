@@ -1,6 +1,7 @@
 package com.fast.framework.redis;
 
 import com.fast.framework.sys.entity.SysDictDataEntity;
+import com.fast.framework.sys.entity.SysNoticeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.fast.common.core.utils.RedisUtil;
@@ -38,6 +39,24 @@ public class SysConfigRedis {
 	public List<SysDictDataEntity> getRedisDict(String dictKey){
 		String key = RedisKeys.getDictConfigKey(dictKey);
 		return redisUtil.get(key, List.class);
+	}
+
+	public List<SysNoticeEntity> getRedisNotice(){
+		String key = RedisKeys.getNoticeKey();
+		return redisUtil.get(key, List.class);
+	}
+
+	public void saveOrUpdateNotice(List<SysNoticeEntity> notices, long time){
+		if (notices == null) {
+			return;
+		}
+		String key = RedisKeys.getNoticeKey();
+		redisUtil.set(key, notices,time);
+	}
+
+	public void delNotice(){
+		String key = RedisKeys.getNoticeKey();
+		redisUtil.delete(key);
 	}
 
 	public void delRedisDict(String dictKey) {

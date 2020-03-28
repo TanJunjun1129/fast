@@ -11,6 +11,13 @@ $(document).ready(function(){
 		var phone=/^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
 		return this.optional(element)||(length == 11 && phone.test(value));
 	},"请填写正确的11位手机号");
+
+	jQuery.validator.addMethod("compareDate",function(value, element, param){
+		var target = $( param ).val();;
+		var date1 = new Date(Date.parse(target.replace("-", "/")));
+		var date2 = new Date(Date.parse(value.replace("-", "/")));
+		return (date1 < date2) && (date2 > new Date());
+	});
 	//电话号码验证
 	jQuery.validator.addMethod("isTel",function(value,element){
 		var tel = /^(0\d{2,3}-)?\d{7,8}$/g;//区号3,4位,号码7,8位

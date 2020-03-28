@@ -20,7 +20,7 @@
             <label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级地区：</label>
             <div class="col-sm-8">
                 <div class="input-group">
-                    <input class="form-control" type="text" onclick="selectDeptTree()" id="treeName" readonly="true" value="${dept.parentName?default("")}">
+                    <input class="form-control" type="text" <#if dept.deptId != 1> onclick="selectDeptTree()" </#if> id="treeName" readonly="true" value="${dept.parentName?default("")}">
                     <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
                 </div>
             </div>

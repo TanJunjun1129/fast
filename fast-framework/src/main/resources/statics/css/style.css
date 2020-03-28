@@ -376,6 +376,14 @@ em{
     width: 100%;
     text-align: center;
 }
+
+.login-beian{
+    width:400px;
+    margin:0 auto;
+    padding:20px 0;
+    font-size: 12px;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
 .count-info .label {
     line-height: 12px;
     padding: 1px 5px;
@@ -3164,7 +3172,7 @@ body {
 }
 
 html, body {
-    height: auto;
+    height: 100%;
 }
 
 body.full-height-layout #wrapper, body.full-height-layout #page-wrapper {

@@ -107,9 +107,6 @@
                             actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "启用"/>" onclick="enable(\'' + row.userId + '\')"><i class="glyphicon glyphicon-ok-circle"></i></a> ');
                         }
                         actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="opt.operate.del(\'' + row.userId + '\')"><i class="fa fa-trash-o"></i></a> ');
-
-                        <#--var info = "<a  class='btn btn-default btn-xs' onclick='resetPwd(\"" + row.userId + "\");'><i class='fa icon-key'></i> <@ctx.i18n text = "重置密码"/></a>";-->
-                        <#--info += "<a  class='btn btn-default btn-xs' onclick='authRole(\"" + row.userId +"\");'><i class='fa icon-check'></i> <@ctx.i18n text = "分配角色"/></a>";-->
                         var info = "<a  class='btn btn-default btn-xs' onclick=javascript:resetPwd(\'" + row.userId + "\');><i class='fa icon-key'></i> <@ctx.i18n text = "重置密码"/></a>&nbsp;";
                         info += "<a  class='btn btn-default btn-xs' onclick=javascript:authRole(\'" + row.userId +"\');><i class='fa icon-check'></i> <@ctx.i18n text = "分配角色"/></a>";
                         actions.push('<a tabindex="0" class="' + resetPwdFlag + '" role="button" data-container="body" ' +

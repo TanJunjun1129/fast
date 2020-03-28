@@ -53,6 +53,7 @@
 <script>var baseURL = "${ctxStatic}" , _username = "<@shiro.principal property="username"/>"
 			, _unlock="${_unlock?default("0")}" , LockScreen = ${config.getKey('SYS_LOCK_SCEREEN')}</script>
 <body class="fixed hold-transition ${config.getKey('SYS_INDEX_SKINNAME','skin-blue')} sidebar-mini">
+<#include "/common/notice.html">
 <#include "/common/upgrade.html"><!-- 如果客户浏览器版本过低，则显示浏览器升级提示-->
 <div id="_menu" v-cloak>
 <div class="wrapper">

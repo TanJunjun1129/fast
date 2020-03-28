@@ -248,6 +248,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	}
 
 	@Override
+	public List<String> queryAllPerms(Long userId) {
+		return this.baseMapper.queryAllPerms(userId);
+	}
+
+	@Override
+	public SysUserEntity queryByUserName(String username) {
+		return this.baseMapper.queryByUserName(username);
+	}
+
+	@Override
+	public SysUserEntity queryByMobile(String mobile) {
+		return this.baseMapper.queryByMobile(mobile);
+	}
+
+	@Override
+	public SysUserEntity queryByEmail(String email) {
+		return this.baseMapper.queryByEmail(email);
+	}
+
+	@Override
 	public List<SysUserEntity> queryAllClear(Long compId) {
 		return baseMapper.queryAllClear(compId);
 	}

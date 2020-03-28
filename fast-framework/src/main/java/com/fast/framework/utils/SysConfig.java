@@ -1,5 +1,8 @@
 package com.fast.framework.utils;
 
+import com.fast.common.core.utils.SpringUtil;
+import com.fast.framework.sys.entity.SysNoticeEntity;
+import com.fast.framework.sys.service.SysNoticeService;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -50,11 +53,16 @@ public class SysConfig {
 	public String getKey(String key) {
 		return Global.getDbKey(key);
 	}
+
 	public String getKey(String key,String default0) {
 		return Global.getDbKey(key,default0);
 	}
 
 	public boolean optimize(){
 		return Global.optimize();
+	}
+
+	public SysNoticeEntity getSysNotice(){
+		return SpringUtil.getBean(SysNoticeService.class).getNotice();
 	}
 }

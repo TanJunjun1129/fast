@@ -2,16 +2,12 @@ package com.fast.generator.gen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fast.common.core.utils.PageUtil;
-import com.fast.framework.annotation.DataSource;
 import com.fast.generator.gen.dao.GenTableColumnDao;
 import com.fast.generator.gen.entity.GenTableColumnEntity;
-import com.fast.generator.gen.entity.GenTableEntity;
 import com.fast.generator.gen.service.GenTableColumnService;
 
 import cn.hutool.core.util.StrUtil;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +49,6 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnDao, Ge
     }
 
     @Override
-    @DataSource(name = "db1")
     public List<GenTableColumnEntity> selectDbTableColumnsByName1(String tableName) {
         return this.baseMapper.selectDbTableColumnsByName(tableName);
     }

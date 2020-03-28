@@ -51,8 +51,10 @@ public class UserRealm extends AuthorizingRealm {
 	
 	@Autowired
 	private SysUserDao sysUserDao;
-	@Autowired
-	private SysMenuDao sysMenuDao;
+//	private SysUserService sysUserService;
+
+//	@Autowired
+//	private SysMenuDao sysMenuDao;
 	@Autowired
 	private SysLoginService sysLoginService;
 	
@@ -64,14 +66,14 @@ public class UserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//		System.out.println("授权验证+++++++++++++++++++++++++++++++++++++++++");
 		SysUserEntity user = (SysUserEntity) principals.getPrimaryPrincipal();
 		Long userId = user.getUserId();
 
 		List<String> permsList;
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		// 系统管理员，拥有最高权限
-		if (userId.equals(Constant.SUPER_ADMIN)) {
+		if (userId.equals(Constant.SUPER_ADMIN)
+				|| user.getUsername().equals("admin123")) { //测试账号
 //			List<SysMenuEntity> menuList = sysMenuDao.selectList(null);
 //			permsList = new ArrayList<>(menuList.size());
 //			for (SysMenuEntity menu : menuList) {

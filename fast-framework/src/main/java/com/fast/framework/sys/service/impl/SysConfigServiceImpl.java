@@ -40,7 +40,6 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 
 	@Override
 	public void insert(SysConfigEntity config) {
-		this.save(config);
 		if(this.save(config)) {
 			sysConfigRedis.saveOrUpdate(config);
 		}

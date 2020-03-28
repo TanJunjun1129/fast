@@ -1,4 +1,6 @@
 package com.fast.common.core.crypto;
+import cn.hutool.core.codec.Base64;
+import org.apache.logging.log4j.util.Base64Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fast.common.core.utils.HexUtil;
@@ -183,8 +185,9 @@ public class EnctryptTools {
 		String block =  HexUtil.bytesToHexStr(res, 0, 0).toUpperCase();
 		LOG.info("mab_data:" + block);
 		byte mode = 0;
-		if(macKye.length == 16)
-			 mode = 2;
+		if(macKye.length == 16) {
+			mode = 2;
+		}
 		byte[] mes = EncryptUtil.doEncrypt(mode, macKye, res, null);
 		/**将运算后的结果（ENC BLOCK2）转换成16 个HEXDECIMAL 取前16个字节作为MAC值*/
 		return HexUtil.bytesToHexStr(mes, 0, 8).toUpperCase();
@@ -301,7 +304,9 @@ public class EnctryptTools {
     	
     	byte[] Pinblock = EncryptUtil.formatPinblock(pan,pin);
     	
-		if(mode >= 2) LOG.info("Pinblock:" + HexUtil.convertByteArrayToHexStr(Pinblock));
+		if(mode >= 2) {
+			LOG.info("Pinblock:" + HexUtil.convertByteArrayToHexStr(Pinblock));
+		}
 		
 		byte[] LK = new byte[8];  //可以分为LK（密钥的左边8字节）,
 		System.arraycopy(key, 0, LK, 0, 8);
@@ -321,7 +326,9 @@ public class EnctryptTools {
 		
 		byte[]  DEST = EncryptUtil.doEncrypt(EncryptConst.ENCRY_DES_ECB, RK, TMP2, null); 
 		
-		if(mode >= 2) LOG.info("加密后密文:" + HexUtil.convertByteArrayToHexStr(DEST).toUpperCase());
+		if(mode >= 2) {
+			LOG.info("加密后密文:" + HexUtil.convertByteArrayToHexStr(DEST).toUpperCase());
+		}
 		return HexUtil.convertByteArrayToHexStr(DEST).toUpperCase();
     }
     
@@ -439,4 +446,155 @@ public class EnctryptTools {
 		//3.转换16进制
 		return HexUtil.convertByteArrayToHexStr(pinm);
 	}
+
+
+	/**
+	 * 密文解密成明文
+	 * @param str b64 字符
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static String DesDecode(String str,String key) throws Exception{
+		//
+		int datalen = key.getBytes().length;
+		datalen += (16 - datalen % 16) % 16; //不足16位不足16位
+		byte[] secdata = new byte[datalen];
+		System.arraycopy(key.getBytes(), 0, secdata, 0, key.getBytes().length);
+		for (int i = key.getBytes().length; i < datalen; i++)
+		{
+			secdata[i] = 0x00;
+		}
+		byte[] res = new byte[16];
+		byte[] temp = new byte[16];
+
+		/**按每8个字节做异或 **/
+		int arrayLen = datalen / 16;
+		for (int i = 0; i < arrayLen; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				temp[j] = secdata[i * 16 + j];
+				temp[j] ^= res[j];
+			}
+		}
+		byte[] rd = Base64.decode(str);
+		byte[] send = new byte[rd.length + (8 -rd.length % 8)%8];
+		System.arraycopy(rd, 0, send, 0, rd.length);
+		byte[] value = EncryptUtil.doDecrypt((byte)2,temp,send, null);
+		value = HexUtil.trimLast0x00(value);
+		return new String(value);
+	}
+
+
+	/**
+	 * 密文解密成明文
+	 * @param str b64 字符
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public static String SM4Decode(String str,String key) throws Exception{
+		//
+		int datalen = key.getBytes().length;
+		datalen += (16 - datalen % 16) % 16; //不足16位不足16位
+		byte[] secdata = new byte[datalen];
+		System.arraycopy(key.getBytes(), 0, secdata, 0, key.getBytes().length);
+		for (int i = key.getBytes().length; i < datalen; i++)
+		{
+			secdata[i] = 0x00;
+		}
+		byte[] res = new byte[16];
+		byte[] temp = new byte[16];
+
+		/**按每8个字节做异或 **/
+		int arrayLen = datalen / 16;
+		for (int i = 0; i < arrayLen; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				temp[j] = secdata[i * 16 + j];
+				temp[j] ^= res[j];
+			}
+		}
+		byte[] rd = Base64.decode(str);
+		byte[] send = new byte[rd.length + (16 -rd.length % 16)%16];
+		System.arraycopy(rd, 0, send, 0, rd.length);
+		byte[] value = new byte[send.length];
+		SM4.GMSM4(send, send.length, temp, value, SM4.DECRYPT);
+		value = HexUtil.trimLast0x00(value);
+		return new String(value);
+	}
+
+	/**
+	 *明文变成加密密文
+	 * @param str 明文
+	 * @param key 密钥
+	 * @return
+	 * @throws Exception
+	 */
+	public static String DesEncode(String str, String key) throws Exception{
+		int datalen = key.getBytes().length;
+		//不足16位不足16位
+		datalen += (16 - datalen % 16) % 16;
+		byte[] secdata = new byte[datalen];
+		System.arraycopy(key.getBytes(), 0, secdata, 0, key.getBytes().length);
+		for (int i = key.getBytes().length; i < datalen; i++)
+		{
+			secdata[i] = 0x00;
+		}
+		byte[] res = new byte[16];
+		byte[] temp = new byte[16];
+
+		/**按每8个字节做异或 **/
+		int arrayLen = datalen / 16;
+		for (int i = 0; i < arrayLen; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				temp[j] = secdata[i * 16 + j];
+				temp[j] ^= res[j];
+			}
+		}
+
+		byte[] txtb = str.getBytes();
+		byte[] send = new byte[txtb.length + (8 - txtb.length % 8) % 8];
+		System.arraycopy(txtb, 0, send, 0, txtb.length);
+		byte[] value = EncryptUtil.doEncrypt((byte)2,temp,send, null);
+		return Base64.encode(value);
+	}
+
+	public static String SM4Encode(String str, String key) throws Exception{
+		int datalen = key.getBytes().length;
+		//不足16位不足16位
+		datalen += (16 - datalen % 16) % 16;
+		byte[] secdata = new byte[datalen];
+		System.arraycopy(key.getBytes(), 0, secdata, 0, key.getBytes().length);
+		for (int i = key.getBytes().length; i < datalen; i++)
+		{
+			secdata[i] = 0x00;
+		}
+		byte[] res = new byte[16];
+		byte[] temp = new byte[16];
+
+		/**按每8个字节做异或 **/
+		int arrayLen = datalen / 16;
+		for (int i = 0; i < arrayLen; i++)
+		{
+			for (int j = 0; j < 16; j++)
+			{
+				temp[j] = secdata[i * 16 + j];
+				temp[j] ^= res[j];
+			}
+		}
+
+		byte[] txtb = str.getBytes();
+		byte[] send = new byte[txtb.length + (16 - txtb.length % 16) % 16];
+		System.arraycopy(txtb, 0, send, 0, txtb.length);
+
+		byte[] value = new byte[send.length];
+		SM4.GMSM4(send, send.length, temp, value, SM4.ENCRYPT);
+		return Base64.encode(value);
+	}
+
 }

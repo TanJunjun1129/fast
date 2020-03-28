@@ -29,10 +29,11 @@ public class EncryptUtil
 		byte[] pinBlock;
 		if (pinFmt == EncryptConst.ENCRY_PIN_ANSI98)
 		{
-			if (accountNo != null)
+			if (accountNo != null) {
 				pinBlock = formatPinblockToPwd(accountNo, pin);
-			else
+			} else {
 				pinBlock = formatPIN(pin);
+			}
 		}
 		else if (pinFmt == EncryptConst.ENCRY_PIN_ISO9564_1)
 		{
@@ -82,8 +83,9 @@ public class EncryptUtil
 				System.arraycopy(byteKey, 0, keyValue, 0, 16);
 				return keyValue;
 			}
-			else
+			else {
 				return key.getEncoded();
+			}
 		}
 		catch (Exception e)
 		{
@@ -143,12 +145,15 @@ public class EncryptUtil
 	public static byte[] doEncrypt(byte mode, byte[] keyValue, byte[] data,
 			byte[] initIV) throws EncryptException
 	{
-		if (keyValue == null || keyValue.equals(""))
+		if (keyValue == null || keyValue.equals("")) {
 			throw new EncryptException("Encrypt key value cann't is null exception.");
-		if (data == null || data.equals(""))
+		}
+		if (data == null || data.equals("")) {
 			throw new EncryptException("Encrypt data cann't is null exception.");
-		if (data.length % 8 != 0)
+		}
+		if (data.length % 8 != 0) {
 			throw new EncryptException("Encrypt data length is invalid exception.");
+		}
 		try
 		{
 			String algorithm = "";
@@ -186,8 +191,9 @@ public class EncryptUtil
 				IvParameterSpec spec = new IvParameterSpec(iv);
 				cipher.init(Cipher.ENCRYPT_MODE, getKey(keyValue), spec);
 			}
-			else
+			else {
 				cipher.init(Cipher.ENCRYPT_MODE, getKey(keyValue));
+			}
 			byte[] raw = cipher.doFinal(data);
 			return raw;
 		}
@@ -209,12 +215,15 @@ public class EncryptUtil
      */
 	public static byte[] doDecrypt(byte mode, byte[] keyValue, byte[] raw,byte[] initIV) throws EncryptException
 	{
-		if (keyValue == null || keyValue.equals(""))
+		if (keyValue == null || keyValue.equals("")) {
 			throw new EncryptException("Decrypt key value cann't is null exception.");
-		if (raw == null || raw.equals(""))
+		}
+		if (raw == null || raw.equals("")) {
 			throw new EncryptException("Decrypt data cann't is null exception.");
-		if (raw.length % 8 != 0)
+		}
+		if (raw.length % 8 != 0) {
 			throw new EncryptException("Decrypt data length is invalid exception.");
+		}
 		try
 		{
 			String algorithm = "";
@@ -252,8 +261,9 @@ public class EncryptUtil
 				IvParameterSpec spec = new IvParameterSpec(iv);
 				cipher.init(Cipher.DECRYPT_MODE, getKey(keyValue), spec);
 			}
-			else
+			else {
 				cipher.init(Cipher.DECRYPT_MODE, getKey(keyValue));
+			}
 			byte[] data = cipher.doFinal(raw);
 			return data;
 		}
@@ -279,10 +289,12 @@ public class EncryptUtil
 		//	System.out.println("keyValue="+HexUtil.convertByteArrayToHexStr(keyValue));
 		//	System.out.println("data="+HexUtil.convertByteArrayToHexStr(data));
 	
-		if (keyValue == null || keyValue.equals(""))
+		if (keyValue == null || keyValue.equals("")) {
 			throw new EncryptException("generateMac key value cann't is null exception.");
-		if (data == null || data.equals(""))
+		}
+		if (data == null || data.equals("")) {
 			throw new EncryptException("generateMac data cann't is null exception.");
+		}
 		//if (mode != EncryptConst.ENCRY_MAC_ANSI99 && mode != EncryptConst.ENCRY_MAC_ANSI99)
 		if (mode != EncryptConst.ENCRY_MAC_ANSI99 && mode != EncryptConst.ENCRY_MAC_ANSI919)
 		{
@@ -484,8 +496,9 @@ public class EncryptUtil
 //                formatSM4PIN(pin));
         byte[] pinBlock = new byte[16];
         //System.out.println("--+:"+HexUtil.convertByteArrayToHexStr(accountNoPart));
-        for (int i = 0; i < 16; i++)
-            pinBlock[i] = (byte)(accountNoPart[i] ^ fmtPin[i]);
+        for (int i = 0; i < 16; i++) {
+			pinBlock[i] = (byte)(accountNoPart[i] ^ fmtPin[i]);
+		}
         return pinBlock;
     }
     
@@ -505,8 +518,9 @@ public class EncryptUtil
     			formatSM4AccountNo(accountNo)));
 		byte[] fmtPin = pin;
 		byte[] pinBlock = new byte[16];
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 16; i++) {
 			pinBlock[i] = (byte) (accountNoPart[i] ^ fmtPin[i]);
+		}
 		return pinBlock;
     }
     
@@ -518,8 +532,9 @@ public class EncryptUtil
 		byte[] fmtPin = HexUtil.convertHexStrToByteArray(new String(
 				formatPIN(pin)));
 		byte[] pinBlock = new byte[8];
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++) {
 			pinBlock[i] = (byte) (accountNoPart[i] ^ fmtPin[i]);
+		}
 		return pinBlock;
 	}
 	
@@ -529,8 +544,9 @@ public class EncryptUtil
 				formatAccountNo(accountNo)));
 		byte[] fmtPin = pin;
 		byte[] pinBlock = new byte[8];
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++) {
 			pinBlock[i] = (byte) (accountNoPart[i] ^ fmtPin[i]);
+		}
 		return pinBlock;
 	}
 	
@@ -586,9 +602,10 @@ public class EncryptUtil
 	public static byte[] encryptPIN(byte pinFmt, byte[] keyValue,
 			byte[] accountNo, byte[] pin) throws EncryptException
 	{
-		if (keyValue == null || keyValue.equals(""))
+		if (keyValue == null || keyValue.equals("")) {
 			throw new EncryptException(
 					"encryptPIN key value cann't is null exception.");
+		}
 		if (pin == null || pin.equals(""))
 			throw new EncryptException(
 					"encryptPIN pin cann't is null exception.");
@@ -597,10 +614,11 @@ public class EncryptUtil
 			byte[] pinBlock;
 			if (pinFmt == EncryptConst.ENCRY_PIN_ANSI98)
 			{
-				if (accountNo != null)
+				if (accountNo != null) {
 					pinBlock = formatPinblock(accountNo, pin);
-				else
+				} else {
 					pinBlock = formatPIN(pin);
+				}
 			}
 			else if (pinFmt == EncryptConst.ENCRY_PIN_ISO9564_1)
 			{

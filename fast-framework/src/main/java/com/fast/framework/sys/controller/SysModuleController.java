@@ -36,8 +36,7 @@ public class SysModuleController extends AbstractController {
 
     @RequiresPermissions("sys:module:view")
     @GetMapping()
-    public String module()
-    {
+    public String module() {
         return urlPrefix + "/module";
     }
 

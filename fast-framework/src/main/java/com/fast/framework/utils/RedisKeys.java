@@ -25,4 +25,8 @@ public class RedisKeys {
 		return "sys:dict:" + key;
 	}
 
+	public static String getNoticeKey(){
+		return "sys:notice";
+	}
+
 }

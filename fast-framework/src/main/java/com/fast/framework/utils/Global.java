@@ -82,6 +82,14 @@ public class Global {
         return StrUtil.blankToDefault(getConfig(ConfigConstant.SYS_CONFIG_PROFILE),"D:/fast/uploadPath");
     }
 
+    /**
+     * 获取上传路径
+     */
+    public static String getUploadPath()
+    {
+        return getProfile() + "/upload";
+    }
+
     public static String getConifgFile()
     {
         return StrUtil.blankToDefault(getConfig(ConfigConstant.SYS_CONFIG_FILE),"D:/fast/file");

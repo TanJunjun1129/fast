@@ -8,14 +8,12 @@ import com.fast.common.core.exception.RxcException;
 import com.fast.common.core.page.Query;
 import com.fast.common.core.utils.PageUtil;
 import com.fast.common.core.utils.ToolUtil;
-import com.fast.framework.annotation.DataSource;
 import com.fast.framework.utils.Global;
 import com.fast.generator.gen.dao.GenTableDao;
 import com.fast.generator.gen.entity.GenTableColumnEntity;
 import com.fast.generator.gen.entity.GenTableEntity;
 import com.fast.generator.gen.service.GenTableColumnService;
 import com.fast.generator.gen.service.GenTableService;
-import com.fast.generator.gen.util.GenConstants;
 import com.fast.generator.gen.util.GenUtils;
 import com.fast.generator.gen.util.VelocityInitializer;
 import com.fast.generator.gen.util.VelocityUtils;
@@ -35,8 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -237,7 +234,6 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableDao, GenTableEntity
     }
 
     @Override
-    @DataSource(name = "db1")
     public List<GenTableEntity> selectDbTableList1() {
         return this.baseMapper.selectDbTableList1();
     }
@@ -311,14 +307,12 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableDao, GenTableEntity
     }
 
     @Override
-    @DataSource(name = "db1")
     public List<GenTableEntity> selectDbTableListByNames1(String[] tableNames) {
         return this.baseMapper.selectDbTableListByNames(tableNames);
     }
 
 
     @Override
-    @DataSource(name = "db1")
     public PageUtil selectDbTablePage1(Map<String, Object> params,List<String> notList) {
         String tableName = (String) params.get("tableName");
         String tableComment = (String) params.get("tableComment");

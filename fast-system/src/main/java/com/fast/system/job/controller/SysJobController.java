@@ -41,9 +41,14 @@ public class SysJobController extends AbstractController {
 
 	@RequiresPermissions("sys:job:view")
 	@GetMapping()
-	public String job()
-	{
+	public String job() {
 		return urlPrefix + "/job";
+	}
+
+	@RequiresPermissions("sys:job:add")
+	@GetMapping("/cron")
+	public String cron() {
+		return urlPrefix + "/cron";
 	}
 
 

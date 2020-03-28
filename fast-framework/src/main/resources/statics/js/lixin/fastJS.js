@@ -1962,6 +1962,7 @@ if (typeof jQuery === "undefined") {
             $(this).popover();
         });
 
+
         // laydate 时间控件绑定
         if ($(".select-time").length > 0) {
             layui.use('laydate', function() {
@@ -1969,7 +1970,8 @@ if (typeof jQuery === "undefined") {
                 var startDate = laydate.render({
                     elem: '#startTime',
                     max: $('#endTime').val(),
-                    theme: 'molv',
+                    theme: 'default',
+                    type: $('#startTime').attr("data-type") || 'date',
                     trigger: 'click',
                     done: function(value, date) {
                         // 结束时间大于开始时间
@@ -1987,7 +1989,8 @@ if (typeof jQuery === "undefined") {
                 var endDate = laydate.render({
                     elem: '#endTime',
                     min: $('#startTime').val(),
-                    theme: 'molv',
+                    theme: 'default',
+                    type: $('#endTime').attr("data-type") || 'date',
                     trigger: 'click',
                     done: function(value, date) {
                         // 开始时间小于结束时间
@@ -1996,9 +1999,9 @@ if (typeof jQuery === "undefined") {
                             startDate.config.max.month = date.month - 1;
                             startDate.config.max.date = date.date;
                         } else {
-                            startDate.config.max.year = '';
-                            startDate.config.max.month = '';
-                            startDate.config.max.date = '';
+                            startDate.config.max.year = '2099';
+                            startDate.config.max.month = '12';
+                            startDate.config.max.date = '31';
                         }
                     }
                 });
@@ -2055,7 +2058,7 @@ if (typeof jQuery === "undefined") {
         // tree表格树 展开/折叠
         var expandFlag;
         $("#expandAllBtn").click(function() {
-            var dataExpand = opt.common.isEmpty(table.options.expandAll) ? true : table.options.expandAll;
+            var dataExpand = opt.common.isEmpty(opt.table.options.expandAll) ? true : opt.table.options.expandAll;
             expandFlag = opt.common.isEmpty(expandFlag) ? dataExpand : expandFlag;
             if (!expandFlag) {
                 $.bttTable.bootstrapTreeTable('expandAll');

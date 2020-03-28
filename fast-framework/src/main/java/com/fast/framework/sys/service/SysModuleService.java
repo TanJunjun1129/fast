@@ -55,7 +55,7 @@ public class SysModuleService  extends ServiceImpl<SysModuleMapper,SysModuleEnti
         List<SysModuleEntity> modules = null;
         if(!user.getUserId().equals(Constant.SUPER_ADMIN)){
             List<Long> rs =  ShiroUtils.getUserEntity().getRoleIdList();
-            modules = this.baseMapper.selectSysModuleListByRoleId(rs);
+            modules = this.baseMapper.selectSysModuleByRoleId(rs);
         }else{
             modules = this.list(new QueryWrapper<SysModuleEntity>().eq("status","0"));
         }

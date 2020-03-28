@@ -5,6 +5,7 @@
 <head>
   <#import "/common/springctx.ftl" as ctx>
   <meta charset="utf-8">
+  <meta name="keywords" content="J2eeFastOs"/><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>${config.getTitle()}</title>
   <#--Tell the browser to be responsive to screen width -->
@@ -15,6 +16,8 @@
   <link rel="stylesheet" href="${ctxStatic}/statics/css/font-awesome.min.css?V=${config.getDvVersion()}">
   <#-- Ionicons -->
   <link rel="stylesheet" href="${ctxStatic}/statics/css/Ionicons/css/ionicons.min.css?V=${config.getDvVersion()}">
+  <#--animate 样式-->
+  <link rel="stylesheet" href="${ctxStatic}/statics/css/animate.css?V=${config.getDvVersion()}"/>
   <#-- Theme style -->
   <link rel="stylesheet" href="${ctxStatic}/statics/css/AdminLTE.min.css?V=${config.getDvVersion()}">
   <#-- iCheck -->
@@ -37,6 +40,7 @@
   <style>[v-cloak]{display:none !important;}</style>
 </head>
 <body class="hold-transition login-page">
+<#include "/common/notice.html">
 <#include "/common/upgrade.html"><!-- 如果客户浏览器版本过低，则显示浏览器升级提示-->
 <div class="login-box" id="app" v-cloak>
   <div class="login-logo">
@@ -114,7 +118,7 @@
 </div>
 <div class="login-footer">
     Copyright &copy; 2018-${config.getCopyrightYear()} ${config.getCompany()}<br>
-    <a href="http://www.beian.miit.gov.cn/" class="text-black" target="_blank">${config.getIPC()}</a>
+    <div class="login-beian"><img src="${ctxStatic}/statics/img/batb.png"/><a class="text-black" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202012286">沪公网安备 31011202012286号</a>&nbsp;&nbsp;<a href="http://www.beian.miit.gov.cn/" class="text-black" target="_blank">${config.getIPC()}</a></div>
 </div>
 <#--jQuery 3 -->
 <script src="${ctxStatic}/statics/libs/jquery.min.js?V=${config.getDvVersion()}"></script>

@@ -81,6 +81,27 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * @return 结果
 	 */
 	int changeStatus(SysUserEntity user);
+
+
+	List<String> queryAllPerms(Long userId);
+
+
+	/**
+	 * 通过用户名查询用户
+	 */
+	SysUserEntity queryByUserName(String username);
+
+
+	/**
+	 * 通过用手机号码查询用户
+	 */
+	SysUserEntity queryByMobile(String mobile);
+
+
+	/**
+	 * 通过用邮箱查询用户
+	 */
+	SysUserEntity queryByEmail(String email);
 	/**
 	 * 
 	 * 用户登陆查询

@@ -153,6 +153,10 @@
 	clear: both;
 }
 
+.form-horizontal .row {
+	margin: 0 40px 0 -15px;
+}
+
 .dashboard-header h5 {
 	padding: 8px 0 0 0;
 	display: inline-block;
@@ -304,6 +308,30 @@
 	line-height: 1;
 }
 
+.time-label{
+	float: left;
+}
+.time-label span {
+	display: block;
+	margin: 5px 5px;
+	float: left;
+}
+.time-label input {
+	width: 100px;
+	float: left;
+}
+
+
+.time-label input {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: transparent;
+	outline: none;
+	height: 30px;
+	width: 150px;
+	padding-left: 5px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
 .box-main>.box-header .box-title {
 	font-size: 16px;
 	margin-bottom: 13px;

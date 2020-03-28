@@ -151,7 +151,7 @@ public class FileUploadUtil {
         int dirLastIndex = uploadDir.lastIndexOf("/") + 1;
         String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
         String pathFileName =  "/profile/" + currentDir + "/" + fileName;
-        return pathFileName;
+        return ToolUtil.path(pathFileName);
     }
 
 

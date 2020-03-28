@@ -65,6 +65,11 @@ public class SysPageController{
 		return "modules/sys/upbw/index";
 	}
 
+	@GetMapping("statics/notice/{htmlNo}")
+	public String statics(@PathVariable("htmlNo") String htmlNo)
+	{
+		return "modules/static/" + htmlNo;
+	}
 
 	@RequestMapping("login")
 	public String login() {

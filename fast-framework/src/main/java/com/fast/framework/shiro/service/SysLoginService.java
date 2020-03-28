@@ -36,6 +36,7 @@ public class SysLoginService {
 	
 	@Autowired
 	private SysUserDao sysUserDao;
+//	private SysUserService sysUserService;
 	
 	public SysUserEntity login(String username, String password) {
 	
@@ -87,10 +88,10 @@ public class SysLoginService {
 		if(!ShiroUtils.sha256(password, user.getSalt()).equals(user.getPassword())) { //密码不正确
 			if(number == null) {
 				number = 1;
-				redisUtil.set(RedisKeys.getUserLoginKey(user.getUsername()), number, redisUtil.MINUTE * Global.getLockTime());
+				redisUtil.set(RedisKeys.getUserLoginKey(user.getUsername()), number, RedisUtil.MINUTE * Global.getLockTime());
 			}else {
 				number++;
-				redisUtil.set(RedisKeys.getUserLoginKey(user.getUsername()), number, redisUtil.MINUTE * Global.getLockTime());
+				redisUtil.set(RedisKeys.getUserLoginKey(user.getUsername()), number, RedisUtil.MINUTE * Global.getLockTime());
 			}
 			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,user.getCompId(), "50004","账号或密码不正确,输入错误"+number+" 次!"));
 			if(number >= Global.getLoginNumCode()) { //错误3次

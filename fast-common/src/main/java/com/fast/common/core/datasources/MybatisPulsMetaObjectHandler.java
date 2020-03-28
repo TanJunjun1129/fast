@@ -58,7 +58,7 @@ public class MybatisPulsMetaObjectHandler  implements MetaObjectHandler {
      * 获取逻辑删除字段的默认值
      */
     protected Object getDefaultDelFlagValue() {
-        return 1 ;
+        return "0" ;
     }
     
     /**

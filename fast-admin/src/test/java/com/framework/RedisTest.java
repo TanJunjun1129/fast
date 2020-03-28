@@ -13,16 +13,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RedisTest {
-    @Autowired
-    private RedisUtil RedisUtil;
-
-    @Test
-    public void contextLoads() {
-        SysUserEntity user = new SysUserEntity();
-        user.setEmail("123456@qq.com");
-        RedisUtil.set("user", user);
-
-        System.out.println(ToStringBuilder.reflectionToString(RedisUtil.get("user", SysUserEntity.class)));
-    }
+//    @Autowired
+//    private RedisUtil RedisUtil;
+//
+//    @Test
+//    public void contextLoads() {
+//        SysUserEntity user = new SysUserEntity();
+//        user.setEmail("123456@qq.com");
+//        RedisUtil.set("user", user);
+//
+//        System.out.println(ToStringBuilder.reflectionToString(RedisUtil.get("user", SysUserEntity.class)));
+//    }
 
 }

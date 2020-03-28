@@ -9,6 +9,7 @@ import com.fast.common.core.license.service.LinuxServerInfos;
 import com.fast.common.core.license.service.WindowsServerInfos;
 import com.fast.common.core.utils.HexUtil;
 import com.fast.common.core.crypto.SM4;
+import com.fast.common.core.utils.ToolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,20 +100,21 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
          */
         private void getFastServerInfos() throws Exception {
 
+            if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
                 //操作系统类型
                 String osName = System.getProperty("os.name").toLowerCase();
                 AbstractServerInfos abstractServerInfos = null;
 
                 //根据不同操作系统类型选择不同的数据获取方法
                 if (osName.startsWith("windows")) {
-                        abstractServerInfos = new WindowsServerInfos();
+                    abstractServerInfos = new WindowsServerInfos();
                 } else if (osName.startsWith("linux")) {
-                        abstractServerInfos = new LinuxServerInfos();
+                    abstractServerInfos = new LinuxServerInfos();
                 }else{//其他服务器类型
-                        abstractServerInfos = new LinuxServerInfos();
+                    abstractServerInfos = new LinuxServerInfos();
                 }
                 abstractServerInfos.getServerInfos();
-
+            }
         }
 
         public  LicenseVerifyParam getVerifyParam(){

@@ -1,5 +1,12 @@
 package com.fast;
 
+import com.fast.common.core.config.MyEncryptablePropertyResolver;
+import com.fast.common.core.constants.ConfigConstant;
+import com.fast.common.core.crypto.MyEncryptablePropertyDetector;
+import com.fast.common.core.utils.HexUtil;
+import com.fast.common.core.utils.ToolUtil;
+import com.ulisesbocchio.jasyptspringboot.EncryptablePropertyDetector;
+import com.ulisesbocchio.jasyptspringboot.EncryptablePropertyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -7,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Description:项目启动入口
@@ -21,6 +30,7 @@ public class FastApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 
 		try {
+
 			SpringApplication.run(FastApplication.class, args);
 			System.out.println("-----------------------------------------------------\n"
 					+ "//             ┏┓   ┏┓					//\n"
@@ -53,4 +63,6 @@ public class FastApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(FastApplication.class);
 	}
+
+
 }

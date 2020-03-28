@@ -1,17 +1,15 @@
 package com.fast.framework.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-
 import com.fast.framework.utils.*;
-
 import com.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.TemplateException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,7 +50,6 @@ public class FreemarkerConfig {
 		configurer.setConfiguration(configuration);
 		return configurer;
 	}
-	
 	
 
 }

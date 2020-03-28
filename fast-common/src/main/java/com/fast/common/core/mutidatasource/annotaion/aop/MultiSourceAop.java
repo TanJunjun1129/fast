@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
@@ -19,6 +20,7 @@ import com.fast.common.core.utils.ToolUtil;
  * @author zhouzhou
  * @date 2020-03-12 09:58
  */
+@Aspect
 public class MultiSourceAop implements Ordered {
 
 	private final static Logger             LOG                        = LoggerFactory.getLogger(MultiSourceAop.class);
@@ -42,7 +44,7 @@ public class MultiSourceAop implements Ordered {
         this.names = names;
     }
 
-    @Pointcut(value = "@annotation(com.fast.common.core.mutidatasource.annotion.DataSource)")
+    @Pointcut(value = "@annotation(com.fast.common.core.mutidatasource.annotaion.DataSource)")
     private void cut() {
 
     }

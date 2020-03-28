@@ -9,7 +9,7 @@
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级公司：</label>
 		<div class="col-sm-8">
 			<div class="input-group">
-				<input class="form-control" type="text" onclick="selectCompTree()" id="compName" readonly="true" value="${comp.parentName?default("总公司")}">
+				<input class="form-control" type="text" <#if comp.compId != 1> onclick="selectCompTree()" </#if> id="compName" readonly="true" value="${comp.parentName?default("总公司")}">
 				<span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
 			</div>
 		</div>

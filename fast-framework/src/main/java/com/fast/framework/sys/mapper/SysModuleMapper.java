@@ -17,7 +17,7 @@ public interface SysModuleMapper extends BaseMapper<SysModuleEntity>{
 	/**
 	 * 通过权限ID获取模块
 	 */
-	List<SysModuleEntity> selectSysModuleListByRoleId(@Param("ids") List<Long> ids);
+	List<SysModuleEntity> selectSysModuleByRoleId(@Param("ids") List<Long> ids);
 	
 	/**
 	 * 修改状态

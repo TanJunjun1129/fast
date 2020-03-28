@@ -67,6 +67,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         
 		<!-- SpringWeb模块 -->
@@ -129,6 +135,13 @@
               <groupId>de.schlichtherle.truelicense</groupId>
               <artifactId>truelicense-core</artifactId>
           </dependency>
-      
+
+          <!-- 整合jasypt 配置文件加密-->
+          <dependency>
+              <groupId>com.github.ulisesbocchio</groupId>
+              <artifactId>jasypt-spring-boot-starter</artifactId>
+              <version>3.0.2</version>
+          </dependency>
+
   </dependencies>
 </project>

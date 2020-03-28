@@ -205,8 +205,9 @@ public class HexUtil extends cn.hutool.core.util.HexUtil{
 		 *******************************************************************/
 		static public byte[] intToBytes(int src,int len){
 			byte[] ret = new byte[len];
-			for(int i=0;i<ret.length;i++)
+			for(int i=0;i<ret.length;i++) {
 				ret[i] = (byte)(src >> (i*8) & 0xFF);
+			}
 			return ret;
 		}
 		
@@ -269,5 +270,31 @@ public class HexUtil extends cn.hutool.core.util.HexUtil{
 			}
 			return secdata;
 		}
+
+	/**
+	 * @author qianjf
+	 * @return byte[]
+	 * @param byte[] 功能：去掉byte数组最后的0x00
+	 */
+
+	public static byte[] trimLast0x00(byte[] src) {
+		if (src == null) {
+			return null;
+		}
+
+		byte dest[] = null;
+		for (int i = src.length - 1; i > 0; i--) {
+			if (src[i] == 0x00) {
+
+				continue;
+			} else {
+				dest = new byte[i + 1];
+				System.arraycopy(src, 0, dest, 0, i + 1);
+				break;
+			}
+
+		}
+		return dest;
+	}
 	
 }

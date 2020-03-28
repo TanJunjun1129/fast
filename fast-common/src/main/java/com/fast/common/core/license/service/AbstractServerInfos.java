@@ -35,8 +35,9 @@ public abstract class AbstractServerInfos {
         //再将机器码加密成16位字符串
         ConfigConstant.FAST_OS_SN = EnctryptTools.SM4Mac(temp.getBytes(),ConfigConstant.FAST_MAC_KEY);
 
-        ConfigConstant.FAST_IPS = this.getIpAddress();
+        ConfigConstant.KEY = EnctryptTools.SM4Mac(HexUtil.decodeHex(ConfigConstant.FAST_OS_SN),HexUtil.decodeHex(ConfigConstant.KEY));
 
+        ConfigConstant.FAST_IPS = this.getIpAddress();
     }
 
 

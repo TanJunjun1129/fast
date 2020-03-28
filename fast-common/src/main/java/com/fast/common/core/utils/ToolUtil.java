@@ -1,18 +1,19 @@
 package com.fast.common.core.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import com.fast.common.core.constants.ConfigConstant;
+import com.fast.common.core.license.service.AbstractServerInfos;
+import com.fast.common.core.license.service.LinuxServerInfos;
+import com.fast.common.core.license.service.WindowsServerInfos;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 
@@ -220,4 +221,118 @@ public class ToolUtil{
 		fileName = Md5Util.hash(fileName + System.nanoTime() + counter++);
 		return fileName;
 	}
+
+	public static void  getFastServerInfos() throws Exception {
+        if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
+            //操作系统类型
+            String osName = System.getProperty("os.name").toLowerCase();
+            AbstractServerInfos abstractServerInfos = null;
+
+            //根据不同操作系统类型选择不同的数据获取方法
+            if (osName.startsWith("windows")) {
+                abstractServerInfos = new WindowsServerInfos();
+            } else if (osName.startsWith("linux")) {
+                abstractServerInfos = new LinuxServerInfos();
+            }else{//其他服务器类型
+                abstractServerInfos = new LinuxServerInfos();
+            }
+            abstractServerInfos.getServerInfos();
+        }
+    }
+
+    /**
+     * 修正路径，将 \\ 或 / 等替换为 File.separator
+     * @param path 待修正的路径
+     * @return 修正后的路径
+     */
+    public static String path(String path){
+        String p = StringUtils.replace(path, "\\", "/");
+        p = StringUtils.join(StringUtils.split(p, "/"), "/");
+        if (!StringUtils.startsWithAny(p, "/") && StringUtils.startsWithAny(path, "\\", "/")){
+            p += "/";
+        }
+        if (!StringUtils.endsWithAny(p, "/") && StringUtils.endsWithAny(path, "\\", "/")){
+            p = p + "/";
+        }
+        if (path != null && path.startsWith("/")){
+            p = "/" + p; // linux下路径
+        }
+        return p;
+    }
+
+    /**
+     * 获取工程源文件所在路径
+     * @return
+     */
+    public static String getProjectPath(){
+        String projectPath = "";
+        try {
+            File file = ResourceUtil.getResource("").getFile();
+            if (file != null){
+                while(true){
+                    File f = new File(path(file.getPath() + "/src/main"));
+                    if (f.exists()){
+                        break;
+                    }
+                    f = new File(path(file.getPath() + "/target/classes"));
+                    if (f.exists()){
+                        break;
+                    }
+                    if (file.getParentFile() != null){
+                        file = file.getParentFile();
+                    }else{
+                        break;
+                    }
+                }
+                projectPath = file.toString();
+            }
+        } catch (FileNotFoundException e) {
+            // 忽略异常
+        } catch (IOException e) {
+            // 忽略异常
+        }
+        // 取不到，取当前工作路径
+        if (StringUtils.isBlank(projectPath)){
+            projectPath = System.getProperty("user.dir");
+        }
+        return projectPath;
+    }
+
+    /**
+     * 获取工程源文件所在路径
+     * @return
+     */
+    public static String getWebappPath(){
+        String webappPath = "";
+        try {
+            File file = ResourceUtil.getResource("").getFile();
+            if (file != null){
+                while(true){
+                    File f = new File(path(file.getPath() + "/WEB-INF/classes"));
+                    if (f.exists()){
+                        break;
+                    }
+                    f = new File(path(file.getPath() + "/src/main/webapp"));
+                    if (f.exists()){
+                        return f.getPath();
+                    }
+                    if (file.getParentFile() != null){
+                        file = file.getParentFile();
+                    }else{
+                        break;
+                    }
+                }
+                webappPath = file.toString();
+            }
+        } catch (FileNotFoundException e) {
+            // 忽略异常
+        } catch (IOException e) {
+            // 忽略异常
+        }
+        // 取不到，取当前工作路径
+        if (StringUtils.isBlank(webappPath)){
+            webappPath = System.getProperty("user.dir");
+        }
+        return webappPath;
+    }
 }

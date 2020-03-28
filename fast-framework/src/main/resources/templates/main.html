@@ -42,10 +42,37 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#version" href="#v41">v2.0.2</a><code class="pull-right">2020.03.20</code>
+                                            <a data-toggle="collapse" data-parent="#version" href="#v41">v2.0.3</a><code class="pull-right">2020.03.28</code>
                                         </h5>
                                     </div>
                                     <div id="v41" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>1. fastjson升级1.2.61 阻止漏洞</li>
+                                                <li>2. 修复tab菜单关闭当前BUG</li>
+                                                <li>3. 修复浏览器版本底,提示页面404问题</li>
+                                                <li>4. 新增yml字段加密写法</li>
+                                                <li>5. 新增yml文件敏感信息加密处理</li>
+                                                <li>6. 新增信息加密测试类</li>
+                                                <li>7. 感谢@<u>wangyu</u> 提出问题，修改公司,地区 顶级节点报错问题</li>
+                                                <li>8. 修复树表格 展开/折叠 BUG</li>
+                                                <li>9. 升级Swagger到2.9.2 新增swagger-bootstrap-ui 优化接口展示</li>
+                                                <li>10. 新增公告发布功能.信息延迟推送，可设置时效性。</li>
+                                                <li>11. 修复修改头像点击多次弹出多个对话框情况</li>
+                                                <li>12. 修改定时任务可以选择cron执行表达式，方便添加任务</li>
+                                                <li>13. 统一处理前端传入日期格式转换</li>
+                                                <li>14. 修复若干细节</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v41">v2.0.2</a><code class="pull-right">2020.03.20</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v41" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <ol>
                                                 <li>1. 新增产品许可功能</li>
@@ -70,7 +97,7 @@
                                             <a data-toggle="collapse" data-parent="#version" href="#v00">v2.0.1</a><code class="pull-right">2020.03.01</code>
                                         </h4>
                                     </div>
-                                    <div id="v00" class="panel-collapse collapse in">
+                                    <div id="v00" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <ol>
                                                 <li>FAST云OS系统正式发布</li>
@@ -181,62 +208,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>订单</h5>
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-xs btn-white active">天</button>
-                            <button type="button" class="btn btn-xs btn-white">月</button>
-                            <button type="button" class="btn btn-xs btn-white">年</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <div class="flot-chart">
-                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <ul class="stat-list">
-                                <li>
-                                    <h2 class="no-margins">2,346</h2>
-                                    <small>订单总数</small>
-                                    <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i>
-                                    </div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 48%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h2 class="no-margins ">4,422</h2>
-                                    <small>最近一个月订单</small>
-                                    <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i>
-                                    </div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 60%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h2 class="no-margins ">9,180</h2>
-                                    <small>最近一个月销售额</small>
-                                    <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i>
-                                    </div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 22%;" class="progress-bar"></div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -446,8 +417,7 @@
 
         var previousPoint = null,
             previousLabel = null;
-
-        $.plot($("#flot-dashboard-chart"), dataset, options);
+        //$.plot($("#flot-dashboard-chart"), dataset, options);
     });
 </script>
 </@footer>

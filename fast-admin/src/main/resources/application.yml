@@ -82,7 +82,7 @@ mybatis-plus:
         call-setters-on-nulls: true
 #日志
 logging:
-    level: wang
+    level: info
     level.com.fast: info
     path: logs/
     file: fast.log

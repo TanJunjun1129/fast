@@ -108,6 +108,6 @@ public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
 	 *
 	 * @return 菜单列表
 	 */
-	List<SysMenuEntity> selectMenuListByUserId(@Param("userId") Long userId,@Param("name") String name,@Param("hide") int hide);
+	List<SysMenuEntity> selectMenuListByUserId(@Param("userId") Long userId,@Param("name") String name,@Param("hide") Integer hide);
 
 }
