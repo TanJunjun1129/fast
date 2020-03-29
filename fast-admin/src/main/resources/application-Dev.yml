@@ -6,7 +6,7 @@ fast:
         datasourceNames: db1#,db2,db3
     redis:
         #是否开启redis 内存数据库 <*推荐使用*>
-        enabled: false
+        enabled: true
     #是否演示模式
     demoMode:
         enabled: false
@@ -21,7 +21,7 @@ fast:
     #这种加密方法只能做到：防君子不防小人*/
     #此参数可以配置可以不配置,如果不配置则自动获取系统key,或者使用环境变量方式储存，使用启动命令方式,建议不配置key 让系统自己生成 因为系统是生成key是根居机器码,只有这台机器才能解密
     #需要加密的参数 DES{} 包裹 或者 SM4{} 包裹
-    encryptor:
+    encrypt:
         key:
     xss:
         # 过滤开关
