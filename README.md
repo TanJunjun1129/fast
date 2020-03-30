@@ -56,7 +56,9 @@ spring:
             driverClassName: com.mysql.cj.jdbc.Driver
             url: SM4(YPS0KwUcR6ZETrk1CkHPQydzrGO0WEGKb23G4SYdxRHfCqpDI+CrZfEhdxrjkLrH8TlmyqsC50mP/q4ZJzyJfauQIZ3AbsgQ3k/XzDwsrvSI+58c1UuMKaZW3zdIPj1wg+dUmfldaW4i3CQOfHGXwXL+hpVTIjpUBPZFewkPcnk=)
 ```
-
+ ***近期更新*** 
+> 新增百度编辑器ueditor替换原有编辑器,增加在线图片 删除功能
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0330/172554_56ac352b_1816537.png "屏幕截图.png")
 
 #### 安装教程
 
