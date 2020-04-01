@@ -57,9 +57,9 @@ spring:
             url: SM4(YPS0KwUcR6ZETrk1CkHPQydzrGO0WEGKb23G4SYdxRHfCqpDI+CrZfEhdxrjkLrH8TlmyqsC50mP/q4ZJzyJfauQIZ3AbsgQ3k/XzDwsrvSI+58c1UuMKaZW3zdIPj1wg+dUmfldaW4i3CQOfHGXwXL+hpVTIjpUBPZFewkPcnk=)
 ```
  ***近期更新*** 
+>  ***升级权限框架，采用Spring Security + Jwt 集成适配新的单点登录接口 重构项目架构模块 更新较慢 请持续关注！！！！***
 > 新增百度编辑器ueditor替换原有编辑器,增加在线图片 删除功能
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0330/172554_56ac352b_1816537.png "屏幕截图.png")
-
 #### 安装教程
 
 1.  需要准备环境 Mysql5.7以上、 JDK 1.8、 Maven 3.3 、Redis4.X 以上 、开发工具 eclipse 或者 IEDA
