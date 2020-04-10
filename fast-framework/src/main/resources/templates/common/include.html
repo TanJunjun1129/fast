@@ -7,15 +7,15 @@
 	<#else>
 		<#nested>
 	</#if>
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?02ec2b13c89b31a294fc7d44be9a384b";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+<#--<script>-->
+<#--    var _hmt = _hmt || [];-->
+<#--    (function() {-->
+<#--      var hm = document.createElement("script");-->
+<#--      hm.src = "https://hm.baidu.com/hm.js?02ec2b13c89b31a294fc7d44be9a384b";-->
+<#--      var s = document.getElementsByTagName("script")[0];-->
+<#--      s.parentNode.insertBefore(hm, s);-->
+<#--    })();-->
+<#--</script>-->
 </#macro>
 <#--页面公共头部-->
 <#macro header title>
@@ -51,7 +51,7 @@
 	<link rel="stylesheet" href="${ctxStatic}/statics/plugins/layui/css/layui.css?V=${config.getDvVersion()}"/>
 	<#nested>
 	<link rel="stylesheet" href="${ctxStatic}/statics/css/style.css?V=${config.getDvVersion()}">
-	<link rel="stylesheet" href="${ctxStatic}/statics/js/lixin/css/fast-ui.css?V=${config.getDvVersion()}"/>
+	<link rel="stylesheet" href="${ctxStatic}/statics/js/fast-ui.css?V=${config.getDvVersion()}"/>
 	<link rel="shortcut icon" href="${ctxStatic}/statics/img/favicon.ico">
 	<#-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<#-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -145,10 +145,8 @@
 <#-- jquery-validate 表单验证插件 -->
 <script src="${ctxStatic}/statics/plugins/validate/jquery.validate.min.js?V=${config.getDvVersion()}"></script>
 <script src="${ctxStatic}/statics/plugins/validate/jquery.validate.extend.js?V=${config.getDvVersion()}"></script>
-<#--公共方法-->
-<#--<script src="${request.contextPath}/statics/js/lixin/commom.js?V=${config.getDvVersion()}"></script>-->
-<#--<script src="${request.contextPath}/statics/js/lixin/lixin-ui.js?V=${config.getDvVersion()}"></script>-->
-<script src="${request.contextPath}/statics/js/lixin/fastJS.js?V=${config.getDvVersion()}"></script>
+<#--<script src="${request.contextPath}/statics/js/fastJS.js?V=${config.getDvVersion()}"></script>-->
+<script src="${request.contextPath}/statics/js/fastJS.min.js?V=${config.getDvVersion()}"></script>
 <#--VUE-->
 <script src="${ctxStatic}/statics/libs/vue.min.js?V=${config.getDvVersion()}"></script>
 <#nested>
