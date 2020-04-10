@@ -16,6 +16,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -24,6 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+@Slf4j
 public class BinaryUploader {
 	public static final String FILEUEDITOR_BASE_URL = "/fileUeditor/";
 
@@ -32,21 +34,18 @@ public class BinaryUploader {
 		FileItemStream fileStream = null; //原始上传
 		MultipartFile fileStream2 = null; // Spring MVC 上传
 		boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null;
-
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
 		}
 
 		ServletFileUpload upload = new ServletFileUpload(
 				new DiskFileItemFactory());
-
         if ( isAjaxUpload ) {
             upload.setHeaderEncoding( "UTF-8" );
         }
 
 		try {
 			FileItemIterator iterator = upload.getItemIterator(request);
-
 			while (iterator.hasNext()) {
 				fileStream = iterator.next();
 
@@ -125,6 +124,7 @@ public class BinaryUploader {
 		} catch (FileUploadException e) {
 			return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
 		} catch (IOException e) {
+			log.error("IO错误:",e);
 		}
 		return new BaseState(false, AppInfo.IO_ERROR);
 	}

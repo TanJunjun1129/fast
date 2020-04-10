@@ -97,7 +97,7 @@
 				</excludes>
 			</configuration>
 		</plugin>
-		<!-- 需要打成完整gz包放开注解-->
+		<!-- 需要打成完整gz包放开注解
 		<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -115,7 +115,7 @@
 						</goals>
 					</execution>
 				</executions>
-		 </plugin>
+		 </plugin>-->
 		</plugins>
     </build>
 </project>

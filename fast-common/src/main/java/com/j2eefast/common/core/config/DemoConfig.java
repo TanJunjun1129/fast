@@ -96,6 +96,8 @@ public class DemoConfig {
 				}
 
 				if("GET".equals(request.getMethod())) {
+					String queryString = request.getQueryString();
+					url = url+"?"+queryString;
 					String[] filters = get.split(",");
 					//判断是否包含
 					for(String filter : filters){
