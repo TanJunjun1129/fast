@@ -56,11 +56,6 @@ spring:
             driverClassName: com.mysql.cj.jdbc.Driver
             url: SM4(YPS0KwUcR6ZETrk1CkHPQydzrGO0WEGKb23G4SYdxRHfCqpDI+CrZfEhdxrjkLrH8TlmyqsC50mP/q4ZJzyJfauQIZ3AbsgQ3k/XzDwsrvSI+58c1UuMKaZW3zdIPj1wg+dUmfldaW4i3CQOfHGXwXL+hpVTIjpUBPZFewkPcnk=)
 ```
- ***近期更新*** 
->  ***重新整理项目技术架构 更新较慢 请持续关注！！！！***
-
-> 新增百度编辑器ueditor替换原有编辑器,增加在线图片 删除功能
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0330/172554_56ac352b_1816537.png "屏幕截图.png")
 #### 安装教程
 
 1.  需要准备环境 Mysql5.7以上、 JDK 1.8、 Maven 3.3 、Redis4.X 以上 、开发工具 eclipse 或者 IEDA
@@ -80,7 +75,25 @@ spring:
 1.  本项目设计思路借鉴了当前gitee中 开源项目中后台管理框架众多优秀项目的设计思路
 
 ####  版本更新
-1.  `2020-03-28 v2.0.3 ` 
+1.  `2020-04-11 v2.0.4 ` 
+    * 新增百度ueditor富文本编辑器更换之前编辑器
+    * 增强ueditor 新增在线删除功能,修改ueditor 完全适配fastos,页面引入直接使用
+    * 增加上传图片添加水印
+    * 修改公告展示页面，改用iframe引入确保页面所见即所得
+    * 修复授权角色选中值丢失情况
+    * 修复表格初始化选中，获取选中行值丢失问题
+    * 修复TAB栏菜单刷新/TAB切换刷新问题
+    * 修复定时任务功能cron工具 不能显示最近执行时间，查询列表新增下次执行时间字段
+    * 新增3套登陆页面风格,可以再后台配置默认风格
+    * 整合Spring注解Redis缓存,解决Redis故障或者不可用情况任然可以执行方法获取参数
+    * 兼容不配置Redis缓存数据库项目也可以运行
+    * 解决初次登陆显示问题
+    * 登陆页面主页面增加页面压缩减低易读性，提高安全性。此功能可以全局开启
+    * 完善国际化字段
+    * 去掉Dao包,简化代码
+    * 调整包名统一规范
+    * 优化代码，修复若干细节
+2.  `2020-03-28 v2.0.3 ` 
     * fastjson升级1.2.67 阻止漏洞
     * 修复tab菜单关闭当前BUG
     * 新增yml字段加密写法
@@ -94,7 +107,7 @@ spring:
     * 修改定时任务可以选择cron执行表达式，方便添加任务
     * 统一处理前端传入日期格式转换
     * 修复若干细节
-2.  `2020-03-20 v2.0.2 `
+3.  `2020-03-20 v2.0.2 `
     * 新增产品许可功能
     * 系统启动验证证书是否合法
     * 修改用户、权限页面滑动按钮获取表ID数据丢失导致页面异常情况
@@ -107,7 +120,7 @@ spring:
     * 测试模式定时任务不执行问题
     * 修复删除操作日志报错问题
     * 其他细节优化
-3.  `2020-03-01 v2.0.1 `
+4.  `2020-03-01 v2.0.1 `
     * FASTOS 正式发布
 
 #### 关于系统
@@ -128,6 +141,9 @@ spring:
 >  **Github(辅): [https://github.com/zhouhuan751312/J2EEFAST](https://github.com/zhouhuan751312/J2EEFAST)** 
 
 #### 演示图
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0411/013701_bdeebf4a_1816537.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0411/013817_82639c6c_1816537.png "屏幕截图.png")
+![输入图片说明](http://www.j2eefast.com/fast/profile/fileUeditor/upload/image/20200411/1586537580720033839.jpg "在这里输入图片标题")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0328/234931_48e39435_1816537.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0320/142557_2b61c8bb_1816537.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0320/143045_4257591d_1816537.png "屏幕截图.png")
