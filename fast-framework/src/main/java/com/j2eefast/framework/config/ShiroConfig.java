@@ -247,7 +247,7 @@ public class ShiroConfig {
 		filterMap.put("/swagger-ui.html", "anon");
 		filterMap.put("/webjars/**", "anon");
 		filterMap.put("/swagger-resources/**", "anon");
-
+		filterMap.put("/profile/fileUeditor/upload/image/**","anon");
 		filterMap.put("/statics/**", "anon");
 		filterMap.put("/login", "anon");
 		filterMap.put("/upbw/**", "anon");
@@ -255,7 +255,6 @@ public class ShiroConfig {
 		filterMap.put("/sys/login", "anon");
 		filterMap.put("/favicon.ico", "anon");
 		filterMap.put("/captcha.gif", "anon");
-		filterMap.put("/sys/user/info/login/msg/**", "anon");
 		filterMap.put("/**", "user"); //authc
 		shiroFilter.setFilterChainDefinitionMap(filterMap);
 		return shiroFilter;

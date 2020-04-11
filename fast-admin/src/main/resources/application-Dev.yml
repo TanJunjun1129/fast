@@ -9,7 +9,7 @@ fast:
         enabled: true
     #是否演示模式
     demoMode:
-        enabled: true
+        enabled: false
         #配置拦截规则
         post: 'edit,del,remove,clean,updateAvatar,updateUser,resetPwd,updatePass,genCode,uploadLic'
         get: 'del,remove,clean,dirTreeData'
