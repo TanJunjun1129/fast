@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import cn.hutool.core.io.FileUtil;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -15,11 +17,10 @@ import cn.hutool.core.util.StrUtil;
  * @author zhouzhou
  * @date 2020-03-11 20:52
  */
-public class YamlUtil
-{
-    public static Map<?, ?> loadYaml(String fileName) throws FileNotFoundException
-    {
-        InputStream in = YamlUtil.class.getClassLoader().getResourceAsStream(fileName);
+public class YamlUtil{
+
+    public static Map<?, ?> loadYaml(String fileName) throws FileNotFoundException{
+        InputStream in = FileUtil.getInputStream(FileUtil.file(fileName));
         return ToolUtil.isNotEmpty(fileName) ? (LinkedHashMap<?, ?>) new Yaml().load(in) : null;
     }
 

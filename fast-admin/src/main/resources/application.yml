@@ -84,5 +84,6 @@ mybatis-plus:
         call-setters-on-nulls: true
 #日志
 logging:
-    path: logs/
-    file: fast.log
+    file:
+        name: fast
+        path: logs/

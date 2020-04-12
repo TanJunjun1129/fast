@@ -42,14 +42,21 @@
 
 	<build>
 		<!--打包后的项目名称  -->
-		<finalName>fast-v${version}</finalName>
+		<finalName>fast-v${version}-${maven.build.timestamp}</finalName>
         <plugins>
-        	<!-- 跳过单元测试-->
+			<!-- 跳过单元测试-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skipTests>true</skipTests>
+					<!-- 需要整体打包屏蔽 若本地开发放开跳过单元测试-->
+<!--					<skipTests>true</skipTests>-->
+					<includes>
+						<include>**/RunTest.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/test/Encode*.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<!-- java编译插件 -->
@@ -91,9 +98,13 @@
 					<exclude>*.txt</exclude>
 					<exclude>*.xml</exclude>
 					<exclude>*.pfx</exclude>
+					<exclude>*.bat</exclude>
+					<exclude>*.sh</exclude>
 					<exclude>build/**</exclude>
 					<exclude>*.properties</exclude>
 					<exclude>license/**</exclude>
+					<exclude>ehcache/**</exclude>
+					<exclude>run/**</exclude>
 				</excludes>
 			</configuration>
 		</plugin>
