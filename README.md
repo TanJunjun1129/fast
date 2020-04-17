@@ -1,3 +1,9 @@
+#### ***近期更新:***
+* 新增业务流程模块(BPM) 分库管理,基于 Flowable（Activiti）工作流引擎开发 
+* 修改多源数据库基于数据库配置，并采用 JTA 实现分布式事务
+* 优化部分业务代码
+>  **更新有点慢 请持续关注！！**
+
 # FASTOS
 
 #### 介绍
@@ -56,11 +62,6 @@ spring:
             driverClassName: com.mysql.cj.jdbc.Driver
             url: SM4(YPS0KwUcR6ZETrk1CkHPQydzrGO0WEGKb23G4SYdxRHfCqpDI+CrZfEhdxrjkLrH8TlmyqsC50mP/q4ZJzyJfauQIZ3AbsgQ3k/XzDwsrvSI+58c1UuMKaZW3zdIPj1wg+dUmfldaW4i3CQOfHGXwXL+hpVTIjpUBPZFewkPcnk=)
 ```
-#### ***近期更新:***
-* 新增业务流程模块(BPM) 分库管理,基于 Flowable（Activiti）工作流引擎开发 
-* 修改多源数据库基于数据库配置，并采用 JTA 实现分布式事务
-* 优化部分业务代码
->  **更新有点慢 请持续关注！！**
 #### 安装教程
 
 1.  需要准备环境 Mysql5.7以上、 JDK 1.8、 Maven 3.3 、Redis4.X 以上 、开发工具 eclipse 或者 IEDA
