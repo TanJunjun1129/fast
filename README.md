@@ -56,6 +56,11 @@ spring:
             driverClassName: com.mysql.cj.jdbc.Driver
             url: SM4(YPS0KwUcR6ZETrk1CkHPQydzrGO0WEGKb23G4SYdxRHfCqpDI+CrZfEhdxrjkLrH8TlmyqsC50mP/q4ZJzyJfauQIZ3AbsgQ3k/XzDwsrvSI+58c1UuMKaZW3zdIPj1wg+dUmfldaW4i3CQOfHGXwXL+hpVTIjpUBPZFewkPcnk=)
 ```
+#### ***近期更新:***
+* 新增业务流程模块(BPM) 分库管理,基于 Flowable（Activiti）工作流引擎开发 
+* 修改多源数据库基于数据库配置，并采用 JTA 实现分布式事务
+* 优化部分业务代码
+>  **更新有点慢 请持续关注！！**
 #### 安装教程
 
 1.  需要准备环境 Mysql5.7以上、 JDK 1.8、 Maven 3.3 、Redis4.X 以上 、开发工具 eclipse 或者 IEDA
@@ -143,7 +148,7 @@ spring:
 #### 演示图
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0411/013701_bdeebf4a_1816537.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0411/013817_82639c6c_1816537.png "屏幕截图.png")
-![输入图片说明](http://www.j2eefast.com/fast/profile/fileUeditor/upload/image/20200411/1586537580720033839.jpg "在这里输入图片标题")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0417/093813_bbe9a509_1816537.jpeg "在这里输入图片标题")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0328/234931_48e39435_1816537.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0320/142557_2b61c8bb_1816537.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0320/143045_4257591d_1816537.png "屏幕截图.png")
