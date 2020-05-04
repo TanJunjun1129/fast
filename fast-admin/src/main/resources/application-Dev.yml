@@ -52,11 +52,11 @@ license:
 
     ######生成许可证书信息 *此信息应当绝对保密 正式项目应该分离单独存放用于生成许证书*  你可以屏蔽###########
     #私钥库别名
-    privateAlias: j2eefast
+    privateAlias:
     #私钥库密码
-    keyPass: j2eefast.com@zhouzhou
+    keyPass: 
     #私钥库路径
-    privateKeysStorePath: license/privateKeys.keystore
+    privateKeysStorePath:
 ########################License认证相关#####################
 
 spring:
