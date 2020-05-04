@@ -4,7 +4,6 @@ import com.j2eefast.common.core.base.entity.LoginUserEntity;
 import com.j2eefast.common.core.controller.BaseController;
 import com.j2eefast.framework.sys.constant.factory.ConstantFactory;
 import com.j2eefast.framework.sys.entity.SysMenuEntity;
-import com.j2eefast.framework.sys.entity.SysModuleEntity;
 import com.j2eefast.framework.sys.service.SysMenuService;
 import com.j2eefast.framework.sys.service.SysModuleService;
 import com.j2eefast.framework.utils.UserUtils;
@@ -68,7 +67,7 @@ public class SystemController extends BaseController {
 		return "modules/sys/upbw/index";
 	}
 
-	@GetMapping("statics/notice/{htmlNo}")
+	@GetMapping("static/notice/{htmlNo}")
 	public String statics(@PathVariable("htmlNo") String htmlNo){
 		return "modules/static/" + htmlNo;
 	}

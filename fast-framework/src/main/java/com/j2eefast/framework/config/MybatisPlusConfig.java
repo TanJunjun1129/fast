@@ -47,12 +47,6 @@ public class MybatisPlusConfig {
 		};
 	}
 
-	/**
-	 * 多数据源切换的aop
-	 */
-	@Bean
-	public MultiSourceAop multiSourceExAop() {
-		return new MultiSourceAop();
-	}
+
 	
 }

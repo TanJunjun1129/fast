@@ -150,7 +150,7 @@ public class ConstantFactory implements IConstantFactory {
 	}
 
 	@Override
-	@Cacheable(value = Cache.MENU_CONSTANT, key = "'" + CacheKey.MENU_NAME + "'+#userId")
+	@Cacheable(value = Cache.MENU_CONSTANT, key = "'" + CacheKey.MENU_NAME + "'+ T(String).valueOf(#userId).concat('-').concat(#moduleCode)")
 	public List<SysMenuEntity> getMenuByUserIdModuleCode(Long userId, String moduleCode) {
 		List<SysMenuEntity> menuList = sysMenuService.findUserModuleMenuList(userId,moduleCode);
 		if(ToolUtil.isNotEmpty(menuList)){

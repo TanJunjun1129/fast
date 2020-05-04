@@ -22,7 +22,7 @@ public class LinuxServerInfos  extends  AbstractServerInfos{
         List<String> result = null;
 
         //获取所有网络接口
-        List<InetAddress> inetAddresses = getLocalAllInetAddress();
+        List<InetAddress> inetAddresses = getLocalAllIpAddress();
 
         if(inetAddresses != null && inetAddresses.size() > 0){
             result = inetAddresses.stream().map(InetAddress::getHostAddress).distinct().map(String::toLowerCase).collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class LinuxServerInfos  extends  AbstractServerInfos{
     protected String getMacAddress() throws Exception {
         String result = null;
         //1. 获取所有网络接口
-        List<InetAddress> inetAddresses = getLocalAllInetAddress();
+        List<InetAddress> inetAddresses = getLocalAllMacAddress();
 
         if(inetAddresses != null && inetAddresses.size() > 0){
             //2. 获取所有网络接口的Mac地址

@@ -219,8 +219,7 @@ public class SysUserController extends BaseController {
 		if (!flag) {
 			return error(ToolUtil.message("sys.user.oldPasswordError"));
 		}
-		if (loginUser.getId().equals(user.getUserId()))
-		{
+		if (loginUser.getId().equals(user.getUserId())){
 			loginUser.setPwdSecurityLevel(user.getPwdSecurityLevel());
 			loginUser.setPassword(newPassword);
 			loginUser.setSalt(salt);
@@ -243,7 +242,7 @@ public class SysUserController extends BaseController {
 		if(sysUserService.checkUserNameUnique(username)){
 			return success();
 		}
-		return success();
+		return error("已经存在!");
 	}
 
 	/**
@@ -255,7 +254,7 @@ public class SysUserController extends BaseController {
 		if(sysUserService.checkMobileUnique(user)){
 			return success();
 		}
-		return success();
+		return error("已经存在!");
 	}
 
 
@@ -271,8 +270,7 @@ public class SysUserController extends BaseController {
 			return error("密码不能为空");
 		}
 		ValidatorUtil.validateEntity(user);
-		sysUserService.add(user);
-		return success();
+		return sysUserService.add(user)?success(): error("新增失败!");
 	}
 
 
@@ -288,7 +286,7 @@ public class SysUserController extends BaseController {
 	public ResponseData edit(@Validated SysUserEntity user) {
 
 		ValidatorUtil.validateEntity(user);
-		return sysUserService.update(user) ? success() : success();
+		return sysUserService.update(user) ? success() : error("修改失败!");
 	}
 
 
@@ -303,7 +301,7 @@ public class SysUserController extends BaseController {
 	@ResponseBody
 	public ResponseData changeStatus(SysUserEntity user)
 	{
-		return sysUserService.changeStatus(user) ? success() : success();
+		return sysUserService.changeStatus(user) ? success() : error("修改失败!");
 	}
 
 	/**
@@ -326,9 +324,8 @@ public class SysUserController extends BaseController {
 	@BussinessLog(title = "用户管理", businessType = BusinessType.GRANT)
 	@PostMapping("/authRole/insertAuthRoles")
 	@ResponseBody
-	public ResponseData selectAuthUserAll(Long userId, Long[] roleIds)
-	{
-		return  sysUserRoleService.addUserAuths(userId, roleIds)?success() : success();
+	public ResponseData selectAuthUserAll(Long userId, Long[] roleIds){
+		return  sysUserRoleService.addUserAuths(userId, roleIds)?success() : error("授权失败!");
 	}
 
 	/**
@@ -340,13 +337,6 @@ public class SysUserController extends BaseController {
 	@RequiresRoles(Constant.SU_ADMIN)
 	@ResponseBody
 	public ResponseData delete(Long[] ids) {
-			// 删除 用户与角色 关联表
-			sysUserRoleService.deleteBatchByUserIds(ids);
-			// 删除 用户与地区 关联表
-			sysUserDeptService.deleteBatchByUserIds(ids);
-			//删除 用户
-			sysUserService.removeByIds(Arrays.asList(ids));
-
-			return success();
+			return sysUserService.delUser(ids)?success(): error("删除失败!");
 	}
 }

@@ -1,5 +1,5 @@
 # 产品或项目名称
-productName: FastOs Demo
+productName: J2eeFast Demo
 
 server:
     tomcat:
@@ -36,6 +36,12 @@ spring:
         enabled: false
         #默认语言（4.1.3+）
         defaultLocale: zh_CN
+    #JTA 分布式事务
+    jta:
+        atomikos:
+            properties:
+                max-actives: -1
+                log-base-dir: logs/
 framework:
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭

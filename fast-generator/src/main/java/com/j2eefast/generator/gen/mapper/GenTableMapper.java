@@ -26,15 +26,19 @@ public interface GenTableMapper extends BaseMapper<GenTableEntity> {
 	int updateGenTable(GenTableEntity genTable);
 
 	/**
-	 * 查询据库列表
+	 * 主据库列表
 	 *
 	 * @return 数据库表集合
 	 */
 	List<GenTableEntity> findDbTableList();
 
+	/**
+	 * 从数据库
+	 * @return
+	 */
 	List<GenTableEntity> findSlaveDbTableList();
 
-	List<GenTableEntity> findDbNotTableList();
+	List<GenTableEntity> findDbNotTableList(@Param("dbType") String dbType);
 
 	List<GenTableEntity>  selectDbTablePage(IPage<?> params,
 											@Param("tableName") String tableName,

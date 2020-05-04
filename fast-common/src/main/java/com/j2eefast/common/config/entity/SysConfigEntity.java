@@ -1,5 +1,6 @@
 package com.j2eefast.common.config.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 @TableName("sys_config")
 public class SysConfigEntity extends BaseEntity {
 
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @NotBlank(message = "参数名不能为空")

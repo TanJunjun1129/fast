@@ -24,7 +24,7 @@
         </root>
 
         <!--各个服务的包在本地执行的时候，打开debug模式-->
-        <logger name="com.j2eefast" level="debug" additivity="false">
+        <logger name="com.j2eefast" level="info" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </springProfile>
@@ -47,7 +47,11 @@
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <logger name="freemarker.cache" level="info" additivity="true">
+        <logger name="com.j2eefast" level="debug" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
+        <logger name="freemarker.cache" level="info" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </springProfile>

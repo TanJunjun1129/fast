@@ -75,6 +75,12 @@ public interface IConstantFactory {
 	 */
 	String getMenuStatusName(String status);
 
+	/**
+	 * 通过用户ID 菜单编码 获取菜单
+	 * @param userId
+	 * @param moduleCode
+	 * @return
+	 */
 	List<SysMenuEntity> getMenuByUserIdModuleCode(Long userId, String moduleCode);
 
 

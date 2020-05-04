@@ -10,6 +10,7 @@ import cn.hutool.core.io.FileUtil;
 import com.j2eefast.common.core.constants.ConfigConstant;
 import com.j2eefast.common.core.license.service.AbstractServerInfos;
 import com.j2eefast.common.core.license.service.LinuxServerInfos;
+import com.j2eefast.common.core.license.service.MacServerInfos;
 import com.j2eefast.common.core.license.service.WindowsServerInfos;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
@@ -233,7 +234,10 @@ public class ToolUtil{
                 abstractServerInfos = new WindowsServerInfos();
             } else if (osName.startsWith("linux")) {
                 abstractServerInfos = new LinuxServerInfos();
-            }else{//其他服务器类型
+            } else if(osName.startsWith("mac")){
+				abstractServerInfos = new MacServerInfos();
+			}else{
+            	//其他服务器类型
                 abstractServerInfos = new LinuxServerInfos();
             }
             abstractServerInfos.getServerInfos();
@@ -335,4 +339,31 @@ public class ToolUtil{
         }
         return webappPath;
     }
+
+	/**
+	 * 数组以某种分隔符拼装
+	 * @param value Long数值
+	 * @param s 分隔符
+	 * @return 拼装之后的字符串
+	 */
+    public static String conversion(Long[] value, String s){
+    	String src = "";
+    	for(Long l: value){
+			src += l+s;
+		}
+		return  src.substring(0,src.length()-s.length());
+	}
+
+	/**
+	 * 判断ResponseData 是否成功
+	 * @param responseData 返回页面数据
+	 * @return true 成功
+	 */
+	public static boolean isSuccess(ResponseData responseData){
+    	if(responseData.get("code").equals(ResponseData.DEFAULT_SUCCESS_CODE)){
+			return true;
+		}else{
+    		return false;
+		}
+	}
 }

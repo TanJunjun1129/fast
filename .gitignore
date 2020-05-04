@@ -3,7 +3,7 @@ target/
 ### IntelliJ IDEA ###
 .idea
 *.log
-
+*.iml
 .apt_generated
 .classpath
 .factorypath
@@ -12,6 +12,7 @@ target/
 .springBeans
 .sts4-cache
 .vscode
+/fast-flowable/*
 /doc/v.txt
 /fast-admin/src/test/java/com/framework/CSTest.java
 /fast-admin/src/main/resources/application-Test.yml

@@ -63,7 +63,7 @@ public abstract class AbstractServerInfos {
     /**
      * <p>获取当前服务器所有符合条件的InetAddress</p>
      */
-    protected List<InetAddress> getLocalAllInetAddress() throws Exception {
+    protected List<InetAddress> getLocalAllIpAddress() throws Exception {
 
         List<InetAddress> result = new ArrayList<>(4);
 
@@ -73,10 +73,33 @@ public abstract class AbstractServerInfos {
             // 在所有的接口下再遍历IP
             for (Enumeration addresses = ni.getInetAddresses(); addresses.hasMoreElements(); ) {
                 InetAddress address = (InetAddress) addresses.nextElement();
-                //排除LoopbackAddress、SiteLocalAddress、LinkLocalAddress、MulticastAddress类型的IP地址
-                /*&& !inetAddr.isSiteLocalAddress()*/
+                //修改获取所有mac
                 if(!address.isLoopbackAddress()
                         && !address.isLinkLocalAddress() && !address.isMulticastAddress()){
+                    result.add(address);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * <p>获取当前服务器所有符合条件的InetAddress</p>
+     */
+    protected List<InetAddress> getLocalAllMacAddress() throws Exception {
+
+        List<InetAddress> result = new ArrayList<>(4);
+
+        // 遍历所有的网络接口
+        for (Enumeration networkInterfaces = NetworkInterface.getNetworkInterfaces(); networkInterfaces.hasMoreElements(); ) {
+            NetworkInterface ni = (NetworkInterface) networkInterfaces.nextElement();
+            // 在所有的接口下再遍历IP
+            for (Enumeration addresses = ni.getInetAddresses(); addresses.hasMoreElements(); ) {
+                InetAddress address = (InetAddress) addresses.nextElement();
+                //修改获取所有mac
+                //if(!address.isLoopbackAddress()
+                //       && !address.isLinkLocalAddress() && !address.isMulticastAddress()){
+                if(!address.isLoopbackAddress()){
                     result.add(address);
                 }
             }

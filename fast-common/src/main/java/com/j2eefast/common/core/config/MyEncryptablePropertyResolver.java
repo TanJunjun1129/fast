@@ -39,7 +39,7 @@ public class MyEncryptablePropertyResolver implements EncryptablePropertyResolve
                 if(StrUtil.startWith(str,MyEncryptablePropertyDetector.ENCODED_PASSWORD_HINT_ENC,true)){
                     str = StrUtil.removeSuffixIgnoreCase(StrUtil.removePrefixIgnoreCase(str,
                             MyEncryptablePropertyDetector.ENCODED_PASSWORD_HINT_ENC),"}");
-                    if(ToolUtil.isEmpty(key)){
+                    if(ToolUtil.isEmpty(key)){ //AB01950E7FA163AF3323F059F3DF8D87
                         key = ConfigConstant.KEY;
                     }
                     str = JasyptUtils.decyptPwd(str,key);
