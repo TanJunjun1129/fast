@@ -13,6 +13,7 @@ target/
 .sts4-cache
 .vscode
 /fast-flowable/*
+/db/mysql/bpm/*
 /doc/v.txt
 /fast-admin/src/test/java/com/framework/CSTest.java
 /fast-admin/src/main/resources/application-Test.yml
