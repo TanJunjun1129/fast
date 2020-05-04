@@ -63,17 +63,17 @@ spring:
     datasource:
         #默认(主)数据库配置
         default:
-#            driverClassName: com.mysql.cj.jdbc.Driver
-#            #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-#            url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
-#            username: fast
-#            password: fast@123$
-#            filters: wall,mergeStat
-             driverClassName: oracle.jdbc.driver.OracleDriver
-             url: jdbc:oracle:thin:@192.168.20.112:1521/orcl
-             username: fast
-             password: fast@123$
-             filters: wall,mergeStat
+            driverClassName: com.mysql.cj.jdbc.Driver
+            #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+            url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
+            username: fast
+            password: fast@123$
+            filters: wall,mergeStat
+#             driverClassName: oracle.jdbc.driver.OracleDriver
+#             url: jdbc:oracle:thin:@192.168.20.112:1521/orcl
+#             username: fast
+#             password: fast@123$
+#             filters: wall,mergeStat
         ###############工作流数据库配置
 #        flowable:
 #          driverClassName: com.mysql.cj.jdbc.Driver
@@ -130,7 +130,7 @@ http:
   #port: 8200 #web端口
   #port: 80 #web端口
 server:
-    name: '##################Fast云系统OS[开发环境]##############'
-    projectName: 'FAST云系统[开发环境]'
+    name: '##################J2eeFAST[开发环境]##############'
+    projectName: 'J2eeFAST[开发环境]'
     port: 8080 #HTTPS端口
     #port: 443 #HTTPS端口

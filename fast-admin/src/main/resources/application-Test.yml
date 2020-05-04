@@ -117,7 +117,7 @@ http:
     #port: 8200 #web端口
     #port: 80 #web端口
 server:
-    name: '##################Fast云系统OS[测试环境]##############'
-    projectName: 'FAST云系统[测试环境]'
+    name: '##################J2eeFAST[测试环境]##############'
+    projectName: 'J2eeFAST[测试环境]'
     port: 8080 #HTTPS端口
     #port: 443 #HTTPS端口
