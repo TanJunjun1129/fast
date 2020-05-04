@@ -105,10 +105,10 @@
 	     </dependency>
         
         <!--数据库-->
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
           <dependency>
               <groupId>com.oracle</groupId>
