@@ -23,6 +23,7 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,10 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+
+
+	@Value("${spring.messages.defaultLocale: zh_CN}")
+	private String defaultLocale;
 	@Autowired
 	private SecurityKeyInterceptorAdapter securityKeyInterceptorAdapter;
 
@@ -119,9 +124,8 @@ public class WebConfig implements WebMvcConfigurer {
 	 * 配置国际化参数
 	 */
 	@Bean
-    public LocaleResolver localeResolver()
-    {
-        return new NativeLocaleResolver();
+    public LocaleResolver localeResolver(){
+        return new NativeLocaleResolver(defaultLocale);
     }
 
 	/**
@@ -133,10 +137,16 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 	
 	protected static class NativeLocaleResolver implements LocaleResolver{
+		private String defaultLocale;
+
+		public NativeLocaleResolver(String defaultLocale){
+			this.defaultLocale = defaultLocale;
+		}
+
         @Override
         public Locale resolveLocale(HttpServletRequest request) {
 			String language = request.getParameter(ConfigConstant.LANGUAGE);
-			Locale locale = Locale.SIMPLIFIED_CHINESE;
+			Locale locale = null;
 			if(ToolUtil.isNotEmpty(language)){
 				String[] split = language.split("_");
 				locale = new Locale(split[0],split[1]);
@@ -144,6 +154,9 @@ public class WebConfig implements WebMvcConfigurer {
 				language = CookieUtil.getCookie(request,ConfigConstant.LANGUAGE);
 				if(ToolUtil.isNotEmpty(language)){
 					String[] split = language.split("_");
+					locale = new Locale(split[0],split[1]);
+				}else{
+					String[] split = defaultLocale.split("_");
 					locale = new Locale(split[0],split[1]);
 				}
 			}
