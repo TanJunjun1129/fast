@@ -39,7 +39,7 @@ public class SystemController extends BaseController {
 	 * @param mmap
 	 * @return
 	 */
-	@RequestMapping(value = { "/", "index" })
+	@RequestMapping(value = { "/", "index","index.html" })
 	public String index(ModelMap mmap) {
 		LoginUserEntity user = UserUtils.getUserInfo();
 		List<Map<String, Object>> modules = user.getModules();

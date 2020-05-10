@@ -6,6 +6,12 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
+    #如果使用Nginx反向代理, 获取真实IP 需要开启
+        remote-ip-header: X-FORWARDED-FOR
+        protocol-header: X-Forwarded-Proto
+        port-header: X-Forwarded-Port
+    use-forward-headers: true
+    #########################################
     servlet:
         context-path: /fast
     #ssl:
@@ -16,6 +22,7 @@ server:
     compression:
         enabled: true
         mime-types: 'application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain'
+
 spring:
     # 环境 Dev|Test|Prod
     profiles:
@@ -33,7 +40,6 @@ spring:
     messages:
         # 国际化资源文件路径
         basename: i18n/i18n
-        enabled: false
         #默认语言（4.1.3+）
         defaultLocale: zh_CN
     #JTA 分布式事务

@@ -46,8 +46,7 @@ public class MultiSourceAop implements Ordered {
         this.names = names;
     }
 
-    @Pointcut(value = "@annotation(com.j2eefast.common.core.mutidatasource.annotaion.DataSource)"
-			+ "|| @within(com.j2eefast.common.core.mutidatasource.annotaion.DataSource)")
+    @Pointcut(value = "@annotation(com.j2eefast.common.core.mutidatasource.annotaion.DataSource)")
     private void cut() {
 
     }

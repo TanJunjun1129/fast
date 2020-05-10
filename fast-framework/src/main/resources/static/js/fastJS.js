@@ -3330,9 +3330,10 @@ if (typeof jQuery === "undefined") {
 +function () {
 
     var _lang = opt.getCookie("_lang");
+    console.log(_lang);
     //初始化i18n插件
     $.i18n.properties({
-        path: baseURL + '/i18n/',//这里表示访问路径
+        path: baseURL + 'i18n/',//这里表示访问路径
         name: 'i18n',//文件名开头
         language: _lang,//文件名语言 例如en_US
         cache: true,

@@ -54,7 +54,7 @@ license:
     #私钥库别名
     privateAlias:
     #私钥库密码
-    keyPass: 
+    keyPass:
     #私钥库路径
     privateKeysStorePath:
 ########################License认证相关#####################
@@ -64,7 +64,7 @@ spring:
         #默认(主)数据库配置
         default:
             driverClassName: com.mysql.cj.jdbc.Driver
-            #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+            #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
             url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
             username: fast
             password: fast@123$

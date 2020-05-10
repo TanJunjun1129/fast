@@ -14,6 +14,7 @@
 	<description>
 		fast 服务入口
 	</description>
+	<!-- 打包编码, 版本号, 日期-->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version>2.0.5</version>

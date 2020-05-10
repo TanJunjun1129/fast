@@ -44,12 +44,28 @@ public class CookieUtil {
 		setCookie(response, name, value, "/", maxAge);
 	}
 
+	public static void setReadCookie(HttpServletResponse response, String name, String value, int maxAge) {
+		setReadCookie(response, name, value, "/", maxAge);
+	}
+
 	/**
-	 * 设置 Cookie
+	 * 设置 前端可读Cookie
 	 * @param name 名称
 	 * @param value 值
 	 * @param maxAge 生存时间（单位秒）
 	 */
+	public static void setReadCookie(HttpServletResponse response, String name, String value, String path, int maxAge) {
+		if (ToolUtil.isNotEmpty(name)){
+			name = URLUtil.encodeAll(name);
+			value = URLUtil.encodeAll(value);
+			Cookie cookie = new Cookie(name, null);
+			cookie.setPath(path);
+			cookie.setMaxAge(maxAge);
+			cookie.setValue(value);
+			response.addCookie(cookie);
+		}
+	}
+
 	public static void setCookie(HttpServletResponse response, String name, String value, String path, int maxAge) {
 		if (ToolUtil.isNotEmpty(name)){
 			name = URLUtil.encodeAll(name);

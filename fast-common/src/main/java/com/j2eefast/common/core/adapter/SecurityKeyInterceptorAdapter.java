@@ -27,7 +27,7 @@ public class SecurityKeyInterceptorAdapter extends HandlerInterceptorAdapter{
 
 		//设置语言 Cookie
         if(ToolUtil.isNotEmpty(language)){
-			CookieUtil.setCookie(response,ConfigConstant.LANGUAGE,language,60*60*24*7);
+			CookieUtil.setReadCookie(response,ConfigConstant.LANGUAGE,language,60*60*24*7);
         }
 		String _secretKey = "";
 		//获取登录安全Key

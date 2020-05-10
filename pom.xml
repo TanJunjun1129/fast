@@ -345,11 +345,11 @@
                 <version>${fast.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.j2eefast</groupId>
-                <artifactId>fast-flowable</artifactId>
-                <version>${fast.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.j2eefast</groupId>-->
+<!--                <artifactId>fast-flowable</artifactId>-->
+<!--                <version>${fast.version}</version>-->
+<!--            </dependency>-->
             
             <dependency>
                 <groupId>com.j2eefast</groupId>
@@ -368,7 +368,7 @@
         <module>fast-system</module> <!-- 后台系统模块 -->
         <module>fast-framework</module><!-- 核心框架 -->
     	<module>fast-web</module>
-        <module>fast-flowable</module> <!-- 实际项目子模块 -->
+        <!-- <module>fast-flowable</module>  -->
   </modules>
 
     <build>
