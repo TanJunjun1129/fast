@@ -344,13 +344,11 @@
                 <artifactId>fast-web</artifactId>
                 <version>${fast.version}</version>
             </dependency>
-            <!-- 
 <!--            <dependency>-->
 <!--                <groupId>com.j2eefast</groupId>-->
 <!--                <artifactId>fast-flowable</artifactId>-->
 <!--                <version>${fast.version}</version>-->
 <!--            </dependency>-->
-            -->
             <dependency>
                 <groupId>com.j2eefast</groupId>
                 <artifactId>fast-common</artifactId>
