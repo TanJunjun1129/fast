@@ -94,7 +94,7 @@ public class CookieUtil {
 	 * @return 值
 	 */
 	public static String getCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		return getCookie(request, response, name, false);
+		return getCookie(request, response, name, true);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class CookieUtil {
 	 * @return 值
 	 */
 	public static String getCookie(HttpServletRequest request, HttpServletResponse response, String name, boolean isRemove) {
-		return getCookie(request, response, name, "/", false);
+		return getCookie(request, response, name, "/", isRemove);
 	}
 
 	/**

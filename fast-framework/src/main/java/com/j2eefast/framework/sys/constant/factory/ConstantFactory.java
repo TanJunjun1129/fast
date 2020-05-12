@@ -27,7 +27,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +75,7 @@ public class ConstantFactory implements IConstantFactory {
 
 
 	@Override
-	@Cacheable(value = Cache.CONSTANT, key = "'" + CacheKey.ROLES_NAME + "'+#roleIds")
+	@Cacheable(value = Cache.CONSTANT, key = "'" + CacheKey.ROLES_NAME + "'+#userId")
 	public String getRoleName(Long userId) {
 		if (ToolUtil.isEmpty(userId)) {
 			return "";
@@ -158,6 +157,8 @@ public class ConstantFactory implements IConstantFactory {
 		}
 		return null;
 	}
+
+
 
 	@Override
 	public String getCacheObject(String para) {

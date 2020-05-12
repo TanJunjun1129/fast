@@ -2,13 +2,8 @@ package com.j2eefast.common.core.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.j2eefast.common.core.constants.ConfigConstant;
-import com.j2eefast.common.core.exception.RxcException;
 import com.j2eefast.common.core.license.LicenseVerify;
 import com.j2eefast.common.core.license.LicenseVerifyParam;
-import com.j2eefast.common.core.license.service.AbstractServerInfos;
-import com.j2eefast.common.core.license.service.LinuxServerInfos;
-import com.j2eefast.common.core.license.service.MacServerInfos;
-import com.j2eefast.common.core.license.service.WindowsServerInfos;
 import com.j2eefast.common.core.utils.HexUtil;
 import com.j2eefast.common.core.crypto.SM4;
 import com.j2eefast.common.core.utils.ToolUtil;
@@ -69,9 +64,8 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
         public void onApplicationEvent(ContextRefreshedEvent event) {
             //获取机器码
             try{
-                getFastServerInfos();
-                //5150c26aa77e7207038b8a2977bc9c99 -->00-50-56-C0-00-08#00-50-56-C0-00-01#28-16-A8-45-EA-7DBFEBFBFF000806EAA78437411083833AD:\Lxworkspace\J2EEFASTWindows 10ZhouHuan-PCamd641.8.0_91
-                //                                    00-50-56-C0-00-08#28-16-A8-45-EA-7DBFEBFBFF000806EAA78437411083833AD:\Lxworkspace\J2EEFASTWindows 10ZhouHuan-PCamd641.8.0_91
+                ToolUtil.getFastServerInfos();
+
                 LOG.info("///////////////////////////////////////////");
                 LOG.info("------>>>>>>FASTOS 机器码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
                         (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_KEY))+"] 校验码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
@@ -98,30 +92,30 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
         }
 
 
-        /**
-         * <p>获取当前服务器需要额外校验的License参数</p>
-         */
-        private void getFastServerInfos() throws Exception {
-
-            if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
-                //操作系统类型
-                String osName = System.getProperty("os.name").toLowerCase();
-                AbstractServerInfos abstractServerInfos = null;
-
-                //根据不同操作系统类型选择不同的数据获取方法
-                if (osName.startsWith("windows")) {
-                    abstractServerInfos = new WindowsServerInfos();
-                } else if (osName.startsWith("linux")) {
-                    abstractServerInfos = new LinuxServerInfos();
-                } else if(osName.startsWith("mac")){
-                    abstractServerInfos = new MacServerInfos();
-                }
-                else{//其他服务器类型
-                    abstractServerInfos = new LinuxServerInfos();
-                }
-                abstractServerInfos.getServerInfos();
-            }
-        }
+//        /**
+//         * <p>获取当前服务器需要额外校验的License参数</p>
+//         */
+//        private void getFastServerInfos() throws Exception {
+//
+//            if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
+//                //操作系统类型
+//                String osName = System.getProperty("os.name").toLowerCase();
+//                AbstractServerInfos abstractServerInfos = null;
+//
+//                //根据不同操作系统类型选择不同的数据获取方法
+//                if (osName.startsWith("windows")) {
+//                    abstractServerInfos = new WindowsServerInfos();
+//                } else if (osName.startsWith("linux")) {
+//                    abstractServerInfos = new LinuxServerInfos();
+//                } else if(osName.startsWith("mac")){
+//                    abstractServerInfos = new MacServerInfos();
+//                }
+//                else{//其他服务器类型
+//                    abstractServerInfos = new LinuxServerInfos();
+//                }
+//                abstractServerInfos.getServerInfos();
+//            }
+//        }
 
         public  LicenseVerifyParam getVerifyParam(){
             LicenseVerifyParam param = new LicenseVerifyParam();

@@ -164,6 +164,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
+
+        <dependency>
+          <groupId>com.github.oshi</groupId>
+          <artifactId>oshi-core</artifactId>
+        </dependency>
 		
 		<!-- 文件上传工具类 -->
 		<dependency>

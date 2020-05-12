@@ -7,16 +7,16 @@ import java.util.regex.Pattern;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.system.SystemUtil;
+import cn.hutool.system.oshi.OshiUtil;
 import com.j2eefast.common.core.constants.ConfigConstant;
-import com.j2eefast.common.core.license.service.AbstractServerInfos;
-import com.j2eefast.common.core.license.service.LinuxServerInfos;
-import com.j2eefast.common.core.license.service.MacServerInfos;
-import com.j2eefast.common.core.license.service.WindowsServerInfos;
+import com.j2eefast.common.core.crypto.EnctryptTools;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import oshi.hardware.NetworkIF;
 
 /**
  * 高频使用工具类
@@ -227,24 +227,34 @@ public class ToolUtil{
 		return fileName;
 	}
 
+	/**
+	 * 通过Hutool工具类获取系统硬件信息
+	 * @throws Exception
+	 */
 	public static void  getFastServerInfos() throws Exception {
         if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
-            //操作系统类型
-            String osName = System.getProperty("os.name").toLowerCase();
-            AbstractServerInfos abstractServerInfos = null;
-
-            //根据不同操作系统类型选择不同的数据获取方法
-            if (osName.startsWith("windows")) {
-                abstractServerInfos = new WindowsServerInfos();
-            } else if (osName.startsWith("linux")) {
-                abstractServerInfos = new LinuxServerInfos();
-            } else if(osName.startsWith("mac")){
-				abstractServerInfos = new MacServerInfos();
-			}else{
-            	//其他服务器类型
-                abstractServerInfos = new LinuxServerInfos();
-            }
-            abstractServerInfos.getServerInfos();
+			NetworkIF[] netwoeks = OshiUtil.getHardware().getNetworkIFs();
+			String macAddress = "";
+			List<String> IpList = new ArrayList<>();
+			for(NetworkIF net: netwoeks){
+				macAddress+=net.getMacaddr();
+				String temp = StrUtil.join(",",net.getIPv4addr());
+				if(ToolUtil.isNotEmpty(temp)){
+					IpList.add(temp);
+				}
+			}
+			//序列号
+			String serialNumber = OshiUtil.getSystem().getSerialNumber();
+			//处理器ID
+			String processorID = OshiUtil.getProcessor().getProcessorID();
+			//组装 系统机器码 mac串+序列号+处理器ID+程序系统路径+系统名称+主机名+系统架构+环境版本号  -->机器码  可以自行增加硬件信息确保唯一性
+			String temp = macAddress + serialNumber + processorID
+					+ SystemUtil.getUserInfo().getCurrentDir() + SystemUtil.getOsInfo().getName() + SystemUtil.getHostInfo().getName() +
+					SystemUtil.getOsInfo().getArch() + SystemUtil.getJavaInfo().getVersion();
+			//再将机器码加密成16位字符串
+			ConfigConstant.FAST_OS_SN = EnctryptTools.SM4Mac(ConfigConstant.FAST_MAC_KEY,temp.getBytes());
+			ConfigConstant.KEY = EnctryptTools.SM4Mac(HexUtil.decodeHex(ConfigConstant.KEY),HexUtil.decodeHex(ConfigConstant.FAST_OS_SN));
+			ConfigConstant.FAST_IPS = IpList;
         }
     }
 
