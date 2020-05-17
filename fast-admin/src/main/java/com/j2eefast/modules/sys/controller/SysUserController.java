@@ -1,7 +1,14 @@
 package com.j2eefast.modules.sys.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ArrayUtil;
+import com.alibaba.excel.EasyExcel;
 import com.j2eefast.common.core.base.entity.LoginUserEntity;
 import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.utils.*;
@@ -87,6 +94,22 @@ public class SysUserController extends BaseController {
 		mmap.put("roles", sysRoleService.list());
 		return urlPrefix + "/add";
 	}
+
+	@BussinessLog(title = "用户管理", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("system:user:export")
+	@PostMapping("/export")
+	@ResponseBody
+	public ResponseData export(@RequestParam Map<String, Object> params) throws Exception {
+		String fileName =  "测试";
+		fileName = ToolUtil.encodingExcelFilename(fileName);
+		String folder = Global.getConifgFile() + File.separator + "pio" + File.separator;
+		FileUtil.touch(folder + fileName);
+		List<SysUserEntity> listData = sysUserService.findList(params);
+		EasyExcel.write(folder + fileName, SysUserEntity.class).sheet("模板").doWrite(listData);
+		return success(fileName);
+	}
+
+
 
 
 	/**
@@ -337,6 +360,9 @@ public class SysUserController extends BaseController {
 	@RequiresRoles(Constant.SU_ADMIN)
 	@ResponseBody
 	public ResponseData delete(Long[] ids) {
-			return sysUserService.delUser(ids)?success(): error("删除失败!");
+		if(ArrayUtil.contains(ids,UserUtils.getUserId())){
+			return error("不能删除自己!");
+		}
+		return sysUserService.delUser(ids)?success(): error("删除失败!");
 	}
 }

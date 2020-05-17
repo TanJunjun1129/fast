@@ -227,6 +227,11 @@ public class ToolUtil{
 		return fileName;
 	}
 
+	public static String encodingExcelFilename(String filename){
+		filename = UUID.randomUUID().toString() + "_" + filename + ".xlsx";
+		return filename;
+	}
+
 	/**
 	 * 通过Hutool工具类获取系统硬件信息
 	 * @throws Exception

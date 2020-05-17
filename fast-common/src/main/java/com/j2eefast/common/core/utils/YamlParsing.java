@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author: zhouzhou 重写
  * @date: 2020-04-29 10:01
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Slf4j

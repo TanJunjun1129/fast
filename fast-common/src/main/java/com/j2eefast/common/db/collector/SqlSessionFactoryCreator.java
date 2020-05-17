@@ -50,7 +50,7 @@ import java.util.function.Consumer;
  *
  * @author: zhouzhou
  * @date: 2020-04-15 14:12
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Data

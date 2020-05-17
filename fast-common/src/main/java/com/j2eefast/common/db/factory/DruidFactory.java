@@ -8,7 +8,7 @@ import com.j2eefast.common.db.entity.SysDatabaseEntity;
  *
  * @author: zhouzhou
  * @date: 2020-04-15 13:47
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 public class DruidFactory {

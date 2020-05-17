@@ -3,6 +3,7 @@
  * fastJS 封装常用方法
  * @author ZhouHuan 二次封装 新增若干方法优化部分BUG
  * @date 2020-02-20
+ *       2020-05-17 修复导出报表问题
  * @version v1.0.10
  */
 if (typeof jQuery === "undefined") {
@@ -830,7 +831,60 @@ if (typeof jQuery === "undefined") {
                     i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
                     j = (j = i.length) > 3 ? j % 3 : 0;
                 return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
-            }
+            },
+            /**
+             * 播放音频
+             * @param src 可以传网络url 也可传项目audio文件夹下面音频文件名称
+             */
+            playSound: function (src) {
+                if (!(src.indexOf('http') == 0)) {
+                    src = baseURL + 'static/audio/' + src + '.wav';
+                }
+                if (!!window.ActiveXObject || "ActiveXObject" in window) {  // IE
+                    var embed = document.noticePlay;
+                    if (embed) {
+                        embed.remove();
+                    }
+                    embed = document.createElement('embed');
+                    embed.setAttribute('name', 'noticePlay');
+                    embed.setAttribute('src', src);
+                    embed.setAttribute('autostart', true);
+                    embed.setAttribute('loop', false);
+                    embed.setAttribute('hidden', true);
+                    document.body.appendChild(embed);
+                    embed = document.noticePlay;
+                    embed.volume = 100;
+                } else {   // 非IE
+                    var audio = document.createElement('audio');
+                    audio.setAttribute('hidden', true);
+                    audio.setAttribute('src', src);
+                    document.body.appendChild(audio);
+                    audio.addEventListener('ended', function () {
+                        audio.parentNode.removeChild(audio);
+                    }, false);
+                    audio.play();
+                }
+            },
+            digit: function(e, t) {
+                var i = "";
+                e = String(e),
+                    t = t || 2;
+                for (var n = e.length; n < t; n++)
+                    i += "0";
+                return e < Math.pow(10, t) ? i + (0 | e) : e
+            },
+            //日期格式转换
+            toDateString: function(data, t) {
+                var that = this
+                    , n = new Date(data || new Date)
+                    , a = [that.digit(n.getFullYear(), 4), that.digit(n.getMonth() + 1), that.digit(n.getDate())]
+                    , o = [that.digit(n.getHours()), that.digit(n.getMinutes()), that.digit(n.getSeconds())];
+                return t = t || "yyyy-MM-dd HH:mm:ss",
+                    t.replace(/yyyy/g, a[0]).replace(/MM/g, a[1]).replace(/dd/g, a[2]).replace(/HH/g, o[0]).replace(/mm/g, o[1]).replace(/ss/g, o[2])
+            },
+            escape: function(e) {
+                return String(e || "").replace(/&(?!#?[a-zA-Z0-9]+;)/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&quot;")
+            },
         },
         // 弹出层封装处理
         modal: {
@@ -2747,16 +2801,20 @@ if (typeof jQuery === "undefined") {
                     $("#" + opt.table.options.id).bootstrapTable('refresh', params);
                 }
             },
-            // 导出数据
+            /**
+             * 导出Excel 表格
+             * @param formId 导出表单ID 如果不传则获取默认页面第一个
+             */
             exportExcel: function(formId) {
                 opt.table.set();
                 opt.modal.confirm("确定导出所有" + opt.table.options.modalName + "吗？", function() {
                     var currentId = opt.common.isEmpty(formId) ? $('form').attr('id') : formId;
                     opt.modal.loading("正在导出数据，请稍后...");
-                    $.post(table.options.exportUrl, $("#" + currentId).serializeArray(), function(result) {
-                        if (result.code == web_status.SUCCESS) {
-                            window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
-                        } else if (result.code == web_status.WARNING) {
+
+                    $.post(opt.table.options.exportUrl, $("#" + currentId).serializeArray(), function(result) {
+                        if (result.code ==opt.variable.web_status.SUCCESS) {
+                            window.location.href = baseURL + "excel/download?fileName=" + encodeURI(result.msg);
+                        } else if (result.code == opt.variable.web_status.WARNING) {
                             opt.modal.alertWarning(result.msg)
                         } else {
                             opt.modal.alertError(result.msg);
@@ -3330,7 +3388,6 @@ if (typeof jQuery === "undefined") {
 +function () {
 
     var _lang = opt.getCookie("_lang");
-    console.log(_lang);
     //初始化i18n插件
     $.i18n.properties({
         path: baseURL + 'i18n/',//这里表示访问路径

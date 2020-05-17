@@ -66,6 +66,253 @@
 .layui-tab-title .layui-tab-bar {
     display: none;
 }
+.layui-layer-note textarea {
+    display: block;
+    width: 300px;
+    height: 132px;
+    min-width: 300px;
+    min-height: 132px;
+    line-height: 20px;
+    padding: 10px 20px;
+    border: none;
+    box-sizing: border-box;
+    color: #666;
+    word-wrap: break-word;
+}
+
+.layui-layer-note .layui-layer-title {
+    background-color: #FFF2AB !important;
+    color: #7F7855 !important;
+}
+.layui-layer-note .layui-layer-setwin{
+    position: static;
+}
+.layui-layer-note i[close] {
+    position: absolute;
+    padding: 5px;
+    right: 5px;
+    top: 7px;
+    color: #7F7855;
+    cursor: pointer;
+}
+
+.layui-layer-note textarea {
+    display: block;
+    width: 400px;
+    height: 232px;
+    min-width: 400px;
+    min-height: 232px;
+    line-height: 20px;
+    padding: 10px 20px;
+    border: none;
+    box-sizing: border-box;
+    color: #000;
+    background-color: #FFF7D1;
+    word-wrap: break-word;
+}
+
+/***本地便签****/
+
+.layui-layer.layui-layer-adminRight>.layui-layer-content, .layui-layer.layui-layer-adminRight>.layui-layer-content>iframe {
+    height: 95%!important;
+}
+
+.layui-layer.layui-layer-adminRight {
+    bottom: 0;
+    top: 50px!important;
+    border: none!important;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3)!important;
+    overflow: auto;
+}
+
+.layui-layer-adminRight  .layui-layer-title {
+    background-color: #344058 !important;
+    color: #fff !important;
+    position: relative !important;
+    height: 42px !important;
+    line-height: 42px !important;
+    padding: 0 15px !important;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    line-height: 33px;
+    border-radius: 50%;
+    background: #009688;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0,0,0,.2);
+    cursor: pointer
+}
+
+.btn-circle:hover {
+    color: #fff;
+    opacity: .8
+}
+
+.btn-circle .layui-icon {
+    font-size: 20px
+}
+
+
+.note-wrapper {
+    padding: 15px 0 15px 20px;
+    background-color: #fbfbfb;
+    position: absolute;
+    display: none;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.note-wrapper .note-item {
+    display: inline-block;
+    width: 140px;
+    padding: 12px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    margin: 0 15px 15px 0;
+    border: 1px solid #eeeeee;
+    background-color: #ffffff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.note-wrapper .note-item:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .05);
+    -webkit-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    transform: scale(1.02);
+}
+
+.note-wrapper .note-item .note-item-content {
+    color: #666;
+    height: 80px;
+    font-size: 14px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.note-wrapper .note-item .note-item-time {
+    color: #999;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.note-wrapper .note-item .note-item-del {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    color: #FF5722;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    visibility: hidden;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    opacity: 0;
+}
+
+.note-wrapper .note-item:hover .note-item-del {
+    visibility: visible;
+    opacity: 1;
+}
+
+.note-empty {
+    color: #999;
+    padding: 80px 0;
+    text-align: center;
+    display: none;
+    position: relative;
+    z-index: 1
+}
+
+.note-empty p{
+    margin: 0px 20px!important;
+    line-height: 20px;
+}
+
+.note-empty .layui-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+
+@-webkit-keyframes layui-rl {
+    from {
+        -webkit-transform: translate3d(100%,0,0)
+    }
+
+    to {
+        -webkit-transform: translate3d(0,0,0)
+    }
+}
+
+@keyframes layui-rl {
+    from {
+        transform: translate3d(100%,0,0)
+    }
+
+    to {
+        transform: translate3d(0,0,0)
+    }
+}
+
+.layui-anim-rl {
+    -webkit-animation-name: layui-rl;
+    animation-name: layui-rl
+}
+
+@-webkit-keyframes layui-lr {
+    from {
+        -webkit-transform: translate3d(0 0,0);
+        opacity: 1
+    }
+
+    to {
+        -webkit-transform: translate3d(100%,0,0);
+        opacity: 1
+    }
+}
+
+@keyframes layui-lr {
+    from {
+        transform: translate3d(0,0,0)
+    }
+
+    to {
+        transform: translate3d(100%,0,0)
+    }
+}
+
+.layui-anim-lr,.layui-anim-rl.layer-anim-close {
+    -webkit-animation-name: layui-lr;
+    animation-name: layui-lr
+}
+/****/
 .admin-tabs-control {
     position: absolute;
     top: 0;

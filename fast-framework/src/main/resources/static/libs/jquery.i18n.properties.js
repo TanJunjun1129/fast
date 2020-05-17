@@ -15,7 +15,7 @@
  *  前端JS获取国际化配置文件在之前基础上优化BUG
  *  1.修复没有配置国际化参数返回"" 空,不报出异常
  *
- *  @author ZhouHuan
+ *  @author J2eeFAST
  *  @Date 2020-01-21
  *
  *****************************************************************************/
@@ -122,9 +122,7 @@
             } else {
                 fileNames = [defaultFileName, shortFileName];
             }
-
             fileNames = [longFileName];
-            //debug("-->" + fileNames);
             loadAndParseFiles(fileNames, settings);
         });
 
@@ -325,6 +323,7 @@
 
         if (settings.debug) debug('loadAndParseFiles');
 
+        if (settings.debug) debug(" fileNames:-->"+ fileNames);
 	    if (fileNames !== null && fileNames.length > 0) {
 		    loadAndParseFile(fileNames[0], settings, function () {
 			    fileNames.shift();

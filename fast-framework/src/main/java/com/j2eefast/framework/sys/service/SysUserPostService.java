@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author: zhouzhou
  * @date: 2019-04-10 15:02
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Service

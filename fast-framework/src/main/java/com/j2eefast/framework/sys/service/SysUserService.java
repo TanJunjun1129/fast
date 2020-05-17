@@ -72,6 +72,21 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		return new PageUtil(page);
 	}
 
+	@DataFilter(subComp = true, tableAlias = "c")
+	public List<SysUserEntity> findList(Map<String, Object> params) {
+		String username = (String) params.get("username");
+		String status = (String) params.get("status");
+		String mobile = (String) params.get("mobile");
+		String email = (String) params.get("email");
+		String compId = (String) params.get("compId");
+		return sysUserMapper.findList(StrUtil.nullToDefault(username,""),
+				StrUtil.nullToDefault(status,""),
+				StrUtil.nullToDefault(mobile,""),
+				StrUtil.nullToDefault(email,""),
+				StrUtil.nullToDefault(compId,""),
+				(String) params.get(Constant.SQL_FILTER));
+	}
+
 
 	/**
 	 * 根居用户权限查询用户

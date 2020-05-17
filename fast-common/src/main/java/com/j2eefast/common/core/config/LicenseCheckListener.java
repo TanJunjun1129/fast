@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>启动安装证书</p>
  * @author: zhouzhou Emall:18774995071@163.com
  * @date: 2020-03-16 17:32
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Component
@@ -70,7 +70,7 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
                 LOG.info("------>>>>>>FASTOS 机器码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
                         (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_KEY))+"] 校验码:["+ HexUtil.encodeHexStr(SM4.encryptData_ECB(HexUtil.decodeHex
                         (ConfigConstant.FAST_OS_SN),ConfigConstant.FAST_VERIFY_KEY)).substring(0,6)+"]<<<<<-----------");
-                LOG.info("IP:"+ StrUtil.cleanBlank(ConfigConstant.FAST_IPS.toString()));
+                LOG.info("IP:{}",StrUtil.cleanBlank(ConfigConstant.FAST_IPS.toString()));
                 LOG.info("///////////////////////////////////////////");
 
                 //安装

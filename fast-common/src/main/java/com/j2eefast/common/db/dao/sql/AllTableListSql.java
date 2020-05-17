@@ -5,7 +5,7 @@ package com.j2eefast.common.db.dao.sql;
  *
  * @author: zhouzhou
  * @date: 2020-04-20 13:12
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 public class AllTableListSql extends AbstractSql {

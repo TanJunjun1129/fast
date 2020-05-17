@@ -21,7 +21,7 @@ import static org.mybatis.spring.SqlSessionUtils.*;
  *
  * @author: zhouzhou
  * @date: 2020-04-15 14:34
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 public class OptionalSqlSessionTemplate  extends SqlSessionTemplate {

@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author: zhouzhou
  * @date: 2019-04-07 16:33
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Controller
@@ -59,6 +59,12 @@ public class SystemController extends BaseController {
 	@GetMapping("/sys/switchSkin")
 	public String switchSkin(ModelMap mmap){
 		return "skin";
+	}
+
+	//便签
+	@GetMapping("/sys/note")
+	public String note(ModelMap mmap){
+		return "note";
 	}
 
 	// 浏览器版本过低

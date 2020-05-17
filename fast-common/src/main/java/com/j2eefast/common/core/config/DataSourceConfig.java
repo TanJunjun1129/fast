@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  *
  * @author: zhouzhou
  * @date: 2020-04-15 13:52
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Configuration

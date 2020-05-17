@@ -5,6 +5,7 @@
  * @author zhouzhou
  * @data 2020-02-20
  *       2020-04-10 优化国际化参数
+ *       2020-05-17 优化菜单显示
  * @version 1.0.11
  */
 //菜单添加事件
@@ -180,6 +181,74 @@
             });
         }
     };
+
+    //递归菜单初始化菜单
+    menu.prototype.recursiveHideMenu = function(elem){
+        var that = this;
+        //目录
+        elem.removeClass("menu-open");
+
+        //菜单
+        if(elem.find('ul').length > 0){
+            elem.find('ul').css("display","none");
+            var $li = elem.find('ul').children('li');
+            for(i=0;i<$li.length;i++){
+                if($($li[i]).hasClass("active")){
+                    $($li[i]).removeClass("active");
+                    return true;
+                }
+                if($($li[i]).hasClass("treeview")){
+                    that.recursiveHideMenu($($li[i]));
+                    return true;
+                }
+            }
+        }
+    };
+    /**
+     * 递归菜单展开指定菜单
+     * @param elem 目录对象
+     * @param id 菜单ID
+     * @returns {boolean}
+     */
+    menu.prototype.recursiveShowMenu = function(elem,id){
+        var that = this;
+        //目录 elem
+        //菜单
+        if(elem.find('ul').length > 0){
+            var $li = elem.find('ul').children('li');
+            for(i=0;i<$li.length;i++){
+                if($($li[i]).hasClass("treeview")){
+                    that.recursiveShowMenu($($li[i]), id);
+                    return true;
+                }else{
+                    var $a = $($li[i]).children('a');
+                    if( id != 0 && $a.data('id') == id){
+                        that.recursiveMenuCss($($li[i]));
+                        return false;
+                    }
+                }
+            }
+        }
+    };
+
+    menu.prototype.recursiveMenuCss = function(elem){
+        var that = this;
+        if(!elem.hasClass("treeview")){
+            elem.parent('.treeview-menu').parent(".treeview").addClass("menu-open");
+            elem.parent('.treeview-menu').css("display","block");
+            elem.addClass("active");
+        }else{
+            elem.parent('.treeview-menu').parent(".treeview").addClass("menu-open");
+            elem.parent('.treeview-menu').css("display","block");
+        }
+        if(elem.parent('.treeview-menu').parent(".treeview").parent().hasClass('treeview-menu')){
+            that.recursiveMenuCss(elem.parent('.treeview-menu').parent(".treeview"));
+            return;
+        }
+        return;
+    }
+
+
     //监听TAB切换事件
     menu.prototype._tabSwitch = function(){
         var that = this;
@@ -197,6 +266,7 @@
             var _module =$(this).children('em').data('module');
             if(_id !== '0' && _module !== '_sysInfo'){
                 $("#leftMenu > ul").addClass('hide');
+                //联动Top菜单
                 $('#topMenu li').each(function () {
                     if($(this).children('a').data('code') === _module){
                         $(this).addClass('active');
@@ -204,22 +274,26 @@
                         $(this).removeClass('active');
                     }
                 });
+
+                //联动左侧菜单
                 $('#leftMenu-' + _module).removeClass('hide');
                 $('#leftMenu-' + _module).children('.treeview').each(function (i) {
-                    $(this).removeClass("menu-open");
-                    if($(this).find('ul').length > 0){
-                        $(this).find('ul').css("display","none");
-                        $(this).find('ul').children('li').each(function () {
-                            var $a = $(this).children('a');
-                            if( _id != 0 && $a.data('id') == _id){
-                                $(this).parent('.treeview-menu').parent(".treeview").addClass("menu-open");
-                                $(this).parent('.treeview-menu').css("display","block");
-                                $(this).addClass("active");
-                            }else{
-                                $(this).removeClass("active");
-                            }
-                        });
-                    }
+                    that.recursiveHideMenu($(this));
+                    that.recursiveShowMenu($(this), _id);
+                    // $(this).removeClass("menu-open");
+                    // if($(this).find('ul').length > 0){
+                    //     $(this).find('ul').css("display","none");
+                    //     $(this).find('ul').children('li').each(function () {
+                    //         var $a = $(this).children('a');
+                    //         if( _id != 0 && $a.data('id') == _id){
+                    //             $(this).parent('.treeview-menu').parent(".treeview").addClass("menu-open");
+                    //             $(this).parent('.treeview-menu').css("display","block");
+                    //             $(this).addClass("active");
+                    //         }else{
+                    //             $(this).removeClass("active");
+                    //         }
+                    //     });
+                    // }
                 });
             }
             /*********************TAB刷新功能***************************/
@@ -500,6 +574,28 @@ $(function () {
     $('#lockOs').on('click', function () {
         window.location.href  = baseURL + "Account/Lock?" + Math.random();
         return;
+    });
+
+    //便签 - 左侧弹出
+    $('#sticky').on('click', function (e) {
+        layer.open({
+            type: 1,
+            shade: false,
+            scrollbar:false,
+            anim:-1,
+            closeBtn: 0,
+            shade: 0.1,
+            move: false,
+            title: '<i class="fa fa-tags"></i> '+$.i18n.prop('本地便签'),
+            shadeClose: true,
+            skin:'layui-anim layui-anim-rl layui-layer-adminRight',
+            offset: [50 +'px', ($(window).width()-336) + 'px'],
+            content: opt.template('noteTemp'),
+            success: function(layero, index){
+               $(layero).css('height','');
+               $(layero).css('width','336');
+            }
+        });
     });
 
     // 左侧收缩栏

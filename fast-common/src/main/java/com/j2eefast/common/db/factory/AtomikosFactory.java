@@ -12,7 +12,7 @@ import java.util.Properties;
  *
  * @author: zhouzhou
  * @date: 2020-04-15 11:10
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Slf4j

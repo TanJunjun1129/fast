@@ -173,6 +173,37 @@
         <if test="_databaseId == 'mysql'">group by u.user_id</if>
     </select>
 
+    <select id="findList" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
+        <include refid="sqlpage"/>
+        where u.del_flag = '0'
+        <if test = "username !=null and username!=''">
+            AND u.username like
+            <if test="_databaseId == 'oracle'"> '%,'||#{username}||',%'</if>
+            <if test="_databaseId == 'mysql'"> concat('%', #{username}, '%')</if>
+        </if>
+        <if test = "status !=null and status!=''">
+            AND u.status = #{status}
+        </if>
+        <if test="mobile != null and mobile != ''">
+            AND u.mobile like
+            <if test="_databaseId == 'oracle'"> '%,'||#{mobile}||',%'</if>
+            <if test="_databaseId == 'mysql'"> concat('%', #{mobile}, '%')</if>
+        </if>
+        <if test="email != null and email != ''">
+            AND u.email like
+            <if test="_databaseId == 'oracle'"> '%,'||#{email}||',%'</if>
+            <if test="_databaseId == 'mysql'"> concat('%', #{email}, '%')</if>
+        </if>
+        <if test="compId != null and compId != ''">
+            AND u.comp_id  = #{compId}
+        </if>
+        <if test = "sql_filter !=null and sql_filter!=''">
+            and ${sql_filter}
+        </if>
+        <if test="_databaseId == 'oracle'">group by u.user_id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
+        <if test="_databaseId == 'mysql'">group by u.user_id</if>
+    </select>
+
     <select id="findUserByRolePage" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
         <include refid="selectRoleToUserVo"/>
         where

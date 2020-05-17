@@ -239,7 +239,7 @@ public class ShiroConfig {
 		shiroFilter.setLoginUrl("/login");
 		// 权限认证失败，则跳转到指定页面
 		shiroFilter.setUnauthorizedUrl("/");
-		//shiroFilter.set
+		//授权认证配置
 		Map<String, String> filterMap = new LinkedHashMap<>();
 		filterMap.put("/swagger/**", "anon");
 		filterMap.put("/api/trade.receive/**", "anon");
@@ -254,7 +254,7 @@ public class ShiroConfig {
 		filterMap.put("/sys/login", "anon");
 		filterMap.put("/favicon.ico", "anon");
 		filterMap.put("/captcha.gif", "anon");
-		filterMap.put("/**", "user"); //authc
+		filterMap.put("/**", "user");
 		shiroFilter.setFilterChainDefinitionMap(filterMap);
 		return shiroFilter;
 	}

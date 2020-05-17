@@ -16,7 +16,7 @@ import javax.transaction.UserTransaction;
  *
  * @author: zhouzhou
  * @date: 2020-04-16 16:29
- * @web: https://www.j2eefast.com
+ * @web: http://www.j2eefast.com
  * @version: 1.0.1
  */
 @Configuration
