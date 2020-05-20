@@ -1,6 +1,5 @@
 package ${packageName}.service;
 
-
 import ${packageName}.entity.${ClassName}Entity;
 import ${packageName}.mapper.${ClassName}Mapper;
 import com.j2eefast.common.core.page.Query;
@@ -30,35 +29,41 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	 * 页面分页查询
      */
 	public PageUtil findPage(Map<String, Object> params) {
-		QueryWrapper<${ClassName}Entity> r = new QueryWrapper<${ClassName}Entity>();
-#foreach($column in $columns)
+				QueryWrapper<${ClassName}Entity> r = new QueryWrapper<${ClassName}Entity>();##
+#foreach($column in $columns)##
     #set($queryType=$column.queryType)## 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
     #set($javaField=$column.javaField)## JAVA字段名
     #set($javaType=$column.javaType) ## JAVA类型
     #set($columnName=$column.columnName) ## 列名称
-    #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-    #if($column.query)
-    ##if($javaType == 'String' )
-        String $javaField = (String) params.get("$javaField");
-    ##else
-        #if($column.queryType == "EQ")
-        r.eq(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
-        #elseif($column.queryType == "NE")
-        r.ne(ToolUtil.isNotEmpty($javaField), "$columnName"e, $javaField);
-        #elseif($column.queryType == "GT")
-        r.gt(ToolUtil.isNotEmpty($javaField),"$columnName", $javaField);
-        #elseif($column.queryType == "LT")
-        r.lt(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
-        #elseif($column.queryType == "LIKE")
-        r.like(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
+    #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})##
+    #if($column.query)##
+
+				String $javaField = (String) params.get("$javaField");##
+        #if($column.queryType == "EQ")##
+
+				r.eq(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
+        #elseif($column.queryType == "NE")##
+
+				r.ne(ToolUtil.isNotEmpty($javaField), "$columnName"e, $javaField);##
+        #elseif($column.queryType == "GT")##
+
+				r.gt(ToolUtil.isNotEmpty($javaField),"$columnName", $javaField);##
+        #elseif($column.queryType == "LT")##
+
+				r.lt(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
+        #elseif($column.queryType == "LIKE")##
+
+				r.like(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
         ##                    #elseif($column.queryType == "BETWEEN")
         ##                        r.between(StrUtil.isNotNull($javaField), $columnName, $javaField))
-        #end
-
+		#end
     #end
 #end
-		Page<${ClassName}Entity> page = this.baseMapper.selectPage(new Query<${ClassName}Entity>(params).getPage(), r);
-		return new PageUtil(page);
+
+				Page<${ClassName}Entity> page = this.baseMapper.selectPage(new Query<${ClassName}Entity>(params).getPage(), r);##
+
+				return new PageUtil(page);##
+
     }
 
 	/**

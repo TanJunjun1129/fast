@@ -85,7 +85,10 @@
 						}
 					}
 				},
-				{field: 'msg', title: '操作信息'},
+				{field: 'msg', title: '操作信息', formatter: function (value, row, index) {
+						return $.i18n.prop(value);
+					}
+				},
 				{field: 'loginTime', title: '登录时间', sortable: true}
 			]
 		};

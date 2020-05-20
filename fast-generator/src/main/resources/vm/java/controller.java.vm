@@ -26,20 +26,23 @@ import com.j2eefast.common.core.domain.Ztree;
  */
 @Controller
 @RequestMapping("/${moduleName}/${businessName}")
-public class ${ClassName}Controller extends BaseController{
+public class ${ClassName}Controller extends BaseController{##
 
-    private String prefix = "modules/${moduleName}/${businessName}";
 
-    @Autowired
-    private ${ClassName}Service ${className}Service;
+    private String prefix = "modules/${moduleName}/${businessName}";##
+
+    @Autowired##
+
+    private ${ClassName}Service ${className}Service;##
+
 
     @RequiresPermissions("${permissionPrefix}:view")
     @GetMapping()
     public String ${businessName}(){
         return prefix + "/${businessName}";
-    }
+    }##
 
-    #if($table.crud || $table.r)
+    #if($table.crud || $table.r)##
     #*有查询列表*#
     @RequestMapping("/list")
     @RequiresPermissions("${permissionPrefix}:list")
@@ -47,11 +50,11 @@ public class ${ClassName}Controller extends BaseController{
     public ResponseData list(@RequestParam Map<String, Object> params) {
 		PageUtil page = ${className}Service.findPage(params);
 		return success(page);
-    }
+    }##
     #end
 
+    #if($table.tree)##
 
-    #if($table.tree)
     /**
      * 选择${functionName}树
      */
@@ -63,7 +66,7 @@ public class ${ClassName}Controller extends BaseController{
             mmap.put("${className}", ${className}Service.select${ClassName}ById(${pkColumn.javaField}));
         }
         return prefix + "/tree";
-    }
+    }##
 
     /**
      * 加载${functionName}树列表
@@ -75,14 +78,13 @@ public class ${ClassName}Controller extends BaseController{
         return ztrees;
     }
     #end
-
-    #if($table.crud || $table.c)
+    #if($table.crud || $table.c)##
     #*新增*#
-
     @GetMapping("/add")
     public String add(){
         return prefix + "/add";
-    }
+    }##
+
 
     /**
      * 新增
@@ -96,10 +98,11 @@ public class ${ClassName}Controller extends BaseController{
         //校验参数
         ValidatorUtil.validateEntity(${className});
         return ${className}Service.save${ClassName}(${className})? success(): error("新增失败!");
-    }
+    }##
     #end
 
-    #if($table.crud || $table.u)
+    #if($table.crud || $table.u)##
+
     /**
      * 修改
      */
@@ -109,7 +112,8 @@ public class ${ClassName}Controller extends BaseController{
         ${ClassName}Entity ${className} = ${className}Service.get${ClassName}ById(${pkColumn.javaField});
         mmap.put("${className}", ${className});
         return prefix + "/edit";
-    }
+    }##
+
 
     /**
      * 修改保存${functionName}
@@ -122,12 +126,12 @@ public class ${ClassName}Controller extends BaseController{
     public ResponseData edit${ClassName}(${ClassName}Entity ${className}){
 		ValidatorUtil.validateEntity(${className});
         return ${className}Service.update${ClassName}ById(${className})? success(): error("修改失败!");
-    }
+    }##
     #end
 
-    #*删除*#
-    #if($table.crud || $table.d || ($table.r && $table.rDel))
-    /**
+
+    #if($table.crud || $table.d || ($table.r && $table.rDel))##
+/**
      * 删除
      */
     @RepeatSubmit
@@ -137,7 +141,7 @@ public class ${ClassName}Controller extends BaseController{
     @ResponseBody
     public ResponseData del(${pkColumn.javaType}[] ids) {
       return ${className}Service.delete${ClassName}ByIds(ids)? success(): error("删除失败!");
-    }
+    }##
     #end
 
 }

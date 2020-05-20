@@ -36,7 +36,7 @@ spring:
     freemarker:
         suffix: .html
         request-context-attribute: request
-        #cache: false
+        #cache: true
     # 资源信息
     messages:
         # 国际化资源文件路径
