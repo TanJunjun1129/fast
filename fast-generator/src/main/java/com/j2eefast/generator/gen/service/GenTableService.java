@@ -296,6 +296,10 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 //                    }
                     for (GenTableColumnEntity column : genTableColumns) {
                         GenUtils.initColumnField(column, table);
+                        //如果comment为空 设置comment 为JavaField
+                        if (StringUtils.isBlank(column.getColumnComment())){ 
+                        	column.setColumnComment(column.getJavaField());
+                        }
                         genTableColumnService.save(column);
                     }
                 }

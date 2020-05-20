@@ -88,17 +88,16 @@ ${pageTheme}
     var editFlag = "<$>{permission.hasPermi("${permissionPrefix}:edit")}";
     var listFlag = "<$>{permission.hasPermi("${permissionPrefix}:add")}";
     var delFlag = "<$>{permission.hasPermi("${permissionPrefix}:del")}";
-    var visible = <$>{permission.isPermitteds("${permissionPrefix}:edit,
-    ${permissionPrefix}:del,${permissionPrefix}:add")?string('true', 'false')};
+    var visible = <$>{permission.isPermitteds("${permissionPrefix}:edit,${permissionPrefix}:del,${permissionPrefix}:add")?string('true', 'false')};
 #elseif($table.r && $table.rDel)
     var delFlag = "<$>{permission.hasPermi("${permissionPrefix}:del")}";
     var visible = <$>{permission.isPermitteds("${permissionPrefix}:del")?string('true', 'false')};
 #end
-    #foreach($column in $columns)
-    #if(${column.dictType} != '')
-    var ${column.javaField}Datas = <$>{dict.getDictListJson('${column.dictType}')};
-    #end
-    #end
+#foreach($column in $columns)##
+#if(${column.dictType} != '')##
+   var ${column.javaField}Datas = <$>{dict.getDictListJson('${column.dictType}')};
+#end
+#end
     var prefix = baseURL + "${moduleName}/${businessName}";
 
     $(function() {
@@ -113,12 +112,12 @@ ${pageTheme}
             delUrl: prefix + "/del",
             modalName: "${functionName}",
 #end
-            uniqueId:  #foreach($column in $columns) #if($column.pk) '${column.javaField}'#end #end, /* 唯一ID */
-            columns: [{
-                title: $.i18n.prop("序号"), width: 5, align: "center", formatter: function (value, row, index) {
-                    return $.table.serialNumber(index);
-                }
-            }
+            uniqueId:  #foreach($column in $columns) #if($column.pk) '${column.javaField}'/* 唯一ID */##
+            #end #end,
+            columns: [
+                 {title: $.i18n.prop("序号"), width: 5, align: "center", formatter: function (value, row, index) {
+                            return $.table.serialNumber(index);
+                 }}##
 #foreach($column in $columns)
 #set($indexTag = $velocityCount)
 #set($dictType=$column.dictType)
@@ -130,52 +129,34 @@ ${pageTheme}
 #set($comment=$column.columnComment)
 #end
 #if($column.pk)
-                ,{
-                    field : '${javaField}'
-                    ,title : '<@ctx.i18n text = "${comment}"/>'
-                    ,visible: false
-                }
-#end
+                ,{field : '${javaField}',title : '<@ctx.i18n text = "${comment}"/>',visible: false}#end
     #foreach($c in $columns)
-    #if($c.list)
+    #if($c.list)##
         #set($d=$c.dictType)
         #set($j=$c.javaField)
         #set($p=$c.columnComment.indexOf("（"))
-        #if($p != -1)
+        #if($p != -1)##
             #set($com=$c.columnComment.substring(0, $p))
         #else
             #set($com=$c.columnComment)
         #end
-        #if($c.sort == $indexTag)
-            #if($c.list && "" != $d)
-                ,{
-                    field : '${j}'
-                    ,title : '<@ctx.i18n text = "${com}"/>'
-#if($c.tableSort)   ,sortable: true#end
-                    ,formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(${j}Datas, value);
-                    }
-                }
+        #if($c.sort == $indexTag)##
+            #if($c.list && "" != $d)##
+
+                ,{field : '${j}',title : '<@ctx.i18n text = "${com}"/>'#if($c.tableSort),sortable: true#end,formatter: function(value, row, index) {
+                       return $.table.selectDictLabels(${j}Datas, value);
+                }}
              #elseif($c.list && "" != $j)
-                ,{
-                    field : '${j}'
-                    ,title : '<@ctx.i18n text = "${com}"/>'
-#if($c.tableSort)   ,sortable: true#end
-                }
+
+                ,{field : '${j}',title : '<@ctx.i18n text = "${com}"/>'#if($c.tableSort),sortable: true#end}##
              #end
         #end
-       #end
+    #end
     #end
 #end
 #if($table.crud)
-                ,{
-                    title:"<@ctx.i18n text = "操作"/>"
-                    ,align: 'left'
-                    ,visible:visible
-#if($table.actionsType == "icon")
-                    ,class:'action'
-#end
-                    ,formatter: function(value, row, index) {
+
+                ,{title:"<@ctx.i18n text = "操作"/>",align: 'left',visible:visible#if($table.actionsType == "icon"),class:'action'#end,formatter: function(value, row, index) {
                         var actions = [];
 #if($table.actionsType == "default")
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="opt.operate.edit(\'' + row.${pkColumn.javaField} + '\')"><i class="fa fa-edit"></i>编辑</a> ');
@@ -188,14 +169,8 @@ ${pageTheme}
                     }
                 }
 #elseif($table.r && $table.rDel)
-                ,{
-                    title:"<@ctx.i18n text = "操作"/>"
-                    ,align: 'left'
-                    ,visible:visible
-#if($table.actionsType == "icon")
-                    ,class:'action'
-#end
-                    ,formatter: function(value, row, index) {
+
+                ,{title:"<@ctx.i18n text = "操作"/>",align: 'left',visible:visible#if($table.actionsType == "icon"),class:'action'#end,formatter: function(value, row, index) {
                         var actions = [];
 #if($table.actionsType == "default")
                         actions.push('<a class="btn btn-danger btn-xs ' + delFlag + '" href="javascript:void(0)" onclick="opt.operate.del(\'' + row.${pkColumn.javaField} + '\')"><i class="fa fa-remove"></i>删除</a>');
@@ -204,7 +179,7 @@ ${pageTheme}
 #end
                         return actions.join('');
                     }
-                }
+                 }
 #end
                 ]
             };

@@ -124,8 +124,11 @@
 				            </div>
                             </div>
                             
+                            
+                            
                             <!-- 字段信息 -->
                             <div class="tab-pane animated fadeInUp" id="tab-field">
+                                  <button type="button" class="btn btn-sm btn-primary" onclick="refreshTableColumn()"><i class="fa fa-refresh"></i>从库中更新表栏位</button>
                                 <div class="select-table table-striped" style="margin-top: 0px;padding-top: 0px;padding-bottom: 0px;">
 								    <table id="bootstrap-table" data-use-row-attr-func="true" data-reorderable-rows="true"></table>
 								</div>
@@ -405,6 +408,15 @@
     <script type="text/javascript">
 		var prefix = baseURL + "tool/gen";
 
+
+	      /* 刷新数据库表*/
+		function refreshTableColumn(){
+           opt.modal.confirm("请确认更新?", function() {
+        	   var  url = prefix + "/refreshTable/${gen_table.tableId}"; 
+               opt.operate.get(url,"")
+           });
+		}
+		
 	    /*用户信息-修改*/
 	    $("#form-table-edit").validate({
 	    	rules: {
@@ -802,6 +814,8 @@
 			$("#runPath").val(path+"\\");
 			layer.close(index);
 		};
+
+  
 
     </script>
 	</body>

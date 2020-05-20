@@ -1,5 +1,6 @@
 package com.j2eefast.generator.gen.controller;
 
+import com.google.common.collect.Lists;
 import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
@@ -18,12 +19,14 @@ import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.service.GenTableColumnService;
 import com.j2eefast.generator.gen.service.GenTableService;
+import com.j2eefast.generator.gen.util.GenUtils;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.HashUtil;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -256,6 +260,50 @@ public class GenController extends BaseController {
         return success();
     }
 
+    
+    @RequiresPermissions("tool:gen:list")
+    @GetMapping("/refreshTable/{tableId}")
+    @ResponseBody
+    public ResponseData refreshTableSave(@PathVariable("tableId") Long tableId){
+    	
+    	GenTableEntity table = genTableService.findGenTableById(tableId);
+        // 查询表信息
+        List<GenTableColumnEntity> genTableColumns = genTableColumnService.selectDbTableColumnsByName(table.getDbType(),table.getTableName());
+        
+       List<String> genTableColumnName =  genTableColumns.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
+       
+
+        List<GenTableColumnEntity> genTableColumnsExists =table.getColumns();
+       
+        List<String> genTableColumnsExistsName =  genTableColumnsExists.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
+        
+        
+        
+        //增加  新增的表column数据库表
+        for (GenTableColumnEntity column : genTableColumns) {
+        	if (genTableColumnsExistsName.contains(column.getColumnName())) {
+        		continue;
+        	}
+            GenUtils.initColumnField(column, table);
+            //如果comment为空 设置comment 为JavaField
+            if (StringUtils.isBlank(column.getColumnComment())){ 
+            	column.setColumnComment(column.getJavaField());
+            }
+            genTableColumnService.save(column);
+        }
+         
+ 
+        //删除 已经删除的表column数据库表
+        for (GenTableColumnEntity column : genTableColumnsExists) {
+        	if (genTableColumnName.contains(column.getColumnName())) {
+        		continue;
+        	}
+            genTableColumnService.removeById(column);
+        }
+   
+        
+        return success();
+    }
 
 
     /**

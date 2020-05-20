@@ -740,3 +740,34 @@ CREATE TABLE `sys_user_role` (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+/* Drop Tables */
+
+DROP TABLE IF EXISTS `example_test`;
+
+
+CREATE TABLE `example_test` (
+  `id` BIGINT(20) NOT NULL,
+  `pin` VARCHAR(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '员工编号',
+  `name` VARCHAR(64) COLLATE utf8mb4_bin NOT NULL,
+  `email` VARCHAR(128) COLLATE utf8mb4_bin DEFAULT NULL,
+  `phone` VARCHAR(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电话',
+  `sex` CHAR(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '性别',
+  `age` INT(11) DEFAULT NULL,
+  `birthday` DATE DEFAULT NULL COMMENT '出生日期',
+  `education` VARCHAR(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `position` CHAR(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '职位',
+  `hobby` VARCHAR(10) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '爱好',
+  `join_date` DATE DEFAULT NULL COMMENT '入职日期',
+  `leave_date` DATETIME DEFAULT NULL COMMENT '离职日期',
+  `noational_id` VARCHAR(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证号',
+  `create_by` VARCHAR(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者',
+  `del_flag` CHAR(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标记（0：正常；1：删除）',
+  `remark` VARCHAR(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注信息',
+  `update_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+  `update_by` VARCHAR(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新者',
+  `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='单表范例';
+
