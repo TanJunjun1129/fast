@@ -1,0 +1,176 @@
+<#include "/common/include.html"/>
+<@pageTheme mark="${config.optimize()?string('true', 'false')}">
+<@header title="新增单表范例">
+</@header>
+<@addorEdit fromId="form-test-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "name"/>：
+                                                                  </label>
+                <div class="col-sm-8">
+                    <input name="name" class="form-control" type="text" required>
+                                                                        <span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>姓名</span>
+                                                            </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "员工编号"/>：
+                                 </label>
+                <div class="col-sm-8">
+                    <input name="pin" class="form-control" type="text">
+                                    </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "email"/>：
+                                 </label>
+                <div class="col-sm-8">
+                    <input name="email" class="form-control" type="text">
+                                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "电话"/>：</label>
+                <div class="col-sm-8">
+                    <textarea name="phone" class="form-control"></textarea>
+                </div>
+            </div>            
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "age"/>：
+                                 </label>
+                <div class="col-sm-8">
+                    <input name="age" class="form-control" type="text">
+                                    </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "性别"/>：</label>
+                <div class="col-sm-8">
+                   <#list dict.getType('sys_user_sex')>
+                        <#items as d>
+                            <#if d.status =='0' >
+                                <div class="radio-box">
+                                    <input type="radio" id="sex_${d.dictCode}" name="sex"
+                                           value="${d.dictValue}" <#if d.isDefault =="Y" >checked</#if>>
+                                    <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label>
+                                </div>
+                            </#if>
+                        </#items>
+                    </#list>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "出生日期"/>：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input class="form-control time-input" name="birthday"  data-type="date" data-format="yyyy-MM-dd" type="text"  required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "职位"/>：</label>
+                <div class="col-sm-8">
+                    <select id="position" name="position" class="form-control">
+                        <#list dict.getType('sys_post_type')>
+                            <#items as d>
+                                <#if d.status =='0' >
+                                   <option  value="${d.dictValue}" text="${d.dictLabel}">${d.dictLabel}</option>
+                                </#if>
+                            </#items>
+                         </#list>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "education"/>：</label>
+                <div class="col-sm-8">
+                    <select id="education" name="education" class="form-control">
+                        <#list dict.getType('sys_post_type')>
+                            <#items as d>
+                                <#if d.status =='0' >
+                                   <option  value="${d.dictValue}" text="${d.dictLabel}">${d.dictLabel}</option>
+                                </#if>
+                            </#items>
+                         </#list>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "爱好"/>：</label>
+                <div class="col-sm-8">
+                   <#list dict.getType('sys_post_type')>
+                        <#items as d>
+                            <#if d.status =='0' >
+                               <label>
+                                    <input type="checkbox" id="hobby_${d.dictCode}" name="hobby"
+                                           value="${d.dictValue}" >
+                                    <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label>
+                                   </label>
+                            </#if>
+                        </#items>
+                    </#list>
+                </div>
+            </div>           
+             <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "离职日期"/>：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input class="form-control time-input" name="leaveDate"  data-type="date" data-format="yyyy-MM-dd" type="text" >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "入职日期"/>：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input class="form-control time-input" name="joinDate"  data-type="date" data-format="yyyy-MM-dd" type="text" >
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "身份证号"/>：
+                                 </label>
+                <div class="col-sm-8">
+                    <input name="noationalId" class="form-control" type="text">
+                                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "备注信息"/>：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark" class="form-control"></textarea>
+                </div>
+            </div>            
+</@addorEdit>
+<@footer>
+    <script type="text/javascript">
+        var prefix = baseURL + "gen/test"
+        $("#form-test-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if (opt.validate.form()) {
+                opt.operate.save(prefix + "/add", $('#form-test-add').serialize());
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</@footer>
+</@pageTheme>

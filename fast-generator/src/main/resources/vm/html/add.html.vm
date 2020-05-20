@@ -30,7 +30,7 @@ ${pageTheme}
 #set($BusinessName=$businessName.substring(0,1).toUpperCase() + ${businessName.substring(1)})
 #set($treeId = "${className}?.${treeCode}")
                         <input id="treeId" name="${treeParentCode}" type="hidden" value="${${treeId}}"/>
-                        <input class="form-control" type="text" onclick="select${BusinessName}Tree()" id="treeName" readonly="true" value="${${treeName}}"#if($column.required) required#end>
+                        <input class="form-control" type="text" onclick="select${BusinessName}Tree()" id="treeName" readonly="true" value="${${treeName}}"#if($column.required) required#end placeholder ="" >
                         <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
                     </div>
                 </div>
@@ -125,6 +125,36 @@ ${pageTheme}
                     <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
                 </div>
             </div>
+            
+ #elseif($column.htmlType == "checkbox" && "" != $dictType)
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                   <<@>list dict.getType('${dictType}')>
+                        <<@>items as d>
+                            <<@>if d.status =='0' >
+                               <label>
+                                    <input type="checkbox" id="${field}_${d.dictCode}" name="${field}"
+                                           value="${d.dictValue}" >
+                                    <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label>
+                                   </label>
+                            </<@>if>
+                        </<@>items>
+                    </<@>list>
+                </div>
+            </div>           
+ #elseif($column.htmlType == "checkbox" && $dictType)
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                        <label>
+                        <input type="checkbox" name="${field}" value=""#if($column.required) required#end>
+                        <label th:for="${field}" th:text="未知"></label>
+                        </label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+            </div>           
+            
 #elseif($column.htmlType == "datetime")
             <div class="form-group">    
                 <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
@@ -141,7 +171,7 @@ ${pageTheme}
                 <div class="col-sm-8">
                     <textarea name="${field}" class="form-control"#if($column.required) required#end></textarea>
                 </div>
-            </div>
+            </div>            
 #end
 #end
 #end

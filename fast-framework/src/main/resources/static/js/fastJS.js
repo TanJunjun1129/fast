@@ -2990,6 +2990,35 @@ if (typeof jQuery === "undefined") {
                 });
                 return actions.join('');
             },
+            // 回显数据字典 多个, 约定以逗号分割---用于复选框翻译回显 , values 值 字符串 如： 1,2,3,4  
+            selectDictLabels: function(datas, valueStr) {
+                var actions = [];
+                valueStr = valueStr || "";
+                var values = valueStr.split(",");
+                $.each(values ,function(index, value){
+	                $.each(datas, function(index, dict) {
+	                    if (dict.dictValue == ('' + value)) {
+	                        var listClass = opt.common.equals("default", dict.listClass) || opt.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
+	                        if(!opt.common.isEmpty(dict.cssClass)){
+	                            listClass = opt.common.isEmpty(dict.cssClass) ? "" : dict.cssClass;
+	                        }
+	                        actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, $.i18n.prop(dict.dictLabel)));
+	                        return false;
+	                    }
+	                    //兼容客户端数据为空 -- 则匹配字典默认值
+	                    if (opt.common.isEmpty(value) && dict.isDefault === "Y") {
+	                        var listClass = opt.common.equals("default", dict.listClass) || opt.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
+	                        if(!opt.common.isEmpty(dict.cssClass)){
+	                            listClass = opt.common.isEmpty(dict.cssClass) ? "" : dict.cssClass;
+	                        }
+	                        actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, $.i18n.prop(dict.dictLabel)));
+	                        return false;
+	                    }
+	                });
+                });
+                
+                return actions.join(',');
+            },
             // 显示表格指定列
             showColumn: function(column, tableId) {
                 var currentId = opt.common.isEmpty(tableId) ? table.options.id : tableId;
