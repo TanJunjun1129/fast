@@ -39,7 +39,7 @@
 			<#else>
 				var options = {
 					url: url,
-					_list:"${treeName?default("")}",
+					_list:$("#treeId").val(),
 					<#if expandLevel=="true">expandLevel : 1,</#if>
 					data: {
 						simpleData: {

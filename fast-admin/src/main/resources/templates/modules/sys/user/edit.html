@@ -2,15 +2,16 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改用户"/>
 <@addorEdit fromId="form-user-edit">   
-    <input type="hidden" id="userId" name="userId" value="${user.userId?default("")}"/>
-    <input type="hidden" id="compId" name="compId" value="${user.compId?default("")}"/>
-    <input type="hidden" id="deptId" name="deptIdList" value=""/>
+    <@from.hidden id="userId" value="${user.userId?default('')}"/>
+<#--    <input type="hidden" id="compId" name="compId" value="${user.compId?default('')}"/>-->
+<#--    <input type="hidden" id="deptId" name="deptIdList" value=""/>-->
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录账号：</label>
                 <div class="col-sm-8">
-                    <input id="username" name="username" value="${user.username?default("")}" readonly="true" placeholder="请输入登录账号" class="form-control" type="text">
+<#--                    <input id="username" name="username" value="${user.username?default("")}" readonly="true" placeholder="请输入登录账号" class="form-control" type="text">-->
+                    <@from.input name="username" value="${user.username?default('')}" readonly="true"/>
                 </div>
             </div>
         </div>
@@ -18,10 +19,10 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属公司：</label>
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <input name="compName"  id="compName" value="${user.compName?default("")}" type="text" placeholder="请选择归属公司" onclick="selectCompTree()" class="form-control" required>
-                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
-                    </div>
+<#--                        <input name="compName"  id="compName" value="${user.compName?default("")}" type="text" placeholder="请选择归属公司" onclick="selectCompTree()" class="form-control" required>-->
+<#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
+                        <@from.treeselect id="compId" value="${user.compId?default('')}"
+                        labelValue="${user.compName?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true" placeholder="请选择归属公司"/>
                 </div>
             </div>
         </div>
@@ -39,10 +40,12 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>管理地区：</label>
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <input name="deptName"  id="deptName"  type="text"  onclick="selectDeptTree()"  placeholder="请选择管理地区" class="form-control" required>
-                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
-                    </div>
+<#--                    <div class="input-group">-->
+<#--                        <input name="deptName"  id="deptName"  type="text"  onclick="selectDeptTree()"  placeholder="请选择管理地区" class="form-control" required>-->
+<#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
+<#--                    </div>-->
+                    <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
+                    checked="true" correlationId="compId"  placeholder="请选择管理地区"/>
                 </div>
             </div>
         </div>
@@ -146,7 +149,7 @@
             placeholder:"请选择岗位",
             allowClear: true
         });
-        $("#deptName").val(deptName.substr(0,deptName.length-1));
+        $("#deptIdName").val(deptName.substr(0,deptName.length-1));
         $("#deptId").val(deptIdList.substr(0,deptIdList.length-1));
     })
 
@@ -172,43 +175,43 @@
         }
     }
 
-    /* 获取公司树 */
-    function selectCompTree() {
-        var treeId = $("#compId").val();
-        var compId = opt.common.isEmpty(treeId) ? "-1" : $("#compId").val();
-        var url = baseURL + "sys/comp/selectCompTree/" + compId;
-        var options = {
-            title: $.i18n.prop("sys.select.comp"),
-            width: "380",
-            url: url,
-            callBack: CompDoSubmit
-        };
-        opt.modal.openOptions(options);
-    }
-    function CompDoSubmit(index, layero){
-        var _v = $.tree.callBackTree(layero,index);
-        $("#compId").val(_v.id);
-        $("#compName").val(_v.name);
-        $("#deptName").val("");
-        layer.close(index);
-    }
+    // /* 获取公司树 */
+    // function selectCompTree() {
+    //     var treeId = $("#compId").val();
+    //     var compId = opt.common.isEmpty(treeId) ? "-1" : $("#compId").val();
+    //     var url = baseURL + "sys/comp/selectCompTree/" + compId;
+    //     var options = {
+    //         title: $.i18n.prop("sys.select.comp"),
+    //         width: "380",
+    //         url: url,
+    //         callBack: CompDoSubmit
+    //     };
+    //     opt.modal.openOptions(options);
+    // }
+    // function CompDoSubmit(index, layero){
+    //     var _v = $.tree.callBackTree(layero,index);
+    //     $("#compId").val(_v.id);
+    //     $("#compName").val(_v.name);
+    //     $("#deptName").val("");
+    //     layer.close(index);
+    // }
     /* 获取公司对应地区 */
-    function selectDeptTree(){
-        var options = {
-            title: $.i18n.prop("sys.select.dept"),
-            width: "380",
-            url: baseURL+'sys/dept/selectDeptTree',
-            obj:{"compId":$("#compId").val(),"list":$("#deptId").val()},
-            callBack: DeptDoSubmit
-        };
-        opt.modal.openOptions(options);
-    }
-    function DeptDoSubmit(index, layero){
-        var _v = $.tree.callBackTree(layero,index);
-        $("#deptId").val(_v.id);
-        $("#deptName").val(_v.name);
-        layer.close(index);
-    }
+    // function selectDeptTree(){
+    //     var options = {
+    //         title: $.i18n.prop("sys.select.dept"),
+    //         width: "380",
+    //         url: baseURL+'sys/dept/selectDeptTree',
+    //         obj:{"compId":$("#compId").val(),"list":$("#deptId").val()},
+    //         callBack: DeptDoSubmit
+    //     };
+    //     opt.modal.openOptions(options);
+    // }
+    // function DeptDoSubmit(index, layero){
+    //     var _v = $.tree.callBackTree(layero,index);
+    //     $("#deptId").val(_v.id);
+    //     $("#deptName").val(_v.name);
+    //     layer.close(index);
+    // }
 </script>
 </@footer>
 </@pageTheme>

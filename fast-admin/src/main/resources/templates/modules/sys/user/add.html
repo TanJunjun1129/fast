@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属公司：</label>
                 <div class="col-sm-8">
-                    <@from.treeselect id="comp" name="compId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"
+                    <@from.treeselect id="compId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"
                     placeholder="请选择归属公司"/>
                 </div>
             </div>
@@ -42,7 +42,7 @@
 <#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
 <#--                    </div>-->
                     <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
-                        checked="true" correlationId="comp"  placeholder="请选择管理地区"/>
+                        checked="true" correlationId="compId"  placeholder="请选择管理地区"/>
                 </div>
             </div>
         </div>
