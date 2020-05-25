@@ -156,14 +156,26 @@ public class SysDeptController extends BaseController {
 	/**
 	 * 选择部门(添加、修改菜单)
 	 */
-	@RequestMapping("/select/{compId}")
+	@RequestMapping("/selectZtree")
 	@RequiresPermissions("sys:dept:select")
 	@ResponseBody
-	public ResponseData select(@PathVariable("compId") Long compId) {
-
+	public ResponseData selectZtree() {
+		Long compId = Long.parseLong(super.getPara("correlationId"));
 		if(compId == 1L){ //总公司
 			List<SysDeptEntity> deptList = sysDeptService.findPage(new HashMap<>());
-			return success().put("deptList", deptList);
+			List<Ztree> ztrees = new ArrayList<Ztree>();
+			for (SysDeptEntity dept : deptList) {
+				if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {
+					Ztree ztree = new Ztree();
+					ztree.setId(dept.getDeptId());
+					ztree.setpId(dept.getParentId());
+					ztree.setName(dept.getName());
+					ztree.setTitle(dept.getName());
+					ztree.setType(dept.getType()+"");
+					ztrees.add(ztree);
+				}
+			}
+			return success().put("deptList", ztrees);
 		}else{
 			//获取公司下所有子公司
 			List<Long> compIds = sysCompService.getSubDeptIdList(compId);
@@ -171,7 +183,19 @@ public class SysDeptController extends BaseController {
 			// 获取公司关联地区ID
 			List<Long> deptIds = sysCompDeptService.findDeptIdList(compIds.stream().toArray(Long[]::new));
 			List<SysDeptEntity> deptList = sysDeptService.list(new QueryWrapper<SysDeptEntity>().in("dept_id", deptIds));
-			return success().put("deptList", deptList);
+			List<Ztree> ztrees = new ArrayList<Ztree>();
+			for (SysDeptEntity dept : deptList) {
+				if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {
+					Ztree ztree = new Ztree();
+					ztree.setId(dept.getDeptId());
+					ztree.setpId(dept.getParentId());
+					ztree.setName(dept.getName());
+					ztree.setTitle(dept.getName());
+					ztree.setType(dept.getType()+"");
+					ztrees.add(ztree);
+				}
+			}
+			return success().put("deptList", ztrees);
 		}
 	}
 

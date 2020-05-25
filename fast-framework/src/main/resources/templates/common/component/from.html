@@ -1,0 +1,270 @@
+<#--
+  Copyright (c) 2020-Now http://www.j2eefast.com All rights reserved.
+  常用表单组件
+  @author J2eeFAST
+  @date 2020-05-20
+  @version v1.0.1
+-->
+<#--获取动态传入参数值 -->
+<#macro getName value key>
+    <#list value?keys as attr>
+        <#if attr == key>
+            <#t>${value[attr]}<#t>
+        </#if>
+    </#list>
+</#macro>
+
+<#--
+    //弹窗树组件
+    treeCallback 回调页面函数
+-->
+<#macro treeselect id = "inputId"
+                   name = "inputIdName"
+                   url = "sys/comp/treeData"
+                   boxTitle = ""
+                   width="380"
+                   height=""
+                   value=""
+                   labelValue=""
+                   checked="false"
+                   required="false" <#-- 是否必输-->
+                   correlationId="" <#-- 关联ID-->
+                   correlationValue= "0"  <#-- 关联默认值-->
+                   class = "form-control" <#-- 输入框样式-->
+                   butClass = "fa fa-fw fa-search"
+                   expandLevel = "false" <#--是否展开树 -->
+                   placeholder="请输入值"
+                   helpTip = ""  <#--帮助提示 -->
+                   ext...>
+<@compress single_line=true>
+    <input id="${id}" name="${name}" type="hidden" value="${value}"/>
+    <div class="input-group" id="${id}Div" data-url="${url}">
+        <input id="${id}Name" type="text" placeholder="${placeholder}" class="${class}" value="${labelValue}" <#if required !="false"> required</#if>/>
+        <span class="input-group-btn" id="${id}But"><a  href="javascript:;" class="btn btn-default"><i class="${butClass}"></i></a></span>
+    </div>
+    <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
+    <script type="text/javascript">
+        $("#${id}But, #${id}Name").click(function(){
+            var treeId = $("#${id}").val();
+            var treeName =  $("#${id}Name").val();
+            <#if correlationId !="">
+            var correlationId = $("#${correlationId}").val() == "" ? "${correlationValue}": $("#${correlationId}").val();
+            <#else>
+            var correlationId = "";
+            </#if>
+            var options = {
+                title: <#if boxTitle =="">"<@ctx.i18n text = "请选择数据"/>" <#else>"${boxTitle}"</#if>,
+                width: "380",
+                <#if height != "">
+                height: height,
+                </#if>
+                url: baseURL + "sys/component/treeselect",
+                <#-- POST提交组件控制类参数-->
+                fromData:{
+                    url: $("#${id}Div").data("url"),
+                    treeId: treeId,
+                    treeName: treeName,
+                    expandLevel: "${expandLevel}",
+                    correlationId: correlationId,
+                    checked: "${checked}"
+                },
+                callBack: ${id}doSubmit,
+                cancel:  ${id}cancel,
+            };
+            opt.modal.openOptions(options);
+        });
+
+        function ${id}doSubmit(index, layero,selfLayer) {
+            var nodes = $.tree.callBackTree(layero,index);
+            $("#${id}").val(nodes.id); /* 赋值主页面隐藏ID */
+            $("#${id}Name").val(nodes.name);/* 回显主页面控件 */
+            console.log(nodes.id);
+            if(typeof treeCallback == 'function'){
+                treeCallback('${name}', 'ok', index, layero, nodes);
+            }
+            selfLayer.close(index);
+        };
+
+        function ${id}cancel(index, layero) {
+            if(typeof treeCallback == 'function'){
+                treeCallback('${name}', 'cancel', index, layero, '');
+            }
+        }
+    </script>
+</@compress>
+</#macro>
+
+<#--
+    //from input 输入框标签
+-->
+<#macro input id = "" <#-- ID 如果ID 不传则跟name一致-->
+              name = "input1" <#-- 如果name不传则于id一直-->
+              value = ""
+              type = "text"
+              dataFormat = "" <#-- 格式化-->
+              required="false" <#-- 是否必输-->
+              class = "form-control" <#-- 输入框样式-->
+              placeholder=""
+              butClass = "" <#-- 是否带提示样式-->
+              helpTip = ""  <#--帮助提示 -->
+              maxlength = "" <#--输入最大长度 -->
+>
+    <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if name == "">${id}<#else>${name}</#if>" class="${class}"
+           type="${type}" placeholder="${placeholder}" <#if maxlength !=""> maxlength = "${maxlength}"</#if><#if required !="false"> required</#if>/>
+    <#if butClass!=""><span class="input-group-addon"><i class="${butClass}"></i></span></#if>
+    <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
+</#macro>
+
+<#--
+    //from radio 单选按钮
+-->
+<#macro radio   id = "" <#-- ID 如果ID 不传则跟name一致-->
+                name = "input1" <#-- 如果name不传则于id一直-->
+                value = ""
+                required="false" <#-- 是否必输-->
+                class = "radio-box" <#-- 输入框样式-->
+                butClass = "" <#-- 是否带提示样式-->
+                helpTip = ""  <#--帮助提示 -->
+                dictType = "" <#-- 字典类型，从字典里获取 -->
+                items = "" <#-- 列表数据，可接受对象集合 -->
+>
+    <#if dictType !="">
+        <#list dict.getType('${dictType}')>
+            <#items as d>
+                <#if d.status =='0' >
+                    <label class="${class}"><input type="radio" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                </#if>
+            </#items>
+        </#list>
+    </#if>
+</#macro>
+
+<#--
+    //from checkbox 复选框
+-->
+<#macro checkbox id = "" <#-- ID 如果ID 不传则跟name一致-->
+                name = "input1" <#-- 如果name不传则于id一直-->
+                value = ""
+                required="false" <#-- 是否必输-->
+                class = "check-box" <#-- 输入框样式-->
+                butClass = "" <#-- 是否带提示样式-->
+                helpTip = ""  <#--帮助提示 -->
+                dictType = "" <#-- 字典类型，从字典里获取 -->
+                items = "" <#-- 列表数据，可接受对象集合  -->
+                itemLabel = ""	<#--  指定列表数据中的什么属性名作为option的标签名 -->
+	            itemValue =  ""	<#-- 指定列表数据中的什么属性名作为option的value值 -->
+                status = "status" <#-- 检测状态-->
+>
+    <#if dictType !="">
+        <#list dict.getType('${dictType}')>
+            <#items as d>
+                <#if status == "status">
+                    <#if d.status =='0' >
+                        <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                    </#if>
+                <#else>
+                        <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                </#if>
+            </#items>
+        </#list>
+    <#else>
+        <#list items>
+            <#items as d>
+                <#if status == "status">
+                    <#if d.status =='0' >
+                        <label>
+                            <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
+                        </label>
+                    </#if>
+                <#else>
+                    <label>
+                        <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
+                    </label>
+                </#if>
+            </#items>
+        </#list>
+    </#if>
+
+</#macro>
+
+<#--
+    //from select 下拉框标签
+-->
+<#macro select id = "" <#-- ID 如果ID 不传则跟name一致-->
+                name = "input1" <#-- 如果name不传则于id一直-->
+                value = ""
+                required="false" <#-- 是否必输-->
+                class = "form-control" <#-- 输入框样式-->
+                butClass = "" <#-- 是否带提示样式-->
+                helpTip = ""  <#--帮助提示 -->
+                dictType = "" <#-- 字典类型，从字典里获取 -->
+                items = "" <#-- 列表数据，可接受对象集合  -->
+                itemLabel = ""	<#--  指定列表数据中的什么属性名作为option的标签名 -->
+                itemValue =  ""	<#-- 指定列表数据中的什么属性名作为option的value值 -->
+                status = "status" <#-- 检测状态-->
+                multiple= "false" <#--  是否为多选框 -->
+>
+    <#if multiple == "false">
+        <select id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>" class="${class}" <#if required !="false"> required</#if>>
+        <#if dictType !="">
+            <#list dict.getType('${dictType}')>
+                <#items as d>
+                    <#if status == "status">
+                        <#if d.status =='0' >
+                            <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
+                        </#if>
+                    <#else>
+                        <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
+                    </#if>
+                </#items>
+            </#list>
+        <#else>
+            <#list items>
+                <#items as d>
+                    <#if status == "status">
+                        <#if d.status =='0' >
+                            <label>
+                                <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
+                            </label>
+                        </#if>
+                    <#else>
+                        <label>
+                            <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
+                        </label>
+                    </#if>
+                </#items>
+            </#list>
+        </#if>
+        </select>
+    </#if>
+
+    <#if multiple == "true">
+        <select id="<#if id == "">${name}<#else>${id}</#if>" class="${class}" multiple <#if required !="false"> required</#if>>
+            <#if dictType !="">
+                <#list dict.getType('${dictType}')>
+                    <#items as d>
+                        <#if status == "status">
+                            <#if d.status =='0' >
+                                <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
+                            </#if>
+                        <#else>
+                                <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
+                        </#if>
+                    </#items>
+                </#list>
+            <#else>
+                <#list items>
+                    <#items as d>
+                        <#if status == "status">
+                            <#if d.status =='0' >
+                                <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
+                            </#if>
+                        <#else>
+                                <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
+                        </#if>
+                    </#items>
+                </#list>
+            </#if>
+        </select>
+    </#if>
+</#macro>

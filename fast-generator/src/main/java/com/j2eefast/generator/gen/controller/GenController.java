@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @author: zhouzhou Emall:18774995071@163.com
  * @time 2020/1/6 14:45
  * @version V1.0
- 
+
  *
  */
 @Controller
@@ -238,7 +238,7 @@ public class GenController extends BaseController {
     /**导入选择***/
     @GetMapping("/selectDb")
     public String selectDb(ModelMap mmap) {
-       List<SysDatabaseEntity> listDb =  sysDatabaseService.list();
+        List<SysDatabaseEntity> listDb =  sysDatabaseService.list();
         mmap.put("listDb",listDb);
         return urlPrefix + "/selectDb";
     }
@@ -260,48 +260,48 @@ public class GenController extends BaseController {
         return success();
     }
 
-    
+
     @RequiresPermissions("tool:gen:list")
     @GetMapping("/refreshTable/{tableId}")
     @ResponseBody
     public ResponseData refreshTableSave(@PathVariable("tableId") Long tableId){
-    	
-    	GenTableEntity table = genTableService.findGenTableById(tableId);
+
+        GenTableEntity table = genTableService.findGenTableById(tableId);
         // 查询表信息
         List<GenTableColumnEntity> genTableColumns = genTableColumnService.selectDbTableColumnsByName(table.getDbType(),table.getTableName());
-        
-       List<String> genTableColumnName =  genTableColumns.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
-       
+
+        List<String> genTableColumnName =  genTableColumns.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
+
 
         List<GenTableColumnEntity> genTableColumnsExists =table.getColumns();
-       
+
         List<String> genTableColumnsExistsName =  genTableColumnsExists.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
-        
-        
-        
+
+
+
         //增加  新增的表column数据库表
         for (GenTableColumnEntity column : genTableColumns) {
-        	if (genTableColumnsExistsName.contains(column.getColumnName())) {
-        		continue;
-        	}
+            if (genTableColumnsExistsName.contains(column.getColumnName())) {
+                continue;
+            }
             GenUtils.initColumnField(column, table);
             //如果comment为空 设置comment 为JavaField
-            if (StringUtils.isBlank(column.getColumnComment())){ 
-            	column.setColumnComment(column.getJavaField());
+            if (StringUtils.isBlank(column.getColumnComment())){
+                column.setColumnComment(column.getJavaField());
             }
             genTableColumnService.save(column);
         }
-         
- 
+
+
         //删除 已经删除的表column数据库表
         for (GenTableColumnEntity column : genTableColumnsExists) {
-        	if (genTableColumnName.contains(column.getColumnName())) {
-        		continue;
-        	}
+            if (genTableColumnName.contains(column.getColumnName())) {
+                continue;
+            }
             genTableColumnService.removeById(column);
         }
-   
-        
+
+
         return success();
     }
 
@@ -334,6 +334,9 @@ public class GenController extends BaseController {
         File[] roots = File.listRoots();//
         List<Ztree> ztrees = new ArrayList<Ztree>();
         for (int i=0; i< roots.length; i++) {
+            if(!roots[i].canRead()){
+                continue;
+            }
             Ztree ztree = new Ztree();
             String path = roots[i].getPath();
             ztree.setId((long) HashUtil.rsHash(path));

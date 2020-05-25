@@ -2,52 +2,57 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增菜单"/>
 <@addorEdit fromId="form-menu-add">
-        <input id="treeId" name="parentId" type="hidden" value="${menu.menuId}" />
+<#--        <input id="treeId" name="parentId" type="hidden" value="${menu.menuId}" />-->
         <div class="form-group">
             <label class="col-sm-3 control-label "><@ctx.i18n text = "上级菜单"/>：</label>
             <div class="col-sm-8">
-                <div class="input-group">
-                    <input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" value="${menu.name}">
-                    <span class="input-group-btn"><a  href="javascript:selectMenuTree();" class="btn btn-default"><i class="fa fa-fw fa-search"></i></a></span>
-                </div>
+<#--                <div class="input-group">-->
+<#--                    <input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true" value="${menu.name}">-->
+<#--                    <span class="input-group-btn"><a  href="javascript:selectMenuTree();" class="btn btn-default"><i class="fa fa-fw fa-search"></i></a></span>-->
+<#--                </div>-->
+                <@from.treeselect id="treeId" value="${menu.menuId}" name="parentId" boxTitle="菜单选择" url="sys/menu/menuTreeData"
+                    labelValue="${menu.name}" placeholder="请选择归属公司"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单类型"/>：</label>
             <div class="col-sm-8">
-                <#list dict.getType('sys_menu_type')>
-                    <#items as d>
-                        <#if d.status =='0' >
-                            <label class="radio-box"><input type="radio" name="type" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
-                        </#if>
-                    </#items>
-                </#list>
+<#--                <#list dict.getType('sys_menu_type')>-->
+<#--                    <#items as d>-->
+<#--                        <#if d.status =='0' >-->
+<#--                            <label class="radio-box"><input type="radio" name="type" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>-->
+<#--                        </#if>-->
+<#--                    </#items>-->
+<#--                </#list>-->
+                <@from.radio name="type" dictType="sys_menu_type"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单名称"/>：</label>
             <div class="col-sm-8">
-                <input class="form-control" type="text" name="name" id="name" required>
+                <@from.input name="name" required="true"/>
             </div>
         </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "所属模块"/>：</label>
         <div class="col-sm-8">
-                <#list modules>
-                    <#items as d>
-                        <#if d.status =='0' >
-                            <label>
-                                <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>
-                            </label>
-                        </#if>
-                    </#items>
-                </#list>
+<#--                <#list modules>-->
+<#--                    <#items as d>-->
+<#--                        <#if d.status =='0' >-->
+<#--                            <label>-->
+<#--                                <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>-->
+<#--                            </label>-->
+<#--                        </#if>-->
+<#--                    </#items>-->
+<#--                </#list>-->
+            <@from.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
         </div>
     </div>
         <div class="form-group">
             <label class="col-sm-3 control-label"><@ctx.i18n text = "请求地址"/>：</label>
             <div class="col-sm-8">
-                <input id="url" name="url" class="form-control" type="text">
+<#--                <input id="url" name="url" class="form-control" type="text">-->
+                <@from.input name="url"/>
             </div>
         </div>
         <div class="form-group">
@@ -57,15 +62,16 @@
                     <i class="fa fa-question-circle-o" style="color: orange"></i></a>
             </label>
             <div class="col-sm-8">
-                <select id="target" name="target" class="form-control">
-                    <#list dict.getType('sys_menu_target')>
-                        <#items as d>
-                            <#if d.status =='0' >
-                                <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
-                            </#if>
-                        </#items>
-                    </#list>
-                </select>
+<#--                <select id="target" name="target" class="form-control">-->
+<#--                    <#list dict.getType('sys_menu_target')>-->
+<#--                        <#items as d>-->
+<#--                            <#if d.status =='0' >-->
+<#--                                <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>-->
+<#--                            </#if>-->
+<#--                        </#items>-->
+<#--                    </#list>-->
+<#--                </select>-->
+                <@from.select name="target" dictType="sys_menu_target" />
             </div>
         </div>
         <div class="form-group">
@@ -74,14 +80,15 @@
 <#--                   data-content='控制器中定义的权限标识，如：<#noparse><@shiro.hasPermission name="sys:menu:add"></@shiro.hasPermission></#noparse>'><i class="fa fa-question-circle-o" style="color: orange"></i></a>-->
             </label>
             <div class="col-sm-8">
-                <input id="perms" name="perms" class="form-control" type="text">
-                <span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>控制器中定义的权限标识，如：<#noparse><@shiro.hasPermission name="sys:menu:add"></#noparse></span>
+                <@from.input name="perms" helpTip="控制器中定义的权限标识，如：<@shiro.hasPermission name=\"sys:menu:add\">"/>
+<#--                <input id="perms" name="perms" class="form-control" type="text">-->
+<#--                <span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>控制器中定义的权限标识，如：<#noparse><@shiro.hasPermission name="sys:menu:add"></#noparse></span>-->
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label"><@ctx.i18n text = "排序"/>：</label>
             <div class="col-sm-8">
-                <input class="form-control" type="text" name="orderNum" required>
+                <@from.input name="orderNum" required="true"/>
             </div>
         </div>
         <div class="form-group">
@@ -101,15 +108,16 @@
         <div class="form-group">
             <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单状态"/>：</label>
             <div class="col-sm-8">
-                <#list dict.getType('sys_show_hide')>
-                    <#items as d>
-                        <div class="radio-box">
-                            <input type="radio" id="${d.dictCode}" name="hide" value="${d.dictValue}"
-                                   <#if d.isDefault =='Y' >checked</#if>>
-                            <label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>
-                        </div>
-                    </#items>
-                </#list>
+<#--                <#list dict.getType('sys_show_hide')>-->
+<#--                    <#items as d>-->
+<#--                        <div class="radio-box">-->
+<#--                            <input type="radio" id="${d.dictCode}" name="hide" value="${d.dictValue}"-->
+<#--                                   <#if d.isDefault =='Y' >checked</#if>>-->
+<#--                            <label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>-->
+<#--                        </div>-->
+<#--                    </#items>-->
+<#--                </#list>-->
+                <@from.radio name="hide" dictType="sys_show_hide"/>
             </div>
         </div>
 </@addorEdit>
@@ -222,26 +230,26 @@
     });
 
     /*菜单管理-新增-选择菜单树*/
-    function selectMenuTree() {
-        var treeId = $("#treeId").val();
-        var menuId = treeId > 0 ? treeId : 1;
-        var url = prefix + "/selectMenuTree/" + menuId;
-        var options = {
-            title: '菜单选择',
-            width: "380",
-            url: url,
-            callBack: doSubmit
-        };
-        opt.modal.openOptions(options);
-    }
-
-    function doSubmit(index, layero){
-        var body = layer.getChildFrame('body', index);
-        $("#treeId").val(body.find('#treeId').val());
-        $("#treeName").val(body.find('#treeName').val());
-        layer.close(index);
-    }
-
+    // function selectMenuTree() {
+    //     var treeId = $("#treeId").val();
+    //     var menuId = treeId > 0 ? treeId : 1;
+    //     var url = prefix + "/selectMenuTree/" + menuId;
+    //     var options = {
+    //         title: '菜单选择',
+    //         width: "380",
+    //         url: url,
+    //         callBack: doSubmit
+    //     };
+    //     opt.modal.openOptions(options);
+    // }
+    //
+    // function doSubmit(index, layero){
+    //     var body = layer.getChildFrame('body', index);
+    //     $("#treeId").val(body.find('#treeId').val());
+    //     $("#treeName").val(body.find('#treeName').val());
+    //     layer.close(index);
+    // }
+    //
     function doIconSubmit(index, layero,_layer){
         var body = _layer.getChildFrame('body', index);
         var icon = body.find('#icon').val();

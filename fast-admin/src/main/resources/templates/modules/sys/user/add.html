@@ -2,15 +2,15 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增用户"/>
 <@addorEdit fromId="form-user-add">
-    <input type="hidden" id="compId" name="compId"/>
-    <input type="hidden" id="deptId" name="deptIdList"/>
+<#--    <input type="hidden" id="compId" name="compId"/>-->
+<#--    <input type="hidden" id="deptId" name="deptIdList"/>-->
     <h4 class="form-header h4">基本信息</h4>
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录账号：</label>
                 <div class="col-sm-8">
-                    <input id="username" name="username" placeholder="请输入登录账号" class="form-control" type="text" required>
+                    <@from.input name="username" placeholder="请输入登录账号" required="true" helpTip="登录账号数字加字母组合,至少3位"/>
                 </div>
             </div>
         </div>
@@ -18,10 +18,8 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属公司：</label>
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <input name="compName"  id="compName" type="text" placeholder="请选择归属公司" onclick="selectCompTree()" class="form-control" required>
-                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
-                    </div>
+                    <@from.treeselect id="comp" name="compId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"
+                    placeholder="请选择归属公司"/>
                 </div>
             </div>
         </div>
@@ -39,10 +37,12 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>管理地区：</label>
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <input name="deptName"  id="deptName"  type="text"  onclick="selectDeptTree()"  placeholder="请选择管理地区" class="form-control" required>
-                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
-                    </div>
+<#--                    <div class="input-group">-->
+<#--                        <input name="deptName"  id="deptName"  type="text"  onclick="selectDeptTree()"  placeholder="请选择管理地区" class="form-control" required>-->
+<#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
+<#--                    </div>-->
+                    <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
+                        checked="true" correlationId="comp"  placeholder="请选择管理地区"/>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录密码：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input name="password"  id="password"  placeholder="请输入登录密码" class="form-control" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}" required>
+                       <input name="password"  id="password"  placeholder="请输入登录密码" class="form-control" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}" required>
                        <span class="input-group-addon" title="<@ctx.i18n text = "登录密码,鼠标按下显示密码"/>"
                               data-toggle="tooltip"
                               data-placement="bottom"
@@ -68,11 +68,12 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
                 <div class="col-sm-8">
-                    <select id="_role" class="form-control select2-multiple" multiple required>
-                        <#list roles  as role>
-                            <option  value="${role.roleId}">${role.roleName}</option>
-                        </#list>
-                    </select>
+<#--                    <select id="_role" class="form-control select2-multiple" multiple required>-->
+<#--                        <#list roles  as role>-->
+<#--                            <option  value="${role.roleId}">${role.roleName}</option>-->
+<#--                        </#list>-->
+<#--                    </select>-->
+                    <@from.select name="_role" multiple = "true"  items=roles itemLabel="roleName" itemValue="roleId" required="true"/>
                 </div>
             </div>
         </div>
@@ -83,8 +84,7 @@
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input id="mobile" name="mobile" v-model="user.mobile" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" required>
-                        <span class="input-group-addon"><i class="fa fa-fw fa-mobile"></i></span>
+                        <@from.input name="mobile"  maxlength="11" butClass="fa fa-fw fa-mobile"  placeholder="请输入手机号码" />
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">卡号：</label>
                 <div class="col-sm-8">
-                    <input name="cardId" id="cardId" v-model="user.cardId" placeholder="请输入卡号" class="form-control" type="text" maxlength="30">
+                    <@from.input name="cardId"  maxlength="30" placeholder="请输入卡号" />
                 </div>
             </div>
         </div>
@@ -104,8 +104,7 @@
                 <label class="col-sm-4 control-label">邮箱：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input id="email" name="email" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱">
-                        <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
+                        <@from.input name="email" class="form-control email" butClass="fa fa-fw fa-envelope" maxlength="50" placeholder="请输入邮箱" />
                     </div>
                 </div>
             </div>
@@ -211,44 +210,32 @@
 	        }
 	    }
          
-        /*用户管理-新增-选择公司树*/
-        function selectCompTree() {
-        	var treeId = $("#compId").val();
-        	var compId = opt.common.isEmpty(treeId) ? "1" : $("#compId").val();
-        	var url = baseURL + "sys/comp/selectCompTree/" + compId;
-			var options = {
-				title: '选择公司',
-				width: "380",
-				url: url,
-				callBack: doSubmit
-			};
-			opt.modal.openOptions(options);
-		}
+
 		
-		function doSubmit(index, layero){
-            var _v = $.tree.callBackTree(layero,index);
-            $("#compId").val(_v.id);
-            $("#compName").val(_v.name);
-            layer.close(index);
-		}
+		// function doSubmit(index, layero){
+        //     var _v = $.tree.callBackTree(layero,index);
+        //     $("#compId").val(_v.id);
+        //     $("#compName").val(_v.name);
+        //     layer.close(index);
+		// }
 
         /*获取公司对应地区*/
-        function selectDeptTree(){
-            var options = {
-                title:"<@ctx.i18n text = "sys.select.dept"/>",
-                width: "380",
-                url: baseURL+'sys/dept/selectDeptTree',
-                obj:{"compId":$("#compId").val(),"list":$("#deptId").val()},
-                callBack: DeptDoSubmit
-            };
-            opt.modal.openOptions(options);
-        }
-        function DeptDoSubmit(index, layero){
-            var _v = $.tree.callBackTree(layero,index);
-            $("#deptId").val(_v.id);
-            $("#deptName").val(_v.name);
-            layer.close(index);
-        }
+        <#--function selectDeptTree(){-->
+        <#--    var options = {-->
+        <#--        title:"<@ctx.i18n text = "sys.select.dept"/>",-->
+        <#--        width: "380",-->
+        <#--        url: baseURL+'sys/dept/selectDeptTree',-->
+        <#--        obj:{"compId":$("#compId").val(),"list":$("#deptId").val()},-->
+        <#--        callBack: DeptDoSubmit-->
+        <#--    };-->
+        <#--    opt.modal.openOptions(options);-->
+        <#--}-->
+        <#--function DeptDoSubmit(index, layero){-->
+        <#--    var _v = $.tree.callBackTree(layero,index);-->
+        <#--    $("#deptId").val(_v.id);-->
+        <#--    $("#deptName").val(_v.name);-->
+        <#--    layer.close(index);-->
+        <#--}-->
 
 		$(function() {
             $('#_role').select2({

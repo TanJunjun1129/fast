@@ -570,7 +570,11 @@ if (typeof jQuery === "undefined") {
                 if (value == null) {
                     return "";
                 }
-                return value.toString().replace(/(^\s*)|(\s*$)|\r|\n/g, "");
+                if(typeof value === 'string'){
+                    return value.toString().replace(/(^\s*)|(\s*$)|\r|\n/g, "");
+                }else{
+                    return "-";
+                }
             },
             hideStr:function(value,len){
                 if (opt.common.isEmpty(value)) {
@@ -1143,7 +1147,9 @@ if (typeof jQuery === "undefined") {
                 var _url = opt.common.isEmpty(options.url) ? "/404.html" : options.url;
                 var _title = opt.common.isEmpty(options.title) ? $.i18n.prop("系统窗口") : $.i18n.prop(options.title);
                 var _width = opt.common.isEmpty(options.width) ? "800" : options.width;
+                console.log(_width);
                 var _height = opt.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
+                var _framData = opt.common.isEmpty(options.fromData) ? {} : options.fromData;
                 var _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
                 if (opt.common.isEmpty(options.yes)) {
                     options.yes = function(index, layero) {
@@ -1158,6 +1164,7 @@ if (typeof jQuery === "undefined") {
                     fix: false,
                     area: [_width + 'px', _height + 'px'],
                     content: _url,
+                    fromData: _framData,
                     shadeClose: opt.common.isEmpty(options.shadeClose) ? true : options.shadeClose,
                     skin: options.skin,
                     btn: opt.common.isEmpty(options.btn) ? _btn : options.btn,
@@ -1173,7 +1180,10 @@ if (typeof jQuery === "undefined") {
                             }
                         }
                     },
-                    cancel: function () {
+                    cancel: function(index, layero){
+                        if (opt.common.isEmpty(options.cancel)) {
+                            options.cancel(index,layero);
+                        }
                         return true;
                     }
                 });
@@ -3146,7 +3156,7 @@ if (typeof jQuery === "undefined") {
                     },
                     data: {
                         key: {
-                            title: "name"         // 节点数据保存节点提示信息的属性名称
+                            title: "title"         // 节点数据保存节点提示信息的属性名称
                         },
                         simpleData: {
                             enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式
@@ -3204,13 +3214,18 @@ if (typeof jQuery === "undefined") {
                     var treeId = $("#treeId").val();
                     tree = $.fn.zTree.init($("#" + options.id), setting, list);
                     $._tree = tree;
-                    var nodes = tree.getNodesByParam("level", options.expandLevel - 1);
-                    for (var i = 0; i < nodes.length; i++) {
-                        tree.expandNode(nodes[i], true, false, false);
-                    }
-                    //全部展开
-                    //tree.expandAll(true);
 
+                    // var nodes = tree.getNodesByParam("level", options.expandLevel - 1);
+                    //
+                    // for (var i = 0; i < nodes.length; i++) {
+                    //     tree.expandNode(nodes[i], true, false, false);
+                    // }
+
+                    //全部展开
+                    if(options.expandLevel != 0){
+                        tree.expandAll(true);
+                    }
+                    //
                     if(options.check.enable){
                         if(!opt.common.isEmpty(options._list)){
                             var _l = options._list.split(",");

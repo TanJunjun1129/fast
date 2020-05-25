@@ -263,8 +263,8 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 			Ztree ztree = new Ztree();
 			ztree.setId(menu.getMenuId());
 			ztree.setpId(menu.getParentId());
-			ztree.setName(transMenuName(menu, permsFlag));
-			ztree.setTitle(menu.getName());
+			ztree.setName(menu.getName());
+			ztree.setTitle(transMenuName(menu, permsFlag));
 			if (isCheck)
 			{
 				ztree.setChecked(roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
