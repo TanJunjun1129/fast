@@ -1,74 +1,63 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="用户列表">
-</@header>
-<@search fromId="user-form">
-    <div class="select-list">
-         <ul>
-             <li>
-                 <label><@ctx.i18n text = "登陆账号"/></label>：<input type="text" name="username"/>
-             </li>
-             <li>
-                 <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
-             </li>
-             <li>
-                 <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
-             </li>
-             <li>
-                 <label><@ctx.i18n text = "所属公司"/></label>：
-                 <select name="compId" class="form-control">
-                     <option value=""><@ctx.i18n text = "所有"/></option>
-                     <#list comps as comp>
-                         <option  value="${comp.id}">${comp.name}</option>
-                     </#list>
-                 </select>
-             </li>
-             <li>
-                 <label><@ctx.i18n text = "用户状态"/></label>：
-                 <select name="status" class="form-control">
-                     <option value=""><@ctx.i18n text = "所有"/></option>
-                     <#list dict.getType('sys_normal_disable')>
-                         <#items as d>
-                             <#if d.status =='0' >
-                                 <option value="${d.dictValue}" text="<@ctx.i18n text = "${d.dictLabel}"/>"><@ctx.i18n text = "${d.dictLabel}"/></option>
-                             </#if>
-                         </#items>
-                     </#list>
-                 </select>
-             </li>
-             <li>
-                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
-                 <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
-             </li>
-         </ul>
+<@header title="用户列表" libs=["table"]/>
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <@from.from id="user-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label><@ctx.i18n text = "登陆账号"/></label>：<input type="text" name="username"/>
+                        </li>
+                        <li>
+                            <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
+                        </li>
+                        <li>
+                            <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
+                        </li>
+                        <li>
+                            <label><@ctx.i18n text = "所属公司"/></label>：
+                            <@from.select name="compId" blankValue="" blankLabel="所有" items=comps itemLabel="name" itemValue="id"/>
+                        </li>
+                        <li>
+                            <label><@ctx.i18n text = "用户状态"/></label>：
+                            <@from.select name="status" dictType="sys_normal_disable" blankValue="" blankLabel="所有"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
+                        </li>
+                    </ul>
+                </div>
+            </@from.from>
+        </div>
+        <@table tableId="bootstrap-table">
+            <@shiro.hasPermission name="sys:user:add">
+                <a class="btn btn-success" onclick="opt.operate.addTab()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:user:edit">
+                <a class="btn btn-primary single disabled" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:user:del">
+                <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
+                    <i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/>
+                </a>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:user:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </@shiro.hasPermission>
+        </@table>
     </div>
-</@search>
-<@table tableId="bootstrap-table">
-	<@shiro.hasPermission name="sys:user:add">
-       <a class="btn btn-success" onclick="opt.operate.addTab()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
-     </@shiro.hasPermission>
-     <@shiro.hasPermission name="sys:user:edit">
-         <a class="btn btn-primary single disabled" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
-     </@shiro.hasPermission>
-     <@shiro.hasPermission name="sys:user:del">
-         <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
-             <i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/>
-         </a>
-     </@shiro.hasPermission>
-    <@shiro.hasPermission name="sys:user:export">
-        <a class="btn btn-warning" onclick="$.table.exportExcel()">
-            <i class="fa fa-download"></i> 导出
-        </a>
-     </@shiro.hasPermission>
-</@table>
+</div>
 <@footer>
 <script>
-
     var editFlag = "${permission.hasPermi('sys:user:edit')}";
     var delFlag = "${permission.hasPermi('sys:user:del')}";
     var resetPwdFlag = "${permission.hasPermi('sys:user:resetPwd')}";
-    var visible = ${permission.isPermitteds("sys:user:edit,
-    sys:user:del,sys:user:resetPwd")?string('true', 'false')};
+    var visible = ${permission.isPermitteds("sys:user:edit,sys:user:del,sys:user:resetPwd")?string('true', 'false')};
     var datas = ${dict.getDictListJson('sys_user_show_hide')};
     var prefix = baseURL + 'sys/user';
 
@@ -121,12 +110,12 @@
                         return actions.join('');
                     }
                 }
-                ]
+            ]
         };
         $.table.init(options);
     });
 
-    
+
     /* 用户管理-重置密码 */
     function resetPwd(userId) {
         console.log("userId:" +userId)
