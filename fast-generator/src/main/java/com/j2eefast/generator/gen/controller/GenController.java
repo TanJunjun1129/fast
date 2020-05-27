@@ -20,6 +20,7 @@ import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.service.GenTableColumnService;
 import com.j2eefast.generator.gen.service.GenTableService;
 import com.j2eefast.generator.gen.util.GenUtils;
+import com.j2eefast.generator.gen.util.XMLMapperLoader;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
@@ -27,6 +28,7 @@ import cn.hutool.core.util.HashUtil;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +55,11 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/tool/gen")
 public class GenController extends BaseController {
+	
     private String urlPrefix = "modules/tool/gen";
+
+    @Autowired
+	private SqlSessionFactory sqlSessionFactory;
 
     @Autowired
     private SysModuleService sysModuleService;
@@ -72,6 +78,23 @@ public class GenController extends BaseController {
     public String gen(ModelMap mmap){
         mmap.put("genTables", genTableService.list());
         return urlPrefix + "/gen";
+    }
+    
+    
+    /**
+     * 查询代码生成列表
+     */
+    @RequiresPermissions("tool:gen:list")
+    @RequestMapping("/reload")
+    @ResponseBody
+    public ResponseData reloadMapper(@RequestParam Map<String, Object> params) {
+    	 try {
+			new XMLMapperLoader(sqlSessionFactory,"classpath*:mapper/**/*.xml").readMapperXml();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return error(e.getMessage());
+		}
+        return success();
     }
 
     /**

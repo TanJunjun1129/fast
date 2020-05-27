@@ -2,14 +2,14 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改公司"/>
 <@addorEdit fromId="form-comp-edit">
-	<input id="compId" name="compId" type="hidden" value="${comp.compId}"   />
+	<input id="id" name="id" type="hidden" value="${comp.id}"   />
 	<input id="parentId" name="parentId" type="hidden" value="${comp.parentId}"   />
 	<input id="deptId" name="deptIdList" type="hidden" value="${deptIdList}"/>
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级公司：</label>
 		<div class="col-sm-8">
 			<div class="input-group">
-				<input class="form-control" type="text" <#if comp.compId != 1> onclick="selectCompTree()" </#if> id="compName" readonly="true" value="${comp.parentName?default("总公司")}">
+				<input class="form-control" type="text" <#if comp.id != 1> onclick="selectCompTree()" </#if> id="compName" readonly="true" value="${comp.parentName?default("总公司")}">
 				<span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
 			</div>
 		</div>
@@ -77,8 +77,8 @@
 		                	"name" : function() {
 		                        return opt.common.trim($("#name").val());
 		                    },
-							"compId":function() {
-								return opt.common.trim($("#compId").val());
+							"id":function() {
+								return opt.common.trim($("#id").val());
 							}
 		                },
 		                dataFilter: function(data, type) {
@@ -138,7 +138,7 @@
 				title:"<@ctx.i18n text = "sys.select.dept"/>",
 				width: "380",
 				url: baseURL+'sys/dept/selectDeptTree',
-				obj:{"compId":$("#parentId").val(),"list":$("#deptId").val()},
+				obj:{"id":$("#parentId").val(),"list":$("#deptId").val()},
 				callBack: DeptDoSubmit
 			};
 			opt.modal.openOptions(options);

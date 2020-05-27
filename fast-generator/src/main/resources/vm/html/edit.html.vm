@@ -25,8 +25,7 @@ ${pageTheme}
 #set($dictType=$column.dictType)
 #if("" != $treeParentCode && $column.javaField == $treeParentCode)##
     <div class="form-group">
-        <label class="col-sm-3 control-label">${comment}：
-        </label>
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>： </label>
         <div class="col-sm-8">
             <div class="input-group">
 #set($BusinessName=$businessName.substring(0,1).toUpperCase() + ${businessName.substring(1)})
@@ -39,7 +38,7 @@ ${pageTheme}
 #elseif($column.htmlType == "input")##
     <div class="form-group">##
 
-        <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}">：##
+        <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：##
                 #if($column.required && $column.info)##
 #if($column.circleType == "Q")##
                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom"##
@@ -169,6 +168,47 @@ ${pageTheme}
             <textarea name="${field}" class="form-control"#if($column.required) required#end>${${className}.${field}?default("")}</textarea>
         </div>
     </div>
+               
+#elseif($column.htmlType == "dept")
+              <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                        <@from.treeselect id="${field}" name="${field}" value="${${className}.${field}?default('')}"
+                        labelValue="${${className}.${field}Name?default('')}" boxTitle="请选择管理地区" url="sys/dept/selectZtree"  checked="true" correlationId="companyId"  placeholder="请选择管理地区"/>
+                </div>
+            </div>
+            
+ #elseif($column.htmlType == "comp")    
+        <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                      <@from.treeselect id="${field}"  value="${(${className}.${field}.id)?default('')}"
+                        labelValue="${(${className}.${field}。name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
+                </div>
+            </div>
+			    
+#else
+          <div class="form-group">    
+                <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：
+                 #if($column.required && $column.info)
+                 #if($column.circleType == "Q")
+                 <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom"
+                 data-content="${column.editInfo}">
+                 <i class="fa fa-question-circle-o" style="color: orange"></i></a>
+                 #elseif($column.circleType == "T")
+                 <i class="fa fa-question-circle-o" title="${column.editInfo}"></i>
+                #end
+                #end
+                </label>
+                <div class="col-sm-8">
+                    <input name="${field}" class="form-control" type="text"#if($column.required) required#end>
+                    #if($column.required && $column.info)
+                        #if($column.circleType == "R")
+                            <span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${column.editInfo}</span>
+                        #end
+                    #end
+                </div>
+            </div>	
 #end
 #end
 #end

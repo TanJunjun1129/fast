@@ -71,13 +71,13 @@
 </#macro>
 
 <#--需要表格页面 如果fromId 为"" 则不要搜索框-->
-<#macro search fromId>
+<#macro search fromId class="form-inline">
 <body class="gray-bg sidebar-mini ${config.getKey('SYS_INDEX_SKINNAME','skin-blue')}">
 <div class="container-div animated fadeInRight" id="_app">
 <div class="row">
 		<#if fromId!="">
             <div class="col-sm-12 search-collapse">
-                <form id="${fromId}">
+                <form id="${fromId}" class="${class}">
                     <#nested>
                 </form>
             </div>

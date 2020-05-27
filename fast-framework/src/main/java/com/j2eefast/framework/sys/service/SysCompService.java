@@ -81,7 +81,7 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 	public boolean add(SysCompEntity comp){
 		if(this.save(comp)){
 			//更新公司对应地区
-			sysCompDeptService.saveOrUpdate(comp.getCompId(), comp.getDeptIdList());
+			sysCompDeptService.saveOrUpdate(comp.getId(), comp.getDeptIdList());
 			return true;
 		}
 		return false;
@@ -89,7 +89,7 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 
 	public boolean update(SysCompEntity comp){
 		if(this.updateById(comp)){
-			sysCompDeptService.saveOrUpdate(comp.getCompId(), comp.getDeptIdList());
+			sysCompDeptService.saveOrUpdate(comp.getId(), comp.getDeptIdList());
 			return true;
 		}
 		return false;
@@ -97,10 +97,10 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 
 
 	public boolean checkCompNameUnique(SysCompEntity comp) {
-		Long compId = ToolUtil.isEmpty(comp.getCompId()) ? -1L : comp.getCompId();
+		Long compId = ToolUtil.isEmpty(comp.getId()) ? -1L : comp.getId();
 		SysCompEntity info = this.getOne(new QueryWrapper<SysCompEntity>().
 				eq("name",comp.getName()).eq("parent_id",comp.getParentId()));
-		if (ToolUtil.isNotEmpty(info) && info.getCompId().longValue() != compId.longValue())
+		if (ToolUtil.isNotEmpty(info) && info.getId().longValue() != compId.longValue())
 		{
 			return  false;
 		}
@@ -129,7 +129,7 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 		for (SysCompEntity comp : compList) {
 			if (Constant.COMP_NORMAL.equals(comp.getStatus())) {
 				Ztree ztree = new Ztree();
-				ztree.setId(comp.getCompId());
+				ztree.setId(comp.getId());
 				ztree.setpId(comp.getParentId());
 				ztree.setName(comp.getName());
 				ztree.setTitle(comp.getName());

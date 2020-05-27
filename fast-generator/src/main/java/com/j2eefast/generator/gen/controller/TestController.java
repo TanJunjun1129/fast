@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.ui.ModelMap;
 import java.util.Map;
-import java.util.Date;
 import org.springframework.web.bind.annotation.*;
 import com.j2eefast.generator.gen.entity.TestEntity;
 import com.j2eefast.generator.gen.service.TestService;
@@ -19,14 +18,13 @@ import com.j2eefast.generator.gen.service.TestService;
 /**
  * 单表范例页面控制器
  * @author mfksn001@163.com
- * @date 2020-05-20 15:06
+ * @date 2020-05-27 14:34
  */
 @Controller
 @RequestMapping("/gen/test")
 public class TestController extends BaseController{
 
     private String prefix = "modules/gen/test";
-
     @Autowired
     private TestService testService;
 
@@ -36,21 +34,18 @@ public class TestController extends BaseController{
         return prefix + "/test";
     }
 
-        
     @RequestMapping("/list")
     @RequiresPermissions("gen:test:list")
     @ResponseBody
-    public ResponseData list(@RequestParam Map<String, Object> params) {
-		PageUtil page = testService.findPage(params);
+    public ResponseData list(@RequestParam Map<String, Object> params,TestEntity testEntity) {
+		PageUtil page = testService.findPage(params,testEntity);
 		return success(page);
     }
-    
-
-    
-        
 
     @GetMapping("/add")
-    public String add(){
+    public String add(ModelMap mmap){
+         TestEntity test = new TestEntity();
+          mmap.put("test", test);
         return prefix + "/add";
     }
 
@@ -67,8 +62,8 @@ public class TestController extends BaseController{
         ValidatorUtil.validateEntity(test);
         return testService.saveTest(test)? success(): error("新增失败!");
     }
-    
-        /**
+
+    /**
      * 修改
      */
     @RequiresPermissions("gen:test:edit")
@@ -91,9 +86,8 @@ public class TestController extends BaseController{
 		ValidatorUtil.validateEntity(test);
         return testService.updateTestById(test)? success(): error("修改失败!");
     }
-    
-    
-        /**
+
+    /**
      * 删除
      */
     @RepeatSubmit
@@ -104,5 +98,4 @@ public class TestController extends BaseController{
     public ResponseData del(Long[] ids) {
       return testService.deleteTestByIds(ids)? success(): error("删除失败!");
     }
-    
 }

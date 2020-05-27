@@ -21,7 +21,7 @@ public class SysCompEntity extends BaseEntity {
 	 * 公司ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	private Long compId;
+	private Long id;
 
 	/**
 	 * 上级公司ID，一级公司为0

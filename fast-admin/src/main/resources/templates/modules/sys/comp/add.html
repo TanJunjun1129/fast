@@ -2,7 +2,7 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增公司"/>
 <@addorEdit fromId="form-comp-add">
-	<input id="parentId" name="parentId" type="hidden" value="${comp.compId}"   />
+	<input id="parentId" name="parentId" type="hidden" value="${comp.id}"   />
 	<input id="deptId" name="deptIdList" type="hidden"/>
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级公司：</label>
@@ -134,7 +134,7 @@
 			title:"<@ctx.i18n text = "sys.select.dept"/>",
 			width: "380",
 			url: baseURL+'sys/dept/selectDeptTree',
-			obj:{"compId":$("#parentId").val(),"list":$("#deptId").val()},
+			obj:{"id":$("#parentId").val(),"list":$("#deptId").val()},
 			callBack: DeptDoSubmit
 		};
 		opt.modal.openOptions(options);

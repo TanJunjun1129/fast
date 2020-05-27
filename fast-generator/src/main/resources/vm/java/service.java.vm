@@ -1,5 +1,6 @@
 package ${packageName}.service;
 
+
 import ${packageName}.entity.${ClassName}Entity;
 import ${packageName}.mapper.${ClassName}Mapper;
 import com.j2eefast.common.core.page.Query;
@@ -26,79 +27,82 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	private ${ClassName}Mapper ${className}Mapper;
 
 	/**
-	 * 页面分页查询
+	 * mybaitis-plus 页面分页查询
      */
 	public PageUtil findPage(Map<String, Object> params) {
-				QueryWrapper<${ClassName}Entity> r = new QueryWrapper<${ClassName}Entity>();##
+        QueryWrapper<${ClassName}Entity> queryWrapper = new QueryWrapper<${ClassName}Entity>();
 #foreach($column in $columns)##
-    #set($queryType=$column.queryType)## 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
-    #set($javaField=$column.javaField)## JAVA字段名
-    #set($javaType=$column.javaType) ## JAVA类型
-    #set($columnName=$column.columnName) ## 列名称
-    #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})##
-    #if($column.query)##
-
-				String $javaField = (String) params.get("$javaField");##
-        #if($column.queryType == "EQ")##
-
-				r.eq(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
-        #elseif($column.queryType == "NE")##
-
-				r.ne(ToolUtil.isNotEmpty($javaField), "$columnName"e, $javaField);##
-        #elseif($column.queryType == "GT")##
-
-				r.gt(ToolUtil.isNotEmpty($javaField),"$columnName", $javaField);##
-        #elseif($column.queryType == "LT")##
-
-				r.lt(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
-        #elseif($column.queryType == "LIKE")##
-
-				r.like(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);##
-        ##                    #elseif($column.queryType == "BETWEEN")
-        ##                        r.between(StrUtil.isNotNull($javaField), $columnName, $javaField))
-		#end
-    #end
-#end
-
-				Page<${ClassName}Entity> page = this.baseMapper.selectPage(new Query<${ClassName}Entity>(params).getPage(), r);##
-
-				return new PageUtil(page);##
-
+#set($queryType=$column.queryType)## 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
+#set($javaField=$column.javaField)## JAVA字段名
+#set($javaType=$column.javaType) ## JAVA类型
+#set($columnName=$column.columnName) ## 列名称
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#if($column.query)##
+#if($javaType == 'SysCompEntity' or $javaType == 'SysDeptEntity' or $javaType == 'SysUserEntity')##关联实体对像不参查询
+#else##
+      String $javaField = (String) params.get("$javaField");
+#if($column.queryType == "EQ") ##EQ
+        queryWrapper.eq(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
+#elseif($column.queryType == "NE")##
+        queryWrapper.ne(ToolUtil.isNotEmpty($javaField), "$columnName"e, $javaField);
+#elseif($column.queryType == "GT")##
+        queryWrapper.gt(ToolUtil.isNotEmpty($javaField),"$columnName", $javaField);
+#elseif($column.queryType == "LT")##
+        queryWrapper.lt(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
+#elseif($column.queryType == "LIKE")##
+        queryWrapper.like(ToolUtil.isNotEmpty($javaField), "$columnName", $javaField);
+#elseif($column.queryType == "BETWEEN")##
+        String begin$AttrName = (String) params.get("begin$AttrName");
+        String end$AttrName = (String) params.get("end$AttrName");
+        queryWrapper.between(ToolUtil.isNotEmpty(begin$AttrName) || ToolUtil.isNotEmpty(end$AttrName), "$columnName", begin$AttrName,end$AttrName);
+#end ##EQ
+#end##
+#end ##query
+#end##foreach
+		Page<${ClassName}Entity> page = ${className}Mapper.selectPage(new Query<${ClassName}Entity>(params).getPage(), queryWrapper);
+		return new PageUtil(page);
     }
 
+    /**
+     * 自定义分页查询，含关联实体对像
+     */
+	public PageUtil findPage(Map<String, Object> params,${ClassName}Entity ${className}Entity) {
+		Page<${ClassName}Entity> page = testMapper.findPage(new Query<${ClassName}Entity>(params).getPage(), ${className}Entity)  ;
+		return new PageUtil(page);
+	}
 	/**
      * 批量删除
      */
 	@Transactional(rollbackFor = Exception.class)
 	public boolean delete${ClassName}ByIds(${pkColumn.javaType}[] ids) {
-		return this.removeByIds(Arrays.asList(ids));
+		return removeByIds(Arrays.asList(ids));
 	}
 
 	/**
      * 单个删除
      */
 	public boolean delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
-		return this.removeById(${pkColumn.javaField});
+		return removeById(${pkColumn.javaField});
 	}
 
 	/**
      * 保存
      */
 	public boolean save${ClassName}(${ClassName}Entity ${className}){
-        return this.save(${className});
+        return save(${className});
     }
 
 	/**
      * 修改根居ID
      */
 	public boolean update${ClassName}ById(${ClassName}Entity ${className}) {
-		return this.updateById(${className});
+		return updateById(${className});
 	}
 
 	/**
      * 根居ID获取对象
      */
 	public ${ClassName}Entity get${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}){
-		return this.getById(${pkColumn.javaField});
+		return getById(${pkColumn.javaField});
 	}
 }

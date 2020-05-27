@@ -3,6 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.j2eefast.generator.gen.mapper.TestMapper">
+
+
     
     <resultMap type="TestEntity" id="TestResult">
         <result property="id"    column="id"    />
@@ -25,14 +27,217 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="joinDate"    column="join_date"    />
         <result property="noationalId"    column="noational_id"    />
         <result property="education"    column="education"    />
+        <result property="leaderId"    column="leader_id"    />
+        <result property="company.id"    column="company_id"    />
+        <result property="deptIds"    column="dept_ids"    />
+        <result property="roleIds"    column="role_ids"    />
     </resultMap>
-
-    <sql id="selectTestVo">
-        select id, name, email, phone, age, sex, birthday, leave_date, create_by, del_flag, remark, update_time, update_by, create_time, pin, position, hobby, join_date, noational_id, education from example_test
+    
+    <!--  实体栏位  --> 
+    <sql id="testColumns">
+         a.id as 'id'   ,         
+         a.name as 'name'   ,         
+         a.email as 'email'   ,         
+         a.phone as 'phone'   ,         
+         a.age as 'age'   ,         
+         a.sex as 'sex'   ,         
+         a.birthday as 'birthday'   ,         
+         a.leave_date as 'leaveDate'   ,         
+         a.create_by as 'createBy'   ,         
+         a.del_flag as 'delFlag'   ,         
+         a.remark as 'remark'   ,         
+         a.update_time as 'updateTime'   ,         
+         a.update_by as 'updateBy'   ,         
+         a.create_time as 'createTime'   ,         
+         a.pin as 'pin'   ,         
+         a.position as 'position'   ,         
+         a.hobby as 'hobby'   ,         
+         a.join_date as 'joinDate'   ,         
+         a.noational_id as 'noationalId'   ,         
+         a.education as 'education'   ,         
+         a.leader_id as 'leaderId'   ,         
+         a.company_id as 'company.id'   ,  
+          c.name as 'company.name'   ,       
+         a.dept_ids as 'deptIds'   ,         
+         a.role_ids as 'roleIds'           
+     </sql>
+    
+     <!-- 外联表  --> 
+	<sql id="testJoins">
+		left join sys_comp c ON c.id = a.company_id   <!--   关联查询后，需手动修改 testColumns 中属性值      -->
     </sql>
+    
+    
+    <!--  根据主键获取实体   -->
+     <select id="selectById"  resultType="com.j2eefast.generator.gen.entity.TestEntity" > 
+          SELECT 
+			<include refid="testColumns"/>
+		FROM  example_test a
+		<include refid="testJoins"/>
+		WHERE a.id = #{id}
+    </select>
+    
+     <!--  根据获取实体List   -->
+     <select id="selectList" resultType="com.j2eefast.generator.gen.entity.TestEntity">
+		SELECT 
+			<include refid="testColumns"/>
+		FROM example_test a
+		<include refid="testJoins"/>
+		<where>
+			 a.del_flag = '0'
+              <if test="name != null  and name != ''">
+                     and a.name LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{name}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{name}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+              <if test="email != null  and email != ''"> and a.email = #{email} </if>
+              <if test="phone != null  and phone != ''"> and a.phone = #{phone} </if>
+               <if test="age != null "> and a.age &gt; #{age} </if>
+              <if test="sex != null  and sex != ''"> and a.sex = #{sex} </if>
+                   <if test="birthday != null ">
+                    and a.birthday between #{beginBirthday}  and  #{endBirthday}
+                 </if>
+              <if test="leaveDate != null "> and a.leave_date = #{leaveDate} </if>
+                    <if test="pin != null  and pin != ''"> and a.pin &lt; #{pin}</if>
+              <if test="position != null  and position != ''"> and a.position = #{position} </if>
+              <if test="hobby != null  and hobby != ''"> and a.hobby = #{hobby} </if>
+              <if test="joinDate != null "> and a.join_date = #{joinDate} </if>
+              <if test="noationalId != null  and noationalId != ''"> and a.noational_id = #{noationalId} </if>
+              <if test="education != null  and education != ''"> and a.education = #{education} </if>
+              <if test="leaderId != null "> and a.leader_id = #{leaderId} </if>
+              <if test="company != null and company.id != null "> and a.company_id = #{company.id} </if>
+              <if test="deptIds != null  and deptIds != ''"> and a.dept_ids = #{deptIds} </if>
+              <if test="roleIds != null  and roleIds != ''"> and a.role_ids = #{roleIds} </if>
+   		</where>
+	 </select>
+	 
+	 
+	 
+	  <!--  根据获取实体 page   -->
+       <select id="findPage" resultType="com.j2eefast.generator.gen.entity.TestEntity">
+		SELECT
+			<include refid="testColumns"/>
+		FROM example_test a
+		<include refid="testJoins"/>
+		<where>
+			  a.del_flag = '0'
+              <if test="test.name != null  and test.name != ''">
+                     and a.name LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{test.name}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{test.name}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{test.name},'%')</if>
+			</if>
+              <if test="test.email != null  and test.email != ''"> and a.email = #{test.email} </if>
+              <if test="test.phone != null  and test.phone != ''"> and a.phone = #{test.phone} </if>
+               <if test="test.age != null "> and a.age &gt; #{test.age} </if>
+              <if test="test.sex != null  and test.sex != ''"> and a.sex = #{test.sex} </if>
+                   <if test="test.birthday != null ">
+                    and a.birthday between #{beginBirthday}  and  #{endBirthday}
+                 </if>
+              <if test="test.leaveDate != null "> and a.leave_date = #{test.leaveDate} </if>
+                    <if test="test.pin != null  and test.pin != ''"> and a.pin &lt; #{test.pin}</if>
+              <if test="test.position != null  and test.position != ''"> and a.position = #{test.position} </if>
+              <if test="test.hobby != null  and test.hobby != ''"> and a.hobby = #{test.hobby} </if>
+              <if test="test.joinDate != null "> and a.join_date = #{test.joinDate} </if>
+              <if test="test.noationalId != null  and test.noationalId != ''"> and a.noational_id = #{test.noationalId} </if>
+              <if test="test.education != null  and test.education != ''"> and a.education = #{test.education} </if>
+              <if test="test.leaderId != null "> and a.leader_id = #{test.leaderId} </if>
+              <if test="test.company !=null and test.company.id != null "> and a.company_id = #{test.company.id} </if>
+              <if test="test.deptIds != null  and test.deptIds != ''"> and a.dept_ids = #{test.deptIds} </if>
+              <if test="test.roleIds != null  and test.roleIds != ''"> and a.role_ids = #{test.roleIds} </if>
+   		</where>
+	 </select>
+	 
+	 
+		<!--  更新获取实体 updateById    -->
+	<update id="updateById" >
+		UPDATE  example_test  <set>	
+              name = #{name}  ,              
+              email = #{email}  ,              
+              phone = #{phone}  ,              
+              age = #{age}  ,              
+              sex = #{sex}  ,              
+              birthday = #{birthday}  ,              
+              leave_date = #{leaveDate}  ,              
+              remark = #{remark}  ,              
+              update_time = #{updateTime}  ,              
+              update_by = #{updateBy}  ,              
+              pin = #{pin}  ,              
+              position = #{position}  ,              
+              hobby = #{hobby}  ,              
+              join_date = #{joinDate}  ,              
+              noational_id = #{noationalId}  ,              
+              education = #{education}  ,              
+              leader_id = #{leaderId}  ,              
+              company_id = #{company.id}  ,              
+              dept_ids = #{deptIds}  ,              
+              role_ids = #{roleIds}               
+  		</set>
+		WHERE id = #{id}
+	</update>
+	   
+	 
+	<!--  新增实体 insert    --> 
+	 <insert id="insert">
+	 INSERT INTO example_test(
+          id ,          
+          name ,          
+          email ,          
+          phone ,          
+          age ,          
+          sex ,          
+          birthday ,          
+          leave_date ,          
+          create_by ,          
+          remark ,          
+          update_time ,          
+          update_by ,          
+          create_time ,          
+          pin ,          
+          position ,          
+          hobby ,          
+          join_date ,          
+          noational_id ,          
+          education ,          
+          leader_id ,          
+          company_id ,          
+          dept_ids ,          
+          role_ids          
+       ) VALUES (
+          #{id} ,          
+          #{name} ,          
+          #{email} ,          
+          #{phone} ,          
+          #{age} ,          
+          #{sex} ,          
+          #{birthday} ,          
+          #{leaveDate} ,          
+          #{createBy} ,          
+          #{remark} ,          
+          #{updateTime} ,          
+          #{updateBy} ,          
+          #{createTime} ,          
+          #{pin} ,          
+          #{position} ,          
+          #{hobby} ,          
+          #{joinDate} ,          
+          #{noationalId} ,          
+          #{education} ,          
+          #{leaderId} ,          
+          #{company.id} ,          
+          #{deptIds} ,          
+          #{roleIds}          
+		)
+	</insert>
+	 
 
+	<!--  删除 使用mybatits-plus 自带的，    --> 
+  
 
 <!--
+
+
     <update id="updateTest" parameterType="com.j2eefast.generator.gen.entity.TestEntity">
         update example_test
         <trim prefix="SET" suffixOverrides=",">
@@ -55,6 +260,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="joinDate != null ">join_date = #{joinDate},</if>
         <if test="noationalId != null  and noationalId != ''">noational_id = #{noationalId},</if>
         <if test="education != null  and education != ''">education = #{education},</if>
+        <if test="leaderId != null ">leader_id = #{leaderId},</if>
+        <if test="company.id != null ">company_id = #{company.id},</if>
+        <if test="deptIds != null  and deptIds != ''">dept_ids = #{deptIds},</if>
+        <if test="roleIds != null  and roleIds != ''">role_ids = #{roleIds},</if>
             update_time = sysdate()
         </trim>
         where id = #{id}

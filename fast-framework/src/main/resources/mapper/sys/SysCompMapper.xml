@@ -4,20 +4,20 @@
 <mapper namespace="com.j2eefast.framework.sys.mapper.SysCompMapper">
 
     <select id="findDetpIdList" resultType="long">
-		select comp_id from sys_comp where parent_id = #{parentId} and status = 0 and del_flag = 0
+		select id from sys_comp where parent_id = #{parentId} and status = 0 and del_flag = 0
 	</select>
 
 
     <sql id="selectDeptVo">
-        SELECT d.comp_id, d.parent_id, d.name, d.order_num,d.status,d.create_time,
-		(SELECT NAME FROM sys_comp WHERE comp_id = d.parent_id) parent_name
+        SELECT d.id, d.parent_id, d.name, d.order_num,d.status,d.create_time,
+		(SELECT NAME FROM sys_comp WHERE id = d.parent_id) parent_name
 		FROM sys_comp d
     </sql>
 
 
     <select id="findCompById" parameterType="Long" resultType="com.j2eefast.framework.sys.entity.SysCompEntity">
         <include refid="selectDeptVo"/>
-        where d.comp_id = #{compId}
+        where d.id = #{id}
     </select>
 
 </mapper>

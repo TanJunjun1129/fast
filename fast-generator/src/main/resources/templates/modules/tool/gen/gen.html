@@ -58,6 +58,12 @@
 			<i class="fa fa-remove"></i> 删除
 		</a>
 	</@shiro.hasPermission>
+	
+	<@shiro.hasPermission name="tool:gen:code">
+		<a class="btn btn-primary multiple" onclick="reloadMaper()">
+			<i class="fa fa-remove"></i> 刷新
+		</a>
+	</@shiro.hasPermission>
 </@table>
 <@footer>
 	<script>
@@ -174,6 +180,16 @@
 				opt.operate.post(url,data);
 			})
 		}
+		
+		
+		function reloadMaper() {
+		   opt.modal.confirm("确定吗?", function() {			
+				var url = prefix + "/reload";
+				opt.operate.post(url);
+			})
+		}
+		
+		
 	
 		/*批量生成代码*/
 		function batchGenCode() {
