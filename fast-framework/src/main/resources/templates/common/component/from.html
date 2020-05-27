@@ -22,12 +22,84 @@
             action = "" <#-- 当提交表单时向何处发送表单数据-->
             method	= "" <#-- 用于发送 form-data 的 HTTP 方法-->
             enctype = "" <#-- 发送表单数据之前如何对其进行编码-->
+            class = "" <#-- css 样式-->
 >
-    <form id="${id}" <#if name !=""> name = ${name}</#if> <#if name !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
+    <form id="${id}" <#if name !=""> name = ${name}</#if> <#if class !=""> class = ${class}</#if>  <#if action !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
     <#nested>
     </form>
 </#macro>
 
+<#--
+    //from 图标选择控件
+-->
+<#macro iconselect id=""
+                    name=""
+                    placeholder="请输入值"
+                    class = "form-control" <#-- 输入框样式-->
+                    butClass = "fa fa-fw fa-search"
+                    value = ""
+                    width=""
+                    height=""
+                    type = "text"
+                    isClear = "true" <#-- 弹出是否出现清除按钮-->
+                    boxTitle = ""
+>
+    <div class="input-group">
+        <span class="input-group-addon"><i id="<#if id == "">menuIcon${name}<#else>menuIcon${id}</#if>" class="fa fa-fw ${value}"></i></span>
+        <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>" class="${class}" type="${type}" value="${value}" class="${class}" placeholder="${placeholder}" >
+        <span class="input-group-btn"><a id="<#if id == "">menuIconButton${name}<#else>menuIconButton${id}</#if>" href="javascript:" class="btn btn-default"><i class="${butClass}"></i></a></span>
+    </div>
+    <script type="text/javascript">
+        $("#<#if id =="">menuIconButton${name}<#else>menuIconButton${id}</#if>").click(function(){
+            var iconValue =  $("#<#if id == "">${name}<#else>${id}</#if>").val();
+            var options = {
+                title: <#if boxTitle =="">"<@ctx.i18n text = "图标选择"/>" <#else>"${boxTitle}"</#if>,
+                url: baseURL + "sys/component/iconselect",
+                width: "${width}",
+                <#if height != "">
+                height: ${height},
+                </#if>
+                <#-- POST提交组件控制类参数-->
+                fromData:{
+                    iconValue: iconValue
+                },
+                callBack: <#if id == "">${name}<#else>${id}</#if>doSubmit,
+                cancel:  <#if id == "">${name}<#else>${id}</#if>cancel
+                <#if isClear == "true">, clear: <#if id == "">${name}<#else>${id}</#if>clear</#if>
+            };
+            opt.modal.openMainWin(options);
+        });
+
+        function <#if id == "">${name}<#else>${id}</#if>doSubmit(index, layero,_layer) {
+            var body = _layer.getChildFrame('body', index);
+            var icon = body.find('#icon').val();
+            $("#<#if id == "">menuIcon${name}<#else>menuIcon${id}</#if>").attr("class",'fa fa-fw '+icon);
+            $("#<#if id == "">${name}<#else>${id}</#if>").val(icon).change();
+            _layer.close(index);
+            if(typeof iconCallback == 'function'){
+                iconCallback('<#if name != "">${name}<#else>${id}</#if>', 'ok', index, layero, icon);
+            }
+            _layer.close(index);
+        };
+        <#if isClear == "true">
+        function <#if id == "">${name}<#else>${id}</#if>clear(index, layero,_layer) {
+            $("#<#if id == "">menuIcon${name}<#else>menuIcon${id}</#if>").attr("class",'fa fa-fw ');
+            $("#<#if id == "">${name}<#else>${id}</#if>").val("").change();
+            if(typeof iconCallback == 'function'){
+                iconCallback('<#if name != "">${name}<#else>${id}</#if>', 'clear', index, layero, '');
+            }
+            _layer.close(index);
+        };
+        </#if>
+
+
+        function <#if id == "">${name}<#else>${id}</#if>cancel(index, layero) {
+            if(typeof iconCallback == 'function'){
+                iconCallback('<#if name != "">${name}<#else>${id}</#if>', 'cancel', index, layero, '');
+            }
+        }
+    </script>
+</#macro>
 <#--
     //弹窗树组件
     treeCallback 回调页面函数
@@ -176,7 +248,11 @@
         <#list dict.getType('${dictType}')>
             <#items as d>
                 <#if d.status =='0' >
-                    <label class="${class}"><input type="radio" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                    <#if value == "">
+                        <label class="${class}"><input type="radio" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.isDefault =='Y'>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                    <#else>
+                        <label class="${class}"><input type="radio" name="<#if id == "">${name}<#else>${id}</#if>" value="${d.dictValue}" <#if d.dictValue ==value>checked</#if>><@ctx.i18n text = "${d.dictLabel}"/></label>
+                    </#if>
                 </#if>
             </#items>
         </#list>
@@ -217,19 +293,34 @@
             <#items as d>
                 <#if status == "status">
                     <#if d.status =='0' >
-                        <label>
+                        <#if value == "">
                             <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
-                        </label>
+                        <#else>
+                            <#assign a=0 />
+                            <#list value?split(",") as x>
+                                <#if x == d['${itemValue}']>
+                                    <#assign a=1 />
+                                </#if>
+                            </#list>
+                            <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if a== 1>checked</#if> <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
+                        </#if>
                     </#if>
                 <#else>
-                    <label>
+                    <#if value == "">
                         <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
-                    </label>
+                    <#else>
+                        <#assign a=0 />
+                        <#list value?split(",") as x>
+                            <#if x == "${d['${itemValue}']}">
+                                <#assign a=1 />
+                            </#if>
+                        </#list>
+                        <label class="${class}"><input type="checkbox" name="<#if id == "">${name}<#else>${id}</#if>" value="${d['${itemValue}']}" <#if a== 1>checked</#if> <#if required !="false"> required</#if>/><@ctx.i18n text = "${d['${itemLabel}']}" /></label>
+                    </#if>
                 </#if>
             </#items>
         </#list>
     </#if>
-
 </#macro>
 
 <#--

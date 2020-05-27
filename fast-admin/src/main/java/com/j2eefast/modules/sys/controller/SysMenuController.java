@@ -58,7 +58,7 @@ public class SysMenuController extends BaseController {
 	public String add(@PathVariable("parentId") Long parentId, ModelMap mmap){
 		SysMenuEntity menu = null;
 		if (0L != parentId){
-			menu = sysMenuService.getById(parentId);
+			menu = sysMenuService.selectMenuByMenId(parentId);
 		}
 		else{
 			menu = new SysMenuEntity();
@@ -79,7 +79,7 @@ public class SysMenuController extends BaseController {
 	 */
 	@GetMapping("/edit/{menuId}")
 	public String edit(@PathVariable("menuId") Long menuId, ModelMap mmap){
-		mmap.put("menu", sysMenuService.getById(menuId));
+		mmap.put("menu", sysMenuService.selectMenuByMenId(menuId));
 		List<SysModuleEntity>  modules = sysModuleService.list();
 		mmap.put("modules", modules);
 		return urlPrefix + "/edit";

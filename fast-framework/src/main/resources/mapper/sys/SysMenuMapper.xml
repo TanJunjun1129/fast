@@ -31,6 +31,23 @@
         from sys_menu t connect by level   <![CDATA[ <=  ]]> regexp_count(t.module_codes, ',') + 1 )   m
     </sql>
 
+    <select id="selectMenuByMenId" resultType="com.j2eefast.framework.sys.entity.SysMenuEntity">
+        select m.menu_id as menuId, m.name as name, m.parent_id as parentId,
+        m.order_num as orderNum, m.url as url,  m.type as type, m.hide as hide,
+        m.target as target,m.module_codes as moduleCodes,
+        m.icon as icon,
+        <if test="_databaseId  == 'oracle'">
+            nvl(m.perms,'') as perms,
+        </if>
+        <if test="_databaseId  == 'mysql'">
+            ifnull(m.perms,'') as perms,
+        </if>
+        rm.name as parentName
+        from sys_menu as m
+        LEFT JOIN (SELECT * FROM sys_menu) AS rm ON m.parent_id = rm.menu_id
+        WHERE m.menu_id = #{menuId}
+    </select>
+
     <select id="findNotButtonList" resultType="com.j2eefast.framework.sys.entity.SysMenuEntity">
         <include refid="selectMenuVo"/>
 		where type != 2 order by order_num asc

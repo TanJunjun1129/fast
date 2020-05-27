@@ -19,6 +19,7 @@
 <script src="${ctxStatic}/static/plugins/layui/layui.js?V=${config.getDvVersion()}"></script>
 <script src="${ctxStatic}/static/libs/jquery.i18n.properties.min.js?V=${config.getDvVersion()}"></script>
 <script src="${ctxStatic}/static/plugins/iCheck/icheck.min.js?V=${config.getDvVersion()}"></script>
+<script src="${ctxStatic}/static/plugins/bootstrap-tooltip/bootstrap-tooltip-custom-class.js?V=${config.getDvVersion()}"></script>
 <#compress>
 <#if !(Libs?is_string) && Libs?? && (Libs?size > 0) >
         <#list Libs as x>
@@ -29,7 +30,6 @@
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.min.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/extensions/columns/bootstrap-table-fixed-columns.js?V=${config.getDvVersion()}"></script>
-                <script src="${ctxStatic}/static/plugins/bootstrap-tooltip/bootstrap-tooltip-custom-class.js?V=${config.getDvVersion()}"></script>
                 <#-- bootstrap-treetable 表单树插件-->
                 <script src="${ctxStatic}/static/plugins/bootstrap-treetable/bootstrap-treetable.js?V=${config.getDvVersion()}"></script>
             </#if>

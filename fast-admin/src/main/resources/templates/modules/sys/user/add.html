@@ -1,9 +1,8 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="新增用户"/>
-<@addorEdit fromId="form-user-add">
-<#--    <input type="hidden" id="compId" name="compId"/>-->
-<#--    <input type="hidden" id="deptId" name="deptIdList"/>-->
+<@header title="新增用户" bodyClass="white-bg" libs=["bootstrapSelect"]/>
+ <div class="wrapper wrapper-content ibox-content">
+    <@from.from id="form-user-add" class="form-horizontal">
     <h4 class="form-header h4">基本信息</h4>
     <div class="row">
         <div class="col-sm-6">
@@ -37,10 +36,6 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>管理地区：</label>
                 <div class="col-sm-8">
-<#--                    <div class="input-group">-->
-<#--                        <input name="deptName"  id="deptName"  type="text"  onclick="selectDeptTree()"  placeholder="请选择管理地区" class="form-control" required>-->
-<#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
-<#--                    </div>-->
                     <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
                         checked="true" correlationId="compId" isSelectParent="true"  placeholder="请选择管理地区"/>
                 </div>
@@ -56,8 +51,7 @@
                        <@from.input name="password" placeholder="请输入登录密码" required="true" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}"/>
                        <span class="input-group-addon" title="<@ctx.i18n text = "登录密码,鼠标按下显示密码"/>"
                               data-toggle="tooltip"
-                              data-placement="bottom"
-     data-custom-class="tooltip-warning"
+                              data-placement="bottom" data-custom-class="tooltip-warning"
                     onmousedown="$('#password').attr('type','text')"
                     onmouseup="$('#password').attr('type','password')"><i class="fa fa-fw fa-key"></i></span>
                     </div>
@@ -68,11 +62,6 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
                 <div class="col-sm-8">
-<#--                    <select id="_role" class="form-control select2-multiple" multiple required>-->
-<#--                        <#list roles  as role>-->
-<#--                            <option  value="${role.roleId}">${role.roleName}</option>-->
-<#--                        </#list>-->
-<#--                    </select>-->
                     <@from.select name="_role" multiple = "true"  items=roles itemLabel="roleName" itemValue="roleId" required="true"/>
                 </div>
             </div>
@@ -118,7 +107,7 @@
             </div>
         </div>
     </div>
-</@addorEdit>
+    </@from.from>
     <div class="hr-line-dashed"></div>
     <div class="row" id="_addTab">
         <div class="col-sm-offset-5 col-sm-10">
@@ -126,6 +115,8 @@
             <button type="button" class="btn btn-sm btn-danger" onclick="opt.modal.closeTab()"><i class="fa fa-reply-all"></i><@ctx.i18n text = "关闭"/></button>
         </div>
     </div>
+ </div>
+</div>
 <@footer>
 	<script>
 	    var prefix = baseURL + "sys/user";
@@ -140,7 +131,7 @@
                     remote: {
                         url: prefix + "/checkUserNameUnique",
                         type: "POST",
-                        dataType: "html", 
+                        dataType: "html",
                         data: {
                             "username": function() {
                                 return opt.common.trim($("#username").val());
@@ -206,33 +197,6 @@
                 opt.operate.saveTab(prefix + "/add", data);
 	        }
 	    }
-         
-
-		
-		// function doSubmit(index, layero){
-        //     var _v = $.tree.callBackTree(layero,index);
-        //     $("#compId").val(_v.id);
-        //     $("#compName").val(_v.name);
-        //     layer.close(index);
-		// }
-
-        /*获取公司对应地区*/
-        <#--function selectDeptTree(){-->
-        <#--    var options = {-->
-        <#--        title:"<@ctx.i18n text = "sys.select.dept"/>",-->
-        <#--        width: "380",-->
-        <#--        url: baseURL+'sys/dept/selectDeptTree',-->
-        <#--        obj:{"compId":$("#compId").val(),"list":$("#deptId").val()},-->
-        <#--        callBack: DeptDoSubmit-->
-        <#--    };-->
-        <#--    opt.modal.openOptions(options);-->
-        <#--}-->
-        <#--function DeptDoSubmit(index, layero){-->
-        <#--    var _v = $.tree.callBackTree(layero,index);-->
-        <#--    $("#deptId").val(_v.id);-->
-        <#--    $("#deptName").val(_v.name);-->
-        <#--    layer.close(index);-->
-        <#--}-->
 
 		$(function() {
             $('#_role').select2({

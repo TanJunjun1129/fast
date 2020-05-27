@@ -1,32 +1,27 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="公司树">
-	<@cssLibs.ztree_css/>
-	<style>
-		body{height:auto;font-family: "Microsoft YaHei";}
-		button{font-family: "SimSun","Helvetica Neue",Helvetica,Arial;}
-	</style>
+<@header title="公司树" libs=["zTree"] bodyClass="hold-transition box box-main">
+<style>
+	body{height:auto;font-family: "Microsoft YaHei";}
+	button{font-family: "SimSun","Helvetica Neue",Helvetica,Arial;}
+</style>
 </@header>
-<body class="hold-transition box box-main">
-<div>
-	<div>
-	<input id="treeId"   name="treeId"    type="hidden" value="${treeId?default(0)}"/>
-	<input id="treeName" name="treeName"  type="hidden" value="${treeName?default("")}"/>
-		<div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
-			<label id="btnShow" title="显示搜索" style="display:none;">︾</label>
-			<label id="btnHide" title="隐藏搜索">︽</label>
-		</div>
-		<div class="treeSearchInput" id="search">
-			<label for="keyword">关键字：</label><input type="text" class="empty" id="keyword" maxlength="50">
-			<button class="btn" id="btn" onclick="$.tree.searchNode()"> 搜索 </button>
-		</div>
-		<div class="treeExpandCollapse">
-			<a href="#" onclick="$.tree.expand()">展开</a> /
-			<a href="#" onclick="$.tree.collapse()">折叠</a>
-		</div>
-		<div id="tree" class="ztree treeselect"></div>
+	<@from.hidden  name="treeId" value="${treeId?default(0)}"/>
+	<@from.hidden  name="treeName" value="${treeName?default('')}"/>
+	<div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
+		<label id="btnShow" title="显示搜索" style="display:none;">︾</label>
+		<label id="btnHide" title="隐藏搜索">︽</label>
+	</div>
+	<div class="treeSearchInput" id="search">
+		<label for="keyword">关键字：</label><input type="text" class="empty" id="keyword" maxlength="50">
+		<button class="btn" id="btn" onclick="$.tree.searchNode()"> 搜索 </button>
+	</div>
+	<div class="treeExpandCollapse">
+		<a href="#" onclick="$.tree.expand()">展开</a> /
+		<a href="#" onclick="$.tree.collapse()">折叠</a>
+	</div>
+	<div id="tree" class="ztree treeselect"></div>
 <@footer>
-	<@jsLibs.ztree_js/>
 	<script>
 		$(function() {
 			var url = baseURL + "${url}" + <#if correlationId=="">""<#else>"?correlationId=${correlationId}"</#if>;

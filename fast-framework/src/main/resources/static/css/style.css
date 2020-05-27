@@ -3928,6 +3928,9 @@ code5 {
     border-image: none;
     border-style: solid solid none;
     border-width: 1px 0px;
+    /*box-shadow: 1px 1px 3px rgba(0,0,0,.2);*/
+    /*border-bottom-right-radius: 6px;*/
+    /*border-bottom-left-radius: 6px;*/
 }
 
 .layui-layer-btn1 {
