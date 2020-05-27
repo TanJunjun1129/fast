@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  * 单表范例Service接口
  * @author: mfksn001@163.com
- * @date 2020-05-27 14:31
+ * @date 2020-05-27 22:06
  */
 @Service
 public class TestService extends ServiceImpl<TestMapper,TestEntity> {
@@ -59,10 +59,10 @@ public class TestService extends ServiceImpl<TestMapper,TestEntity> {
          queryWrapper.eq(ToolUtil.isNotEmpty(noationalId), "noational_id", noationalId);
           String education = (String) params.get("education");
          queryWrapper.eq(ToolUtil.isNotEmpty(education), "education", education);
-          String leaderId = (String) params.get("leaderId");
-         queryWrapper.eq(ToolUtil.isNotEmpty(leaderId), "leader_id", leaderId);
-             String deptIds = (String) params.get("deptIds");
-         queryWrapper.eq(ToolUtil.isNotEmpty(deptIds), "dept_ids", deptIds);
+          String leader = (String) params.get("leader");
+         queryWrapper.eq(ToolUtil.isNotEmpty(leader), "leader_id", leader);
+             String dept = (String) params.get("dept");
+         queryWrapper.eq(ToolUtil.isNotEmpty(dept), "dept_ids", dept);
           String roleIds = (String) params.get("roleIds");
          queryWrapper.eq(ToolUtil.isNotEmpty(roleIds), "role_ids", roleIds);
   		Page<TestEntity> page = testMapper.selectPage(new Query<TestEntity>(params).getPage(), queryWrapper);

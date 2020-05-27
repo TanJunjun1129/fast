@@ -162,7 +162,7 @@ ${pageTheme}
            #elseif($c.list && "" != $j)##
 
 #if(${j} != "remark")##remark 是否是remark
-#if($c.javaType == "SysCompEntity")## 是否是系统实体业关联字段
+#if($c.javaType == "SysCompEntity" || $c.javaType == "SysUserEntity" || $c.javaType == "SysDeptEntity")## 是否是系统实体业关联字段
 ,{field : '${j}.name',title : '<@ctx.i18n text = "${com}"/>'#if($c.tableSort),sortable: true#end}##
 #else
 ,{field : '${j}',title : '<@ctx.i18n text = "${com}"/>'#if($c.tableSort),sortable: true#end}##

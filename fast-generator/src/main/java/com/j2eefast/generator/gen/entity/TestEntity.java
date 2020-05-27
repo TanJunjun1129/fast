@@ -12,20 +12,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import com.j2eefast.common.core.base.entity.BaseEntity;
 import java.util.Date;
+import com.j2eefast.framework.sys.entity.SysCompEntity;
 
 /**
  * example_test
  * @author: mfksn001@163.com
- * @date 2020-05-27 13:38
+ * @date 2020-05-27 22:06
  */
 @Data
 @TableName("example_test")
 public class TestEntity extends BaseEntity{
 
    private static final long serialVersionUID = 1L;
-
+	
       /** id */
-
+ 
     @TableId(value = "id",type = IdType.ASSIGN_ID)
     private Long id;
 
@@ -47,7 +48,7 @@ public class TestEntity extends BaseEntity{
     private String sex;
 
       /** 出生日期 */
-    @TableField(exist = false)
+    @TableField(exist = false)  
     private Date beginBirthday;  //between 查询用
     @TableField(exist = false)
     private Date endBirthday;   //between 查询用
@@ -58,15 +59,15 @@ public class TestEntity extends BaseEntity{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
     private Date leaveDate;
 
-
+  
       /** 删除标记 */
     @TableLogic(value="0",delval="1")
     private String delFlag;
 
-
-
-
-
+  
+  
+  
+  
       /** 员工编号 */
     private String pin;
 
@@ -87,13 +88,14 @@ public class TestEntity extends BaseEntity{
     private String education;
 
       /** 上级领导 */
-    private Long leaderId;
+    private Long leader;
 
       /** 公司 */
-    private Long company;
+    @TableField(exist=false) 
+    private SysCompEntity company;
 
       /** deptIds */
-    private String deptIds;
+    private Long dept;
 
       /** roleIds */
     private String roleIds;

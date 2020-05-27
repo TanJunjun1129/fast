@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.ui.ModelMap;
 import java.util.Map;
+import java.util.Date;
 import org.springframework.web.bind.annotation.*;
 import com.j2eefast.generator.gen.entity.TestEntity;
 import com.j2eefast.generator.gen.service.TestService;
@@ -18,7 +19,7 @@ import com.j2eefast.generator.gen.service.TestService;
 /**
  * 单表范例页面控制器
  * @author mfksn001@163.com
- * @date 2020-05-27 14:34
+ * @date 2020-05-27 22:06
  */
 @Controller
 @RequestMapping("/gen/test")
@@ -33,15 +34,15 @@ public class TestController extends BaseController{
     public String test(){
         return prefix + "/test";
     }
-
+        
     @RequestMapping("/list")
     @RequiresPermissions("gen:test:list")
     @ResponseBody
     public ResponseData list(@RequestParam Map<String, Object> params,TestEntity testEntity) {
 		PageUtil page = testService.findPage(params,testEntity);
 		return success(page);
-    }
-
+    }    
+            
     @GetMapping("/add")
     public String add(ModelMap mmap){
          TestEntity test = new TestEntity();
@@ -61,8 +62,8 @@ public class TestController extends BaseController{
         //校验参数
         ValidatorUtil.validateEntity(test);
         return testService.saveTest(test)? success(): error("新增失败!");
-    }
-
+    }    
+    
     /**
      * 修改
      */
@@ -85,7 +86,7 @@ public class TestController extends BaseController{
     public ResponseData editTest(TestEntity test){
 		ValidatorUtil.validateEntity(test);
         return testService.updateTestById(test)? success(): error("修改失败!");
-    }
+    }    
 
     /**
      * 删除
@@ -97,5 +98,5 @@ public class TestController extends BaseController{
     @ResponseBody
     public ResponseData del(Long[] ids) {
       return testService.deleteTestByIds(ids)? success(): error("删除失败!");
-    }
+    }    
 }

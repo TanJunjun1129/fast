@@ -173,8 +173,8 @@ ${pageTheme}
               <div class="form-group">    
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
                 <div class="col-sm-8">
-                        <@from.treeselect id="${field}" name="${field}" value="${${className}.${field}?default('')}"
-                        labelValue="${${className}.${field}Name?default('')}" boxTitle="请选择管理地区" url="sys/dept/selectZtree"  checked="true" correlationId="companyId"  placeholder="请选择管理地区"/>
+                        <@from.treeselect id="${field}" name="${field}.id" value="${(${className}.${field}.id)?default('')}"
+                        labelValue="${${className}.${field}.name?default('')}" boxTitle="请选择管理地区" url="sys/dept/selectZtree"  checked="true" correlationId="company.id"  placeholder="请选择管理地区"/>
                 </div>
             </div>
             
@@ -182,8 +182,8 @@ ${pageTheme}
         <div class="form-group">    
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
                 <div class="col-sm-8">
-                      <@from.treeselect id="${field}"  value="${${className}.${field}?default('')}"
-                        labelValue="${${className}.${field}Name?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
+                      <@from.treeselect id="${field}"  name="${field}.id"  value="${(${className}.${field}.id)?default('')}"
+                        labelValue="${(${className}.${field}.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
                 </div>
             </div>
 			    
