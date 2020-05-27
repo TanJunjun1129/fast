@@ -54,6 +54,16 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 		return menuList;
 	}
 
+
+	/**
+	 * 通过菜单ID查询菜单
+	 * @param menuId
+	 * @return
+	 */
+	public SysMenuEntity selectMenuByMenId(Long menuId){
+		return sysMenuMapper.selectMenuByMenId(menuId);
+	}
+
 	public List<SysMenuEntity> findUserMenuList(Long userId) {
 		// 系统管理员，拥有最高权限
 		if (userId.equals(Constant.SUPER_ADMIN)) {

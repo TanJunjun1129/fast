@@ -1220,11 +1220,16 @@ if (typeof jQuery === "undefined") {
                 var _title = opt.common.isEmpty(options.title) ? $.i18n.prop("系统窗口") : $.i18n.prop(options.title);
                 var _width = opt.common.isEmpty(options.width) ? $(top.window).width() - 100 : options.width;
                 var _height = opt.common.isEmpty(options.height) ? $(top.window).height() - 100 : options.height;
+                var _framData = opt.common.isEmpty(options.fromData) ? {} : options.fromData;
                 if(opt.common.isEmpty(options.but)){
                     options.but = true;
                 }
                 if(options.but){
-                    var _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                    if(options.clear){
+                        _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-trash-o"></i> '+$.i18n.prop("清除"),'<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                    }else{
+                        _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                    }
                     if (!opt.common.isEmpty(options.callBack)) {
                         options.yes = function(index, layero) {
                             /**
@@ -1245,6 +1250,7 @@ if (typeof jQuery === "undefined") {
                         area: [_width+'px',
                             _height + 'px'],
                         content:_url,
+                        fromData: _framData,
                         success: function(layero, index){
                             var iframeWin = layero.find('iframe')[0];
                             //判断页面是否有
@@ -1254,7 +1260,21 @@ if (typeof jQuery === "undefined") {
                         },
                         btn: opt.common.isEmpty(options.btn) ? _btn : options.btn,
                         yes: options.yes,
-                        cancel: function () {
+                        //取消或者清除
+                        btn2: function(index, layero){
+                            if(options.clear){
+                                options.clear(index, layero,opt.layer);
+                            }else{
+                                opt.layer.close(index);
+                            }
+                        },
+                        btn3: function(index, layero){
+                            opt.layer.close(index);
+                        },
+                        cancel: function(index, layero){
+                            if (opt.common.isEmpty(options.cancel)) {
+                                options.cancel(index,layero);
+                            }
                             return true;
                         }
                     });

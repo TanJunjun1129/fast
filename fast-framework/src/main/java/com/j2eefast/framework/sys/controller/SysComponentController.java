@@ -37,4 +37,15 @@ public class SysComponentController extends BaseController {
 		mmap.put("chkboxType", super.getPara("chkboxType")); //  复选框级联选择规则 默认：{'Y':'ps','N':'ps'}
 		return urlPrefix + "/treeselect";
 	}
+
+	/**
+	 * 跳转图标选择
+	 * @param mmap
+	 * @return
+	 */
+	@RequestMapping(value = "/iconselect", method = RequestMethod.POST)
+	public String iconselect(ModelMap mmap) {
+		mmap.put("iconValue", super.getPara("iconValue"));
+		return urlPrefix + "/iconselect";
+	}
 }

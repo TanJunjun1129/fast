@@ -122,7 +122,13 @@ public class SysUserController extends BaseController {
 		// 获取用户所属的角色列表resetPwd
 		List<SysUserDeptEntity> deptIdList = sysUserDeptService.findListByUserId(userId);
 		List<SysRoleEntity> roles = sysRoleService.findByRolesByUserId(userId);
+		String selectRoles = "";
+		List<SysRoleEntity> selectRole = sysRoleService.selectRolesByUserId(userId);
+		for(SysRoleEntity sysRole: selectRole){
+			selectRoles +=sysRole.getRoleId() +",";
+		}
 		mmap.put("roles", roles);
+		mmap.put("selectRoles", selectRoles.substring(0,selectRoles.length()));
 		mmap.put("user", user);
 		mmap.put("deptList",deptIdList);
 		return urlPrefix + "/edit";
