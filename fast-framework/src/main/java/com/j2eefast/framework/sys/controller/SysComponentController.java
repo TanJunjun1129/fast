@@ -32,6 +32,7 @@ public class SysComponentController extends BaseController {
 		mmap.put("treeName",super.getPara("treeName"));//节点名称
 		mmap.put("correlationId",super.getPara("correlationId")); //关联ID
 		mmap.put("expandLevel",super.getPara("expandLevel")); //是否展开树
+		mmap.put("isSelectParent",super.getPara("isSelectParent")); //是否可以选中父节点
 		mmap.put("checked", super.getPara("checked")); // 是否可复选
 		mmap.put("chkboxType", super.getPara("chkboxType")); //  复选框级联选择规则 默认：{'Y':'ps','N':'ps'}
 		return urlPrefix + "/treeselect";

@@ -42,7 +42,7 @@
 <#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
 <#--                    </div>-->
                     <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
-                        checked="true" correlationId="compId"  placeholder="请选择管理地区"/>
+                        checked="true" correlationId="compId" isSelectParent="true"  placeholder="请选择管理地区"/>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录密码：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                       <input name="password"  id="password"  placeholder="请输入登录密码" class="form-control" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}" required>
+                       <@from.input name="password" placeholder="请输入登录密码" required="true" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}"/>
                        <span class="input-group-addon" title="<@ctx.i18n text = "登录密码,鼠标按下显示密码"/>"
                               data-toggle="tooltip"
                               data-placement="bottom"
@@ -113,10 +113,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">用户状态：</label>
                 <div class="col-sm-8">
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" id="status" checked>
-                        <span></span>
-                    </label>
+                    <@from.switch id="status"/>
                 </div>
             </div>
         </div>

@@ -3961,6 +3961,10 @@ table.table-mail tr td {
     width: 40px;
 }
 
+.form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #fff!important;
+}
+
 .unread td a, .unread td {
     font-weight: 600;
     color: inherit;

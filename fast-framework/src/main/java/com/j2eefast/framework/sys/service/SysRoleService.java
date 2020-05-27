@@ -170,16 +170,16 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 
 
 	public List<SysRoleEntity> findByRolesByUserId(Long userId){
-		List<SysRoleEntity> userRole =  sysRoleMapper.getRolesByUserId(userId);
+//		List<SysRoleEntity> userRole =  sysRoleMapper.getRolesByUserId(userId);
 		List<SysRoleEntity> roles = this.list(new QueryWrapper<SysRoleEntity>().eq("status","0"));
-		for (SysRoleEntity r : roles) {
-			for (SysRoleEntity userR : userRole) {
-				if (r.getRoleId().longValue() == userR.getRoleId().longValue()){
-					r.setFlag(true);
-					break;
-				}
-			}
-		}
+//		for (SysRoleEntity r : roles) {
+//			for (SysRoleEntity userR : userRole) {
+//				if (r.getRoleId().longValue() == userR.getRoleId().longValue()){
+//					r.setFlag(true);
+//					break;
+//				}
+//			}
+//		}
 		return roles;
 	}
 

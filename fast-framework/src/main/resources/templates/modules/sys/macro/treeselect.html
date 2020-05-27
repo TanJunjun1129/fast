@@ -63,6 +63,12 @@
 		});
 		<#if checked== "false">
 		function zOnClick(event, treeId, treeNode) {
+			<#if isSelectParent== "true">
+			if(treeNode.isParent){
+				opt.error("父点击不能选择!");
+				return;
+			}
+			</#if>
 			var treeId = treeNode.id;
 			var treeName = treeNode.name;
 			$("#treeId").val(treeId);
@@ -73,10 +79,16 @@
 			$._tree.checkNode(treeNode, !treeNode.checked, null, true);
 		}
 		function onCheck(event, treeId, treeNode) {
+
 			var _p = $._tree.getCheckedNodes();
 			var ids = "";
 			var names = "";
 			for(var i=0; i<_p.length; i++ ){
+				<#if isSelectParent== "true">
+				if(_p[i].isParent){
+					continue;
+				}
+				</#if>
 				ids += _p[i].id + ",";
 				names += _p[i].name + ",";
 			}

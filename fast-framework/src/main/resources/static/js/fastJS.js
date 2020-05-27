@@ -1134,6 +1134,9 @@ if (typeof jQuery === "undefined") {
                     },
                     cancel: function(index) {
                         return true;
+                    },
+                    end: function(){
+                        opt.modal.closeLoading();
                     }
                 });
 
@@ -1147,10 +1150,14 @@ if (typeof jQuery === "undefined") {
                 var _url = opt.common.isEmpty(options.url) ? "/404.html" : options.url;
                 var _title = opt.common.isEmpty(options.title) ? $.i18n.prop("系统窗口") : $.i18n.prop(options.title);
                 var _width = opt.common.isEmpty(options.width) ? "800" : options.width;
-                console.log(_width);
                 var _height = opt.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
                 var _framData = opt.common.isEmpty(options.fromData) ? {} : options.fromData;
-                var _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                var _btn = [];
+                if(options.clear){
+                    _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-trash-o"></i> '+$.i18n.prop("清除"),'<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                }else{
+                    _btn = ['<i class="fa fa-check"></i> '+$.i18n.prop("确定"), '<i class="fa fa-close"></i> '+$.i18n.prop("取消")];
+                }
                 if (opt.common.isEmpty(options.yes)) {
                     options.yes = function(index, layero) {
                         options.callBack(index, layero,opt.selfLayer);
@@ -1169,6 +1176,17 @@ if (typeof jQuery === "undefined") {
                     skin: options.skin,
                     btn: opt.common.isEmpty(options.btn) ? _btn : options.btn,
                     yes: options.yes,
+                    //取消或者清除
+                    btn2: function(index, layero){
+                        if(options.clear){
+                            options.clear(index, layero,opt.selfLayer);
+                        }else{
+                            opt.selfLayer.close(index);
+                        }
+                    },
+                    btn3: function(index, layero){
+                        opt.selfLayer.close(index);
+                    },
                     success: function(layero, index){
                         if (!opt.common.isEmpty(options.obj)) {
                             var iframeWin = layero.find('iframe')[0];

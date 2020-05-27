@@ -131,7 +131,6 @@ public class SysUserEntity extends BaseEntity {
 	@TableField(exist = false)
 	private List<Long> roleIdList;
 
-
 	/**
 	 * 地区ID列表
 	 */

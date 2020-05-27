@@ -62,11 +62,12 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
                 <div class="col-sm-8">
-                    <select id="_role" class="form-control select2-multiple" multiple required>
-                        <#list roles  as role>
-                            <option  value="${role.roleId}" <#if role.flag >selected = "selected"</#if>>${role.roleName}</option>
-                        </#list>
-                    </select>
+<#--                    <select id="_role" class="form-control select2-multiple" multiple required>-->
+<#--                        <#list roles  as role>-->
+<#--                            <option  value="${role.roleId}" <#if role.flag >selected = "selected"</#if>>${role.roleName}</option>-->
+<#--                        </#list>-->
+<#--                    </select>-->
+                    <@from.select name="_role" multiple = "true" value="${selectRoles}"  items=roles itemLabel="roleName" itemValue="roleId" required="true"/>
                 </div>
             </div>
         </div>
@@ -76,7 +77,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">邮箱：</label>
                 <div class="col-sm-8">
-                    <input id="email" name="email" value="${user.email?default("")}" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱">
+                    <@from.input name="email" value="${user.email?default('')}" placeholder="请输入邮箱" class="form-control email"  maxlength="50" />
                 </div>
             </div>
         </div>
@@ -84,10 +85,11 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">用户状态：</label>
                 <div class="col-sm-8">
-                    <label class="toggle-switch switch-solid">
-                        <input type="checkbox" id="status" <#if user.status == '0'>checked="true"</#if>">
-                        <span></span>
-                    </label>
+<#--                    <label class="toggle-switch switch-solid">-->
+<#--                        <input type="checkbox" id="status" <#if user.status == '0'>checked="true"</#if>">-->
+<#--                        <span></span>-->
+<#--                    </label>-->
+                    <@from.switch id="status" value="${user.status?default('')}"/>
                 </div>
             </div>
         </div>
@@ -97,7 +99,7 @@
             <div class="form-group">
                 <label class="col-xs-2 control-label">卡号：</label>
                 <div class="col-xs-4">
-                    <input id="cardId" name="cardId" value="${user.cardId?default("")}" class="form-control" type="text" maxlength="30" placeholder="请输入卡号">
+                    <@from.input name="cardId" value="${user.cardId?default('')}" placeholder="请输入卡号"  maxlength="30" />
                 </div>
             </div>
         </div>
