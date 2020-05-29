@@ -60,8 +60,8 @@
 	</@shiro.hasPermission>
 	
 	<@shiro.hasPermission name="tool:gen:code">
-		<a class="btn btn-primary multiple" onclick="reloadMaper()">
-			<i class="fa fa-remove"></i> 刷新
+		<a class="btn btn-warning" onclick="reloadMaper()">
+			<i class="fa fa-refresh"></i> 刷新Mapper.xml配置文件
 		</a>
 	</@shiro.hasPermission>
 </@table>
@@ -183,9 +183,9 @@
 		
 		
 		function reloadMaper() {
-		   opt.modal.confirm("确定吗?", function() {			
-				var url = prefix + "/reload";
-				opt.operate.post(url);
+		   opt.modal.confirm("确定要刷新Mapper.xml配置文件吗?", function() {
+			   var url = prefix + "/reload";
+			   opt.operate.post(url);
 			})
 		}
 		

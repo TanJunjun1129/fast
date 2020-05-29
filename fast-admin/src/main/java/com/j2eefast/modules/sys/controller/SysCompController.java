@@ -73,7 +73,7 @@ public class SysCompController extends BaseController {
 		Map<String, Object> params = new HashMap<>(1);
 		params.put("compId",compId);
 		List<SysDeptEntity> list = sysDeptService.findByDeptNameId(params);
-		List<Long> comps = list.stream().map(SysDeptEntity::getDeptId).collect(Collectors.toList());
+		List<Long> comps = list.stream().map(SysDeptEntity::getId).collect(Collectors.toList());
 		List<String> compName = list.stream().map(SysDeptEntity::getName).collect(Collectors.toList());
 		mmap.put("deptIdList",  Joiner.on(",").join(comps));
 		mmap.put("deptName",  Joiner.on(",").join(compName));

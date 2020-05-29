@@ -24,7 +24,7 @@
             enctype = "" <#-- 发送表单数据之前如何对其进行编码-->
             class = "" <#-- css 样式-->
 >
-    <form id="${id}" <#if name !=""> name = ${name}</#if> <#if class !=""> class = ${class}</#if>  <#if action !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
+    <form id="${id}" <#if name !=""> name = ${name}</#if> <#if class !=""> class = "${class}"</#if>  <#if action !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
     <#nested>
     </form>
 </#macro>
@@ -224,8 +224,8 @@
               maxlength = "" <#--输入最大长度 -->
 >
     <#compress>
-    <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if name == "">${id}<#else>${name}</#if>" class="${class}"
-           type="${type}" value="${value}" placeholder="${placeholder}" <#if maxlength !=""> maxlength = "${maxlength}"</#if> <#if readonly =="true"> readonly = true</#if> <#if required !="false"> required</#if>/>
+    <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if name == "">${id}<#else>${name}</#if>" <#if class != "">class="${class}"</#if><#rt>
+           type="${type}" value="${value}" <#if placeholder != "">placeholder="${placeholder}"</#if>   <#if maxlength !=""> maxlength = "${maxlength}"</#if> <#if readonly =="true"> readonly = true</#if> <#if required !="false"> required</#if>/>
     <#if butClass!=""><span class="input-group-addon"><i class="${butClass}"></i></span></#if>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
     </#compress>

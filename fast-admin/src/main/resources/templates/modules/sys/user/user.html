@@ -32,7 +32,7 @@
                 </div>
             </@from.from>
         </div>
-        <@table tableId="bootstrap-table">
+        <@table id="bootstrap-table">
             <@shiro.hasPermission name="sys:user:add">
                 <a class="btn btn-success" onclick="opt.operate.addTab()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
             </@shiro.hasPermission>

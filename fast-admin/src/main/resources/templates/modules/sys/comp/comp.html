@@ -1,30 +1,36 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="公司列表"/>
-<@search fromId="comp-form">
-<div class="select-list">
-    <ul>
-        <li>
-            <@ctx.i18n text = "公司名称"/>：<input type="text" name="name"/>
-        </li>
-        <li>
-            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
-            <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
-        </li>
-    </ul>
+<@header title="公司列表" libs=["table"]/>
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <@from.from id="comp-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <@ctx.i18n text = "公司名称"/>：<@from.input name="name" class=""/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
+                        </li>
+                    </ul>
+                </div>
+            </@from.from>
+        </div>
+        <@table id="bootstrap-tree-table">
+            <@shiro.hasPermission name="sys:comp:add">
+                <a class="btn btn-success" onclick="opt.operate.add(1)"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="sys:comp:edit">
+                <a class="btn btn-primary" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
+            </@shiro.hasPermission>
+            <a class="btn btn-info" id="expandAllBtn">
+                <i class="fa fa-exchange"></i> <@ctx.i18n text = "展开/折叠"/>
+            </a>
+        </@table>
+     </div>
 </div>
-</@search>
-<@table tableId="bootstrap-tree-table">
-    <@shiro.hasPermission name="sys:comp:add">
-        <a class="btn btn-success" onclick="opt.operate.add(1)"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
-    </@shiro.hasPermission>
-    <@shiro.hasPermission name="sys:comp:edit">
-        <a class="btn btn-primary" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
-    </@shiro.hasPermission>
-    <a class="btn btn-info" id="expandAllBtn">
-        <i class="fa fa-exchange"></i> <@ctx.i18n text = "展开/折叠"/>
-    </a>
-</@table>
 <@footer>
 <script>
     var addFlag = "${permission.hasPermi('sys:comp:add')}";
@@ -66,7 +72,6 @@
         };
         $.treeTable.init(options);
     });
-
 </script>
 </@footer>
 </@pageTheme>

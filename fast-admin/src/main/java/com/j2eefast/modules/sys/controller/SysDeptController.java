@@ -128,7 +128,7 @@ public class SysDeptController extends BaseController {
 		// 添加一级部门
 		if (UserUtils.getUserId().equals(Constant.SUPER_ADMIN)) {
 			SysDeptEntity root = new SysDeptEntity();
-			root.setDeptId(0L);
+			root.setId(0L);
 			root.setName("一级地区");
 			root.setParentId(-1L);
 			root.setOpen(true);
@@ -167,7 +167,7 @@ public class SysDeptController extends BaseController {
 			for (SysDeptEntity dept : deptList) {
 				if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {
 					Ztree ztree = new Ztree();
-					ztree.setId(dept.getDeptId());
+					ztree.setId(dept.getId());
 					ztree.setpId(dept.getParentId());
 					ztree.setName(dept.getName());
 					ztree.setTitle(dept.getName());
@@ -187,7 +187,7 @@ public class SysDeptController extends BaseController {
 			for (SysDeptEntity dept : deptList) {
 				if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {
 					Ztree ztree = new Ztree();
-					ztree.setId(dept.getDeptId());
+					ztree.setId(dept.getId());
 					ztree.setpId(dept.getParentId());
 					ztree.setName(dept.getName());
 					ztree.setTitle(dept.getName());

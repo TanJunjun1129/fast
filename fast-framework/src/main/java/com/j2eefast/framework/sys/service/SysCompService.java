@@ -42,8 +42,8 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 		return compList;
 	}
 
-	public SysCompEntity findCompById(Long compId) {
-		return sysCompMapper.findCompById(compId);
+	public SysCompEntity findCompById(Long id) {
+		return sysCompMapper.findCompById(id);
 	}
 
 	public List<Long> findDetpIdList(Long parentId) {

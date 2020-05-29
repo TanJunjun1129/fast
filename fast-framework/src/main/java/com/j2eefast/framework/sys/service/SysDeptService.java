@@ -73,10 +73,10 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper,SysDeptEntity> {
 
 	public boolean checkDeptNameUnique(SysDeptEntity dept) {
 
-		Long deptId = ToolUtil.isEmpty(dept.getDeptId()) ? -1L : dept.getDeptId();
+		Long deptId = ToolUtil.isEmpty(dept.getId()) ? -1L : dept.getId();
 		SysDeptEntity info = this.getOne(new QueryWrapper<SysDeptEntity>().
 				eq("name", dept.getName()).eq("parent_id", dept.getParentId()));
-		if (ToolUtil.isNotEmpty(info) && info.getDeptId().longValue() != deptId.longValue()) {
+		if (ToolUtil.isNotEmpty(info) && info.getId().longValue() != deptId.longValue()) {
 			return false;
 		}
 		return true;
@@ -121,7 +121,7 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper,SysDeptEntity> {
 		for (SysDeptEntity dept : deptList) {
 			if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {
 				Ztree ztree = new Ztree();
-				ztree.setId(dept.getDeptId());
+				ztree.setId(dept.getId());
 				ztree.setpId(dept.getParentId());
 				ztree.setName(dept.getName());
 				ztree.setTitle(dept.getName());

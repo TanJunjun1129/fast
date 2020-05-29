@@ -1,6 +1,5 @@
 package com.j2eefast.generator.gen.controller;
 
-import com.google.common.collect.Lists;
 import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
@@ -8,6 +7,7 @@ import com.j2eefast.common.core.exception.RxcException;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ResponseData;
 import com.j2eefast.common.db.context.DataSourceContext;
+import com.j2eefast.common.db.context.SqlSessionFactoryContext;
 import com.j2eefast.common.db.entity.SysDatabaseEntity;
 import com.j2eefast.framework.sys.entity.SysModuleEntity;
 import com.j2eefast.framework.sys.service.SysDatabaseService;
@@ -20,7 +20,7 @@ import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.service.GenTableColumnService;
 import com.j2eefast.generator.gen.service.GenTableService;
 import com.j2eefast.generator.gen.util.GenUtils;
-import com.j2eefast.generator.gen.util.XMLMapperLoader;
+import com.j2eefast.common.core.mutidatasource.annotaion.mybatis.MybatisMapperRefresh;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
@@ -88,8 +88,12 @@ public class GenController extends BaseController {
     @RequestMapping("/reload")
     @ResponseBody
     public ResponseData reloadMapper(@RequestParam Map<String, Object> params) {
-    	 try {
-			new XMLMapperLoader(sqlSessionFactory,"classpath*:mapper/**/*.xml").readMapperXml();
+        try {
+            Iterator<Map.Entry<Object, SqlSessionFactory>> entries = SqlSessionFactoryContext.getSqlSessionFactorys().entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry<Object, SqlSessionFactory> entry = entries.next();
+                new MybatisMapperRefresh((String) entry.getKey(),entry.getValue()).loadRefresh();
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 			return error(e.getMessage());

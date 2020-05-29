@@ -1,7 +1,8 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="新增公司"/>
-<@addorEdit fromId="form-comp-add">
+<@header title="新增公司" bodyClass="white-bg"/>
+<div class="wrapper wrapper-content ibox-content">
+	<@from.from id="form-menu-edit" class="form-horizontal">
 	<input id="parentId" name="parentId" type="hidden" value="${comp.id}"   />
 	<input id="deptId" name="deptIdList" type="hidden"/>
 	<div class="form-group">
@@ -11,6 +12,8 @@
 				<input class="form-control" type="text" onclick="selectCompTree()" id="compName" readonly="true" value="${comp.name?default("总公司")}">
 				<span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
 			</div>
+			<@from.treeselect id="compId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"
+			placeholder="请选择归属公司"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -56,7 +59,8 @@
 			<textarea id="remark" name="remark" class="form-control"></textarea>
 		</div>
 	</div>
-</@addorEdit>
+</div>
+</@from.from>
 <@footer>
 <script>
 	var prefix = baseURL + "sys/comp";

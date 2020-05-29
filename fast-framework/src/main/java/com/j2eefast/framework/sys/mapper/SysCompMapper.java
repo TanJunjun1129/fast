@@ -19,7 +19,7 @@ public interface SysCompMapper extends BaseMapper<SysCompEntity> {
 	/**
 	 * 查询公司
 	 */
-	SysCompEntity findCompById(@Param("compId") Long compId);
+	SysCompEntity findCompById(@Param("id") Long id);
 
 
 	List<Long> findDetpIdList(@Param("parentId") Long parentId);
