@@ -62,7 +62,7 @@ license:
 spring:
     datasource:
         #默认(主)数据库配置
-        default:
+        master:
             driverClassName: com.mysql.cj.jdbc.Driver
             url: jdbc:mysql://127.0.0.1:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
             #url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
