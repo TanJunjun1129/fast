@@ -18,6 +18,8 @@ import com.j2eefast.framework.utils.Global;
 import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.mapper.GenTableMapper;
+import com.j2eefast.generator.gen.util.DynamicDataSource;
+import com.j2eefast.generator.gen.util.DynamicDataSourceHolder;
 import com.j2eefast.generator.gen.util.GenUtils;
 import com.j2eefast.generator.gen.util.VelocityInitializer;
 import com.j2eefast.generator.gen.util.VelocityUtils;
@@ -227,17 +229,19 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
     }
 
     public List<GenTableEntity> findDbTableList() {
+    	
         return this.genTableMapper.findDbTableList();
     }
 
-    public List<GenTableEntity> findSlaveDbTableList(String dbType) {
+    public List<GenTableEntity> findSlaveDbTableList(String dataSourceName) {
+    	new DynamicDataSource(dataSourceName);
         return this.genTableMapper.findSlaveDbTableList();
     }
 
-
-    public List<GenTableEntity> findNoDbTableList(String dbType) {
-        List<GenTableEntity> list = genTableService.findSlaveDbTableList(dbType);
-        List<GenTableEntity> notList = this.genTableMapper.findDbNotTableList(dbType);
+    
+    public List<GenTableEntity> findNoDbTableList(String dataSourceName) {
+        List<GenTableEntity> list = genTableService.findSlaveDbTableList(dataSourceName);
+        List<GenTableEntity> notList = this.genTableMapper.findDbNotTableList(dataSourceName);
         Iterator it=list.iterator();
         while(it.hasNext()) {
             GenTableEntity g = (GenTableEntity) it.next();

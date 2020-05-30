@@ -20,7 +20,6 @@ import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.service.GenTableColumnService;
 import com.j2eefast.generator.gen.service.GenTableService;
 import com.j2eefast.generator.gen.util.GenUtils;
-import com.j2eefast.common.core.mutidatasource.annotaion.mybatis.MybatisMapperRefresh;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
@@ -92,7 +91,7 @@ public class GenController extends BaseController {
             Iterator<Map.Entry<Object, SqlSessionFactory>> entries = SqlSessionFactoryContext.getSqlSessionFactorys().entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry<Object, SqlSessionFactory> entry = entries.next();
-                new MybatisMapperRefresh((String) entry.getKey(),entry.getValue()).loadRefresh();
+                new com.j2eefast.generator.gen.util.MybatisMapperRefresh(sqlSessionFactory);
             }
 		} catch (Exception e) {
 			e.printStackTrace();

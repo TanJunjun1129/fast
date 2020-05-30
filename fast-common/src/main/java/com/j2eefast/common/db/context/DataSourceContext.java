@@ -156,4 +156,17 @@ public class DataSourceContext {
 
 		return AtomikosFactory.create(dataSourceName, druidProperties);
 	}
+	
+	
+	/**
+	* @Title: getDefaultDataSource 
+	* @Description: 获取系统缺省的数据源
+	* @return  DataSource 
+	* @author mfksn001@163.com
+	* @Date: 2020年5月30日
+	 */
+	public static DataSource getDefaultDataSource() {
+		
+		return DATA_SOURCES.get(MASTER_DATASOURCE_NAME);
+	}
 }

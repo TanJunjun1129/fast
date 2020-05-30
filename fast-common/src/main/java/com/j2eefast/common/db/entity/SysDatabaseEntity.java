@@ -1,10 +1,13 @@
 package com.j2eefast.common.db.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.j2eefast.common.core.base.entity.BaseEntity;
+import com.j2eefast.common.db.utils.DbUtil;
+
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -25,7 +28,7 @@ public class SysDatabaseEntity extends BaseEntity {
 	private Long id;
 
 	/**
-	 * 数据库标志名称
+	 * 数据库标志名称(系统中的dataSource key name)
 	 */
 	@NotBlank(message = "参数值不能为空")
 	private String dbName;
@@ -70,4 +73,24 @@ public class SysDatabaseEntity extends BaseEntity {
 	 */
 	@NotBlank(message = "参数值不能为空")
 	private String encType;
+	
+
+	/** oralce 使用 */
+	@TableField(exist=false)
+	private String secheme;
+
+	
+	public String getSecheme() {
+		return this.getUserName();
+	}
+	
+	/** 数据库类型    oacle|mysql|sqlserver */
+	@TableField(exist=false)
+	private String dbType;
+	
+	
+	public String getDbType() {
+		return DbUtil.getDbType(this.jdbcUrl);
+	}
+	
 }

@@ -137,9 +137,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="findSlaveDbTableList" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_schema = (select database())
-		AND table_name NOT LIKE 'act_%'
+	
+           	SELECT 
+				t.TABLE_NAME AS "tableName", 
+				c.COMMENTS AS "table_comment"
+			FROM all_tables t LEFT JOIN user_tab_comments c ON t.table_name = c.table_name
+			<where>	
+					AND t.OWNER = 'GOA'
+			</where>
+			ORDER BY t.TABLE_NAME			
+  
 	</select>
 
 	<select id="findDbNotTableList" resultMap="GenTableResult">
