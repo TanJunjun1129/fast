@@ -184,7 +184,7 @@
 		
 		function reloadMaper() {
 		   opt.modal.confirm("确定要刷新Mapper.xml配置文件吗?", function() {
-			   var url = prefix + "/reload";
+			   var url = prefix + "/mapper/reload";
 			   opt.operate.post(url);
 			})
 		}
@@ -215,7 +215,7 @@
 			var options = {
 				title: "选择数据库",
 				width: "800",
-				height: "240",
+				height: "300",
 				url: prefix + '/selectDb',
 				callBack: DeptDoSubmit
 			};

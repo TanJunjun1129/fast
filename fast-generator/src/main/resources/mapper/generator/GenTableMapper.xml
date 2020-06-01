@@ -128,64 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where table_id = #{tableId}
 	</update>
 
-	<select id="findDbTableList" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_schema = (select database())
-		AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
-		AND table_name NOT IN (select table_name from gen_table where db_type = 'DEFAULT')
-	</select>
 
-
-	<select id="findSlaveDbTableList" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_schema = (select database())
-		AND table_name NOT LIKE 'act_%'
-	</select>
-
-	<select id="findDbNotTableList" resultMap="GenTableResult">
-		select table_name from gen_table where db_type = #{dbType};
-	</select>
-
-
-	<select id="selectDbTablePage" parameterType="GenTableEntity" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_schema = (select database())
-		AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
-		AND table_name NOT IN (select table_name from gen_table where db_type = 'DEFAULT')
-		<if test="tableName != null and tableName != ''">
-			AND table_name like concat('%', #{tableName}, '%')
-		</if>
-		<if test="tableComment != null and tableComment != ''">
-			AND table_comment like concat('%', #{tableComment}, '%')
-		</if>
-	</select>
-
-	<select id="selectNotDbTablePage" parameterType="GenTableEntity" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_schema = (select database())
-		AND table_name NOT LIKE 'act_%'
-		<if test="tableName != null and tableName != ''">
-			AND table_name like concat('%', #{tableName}, '%')
-		</if>
-		<if test="tableComment != null and tableComment != ''">
-			AND table_comment like concat('%', #{tableComment}, '%')
-		</if>
-		<if test="notList != null">
-			AND table_name NOT IN
-			<foreach collection="notList" index="index" item="item" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</if>
-	</select>
-
-	<select id="selectDbTableListByNames" resultMap="GenTableResult">
-		select table_name, table_comment, create_time, update_time from information_schema.tables
-		where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = (select database())
-		and table_name in
-		<foreach collection="array" item="name" open="(" separator="," close=")">
-			#{name}
-		</foreach>
-	</select>
 
 
 	<delete id="deleteGenTableByIds" parameterType="Long">
@@ -194,4 +137,112 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{tableId}
 		</foreach>
 	</delete>
+	
+	
+	<select id="generateTableList" resultMap="GenTableResult">
+        <if test="dbType == 'mysql'">
+           select table_name, table_comment, create_time, update_time from information_schema.tables
+	       	where table_schema = 
+	       	<choose><when test="schema != null and schema !=''"> #{schema}</when><otherwise>(select database())</otherwise></choose>
+		    AND table_name NOT LIKE 'qrtz_%' 
+		    <if test="tableName != null and tableName != ''">
+			   AND table_name like concat('%', #{tableName}, '%')
+		    </if>
+		   <if test="tableComment != null and tableComment != ''">
+			  AND table_comment like concat('%', #{tableComment}, '%')
+		   </if>
+        </if>
+        
+       <if test="dbType == 'oracle'">
+         	SELECT 
+				t.TABLE_NAME AS "table_name", 
+				nvl(c.COMMENTS,t.TABLE_NAME) AS "table_comment",  o.created as "create_time", o.last_ddl_time as "update_time"
+			  FROM all_tables t 
+			  LEFT JOIN user_tab_comments c ON t.table_name = c.table_name
+			  LEFT JOIN dba_objects o ON t.table_name = o.object_name   and t.OWNER = o.OWNER
+			<where>	
+			      AND t.OWNER =  upper(#{schema})
+				  AND t.table_name NOT LIKE  upper('qrtz_%') 
+		     <if test="tableName != null and tableName != ''">
+			   AND t.table_name like '%'||upper(#{tableName})||'%')
+		     </if>
+		    <if test="tableComment != null and tableComment != ''">
+			  AND table_comment like '%'|| upper(#{tableComment})||'%')
+		    </if>
+			</where>
+			ORDER BY t.TABLE_NAME	
+       </if>
+	</select>
+	
+	
+	<select id="generateTableListByNames" resultMap="GenTableResult">
+	        <if test="dbType == 'mysql'">
+			select table_name, table_comment, create_time, update_time from information_schema.tables
+			where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = 
+				<choose><when test="schema != null and schema !=''"> #{schema}</when><otherwise>(select database())</otherwise></choose>
+			and table_name in
+			<foreach collection="tableNames" item="tableName" open="(" separator="," close=")">
+				#{tableName}
+			</foreach>
+			</if>
+			
+		   <if test="dbType == 'oracle'">
+		   SELECT 
+				t.TABLE_NAME AS "table_name", 
+				nvl(c.COMMENTS,t.TABLE_NAME) AS "table_comment",  o.created as "create_time", o.last_ddl_time as "update_time"
+			  FROM all_tables t 
+			  LEFT JOIN user_tab_comments c ON t.table_name = c.table_name
+			  LEFT JOIN dba_objects o ON t.table_name = o.object_name  and t.OWNER = o.OWNER
+			<where>	
+			      AND t.OWNER = upper(#{schema})
+				  AND t.table_name NOT LIKE  upper('qrtz_%') 
+				  AND t.table_name in 
+		         <foreach collection="tableNames" item="tableName" open="(" separator="," close=")">
+		            upper(#{tableName})
+	         	</foreach>
+			</where>
+			 ORDER BY t.TABLE_NAME	
+		   </if>
+		
+	</select>
+	
+	
+	<select id="generateTablePage" resultMap="GenTableResult">
+        <if test="dbType == 'mysql'">
+           select table_name, table_comment, create_time, update_time from information_schema.tables
+	       	where table_schema = 
+	       	<choose><when test="schema != null and schema !=''"> #{schema}</when><otherwise>(select database())</otherwise></choose>
+		    AND table_name NOT LIKE 'qrtz_%'   <!-- 不显示 计划任务的表-->
+		    <if test="tableName != null and tableName != ''">
+			   AND table_name like concat('%', #{tableName}, '%')
+		    </if>
+		   <if test="tableComment != null and tableComment != ''">
+			  AND table_comment like concat('%', #{tableComment}, '%')
+		   </if>
+        </if>
+        
+       <if test="dbType == 'oracle'">
+         	SELECT 
+				t.TABLE_NAME AS "table_name", 
+				nvl(c.COMMENTS,t.TABLE_NAME) AS "table_comment", o.created as "create_time", o.last_ddl_time as "update_time"
+			  FROM all_tables t 
+			  LEFT JOIN user_tab_comments c ON t.table_name = c.table_name
+			  LEFT JOIN dba_objects o ON t.table_name = o.object_name   and t.OWNER = o.OWNER
+			<where>	
+			      AND t.OWNER =  upper(#{schema})
+				  AND t.table_name NOT LIKE  upper('qrtz_%')   <!-- 不显示 计划任务的表-->
+		     <if test="tableName != null and tableName != ''">
+			   AND t.table_name like '%'||upper(#{tableName})||'%')
+		     </if>
+		    <if test="tableComment != null and tableComment != ''">
+			  AND table_comment like '%'|| upper(#{tableComment})||'%')
+		    </if>
+			</where>
+			ORDER BY t.TABLE_NAME	
+       </if>
+	</select>
+	
+	
+	
+	
 </mapper> 

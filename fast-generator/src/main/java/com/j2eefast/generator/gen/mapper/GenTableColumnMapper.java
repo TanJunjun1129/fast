@@ -5,6 +5,8 @@ import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * <p> 代码生成 Mapper 接口</p>
  *
@@ -24,6 +26,21 @@ public interface GenTableColumnMapper extends BaseMapper<GenTableColumnEntity> {
 	 * @return 列信息
 	 */
 	List<GenTableColumnEntity> selectDbTableColumnsByName(String tableName);
+	
+	
+	/**
+	* @Title: generateDbTableColumnsByName 
+	* @Description: 产生表栏位名
+	* @param dbType 数据库类型
+	* @param schema schema
+	* @param tableName 表名
+	* @return  List<GenTableColumnEntity> 
+	* @author mfksn001@163.com
+	* @Date: 2020年6月1日
+	 */
+	List<GenTableColumnEntity> generateDbTableColumnsByName(@Param("dbType") String dbType ,
+                                                            @Param("schema") String schema ,
+                                                            @Param("tableName") String tableName);
 
 
 	int deleteGenTableColumnByIds(Long[] ids);

@@ -3,6 +3,7 @@ package com.j2eefast.generator.gen.service;
 
 import com.j2eefast.generator.gen.entity.TestEntity;
 import com.j2eefast.generator.gen.mapper.TestMapper;
+import com.j2eefast.common.core.mutidatasource.annotaion.DataSource;
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
@@ -21,6 +22,7 @@ import java.util.Arrays;
  * @date 2020-05-27 22:06
  */
 @Service
+
 public class TestService extends ServiceImpl<TestMapper,TestEntity> {
 
 	@Resource
