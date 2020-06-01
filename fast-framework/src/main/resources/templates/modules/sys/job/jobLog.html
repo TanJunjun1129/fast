@@ -87,17 +87,6 @@
 		            field: 'jobName',
 		            title: '任务名称'
 		        },
-				{
-					field: 'beanName',
-					title: 'SpringBean'
-				},
-				{
-					field: 'methodName',
-					title: '方法名称',
-					formatter: function(value, row, index) {
-						return $.table.tooltip(value);
-					}
-				},
 		        {
 		            field: 'jobGroup',
 		            title: '任务分组',
@@ -106,8 +95,8 @@
 		            }
 		        },
 				{
-					field: 'params',
-					title: '参数',
+					field: 'invokeTarget',
+					title: '调用目标字符串',
 					formatter: function(value, row, index) {
 						return $.table.tooltip(value);
 					}

@@ -63,8 +63,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
      <!-- 外联表  --> 
 	<sql id="testJoins">
-        left join sys_comp comp001 ON comp001.id = a.company_id
-		<!--  left join sys_comp c ON c.comp_id = a.comp_id   关联查询后，需手动修改 testColumns 中属性值      -->
+        <!-- left join sys_comp comp001 ON comp001.id = a.company_id -->
+        left join sys_comp c ON c.comp_id = a.comp_id
+     <!--  关联查询后，需手动修改 testColumns 中属性值      -->
     </sql>
     
     
@@ -115,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 
 	 
 	 
-	  <!--  根据获取实体 page   -->
+	  <!--  根据获取实体 page-->
      <select id="findPage" resultType="com.j2eefast.generator.gen.entity.TestEntity">
 		SELECT 
 			<include refid="testColumns"/>
@@ -149,7 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                <if test="test.roleIds != null  and test.roleIds != ''"> and a.role_ids = #{test.roleIds} </if>
    		</where>
 	 </select>
-	 
+
 		<!--  更新获取实体 updateById    -->
 	<update id="updateById">
 		UPDATE  example_test  <set>	

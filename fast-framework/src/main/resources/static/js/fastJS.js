@@ -3250,6 +3250,7 @@ if (typeof jQuery === "undefined") {
                     }
 
                     var treeId = $("#treeId").val();
+                    console.log("-->" + treeId);
                     tree = $.fn.zTree.init($("#" + options.id), setting, list);
                     $._tree = tree;
 
@@ -3268,20 +3269,21 @@ if (typeof jQuery === "undefined") {
                         if(!opt.common.isEmpty(options._list)){
                             var _l = options._list.split(",");
                             for(var i=0; i<_l.length; i++){
-                                var node = tree.getNodeByParam(options.data.simpleData.idKey,_l[i]);
+                                var node = tree.getNodeByParam(options.data.simpleData.idKey,_l[i],null);
                                 if(node !=null){
                                     tree.checkNode(node,true);
                                 }
                             }
                         }
-                        if(!opt.common.isEmpty(treeId)){
-                            var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
-                                "id":options.data.simpleData.idKey, treeId);
-                            if(!opt.common.isEmpty(node)){
-                                tree.checkNode(node,true);
-                                if($.tree._option.check.chkStyle == 'radio') tree.selectNode(node);
-                            }
-                        }
+                        // if(!opt.common.isEmpty(treeId)){
+                        //     var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
+                        //         "id":options.data.simpleData.idKey, treeId);
+                        //     console.log(">>>" + node)
+                        //     if(!opt.common.isEmpty(node)){
+                        //         tree.checkNode(node,true);
+                        //         if($.tree._option.check.chkStyle == 'radio') tree.selectNode(node);
+                        //     }
+                        // }
                     }
 
                     if(!opt.common.isEmpty(treeId) && !options.check.enable){

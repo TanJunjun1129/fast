@@ -44,10 +44,10 @@ public class SysDictTypeSerive extends ServiceImpl<SysDictTypeMapper,SysDictType
 
 
     public boolean checkDictTypeUnique(SysDictTypeEntity dict) {
-        Long dictId = ToolUtil.isEmpty(dict.getDictId()) ? -1L : dict.getDictId();
+        Long dictId = ToolUtil.isEmpty(dict.getId()) ? -1L : dict.getId();
         SysDictTypeEntity dictType = this.getOne(new QueryWrapper<SysDictTypeEntity>()
                 .eq("dict_type",dict.getDictType()));
-        if (!ToolUtil.isEmpty(dictType) && dictType.getDictId().longValue() != dictId.longValue()){
+        if (!ToolUtil.isEmpty(dictType) && dictType.getId().longValue() != dictId.longValue()){
             return  false;
         }
         return true;
@@ -60,7 +60,7 @@ public class SysDictTypeSerive extends ServiceImpl<SysDictTypeMapper,SysDictType
         for (SysDictTypeEntity dict : dictList){
             if ("0".equals(dict.getStatus())){
                 Ztree ztree = new Ztree();
-                ztree.setId(dict.getDictId());
+                ztree.setId(dict.getId());
                 ztree.setName(transDictName(dict));
                 ztree.setTitle(dict.getDictType());
                 ztrees.add(ztree);

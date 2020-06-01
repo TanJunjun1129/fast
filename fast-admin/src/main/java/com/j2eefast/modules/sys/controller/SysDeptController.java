@@ -182,7 +182,7 @@ public class SysDeptController extends BaseController {
 			compIds.add(compId);
 			// 获取公司关联地区ID
 			List<Long> deptIds = sysCompDeptService.findDeptIdList(compIds.stream().toArray(Long[]::new));
-			List<SysDeptEntity> deptList = sysDeptService.list(new QueryWrapper<SysDeptEntity>().in("dept_id", deptIds));
+			List<SysDeptEntity> deptList = sysDeptService.list(new QueryWrapper<SysDeptEntity>().in("id", deptIds));
 			List<Ztree> ztrees = new ArrayList<Ztree>();
 			for (SysDeptEntity dept : deptList) {
 				if (Constant.DEPT_NORMAL.equals(dept.getStatus())) {

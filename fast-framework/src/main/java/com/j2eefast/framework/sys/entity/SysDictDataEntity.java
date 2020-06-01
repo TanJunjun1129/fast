@@ -21,7 +21,7 @@ public class SysDictDataEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(type = IdType.ASSIGN_ID)
-	private Long dictCode;
+	private Long id;
 
 	/** 字典排序 */
 	private Long dictSort;

@@ -30,6 +30,19 @@
 </#macro>
 
 <#--
+    //from textarea
+-->
+<#macro textarea id=""
+             name = ""
+             class = "form-control"
+             value = ""
+             readOnly = "false"
+             rows = "5"
+>
+    <textarea id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>"  class="${class}" rows="${rows}" <#if readOnly == "true">readOnly = "true"</#if>><#if value != "">${value}</#if></textarea>
+</#macro>
+
+<#--
     //from 图标选择控件
 -->
 <#macro iconselect id=""
