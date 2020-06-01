@@ -1,9 +1,11 @@
 package com.j2eefast.generator.gen.controller;
 
+import com.google.common.collect.Lists;
 import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
 import com.j2eefast.common.core.exception.RxcException;
+import com.j2eefast.common.core.mutidatasource.annotaion.mybatis.MybatisMapperRefresh;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ResponseData;
 import com.j2eefast.common.db.context.DataSourceContext;
@@ -57,8 +59,6 @@ public class GenController extends BaseController {
 	
     private String urlPrefix = "modules/tool/gen";
 
-    @Autowired
-	private SqlSessionFactory sqlSessionFactory;
 
     @Autowired
     private SysModuleService sysModuleService;
@@ -66,8 +66,6 @@ public class GenController extends BaseController {
     private GenTableService genTableService;
     @Autowired
     private SysDatabaseService sysDatabaseService;
-    @Autowired
-    private SysDictTypeSerive sysDictTypeSerive;
 
     @Autowired
     private GenTableColumnService genTableColumnService;
@@ -84,14 +82,14 @@ public class GenController extends BaseController {
      * 查询代码生成列表
      */
     @RequiresPermissions("tool:gen:list")
-    @RequestMapping("/reload")
+    @RequestMapping("/mapper/reload")
     @ResponseBody
     public ResponseData reloadMapper(@RequestParam Map<String, Object> params) {
         try {
             Iterator<Map.Entry<Object, SqlSessionFactory>> entries = SqlSessionFactoryContext.getSqlSessionFactorys().entrySet().iterator();
             while (entries.hasNext()) {
                 Map.Entry<Object, SqlSessionFactory> entry = entries.next();
-                new com.j2eefast.generator.gen.util.MybatisMapperRefresh(sqlSessionFactory);
+               new MybatisMapperRefresh((String) entry.getKey(),entry.getValue()).loadRefresh();
             }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,7 +129,8 @@ public class GenController extends BaseController {
     @PostMapping("/db/list")
     @ResponseBody
     public ResponseData dataList(@RequestParam Map<String, Object> params){
-        PageUtil page = genTableService.queryDbPage(params);
+       // PageUtil page = genTableService.queryDbPage(params);
+    	PageUtil page = genTableService.generateDbTablePage(params);
         return success(page);
     }
 
@@ -250,14 +249,13 @@ public class GenController extends BaseController {
      * 导入表结构
      */
     @RequiresPermissions("tool:gen:list")
-    @GetMapping("/importTable/{dbtype}")
-    public String importTable(@PathVariable("dbtype") String dbtype,ModelMap mmap){
-        mmap.put("dbType", dbtype);
-        if(dbtype.equals(DataSourceContext.MASTER_DATASOURCE_NAME)){
-            mmap.put("dbTables", genTableService.findDbTableList());
-        }else{
-            mmap.put("dbTables", genTableService.findNoDbTableList(dbtype));
-        }
+    @GetMapping("/importTable/{dbId}")
+    public String importTable(@PathVariable("dbId") String dbId,ModelMap mmap){    	     	
+        SysDatabaseEntity db =  sysDatabaseService.getById(dbId);
+        String dbName = db.getDbName();
+        mmap.put("dbName", dbName);
+        List<GenTableEntity> list = genTableService.generateDbTableList(db);
+        mmap.put("dbTables", list);
         return urlPrefix + "/importTable";
     }
 
@@ -279,10 +277,11 @@ public class GenController extends BaseController {
     @ResponseBody
     public ResponseData importTableSave(@RequestParam Map<String, Object> tables){
         String[] tableNames = Convert.toStrArray(tables.get("tables"));
-        String dbType = (String) tables.get("dbType");
+        String dbName = (String) tables.get("dbName");
+        SysDatabaseEntity db = sysDatabaseService.getByName(dbName);
         // 查询表信息
-        List<GenTableEntity> tableList = genTableService.selectDbTableListByNames(tableNames,dbType);
-        genTableService.importGenTable(tableList, UserUtils.getLoginName(),dbType);
+        List<GenTableEntity> tableList = genTableService.generateDbTableListByNames(db, tableNames);
+        genTableService.importGenTable(tableList, UserUtils.getLoginName(),dbName);
         return success();
     }
 
@@ -293,16 +292,17 @@ public class GenController extends BaseController {
     public ResponseData refreshTableSave(@PathVariable("tableId") Long tableId){
 
         GenTableEntity table = genTableService.findGenTableById(tableId);
+        //SysDatabaseEntity db = sysDatabaseService.getByName(table.getDbType());
+        
+        
         // 查询表信息
-        List<GenTableColumnEntity> genTableColumns = genTableColumnService.selectDbTableColumnsByName(table.getDbType(),table.getTableName());
-
+        List<GenTableColumnEntity> genTableColumns = genTableColumnService.generateDbTableColumnsByName(table.getDbType(),table.getTableName());
+        
         List<String> genTableColumnName =  genTableColumns.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
-
 
         List<GenTableColumnEntity> genTableColumnsExists =table.getColumns();
 
         List<String> genTableColumnsExistsName =  genTableColumnsExists.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
-
 
 
         //增加  新增的表column数据库表
@@ -318,7 +318,6 @@ public class GenController extends BaseController {
             genTableColumnService.save(column);
         }
 
-
         //删除 已经删除的表column数据库表
         for (GenTableColumnEntity column : genTableColumnsExists) {
             if (genTableColumnName.contains(column.getColumnName())) {
@@ -326,7 +325,6 @@ public class GenController extends BaseController {
             }
             genTableColumnService.removeById(column);
         }
-
 
         return success();
     }

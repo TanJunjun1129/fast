@@ -77,11 +77,19 @@ public class SysDatabaseEntity extends BaseEntity {
 
 	/** oralce 使用 */
 	@TableField(exist=false)
-	private String secheme;
+	private String schema;
 
-	
-	public String getSecheme() {
-		return this.getUserName();
+	/**
+	* 获取数据库的schema
+	*/
+	public String getSchema() {
+		if ("mysql".equals(DbUtil.getDbType(this.jdbcDriver))) {
+			return "";   //取当前连接的数据库名
+		}
+		if ("oracle".equals(DbUtil.getDbType(this.jdbcDriver))) {
+			return this.getUserName();
+		}
+		return "";
 	}
 	
 	/** 数据库类型    oacle|mysql|sqlserver */
@@ -90,7 +98,7 @@ public class SysDatabaseEntity extends BaseEntity {
 	
 	
 	public String getDbType() {
-		return DbUtil.getDbType(this.jdbcUrl);
+		return DbUtil.getDbType(this.jdbcDriver);
 	}
 	
 }

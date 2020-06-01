@@ -4,10 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
+import com.j2eefast.common.core.mutidatasource.DataSourceContextHolder;
 import com.j2eefast.common.core.utils.PageUtil;
+import com.j2eefast.common.db.entity.SysDatabaseEntity;
+import com.j2eefast.framework.sys.mapper.SysDatabaseMapper;
 import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.mapper.GenTableColumnMapper;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +28,9 @@ public class GenTableColumnService extends ServiceImpl<GenTableColumnMapper,GenT
 
     @Resource
     private GenTableColumnMapper genTableColumnMapper;
+    
+    @Resource
+    private SysDatabaseMapper sysDatabaseMapper;
 
     public List<GenTableColumnEntity> selectGenTableColumnListByTableId(Map<String, Object> params) {
         String tableId = (String) params.get("tableId");
@@ -37,9 +45,30 @@ public class GenTableColumnService extends ServiceImpl<GenTableColumnMapper,GenT
         return genTableColumnMapper.updateGenTableColumn(genTable);
     }
 
+    @Deprecated
     public List<GenTableColumnEntity> selectDbTableColumnsByName(String dbType,String tableName) {
         return genTableColumnMapper.selectDbTableColumnsByName(tableName);
     }
+    
+    public List<GenTableColumnEntity> generateDbTableColumnsByName(String dbType,String schema ,String tableName) {
+        return genTableColumnMapper.generateDbTableColumnsByName( dbType , schema , tableName);
+    }
+    
+    
+    public List<GenTableColumnEntity> generateDbTableColumnsByName(String dbName,String tableName) {
+    	  List<GenTableColumnEntity> list = Lists.newArrayList();
+		try {
+			SysDatabaseEntity db=    sysDatabaseMapper.getByName(dbName);
+			 DataSourceContextHolder.setDataSourceType(dbName);
+			  list = genTableColumnMapper.generateDbTableColumnsByName(db.getDbType(), db.getSchema() , tableName);
+		} catch (Exception e) {
+		   e.printStackTrace();
+		}finally {
+			 DataSourceContextHolder.clearDataSourceType();
+		}
+        return list ;
+    }
+    
 
 //    public List<GenTableColumnEntity> selectDbTableColumnsByName1(String tableName) {
 //        return genTableColumnMapper.selectDbTableColumnsByName(tableName);

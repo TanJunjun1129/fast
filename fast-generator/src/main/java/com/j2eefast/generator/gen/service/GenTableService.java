@@ -7,19 +7,20 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.j2eefast.common.core.exception.RxcException;
+import com.j2eefast.common.core.mutidatasource.DataSourceContextHolder;
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
 import com.j2eefast.common.db.context.DataSourceContext;
+import com.j2eefast.common.db.entity.SysDatabaseEntity;
+import com.j2eefast.framework.sys.mapper.SysDatabaseMapper;
 import com.j2eefast.framework.utils.Global;
 import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.mapper.GenTableMapper;
-import com.j2eefast.generator.gen.util.DynamicDataSource;
-import com.j2eefast.generator.gen.util.DynamicDataSourceHolder;
 import com.j2eefast.generator.gen.util.GenUtils;
 import com.j2eefast.generator.gen.util.VelocityInitializer;
 import com.j2eefast.generator.gen.util.VelocityUtils;
@@ -64,6 +65,10 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 
     @Resource
     private GenTableMapper genTableMapper;
+    
+    
+	@Resource
+	private SysDatabaseMapper sysDatabaseMapper;
 
     public PageUtil findPage(Map<String, Object> params) {
         String tableName = (String) params.get("tableName");
@@ -228,61 +233,8 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
         return false;
     }
 
-    public List<GenTableEntity> findDbTableList() {
-    	
-        return this.genTableMapper.findDbTableList();
-    }
 
-    public List<GenTableEntity> findSlaveDbTableList(String dataSourceName) {
-    	new DynamicDataSource(dataSourceName);
-        return this.genTableMapper.findSlaveDbTableList();
-    }
-
-    
-    public List<GenTableEntity> findNoDbTableList(String dataSourceName) {
-        List<GenTableEntity> list = genTableService.findSlaveDbTableList(dataSourceName);
-        List<GenTableEntity> notList = this.genTableMapper.findDbNotTableList(dataSourceName);
-        Iterator it=list.iterator();
-        while(it.hasNext()) {
-            GenTableEntity g = (GenTableEntity) it.next();
-            for(GenTableEntity K : notList){
-                if(g.getTableName().equals(K.getTableName())){
-                    it.remove();
-                }
-            }
-        }
-        return list;
-    }
-
-    public PageUtil queryDbPage(Map<String, Object> params) {
-        String tableName = (String) params.get("tableName");
-        String tableComment = (String) params.get("tableComment");
-        String dbType = (String) params.get("dbType");
-        if(dbType.equals(DataSourceContext.MASTER_DATASOURCE_NAME)){
-            Page<GenTableEntity> tempPage = new Query<GenTableEntity>(params).getPage();
-            Page<GenTableEntity> page = tempPage.setRecords(this.genTableMapper.selectDbTablePage(
-                    tempPage, tableName,tableComment));
-            return new PageUtil(page);
-        }else{
-            List<GenTableEntity> notList = this.genTableMapper.findDbNotTableList(dbType);
-            List<String> names = null;
-            if(ToolUtil.isNotEmpty(notList)){
-                names =  notList.stream().map(GenTableEntity :: getTableName).collect(Collectors.toList());
-            }
-            return genTableService.selectNotDbTablePage(dbType,params,names);
-        }
-    }
-
-    public PageUtil selectNotDbTablePage(String dbType,Map<String, Object> params,List<String> notList) {
-        String tableName = (String) params.get("tableName");
-        String tableComment = (String) params.get("tableComment");
-        Page<GenTableEntity> tempPage = new Query<GenTableEntity>(params).getPage();
-        Page<GenTableEntity> page = tempPage.setRecords(this.genTableMapper.selectNotDbTablePage(
-                tempPage, tableName,tableComment, notList));
-        return new PageUtil(page);
-    }
-
-    public void importGenTable(List<GenTableEntity> tableList, String operName, String dbType) {
+    public void importGenTable(List<GenTableEntity> tableList, String operName, String dbName) {
         for (GenTableEntity table : tableList) {
             try {
 
@@ -291,13 +243,36 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
                 boolean row = this.save(table);
                 if (row) {
                     // 保存列信息
-                    List<GenTableColumnEntity> genTableColumns = genTableColumnService.selectDbTableColumnsByName(dbType,tableName);
-//                    if(dbType.equals(DataSourceContext.MASTER_DATASOURCE_NAME)){
-//
-//                        genTableColumns  = genTableColumnService.selectDbTableColumnsByName(tableName);
-//                    }else{
-//                        genTableColumns  = genTableColumnService.selectDbTableColumnsByName1(tableName);
-//                    }
+                //    List<GenTableColumnEntity> genTableColumns = genTableColumnService.selectDbTableColumnsByName(dbName,tableName);
+                	 List<GenTableColumnEntity> genTableColumns = genTableColumnService.generateDbTableColumnsByName(dbName,tableName);
+                     
+                    for (GenTableColumnEntity column : genTableColumns) {
+                        GenUtils.initColumnField(column, table);
+                        //如果comment为空 设置comment 为JavaField
+                        if (StringUtils.isBlank(column.getColumnComment())){ 
+                        	column.setColumnComment(column.getJavaField());
+                        }
+                        genTableColumnService.save(column);
+                    }
+                }
+            }
+            catch (Exception e) {
+                log.error("表名 " + table.getTableName() + " 导入失败：", e);
+            }
+        }
+    }
+    
+    public void importGenTable(List<GenTableEntity> tableList, String operName,SysDatabaseEntity db) {
+        for (GenTableEntity table : tableList) {
+            try {
+
+                String tableName = table.getTableName();
+                GenUtils.initTable(table, operName);
+                boolean row = this.save(table);
+                if (row) {
+                    // 保存列信息
+                    List<GenTableColumnEntity> genTableColumns = genTableColumnService.generateDbTableColumnsByName(db.getDbType(), db.getSchema(), tableName);
+
                     for (GenTableColumnEntity column : genTableColumns) {
                         GenUtils.initColumnField(column, table);
                         //如果comment为空 设置comment 为JavaField
@@ -345,20 +320,100 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
         return dataMap;
     }
 
-    public List<GenTableEntity> selectDbTableListByNames(String[] tableNames,String dbType) {
-        List<GenTableEntity> list = null;
-        if(dbType.equals(DataSourceContext.MASTER_DATASOURCE_NAME)){
-            list =  this.genTableMapper.selectDbTableListByNames(tableNames);
-        }else{
-            list = genTableService.selectDbTableListByNames1(dbType,tableNames);
-        }
-        for(GenTableEntity l:list){
-            l.setDbType(dbType);
-        }
-        return list;
-    }
+    
+    /**
+    * @Title: generateDbTableList 
+    * @Description: 获取所有指定数据源的 部分表List
+    * @param db
+    * @param dbTableName
+    * @param dbUserName
+    * @return  List<GenTableEntity> 
+    * @author mfksn001@163.com
+    * @Date: 2020年5月30日
+     */
+	public List<GenTableEntity> generateDbTableList(SysDatabaseEntity db, String dbTableName, String dbTableComment) {
 
-    public List<GenTableEntity> selectDbTableListByNames1(String dbType,String[] tableNames) {
-        return this.genTableMapper.selectDbTableListByNames(tableNames);
+		List<GenTableEntity> list = Lists.newArrayList();
+		String dbType = db.getDbType();
+		DataSourceContextHolder.setDataSourceType(db.getDbName());
+		try {
+			list = genTableMapper.generateTableList(dbType, db.getSchema(), dbTableName, dbTableComment);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DataSourceContextHolder.clearDataSourceType();
+		}
+		return list;
+
+	}
+	
+    public List<GenTableEntity>  generateDbTableList(SysDatabaseEntity db) {
+		
+		List<GenTableEntity> list = Lists.newArrayList();
+		String dbType = db.getDbType();
+		if (!DataSourceContext.MASTER_DATASOURCE_NAME.equals(db.getDbName())) {
+			DataSourceContextHolder.setDataSourceType(db.getDbName());
+			list = genTableMapper.generateTableList(dbType, db.getSchema(),null, null);
+			DataSourceContextHolder.clearDataSourceType();
+		} else {
+			list = genTableMapper.generateTableList(dbType, db.getSchema(), null, null);
+		}
+
+		return list;
+
+	}	
+    
+    
+    /**
+    * @Title: generateTablePage 
+    * @Description: 根据数据源，获取表的相关信息表分页列表,
+    * @param params
+    * @return  PageUtil 
+    * @author mfksn001@163.com
+    * @Date: 2020年6月1日
+     */
+	public PageUtil generateDbTablePage(Map<String, Object> params) {
+		    String tableName = (String) params.get("tableName");
+	        String tableComment = (String) params.get("tableComment");
+	        String dbName = (String) params.get("dbName");
+		  Page<GenTableEntity> tempPage = new Query<GenTableEntity>(params).getPage();
+		  Page<GenTableEntity> page  = null;
+		try {
+			 SysDatabaseEntity db = sysDatabaseMapper.getByName(dbName);
+		      String dbType = db.getDbType();
+		      String schema = db.getSchema();
+		      if (!DataSourceContext.MASTER_DATASOURCE_NAME.equals(dbName)) {
+				  DataSourceContextHolder.setDataSourceType(db.getDbName());
+			  }
+			page = tempPage.setRecords(genTableMapper.generateTablePage(tempPage, dbType, schema, tableName, tableComment));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			 DataSourceContextHolder.clearDataSourceType();
+		}
+         return new PageUtil(page);
+	  }
+  
+    
+    /**
+    * @Title: generateDbTableListByNames 
+    * @Description: 根据数据源，获取表的相关信息
+    * @param db
+    * @param tableNames
+    * @return  List<GenTableEntity> 
+    * @author mfksn001@163.com
+    * @Date: 2020年6月1日
+     */
+    public List<GenTableEntity> generateDbTableListByNames(SysDatabaseEntity db ,String[] tableNames) {
+       	List<GenTableEntity> list  = Lists.newArrayList();
+       	DataSourceContextHolder.setDataSourceType(db.getDbName());
+		try {
+			  list = genTableMapper.generateTableListByNames(db.getDbType(),db.getSchema() , tableNames);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			  DataSourceContextHolder.clearDataSourceType();
+		}
+        return list;
     }
 }
