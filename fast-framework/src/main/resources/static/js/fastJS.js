@@ -3196,7 +3196,8 @@ if (typeof jQuery === "undefined") {
                     },
                     data: {
                         key: {
-                            title: "title"         // 节点数据保存节点提示信息的属性名称
+                            title: "name",         // 节点数据保存节点提示信息的属性名称
+                            name: "title"
                         },
                         simpleData: {
                             enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式

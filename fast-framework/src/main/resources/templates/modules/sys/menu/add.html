@@ -6,7 +6,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label "><@ctx.i18n text = "上级菜单"/>：</label>
         <div class="col-sm-8">
-            <@from.treeselect id="treeId" value="${menu.menuId}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
+            <@from.treeselect id="treeId" value="${menu.id}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
                 labelValue="${menu.name}"/>
         </div>
     </div>

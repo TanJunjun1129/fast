@@ -125,7 +125,7 @@ public class SysUserController extends BaseController {
 		String selectRoles = "";
 		List<SysRoleEntity> selectRole = sysRoleService.selectRolesByUserId(userId);
 		for(SysRoleEntity sysRole: selectRole){
-			selectRoles +=sysRole.getRoleId() +",";
+			selectRoles +=sysRole.getId() +",";
 		}
 		mmap.put("roles", roles);
 		mmap.put("selectRoles", selectRoles.substring(0,selectRoles.length()));

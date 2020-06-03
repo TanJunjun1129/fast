@@ -117,7 +117,7 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 
 		List<SysMenuEntity> userMenuList = new ArrayList<>();
 		for (SysMenuEntity menu : menuList) {
-			if (menuIdList.contains(menu.getMenuId())) {
+			if (menuIdList.contains(menu.getId())) {
 				userMenuList.add(menu);
 			}
 		}
@@ -128,7 +128,7 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 		List<SysMenuEntity> menuList = sysMenuMapper.findListmoduleParentId(parentId,models);
 		if (menuIdList == null) {
 			for (SysMenuEntity menu : menuList) {
-				menu.setMId(Base64.encode(models+menu.getMenuId()));
+				menu.setMId(Base64.encode(models+menu.getId()));
 				/*
 				 *判断是否市新的
 				 */
@@ -143,8 +143,8 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 
 		List<SysMenuEntity> userMenuList = new ArrayList<>();
 		for (SysMenuEntity menu : menuList) {
-			if (menuIdList.contains(menu.getMenuId())) {
-				menu.setMId(Base64.encode(models+menu.getMenuId()));
+			if (menuIdList.contains(menu.getId())) {
+				menu.setMId(Base64.encode(models+menu.getId()));
 				/*
 				 *判断是否市新的
 				 */
@@ -167,16 +167,16 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 	 * @return
 	 */
 	public boolean checkMenuNameUnique(SysMenuEntity menu) {
-		Long menuId = ToolUtil.isEmpty(menu.getMenuId()) ? -1L : menu.getMenuId();
+		Long menuId = ToolUtil.isEmpty(menu.getId()) ? -1L : menu.getId();
 		SysMenuEntity info = this.sysMenuMapper.checkMenuNameUnique(menu.getName(), menu.getParentId());
-		if (!ToolUtil.isEmpty(info) && info.getMenuId().longValue() != menuId.longValue()) {
+		if (!ToolUtil.isEmpty(info) && info.getId().longValue() != menuId.longValue()) {
 			return  false;
 		}
 		return true;
 	}
 
 	public List<Ztree> roleModuleMenuTreeData(SysRoleEntity role, Long userId) {
-		Long roleId = role.getRoleId();
+		Long roleId = role.getId();
 		List<Ztree> ztrees = new ArrayList<Ztree>();
 		List<SysMenuEntity> menuList = selectModuleMenuAll(userId,role.getModuleCodes());
 		if (!ToolUtil.isEmpty(roleId)){
@@ -241,7 +241,7 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 	 * @return
 	 */
 	public List<Ztree> roleMenuTreeData(SysRoleEntity role, Long userId) {
-		Long roleId = role.getRoleId();
+		Long roleId = role.getId();
 		List<Ztree> ztrees = new ArrayList<Ztree>();
 		List<SysMenuEntity> menuList = selectMenuAll(userId);
 		if (!ToolUtil.isEmpty(roleId))
@@ -271,13 +271,13 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 		for (SysMenuEntity menu : menuList)
 		{
 			Ztree ztree = new Ztree();
-			ztree.setId(menu.getMenuId());
+			ztree.setId(menu.getId());
 			ztree.setpId(menu.getParentId());
 			ztree.setName(menu.getName());
 			ztree.setTitle(transMenuName(menu, permsFlag));
 			if (isCheck)
 			{
-				ztree.setChecked(roleMenuList.contains(menu.getMenuId() + menu.getPerms()));
+				ztree.setChecked(roleMenuList.contains(menu.getId() + menu.getPerms()));
 			}
 			ztrees.add(ztree);
 		}
@@ -322,7 +322,7 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 		for (SysMenuEntity entity : menuList) {
 			// 目录
 			if (entity.getType() == Constant.MenuType.CATALOG.getValue()) {
-				entity.setChildren(getMenuTreeList(findListParentId(entity.getMenuId(), menuIdList), menuIdList));
+				entity.setChildren(getMenuTreeList(findListParentId(entity.getId(), menuIdList), menuIdList));
 			}
 			subMenuList.add(entity);
 		}
@@ -339,7 +339,7 @@ public class SysMenuService  extends ServiceImpl<SysMenuMapper, SysMenuEntity> {
 		for (SysMenuEntity entity : rootmenuList) {
 			// 目录
 			if (entity.getType() == Constant.MenuType.CATALOG.getValue()) {
-				entity.setChildren(getModuleMenuTreeList(findListParentId(entity.getMenuId(), menuIdList,models), menuIdList,models));
+				entity.setChildren(getModuleMenuTreeList(findListParentId(entity.getId(), menuIdList,models), menuIdList,models));
 			}
 			subMenuList.add(entity);
 		}

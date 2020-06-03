@@ -38,8 +38,9 @@
              value = ""
              readOnly = "false"
              rows = "5"
+             required = "false"
 >
-    <textarea id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>"  class="${class}" rows="${rows}" <#if readOnly == "true">readOnly = "true"</#if>><#if value != "">${value}</#if></textarea>
+    <textarea id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>"  class="${class}" rows="${rows}" <#if readOnly == "true">readOnly = "true"</#if> <#if required !="false"> required</#if>><#if value != "">${value}</#if></textarea>
 </#macro>
 
 <#--
@@ -351,6 +352,54 @@
     </label>
 </#macro>
 
+<#macro ueditor id=""
+                name = ""
+                value = ""
+                readonly = "false" 	<#-- 是否只读模式 -->
+                maxlength =  "10000" <#-- 最大输入长度默认不限-->
+                height = "300" <#-- 高度-->
+                type = "html" <#--获取数据类型 html (整个html的内容), content (内容), txt(纯文本), plaintxt (带格式的纯文本)-->
+>
+    <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if name == "">${id}<#else>${name}</#if>" value="<#if value != "">${value}</#if>" type="hidden">
+    <script id="<#if id == "">${name}<#else>${id}</#if>ContentUE" type="text/plain" style="width:100%;height:${height}px;"></script>
+    <script type="text/javascript">
+        $(function() {
+            var remarksUE = UE.getEditor('<#if id == "">${name}<#else>${id}</#if>ContentUE', {
+                maximumWords: ${maxlength},
+                readonly: ${readonly}, initialFrameHeight: ${height},
+            })
+            // 更新编辑器内容  remarksUE.updateContent();
+            remarksUE.updateContent = function(){
+                if (!remarksUE.hasContents()){
+                    $('#<#if id == "">${name}<#else>${id}</#if>').val("").change();
+                }else{
+                    <#if type == "html">
+                    var html = remarksUE.getAllHtml().replace('<!--HTML-->','');
+                    <#elseif type == "content">
+                    var html = remarksUE.getContent().replace('<!--HTML-->','');
+                    <#elseif type == "txt">
+                    var html = remarksUE.getContentTxt().replace('<!--HTML-->','');
+                    <#elseif type == "plaintxt">
+                    var html = remarksUE.getPlainTxt().replace('<!--HTML-->','');
+                    </#if>
+                    $('#<#if id == "">${name}<#else>${id}</#if>').val("<!--HTML-->" + html).change();
+                }
+                if (typeof window.webuploaderRefresh == 'function'){
+                    window.webuploaderRefresh();
+                }
+            };
+            // 编辑器加载完成事件
+            remarksUE.ready(function(){
+                remarksUE.execCommand('insertHtml', $("#noticeContent").val())
+                remarksUE.addListener('contentchange', function(){
+                    remarksUE.updateContent();
+                });
+            });
+            //
+        });
+    </script>
+</#macro>
+
 <#--
     //from select 下拉框标签
 -->
@@ -511,3 +560,4 @@
         </select>
     </#if>
 </#macro>
+

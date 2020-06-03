@@ -69,14 +69,14 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 		if(this.save(role)){
 
 			// 保存角色与菜单关系
-			sysRoleMenuService.saveOrUpdate(role.getRoleId(), Arrays.asList(role.getMenuIds()));
+			sysRoleMenuService.saveOrUpdate(role.getId(), Arrays.asList(role.getMenuIds()));
 
 			//插入角色管理 模块
 			String[] ls = role.getModuleCodes().split(",");
 			for(String s: ls){
 				SysRoleModuleEntity sysRoleModuleEntity = new SysRoleModuleEntity();
 				sysRoleModuleEntity.setModuleCode(s);
-				sysRoleModuleEntity.setRoleId(role.getRoleId());
+				sysRoleModuleEntity.setRoleId(role.getId());
 				sysRoleModuleService.save(sysRoleModuleEntity);
 			}
 
@@ -101,16 +101,16 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 
 
 			// 更新角色与菜单关系
-			sysRoleMenuService.saveOrUpdate(role.getRoleId(), Arrays.asList(role.getMenuIds()));
+			sysRoleMenuService.saveOrUpdate(role.getId(), Arrays.asList(role.getMenuIds()));
 
-			sysRoleModuleService.deleRoleModule(role.getRoleId());
+			sysRoleModuleService.deleRoleModule(role.getId());
 
 			//插入角色管理 模块
 			String[] ls = role.getModuleCodes().split(",");
 			for(String s: ls){
 				SysRoleModuleEntity sysRoleModuleEntity = new SysRoleModuleEntity();
 				sysRoleModuleEntity.setModuleCode(s);
-				sysRoleModuleEntity.setRoleId(role.getRoleId());
+				sysRoleModuleEntity.setRoleId(role.getId());
 				sysRoleModuleService.save(sysRoleModuleEntity);
 			}
 
@@ -143,18 +143,18 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 
 
 	public boolean checkRoleNameUnique(SysRoleEntity role) {
-		Long roleId = ToolUtil.isEmpty(role.getRoleId())?-1L:role.getRoleId();
+		Long roleId = ToolUtil.isEmpty(role.getId())?-1L:role.getId();
 		SysRoleEntity info = sysRoleMapper.checkRoleNameUnique(role.getRoleName());
-		if(!ToolUtil.isEmpty(info) && !info.getRoleId().equals(roleId)){
+		if(!ToolUtil.isEmpty(info) && !info.getId().equals(roleId)){
 			return  false;
 		}
 		return true;
 	}
 
 	public boolean checkRoleKeyUnique(SysRoleEntity role) {
-		Long roleId = ToolUtil.isEmpty(role.getRoleId())?-1L:role.getRoleId();
+		Long roleId = ToolUtil.isEmpty(role.getId())?-1L:role.getId();
 		SysRoleEntity info = sysRoleMapper.checkRoleKeyUnique(role.getRoleKey());
-		if(!ToolUtil.isEmpty(info) && !info.getRoleId().equals(roleId)){
+		if(!ToolUtil.isEmpty(info) && !info.getId().equals(roleId)){
 			return  false;
 		}
 		return true;

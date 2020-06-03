@@ -62,7 +62,7 @@ public class SysMenuController extends BaseController {
 		}
 		else{
 			menu = new SysMenuEntity();
-			menu.setMenuId(0L);
+			menu.setId(0L);
 			menu.setName("主目录");
 		}
 		mmap.put("menu", menu);
@@ -200,7 +200,7 @@ public class SysMenuController extends BaseController {
 		List<SysMenuEntity> menuList = sysMenuService.findNotButtonList();
 		// 添加顶级菜单
 		SysMenuEntity root = new SysMenuEntity();
-		root.setMenuId(0L);
+		root.setId(0L);
 		root.setName("一级菜单");
 		root.setParentId(-1L);
 		menuList.add(root);

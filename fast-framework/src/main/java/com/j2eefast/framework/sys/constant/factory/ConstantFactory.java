@@ -102,7 +102,7 @@ public class ConstantFactory implements IConstantFactory {
 		}
 		List<Long> roleids = new ArrayList<>(roleList.size());
 		roleList.forEach(role->{
-			roleids.add(role.getRoleId());
+			roleids.add(role.getId());
 		});
 		return roleids;
 	}

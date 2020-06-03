@@ -42,7 +42,7 @@
 		from sys_user u
 		left join sys_comp c on u.comp_id = c.id
 		left join sys_user_role r on u.user_id = r.user_id
-		left join sys_role l on r.role_id = l.role_id
+		left join sys_role l on r.role_id = l.id
     </sql>
 
     <sql id="selectsysUserVo">
@@ -242,9 +242,9 @@
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
-        left join sys_role r on r.role_id = ur.role_id
+        left join sys_role r on r.id = ur.role_id
         left join sys_comp c on u.comp_id = c.id
-        where (r.role_id != #{roleId} or r.role_id IS NULL)
+        where (r.id != #{roleId} or r.id IS NULL)
         and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
         <if test="username != null and username != ''">
             AND u.username like

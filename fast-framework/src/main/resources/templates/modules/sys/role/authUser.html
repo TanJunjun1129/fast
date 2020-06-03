@@ -1,58 +1,50 @@
-<#include "/common/include.html"/>
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="授权角色列表"/>
-<@search fromId="user-form">
- <input id="roleId" name="roleId" type="hidden" value="${roleId}"/>
- <div class="select-list">
-         <li>
-             <@ctx.i18n text = "登陆账号"/>:<input type="text" name="username"/>
-         </li>
-         <li>
-             <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
-         </li>
-         <li>
-             <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
-         </li>
-         <li>
-             <label><@ctx.i18n text = "所属公司"/></label>：
-             <select name="compId" class="form-control">
-                 <option value=""><@ctx.i18n text = "所有"/></option>
-                 <#list comps as comp>
-                     <option  value="${comp.id}">${comp.name}</option>
-                 </#list>
-             </select>
-         </li>
-         <li>
-             	<@ctx.i18n text = "用户状态"/>：
-             <select name="status" class="form-control">
-                 <option value=""><@ctx.i18n text = "所有"/></option>
-                 <#list dict.getType('sys_normal_disable')>
-                     <#items as d>
-                         <#if d.status =='0' >
-                             <option value="${d.dictValue}" text="<@ctx.i18n text = "${d.dictLabel}"/>"><@ctx.i18n text = "${d.dictLabel}"/></option>
-                         </#if>
-                     </#items>
-                 </#list>
-             </select>
-         </li>
-         <li>
-             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
-             <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
-         </li>
-     </ul>
- </div>
-</@search>
-<@table tableId="bootstrap-table">
-	<@shiro.hasPermission name="sys:user:add">
-       <a class="btn btn-success" onclick="selectUser()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "批量添加用户"/></a>
-     </@shiro.hasPermission>
-     <@shiro.hasPermission name="sys:user:edit">
-         <a class="btn btn-primary multiple disabled" onclick="cancelAuthUserAll()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "批量取消"/></a>
-     </@shiro.hasPermission>
-    <a class="btn btn-warning" onclick="opt.modal.closeTab()">
-        <i class="fa fa-reply-all"></i> <@ctx.i18n text = "关闭"/>
-    </a>
-</@table>
+<@header title="授权角色列表" libs=["table"]/>
+<div class="container-div">
+	<div class="row">
+	<div class="col-sm-12 search-collapse">
+	<@from.from id="user-form">
+     <@from.hidden id="roleId" value="${roleId}"/>
+     <div class="select-list">
+             <li>
+                 <@ctx.i18n text = "登陆账号"/>:<input type="text" name="username"/>
+             </li>
+             <li>
+                 <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
+             </li>
+             <li>
+                 <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
+             </li>
+             <li>
+                 <label><@ctx.i18n text = "所属公司"/></label>：
+                 <@from.select name="compId" blankValue="" blankLabel="所有" items=comps itemLabel="name" itemValue="id" />
+             </li>
+             <li>
+                 <@ctx.i18n text = "用户状态"/>：
+                 <@from.select name="status" blankValue="" blankLabel="所有" dictType="sys_normal_disable" />
+             </li>
+             <li>
+                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
+                 <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
+             </li>
+         </ul>
+     </div>
+     </@from.from>
+    </div>
+    <@table id="bootstrap-table">
+        <@shiro.hasPermission name="sys:user:add">
+           <a class="btn btn-success" onclick="selectUser()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "批量添加用户"/></a>
+         </@shiro.hasPermission>
+         <@shiro.hasPermission name="sys:user:edit">
+             <a class="btn btn-primary multiple disabled" onclick="cancelAuthUserAll()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "批量取消"/></a>
+         </@shiro.hasPermission>
+        <a class="btn btn-warning" onclick="opt.modal.closeTab()">
+            <i class="fa fa-reply-all"></i> <@ctx.i18n text = "关闭"/>
+        </a>
+    </@table>
+    </div>
+</div>
 <@footer>
 <script>
     var editFlag = "${permission.hasPermi('sys:user:edit')}";
