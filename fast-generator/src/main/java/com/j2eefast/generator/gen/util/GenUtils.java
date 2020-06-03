@@ -50,9 +50,11 @@ public class GenUtils
      */
     public static void initColumnField(GenTableColumnEntity column, GenTableEntity table)
     {
-        String dataType = getDbType(column.getColumnType());
-        String columnName = column.getColumnName();
-        column.setTableId(table.getTableId());
+        String dataType = getDbType(column.getColumnType()).toLowerCase();
+        column.setColumnType(column.getColumnType().toLowerCase());
+        String columnName = column.getColumnName().toLowerCase();
+        column.setColumnName(columnName);  //设置为小写//  数据库中一般栏位名大写不敏感
+        column.setTableId(table.getId());
         column.setCreateBy(table.getCreateBy());
         // 设置java字段名
         column.setJavaField(StrUtil.toCamelCase(columnName));

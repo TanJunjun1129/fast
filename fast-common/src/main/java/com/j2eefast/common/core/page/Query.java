@@ -56,9 +56,9 @@ public class Query <T> extends LinkedHashMap<String, Object> {
 		if (ToolUtil.isNotEmpty(sidx) && ToolUtil.isNotEmpty(order)) {
 			sidx = StrUtil.toUnderlineCase(sidx);
 			if("ASC".equalsIgnoreCase(order)) {
-				this.page.addOrder(OrderItem.asc("\""+sidx+"\""));
+				this.page.addOrder(OrderItem.asc(sidx));
 			}else {
-				this.page.addOrder(OrderItem.desc("\""+sidx+"\""));
+				this.page.addOrder(OrderItem.desc(sidx));
 			}
 		}
 

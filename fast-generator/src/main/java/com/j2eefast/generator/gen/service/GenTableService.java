@@ -33,6 +33,7 @@ import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
@@ -106,7 +107,7 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
      */
     private void generatorCode(String tableName, ZipOutputStream zip){
         // 查询表信息
-        GenTableEntity table = genTableMapper.findGenTableByName(tableName);
+        GenTableEntity table = genTableMapper.findByName(tableName);
         // 查询列信息
         List<GenTableColumnEntity> columns = table.getColumns();
         setPkColumn(table, columns);
@@ -157,7 +158,7 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 
     public boolean genCode(Long tableId) {
         // 查询表信息
-        GenTableEntity table = genTableMapper.findGenTableById(tableId);
+        GenTableEntity table = findGenTableById(tableId);
         String path = table.getRunPath().equals("/")? Global.getConifgFile(): table.getRunPath();
         // 查询列信息
         List<GenTableColumnEntity> columns = table.getColumns();
@@ -198,9 +199,24 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
         }
         return true;
     }
-
+    /**
+    * @Title: findGenTableById 
+    * @Description: 已经获取了表的 columns
+    * @param id
+    * @return  GenTableEntity 
+    * @author mfksn001@163.com
+    * @Date: 2020年6月2日
+     */
     public GenTableEntity findGenTableById(Long id) {
-        return this.genTableMapper.findGenTableById(id);
+    	GenTableEntity table = genTableMapper.findByTableId(id);
+    	table.setColumns(genTableColumnService.findListByTableId(id));
+        return table;
+    }
+    
+    public GenTableEntity findGenTableByName(String tableName) {
+    	GenTableEntity table = genTableMapper.findByName(tableName);
+    	table.setColumns(genTableColumnService.findListByTableId(table.getId()));
+        return table;
     }
 
     public GenTableEntity findGenTableMenuById(Long id) {
@@ -233,7 +249,7 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
         return false;
     }
 
-
+    @Transactional
     public void importGenTable(List<GenTableEntity> tableList, String operName, String dbName) {
         for (GenTableEntity table : tableList) {
             try {
@@ -298,8 +314,12 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 
         Map<String, String> dataMap = new LinkedHashMap<>();
         // 查询表信息
-        GenTableEntity table = this.genTableMapper.findGenTableById(tableId);
+       // GenTableEntity table = this.genTableMapper.findGenTableById(tableId);
+        
+        GenTableEntity table = genTableService.findGenTableById(tableId);
+       
         // 查询列信息
+       // table.setColumns(columns);
         List<GenTableColumnEntity> columns = table.getColumns();
         setPkColumn(table, columns);
         VelocityInitializer.initVelocity();
@@ -373,26 +393,29 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
     * @Date: 2020年6月1日
      */
 	public PageUtil generateDbTablePage(Map<String, Object> params) {
-		    String tableName = (String) params.get("tableName");
-	        String tableComment = (String) params.get("tableComment");
-	        String dbName = (String) params.get("dbName");
-		  Page<GenTableEntity> tempPage = new Query<GenTableEntity>(params).getPage();
-		  Page<GenTableEntity> page  = null;
+		String tableName = (String) params.get("tableName");
+		String tableComment = (String) params.get("tableComment");
+		String dbName = (String) params.get("dbName");
+		Page<GenTableEntity> page = new Query<GenTableEntity>(params).getPage();
+		List<GenTableEntity> list = Lists.newArrayList();
 		try {
-			 SysDatabaseEntity db = sysDatabaseMapper.getByName(dbName);
-		      String dbType = db.getDbType();
-		      String schema = db.getSchema();
-		      if (!DataSourceContext.MASTER_DATASOURCE_NAME.equals(dbName)) {
-				  DataSourceContextHolder.setDataSourceType(db.getDbName());
-			  }
-			page = tempPage.setRecords(genTableMapper.generateTablePage(tempPage, dbType, schema, tableName, tableComment));
+			SysDatabaseEntity db = sysDatabaseMapper.getByName(dbName);
+			String dbType = db.getDbType();
+			String schema = db.getSchema();
+			if (!DataSourceContext.MASTER_DATASOURCE_NAME.equals(dbName)) {
+				DataSourceContextHolder.setDataSourceType(db.getDbName());  //指定数据源
+				list = genTableMapper.generateTablePage(page, dbType, schema, tableName, tableComment);
+				
+			} else {
+				list = genTableMapper.generateTablePage(page, dbType, schema, tableName, tableComment);
+			}
+			page.setRecords(list);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			 DataSourceContextHolder.clearDataSourceType();
-		}
-         return new PageUtil(page);
-	  }
+		} 
+		DataSourceContextHolder.clearDataSourceType();
+		return new PageUtil(page);
+	}
   
     
     /**

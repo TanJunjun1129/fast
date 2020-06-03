@@ -26,7 +26,7 @@ public class GenTableEntity extends BaseEntity {
 
     /** 编号 */
     @TableId
-    private Long tableId;
+    private Long id;
 
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
@@ -90,7 +90,7 @@ public class GenTableEntity extends BaseEntity {
     private String isDel;
 
   /** 主从数据库*/
-    private String dbType;
+    private String dbName;
 
     /** 操作按钮风格(default,icon)*/
     private String actionsType;
@@ -209,12 +209,12 @@ public class GenTableEntity extends BaseEntity {
         this.runPath = runPath;
     }
 
-    public Long getTableId() {
-        return tableId;
+    public Long getId() {
+        return id;
     }
 
-    public void setTableId(Long tableId) {
-        this.tableId = tableId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTableName() {
@@ -404,12 +404,12 @@ public class GenTableEntity extends BaseEntity {
     }
 
 
-    public String getDbType() {
-        return dbType;
+    public String getDbName() {
+        return dbName;
     }
 
-    public void setDbType(String dbType) {
-        this.dbType = dbType;
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
 
     public boolean isInsert(String isInsert)
@@ -423,6 +423,6 @@ public class GenTableEntity extends BaseEntity {
 
     public boolean isDbTypeTb()
     {
-        return isInsert(this.dbType);
+        return isInsert(this.dbName);
     }
 }

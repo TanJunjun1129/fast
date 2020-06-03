@@ -3,6 +3,7 @@ package com.j2eefast.generator.gen.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,14 +20,15 @@ public interface GenTableColumnMapper extends BaseMapper<GenTableColumnEntity> {
 
 	int updateGenTableColumn(GenTableColumnEntity genTableColumn);
 
-	/**
-	 * 根据表名称查询列信息
-	 *
-	 * @param tableName 表名称
-	 * @return 列信息
-	 */
-	List<GenTableColumnEntity> selectDbTableColumnsByName(String tableName);
-	
+
+	/** 
+	* @Title: findListByTableId 
+	* @param tableId
+	* @return  List<GenTableColumnEntity> 
+	* @author mfksn001@163.com
+	* @Date: 2020年6月2日
+	*/
+	List<GenTableColumnEntity> findListByTableId(Long tableId);
 	
 	/**
 	* @Title: generateDbTableColumnsByName 
@@ -44,4 +46,5 @@ public interface GenTableColumnMapper extends BaseMapper<GenTableColumnEntity> {
 
 
 	int deleteGenTableColumnByIds(Long[] ids);
+
 }

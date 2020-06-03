@@ -26,19 +26,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="${className}Columns">
 #foreach($c in $columns)##
 #if($c.javaType == "SysCompEntity")##  
-          a.$c.columnName as '${c.javaField}.id'  ,
+          a.$c.columnName as "${c.javaField}.id"  ,
           comp001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end    
                
 #elseif($c.javaType == "SysDeptEntity")## 
-          a.$c.columnName as '${c.javaField}.id' ,
+          a.$c.columnName as "${c.javaField}.id" ,
           dept001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end 
           
 #elseif($c.javaType == "SysUserEntity" ) ##关联系统实体
-         a.$c.columnName as '${c.javaField}.id' ,
+         a.$c.columnName as "${c.javaField}.id" ,
          user001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end 
                 
 #else####关联系统实体
-         a.$c.columnName as '${c.javaField}'  #if($foreach.hasNext) ,#end
+         a.$c.columnName as "${c.javaField}"  #if($foreach.hasNext) ,#end
                  
 #end ###关联系统实体
 #if($c.columnName =="del_flag")#set($delFlagExist ="1") #end##是否存在逻辑删除         
