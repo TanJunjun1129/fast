@@ -132,7 +132,7 @@
         <div class="form-group">    
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "公司"/>：</label>
                 <div class="col-sm-8">
-                      <@from.treeselect id="company"   name="company.id" value="${(test.company.id)?default('')}"
+                      <@from.treeselect id="company"  name="company.id"  value="${(test.company.id)?default('')}"
                         labelValue="${(test.company.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
                 </div>
             </div>

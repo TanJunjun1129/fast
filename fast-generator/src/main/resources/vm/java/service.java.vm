@@ -3,6 +3,9 @@ package ${packageName}.service;
 
 import ${packageName}.entity.${ClassName}Entity;
 import ${packageName}.mapper.${ClassName}Mapper;
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+import com.j2eefast.common.core.mutidatasource.annotaion.DataSource;
+#end##
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
@@ -29,6 +32,9 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	/**
 	 * mybaitis-plus 页面分页查询
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public PageUtil findPage(Map<String, Object> params) {
         QueryWrapper<${ClassName}Entity> queryWrapper = new QueryWrapper<${ClassName}Entity>();
 #foreach($column in $columns)##
@@ -66,13 +72,19 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
     /**
      * 自定义分页查询，含关联实体对像
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public PageUtil findPage(Map<String, Object> params,${ClassName}Entity ${className}Entity) {
-		Page<${ClassName}Entity> page = testMapper.findPage(new Query<${ClassName}Entity>(params).getPage(), ${className}Entity)  ;
+		Page<${ClassName}Entity> page = ${className}Mapper.findPage(new Query<${ClassName}Entity>(params).getPage(), ${className}Entity)  ;
 		return new PageUtil(page);
 	}
 	/**
      * 批量删除
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##     
 	@Transactional(rollbackFor = Exception.class)
 	public boolean delete${ClassName}ByIds(${pkColumn.javaType}[] ids) {
 		return removeByIds(Arrays.asList(ids));
@@ -81,6 +93,9 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	/**
      * 单个删除
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public boolean delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
 		return removeById(${pkColumn.javaField});
 	}
@@ -88,6 +103,9 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	/**
      * 保存
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public boolean save${ClassName}(${ClassName}Entity ${className}){
         return save(${className});
     }
@@ -95,6 +113,9 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	/**
      * 修改根居ID
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public boolean update${ClassName}ById(${ClassName}Entity ${className}) {
 		return updateById(${className});
 	}
@@ -102,6 +123,9 @@ public class ${ClassName}Service extends ServiceImpl<${ClassName}Mapper,${ClassN
 	/**
      * 根居ID获取对象
      */
+#if($table.dbName != 'MASTER' && $table.dbName != 'DEFAULT')##设置多数据源
+    @DataSource(name="$table.dbName")
+#end##
 	public ${ClassName}Entity get${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}){
 		return getById(${pkColumn.javaField});
 	}

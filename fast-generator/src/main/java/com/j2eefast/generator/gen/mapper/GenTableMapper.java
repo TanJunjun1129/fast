@@ -17,11 +17,11 @@ import java.util.List;
  */
 public interface GenTableMapper extends BaseMapper<GenTableEntity> {
 
-	GenTableEntity findGenTableByName(@Param("tableName") String tableName);
+	GenTableEntity findByName(@Param("tableName") String tableName);
 
-	GenTableEntity findGenTableById(@Param("tableId")  Long tableId);
-
-	GenTableEntity findGenTableMenuById(@Param("tableId")  Long tableId);
+	GenTableEntity findGenTableMenuById(@Param("id")  Long id);	
+	
+	GenTableEntity findByTableId(Long id);
 
 	int updateGenTable(GenTableEntity genTable);
 

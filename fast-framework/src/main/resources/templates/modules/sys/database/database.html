@@ -127,7 +127,7 @@
                             ,class:'action'
                             ,formatter: function(value, row, index) {
                                 var actions = [];
-                                if(!(row.dbName ==='DEFAULT' || row.dbName ==='FLOWABLE')){
+                                if(!(row.dbName ==='DEFAULT' || row.dbName ==='MASTER' || row.dbName ==='FLOWABLE')){
                                     //actions.push('<a class="' + editFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "编辑"/>" onclick="opt.operate.editTab(\'' + row.id + '\')"><i class="fa fa-edit"></i></a> ');
                                     actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="opt.operate.del(\'' + row.id + '\')"><i class="fa fa-trash-o"></i></a> ');
                                 }else{

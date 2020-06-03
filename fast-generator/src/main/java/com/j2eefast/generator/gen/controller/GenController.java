@@ -224,9 +224,9 @@ public class GenController extends BaseController {
     /**
      * 修改代码生成业务
      */
-    @GetMapping("/edit/{tableId}")
-    public String edit(@PathVariable("tableId") Long tableId, ModelMap mmap){
-        GenTableEntity table = genTableService.findGenTableById(tableId);
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, ModelMap mmap){
+        GenTableEntity table = genTableService.findGenTableById(id);
         List<SysDatabaseEntity> listDb =  sysDatabaseService.list();
         mmap.put("listDb",listDb);
         mmap.put("gen_table", table);
@@ -296,7 +296,7 @@ public class GenController extends BaseController {
         
         
         // 查询表信息
-        List<GenTableColumnEntity> genTableColumns = genTableColumnService.generateDbTableColumnsByName(table.getDbType(),table.getTableName());
+        List<GenTableColumnEntity> genTableColumns = genTableColumnService.generateDbTableColumnsByName(table.getDbName(),table.getTableName());
         
         List<String> genTableColumnName =  genTableColumns.stream().map(GenTableColumnEntity::getColumnName).collect(Collectors.toList());
 

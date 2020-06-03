@@ -95,7 +95,7 @@ ${pageTheme}
 </@table>
 <@footer>
 <script>
-#if($table.crud)
+#if($table.crud)####$table.crud CURD权限
     var editFlag = "<$>{permission.hasPermi("${permissionPrefix}:edit")}";
     var listFlag = "<$>{permission.hasPermi("${permissionPrefix}:add")}";
     var delFlag = "<$>{permission.hasPermi("${permissionPrefix}:del")}";
@@ -103,12 +103,12 @@ ${pageTheme}
 #elseif($table.r && $table.rDel)
     var delFlag = "<$>{permission.hasPermi("${permissionPrefix}:del")}";
     var visible = <$>{permission.isPermitteds("${permissionPrefix}:del")?string('true', 'false')};
-#end
-#foreach($column in $columns)##
+#end####$table.crud1
+#foreach($column in $columns)##获取dictDatas
 #if(${column.dictType} != '')##
    var ${column.javaField}Datas = <$>{dict.getDictListJson('${column.dictType}')};
 #end
-#end
+#end##获取dictDatas
     var prefix = baseURL + "${moduleName}/${businessName}";
 
     $(function() {
@@ -133,7 +133,7 @@ ${pageTheme}
                  {title: $.i18n.prop("序号"), width: 5, align: "center", formatter: function (value, row, index) {
                             return $.table.serialNumber(index);
                  }}##
-#foreach($column in $columns)
+#foreach($column in $columns)## foreach columns
 #set($indexTag = $velocityCount)
 #set($dictType=$column.dictType)
 #set($javaField=$column.javaField)
@@ -143,9 +143,10 @@ ${pageTheme}
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.pk)
-                ,{field : '${javaField}',title : '<@ctx.i18n text = "${comment}"/>',visible: false}#end
-#foreach($c in $columns)###
+#if($column.pk)##column.pk
+                ,{field : '${javaField}',title : '<@ctx.i18n text = "${comment}"/>',visible: false}
+#end##
+#foreach($c in $columns)###foreach
     #if($c.list)##
         #set($d=$c.dictType)
         #set($j=$c.javaField)
@@ -173,9 +174,9 @@ ${pageTheme}
              #end
         #end
     #end
-    #end
-#end
-#if($table.crud)
+    #end##column.pk
+#end## foreach columns
+#if($table.crud)###crud2按钮
 
                 ,{title:"<@ctx.i18n text = "操作"/>",align: 'center',visible:visible#if($table.actionsType == "icon"),class:'action'#end,formatter: function(value, row, index) {
                         var actions = [];
@@ -201,7 +202,7 @@ ${pageTheme}
                         return actions.join('');
                     }
                  }
-#end
+#end######crud2按钮
                 ]
             };
             $.table.init(options);

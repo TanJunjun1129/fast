@@ -17,7 +17,7 @@ import com.j2eefast.framework.sys.entity.SysCompEntity;
 /**
  * example_test
  * @author: mfksn001@163.com
- * @date 2020-05-27 22:06
+ * @date 2020-06-03 14:10
  */
 @Data
 @TableName("example_test")
