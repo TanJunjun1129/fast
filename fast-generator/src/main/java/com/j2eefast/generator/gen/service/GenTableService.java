@@ -256,6 +256,7 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 
                 String tableName = table.getTableName();
                 GenUtils.initTable(table, operName);
+                table.setDbName(dbName);
                 boolean row = this.save(table);
                 if (row) {
                     // 保存列信息
