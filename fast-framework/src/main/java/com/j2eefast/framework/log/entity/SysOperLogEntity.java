@@ -25,7 +25,7 @@ public class SysOperLogEntity implements Serializable {
 	 * 主键ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	private Long operId;
+	private Long id;
 
 	/** 操作模块 */
 	private String title;

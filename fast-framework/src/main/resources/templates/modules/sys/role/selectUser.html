@@ -5,7 +5,7 @@
 	<div class="row">
 	<div class="col-sm-12 search-collapse">
 	<@from.from id="select-user-form">
-        <input id="roleId" name="roleId" type="hidden" value="${id}"/>
+        <input id="roleId" name="roleId" type="hidden" value="${roleId}"/>
         <div class="select-list">
             <li>
                 <@ctx.i18n text = "登陆账号"/>:<input type="text" name="username"/>
@@ -18,12 +18,6 @@
             </li>
             <li>
                 <label><@ctx.i18n text = "所属公司"/></label>：
-<#--                <select name="compId" class="form-control">-->
-<#--                    <option value=""><@ctx.i18n text = "所有"/></option>-->
-<#--                    <#list comps as comp>-->
-<#--                        <option  value="${comp.id}">${comp.name}</option>-->
-<#--                    </#list>-->
-<#--                </select>-->
                 <@from.select name="compId" blankValue="" blankLabel="所有" items=comps itemLabel="name" itemValue="id" />
             </li>
             <li>

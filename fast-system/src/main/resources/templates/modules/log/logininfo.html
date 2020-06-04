@@ -1,56 +1,62 @@
-<#include "/common/include.html">
+<#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="登陆日志列表"/>
-<@search fromId="logininfor-form">				
-	<div class="select-list">
-		<ul>
-			<li>
-				<label>登录地址：</label><input type="text" name="ipaddr"/>
-			</li>
-			<#--用户是否是最大管理员-->
-			<#if permission.isRole("ADMIN")>
+<@header title="登陆日志列表" libs=["table"]/>
+<div class="container-div">
+	<div class="row">
+		<div class="col-sm-12 search-collapse">
+		<@from.from id="logininfor-form">
+		<div class="select-list">
+			<ul>
 				<li>
-					<label>登录名称：</label><input type="text" name="username"/>
+					<label>登录地址：</label><input type="text" name="ipaddr"/>
 				</li>
-			</#if>
-			<li>
-				<label>登录状态：</label>
-				<select name="status" class="form-control">
-					<option value="">所有</option>
-					<#list dict.getType('sys_login_status')>
-						<#items as d>
-							<#if d.status =='0' >
-								<option value="${d.dictValue}" text="${d.dictLabel}">${d.dictLabel}</option>
-							</#if>
-						</#items>
-					</#list>
-				</select>
-			</li>
-			<li class="select-time">
-				<label>登录时间： </label>
-				<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="beginTime"/>
-				<span>-</span>
-				<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="endTime"/>
-			</li>
-			<li>
-				<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
-				<a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
-			</li>
-		</ul>
+				<#--用户是否是最大管理员-->
+				<#if permission.isRole("ADMIN")>
+					<li>
+						<label>登录名称：</label><input type="text" name="username"/>
+					</li>
+				</#if>
+				<li>
+					<label>登录状态：</label>
+					<select name="status" class="form-control">
+						<option value="">所有</option>
+						<#list dict.getType('sys_login_status')>
+							<#items as d>
+								<#if d.status =='0' >
+									<option value="${d.dictValue}" text="${d.dictLabel}">${d.dictLabel}</option>
+								</#if>
+							</#items>
+						</#list>
+					</select>
+				</li>
+				<li class="select-time">
+					<label>登录时间： </label>
+					<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="beginTime"/>
+					<span>-</span>
+					<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="endTime"/>
+				</li>
+				<li>
+					<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
+					<a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
+				</li>
+			</ul>
+		</div>
+		</@from.from>
+		</div>
+		<@table id="bootstrap-table">
+			<@shiro.hasPermission name="sys:logininfo:del">
+				<a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+			</@shiro.hasPermission>
+			<@shiro.hasPermission name="sys:logininfo:clean">
+				<a class="btn btn-danger" onclick="opt.operate.clean()">
+					<i class="fa fa-trash"></i> 清空
+				</a>
+			</@shiro.hasPermission>
+		</@table>
 	</div>
-</@search>
-<@table tableId="bootstrap-table">
-	<@shiro.hasPermission name="sys:logininfo:del">
-		<a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
-			<i class="fa fa-remove"></i> 删除
-		</a>
-	</@shiro.hasPermission>
-	<@shiro.hasPermission name="sys:logininfo:clean">
-		<a class="btn btn-danger" onclick="opt.operate.clean()">
-			<i class="fa fa-trash"></i> 清空
-		</a>
-	</@shiro.hasPermission>
-</@table>
+</div>
 <@footer>
 <script>
 	<#--var datas = ${dict.getDictListJson('sys_common_status')};-->

@@ -2,6 +2,9 @@ package com.j2eefast.modules.sys.controller;
 
 import java.util.List;
 import java.util.Map;
+
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.utils.*;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
@@ -88,7 +91,7 @@ public class SysRoleController extends BaseController {
 		List<SysModuleEntity>  modules = sysModuleService.list();
 		mmap.put("modules", modules);
 		List<String> lisModule = sysRoleModuleService.findRoleModuleList(roleId);
-		mmap.put("lisModule", lisModule);
+		mmap.put("lisModule", ArrayUtil.join(lisModule.toArray(),","));
 		return urlPrefix + "/authorization";
 	}
 

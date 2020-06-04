@@ -218,7 +218,7 @@
 															<input type="radio" name="isCover" value="${d.dictValue}"
 																   <#if (d.isDefault =='Y' && gen_table.isCover == "") ||
 																   (gen_table.isCover ==d.dictValue ) >checked</#if>>
-															<label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>
+															<label><@ctx.i18n text = "${d.dictLabel}"/></label>
 														</div>
 													</#items>
 												</#list>
@@ -291,7 +291,7 @@
 																<input type="radio" name="isDel" value="${d.dictValue}"
 																	   <#if (d.isDefault =='Y' && gen_table.isDel == "") ||
 																	   (gen_table.isDel ==d.dictValue ) >checked</#if>>
-																<label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>
+																<label><@ctx.i18n text = "${d.dictLabel}"/></label>
 															</div>
 														</#items>
 													</#list>

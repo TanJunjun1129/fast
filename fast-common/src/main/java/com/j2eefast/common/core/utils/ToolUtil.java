@@ -236,7 +236,7 @@ public class ToolUtil{
 	 * 通过Hutool工具类获取系统硬件信息
 	 * @throws Exception
 	 */
-	public static void  getFastServerInfos() throws Exception {
+	public static void  getFastServerInfos(){
         if(ToolUtil.isEmpty(ConfigConstant.FAST_OS_SN)){
 			NetworkIF[] netwoeks = OshiUtil.getHardware().getNetworkIFs();
 			String macAddress = "";

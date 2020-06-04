@@ -48,7 +48,7 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 	/**
 	 * 页面展示查询翻页
 	 */
-	@DataFilter(subDept = true, user = false)
+	//@DataFilter(subDept = true, user = false)
 	public PageUtil findPage(Map<String, Object> params) {
 		String roleName = (String) params.get("roleName");
 		String roleKey = (String) params.get("roleKey");

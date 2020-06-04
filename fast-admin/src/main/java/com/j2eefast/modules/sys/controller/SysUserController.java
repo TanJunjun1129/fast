@@ -266,8 +266,7 @@ public class SysUserController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkUserNameUnique", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData checkLoginNameUnique(String username)
-	{
+	public ResponseData checkLoginNameUnique(String username) {
 		if(sysUserService.checkUserNameUnique(username)){
 			return success();
 		}
