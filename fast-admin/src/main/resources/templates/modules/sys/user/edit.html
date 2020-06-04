@@ -67,7 +67,7 @@
 <#--                            <option  value="${role.roleId}" <#if role.flag >selected = "selected"</#if>>${role.roleName}</option>-->
 <#--                        </#list>-->
 <#--                    </select>-->
-                    <@from.select name="_role" multiple = "true" value="${selectRoles}"  items=roles itemLabel="roleName" itemValue="roleId" required="true"/>
+                    <@from.select name="_role" multiple = "true" value="${selectRoles}"  items=roles itemLabel="roleName" itemValue="id" required="true"/>
                 </div>
             </div>
         </div>
