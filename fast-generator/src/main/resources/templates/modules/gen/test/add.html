@@ -4,44 +4,39 @@
 </@header>
 <@addorEdit fromId="form-test-add">
     <div class="form-group">
-        <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "name"/>：                               <i class="fa fa-question-circle-o" title="姓名"></i>                                
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "name"/>：                               <i class="fa fa-question-circle-o" title="姓名"></i>
        </label>
-        <div class="col-sm-8"><input name="name" value="${test.name?default("")}" class="form-control" type="text"  required>                                                
+        <div class="col-sm-8"><input name="name" value="${test.name?default("")}" class="form-control" type="text"  required>
         </div>
      </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "员工编号"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "email"/>：
        </label>
-        <div class="col-sm-8"><input name="pin" value="${test.pin?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="email" value="${test.email?default("")}" class="form-control" type="text" >
         </div>
      </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "email"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "电话"/>：
        </label>
-        <div class="col-sm-8"><input name="email" value="${test.email?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="phone" value="${test.phone?default("")}" class="form-control" type="text" >
         </div>
      </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "电话"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "age"/>：
        </label>
-        <div class="col-sm-8"><input name="phone" value="${test.phone?default("")}" class="form-control" type="text" >                
-        </div>
-     </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "age"/>：                
-       </label>
-        <div class="col-sm-8"><input name="age" value="${test.age?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="age" value="${test.age?default("")}" class="form-control" type="text" >
         </div>
      </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "性别"/>：</label>
         <div class="col-sm-8">
+            <!--  <@from.radio name="sex" dictType="sys_user_sex" value="${test.sex?default('')}" /> -->
             <#list dict.getType('sys_user_sex')>
                 <#items as d>
                     <div class="radio-box">
                         <input type="radio" id="sex" name="sex" value="${d.dictValue}"
                                <#if d.dictValue == test.sex?default("") >checked</#if>  required/>
-                        <label for="${d.dictCode}">${d.dictLabel}</label>
+                        <label for="${(d.id)?default('')}">${d.dictLabel}</label>
                     </div>
                 </#items>
             </#list>
@@ -57,49 +52,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "职位"/>：</label>
-        <div class="col-sm-8">
-            <select name="position" class="form-control m-b">
-                <#list dict.getType('sys_post_type')>
-                    <#items as d>
-                        <#if d.status =='0' >
-                           <option  value="${d.dictValue}" text="${d.dictLabel}" <#if d.dictValue==test.position?default("") >selected = "selected"</#if>>${d.dictLabel}</option>
-                        </#if>
-                    </#items>
-                 </#list>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "education"/>：</label>
-        <div class="col-sm-8">
-            <select name="education" class="form-control m-b">
-                <#list dict.getType('sys_post_type')>
-                    <#items as d>
-                        <#if d.status =='0' >
-                           <option  value="${d.dictValue}" text="${d.dictLabel}" <#if d.dictValue==test.education?default("") >selected = "selected"</#if>>${d.dictLabel}</option>
-                        </#if>
-                    </#items>
-                 </#list>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "爱好"/>：</label>
-        <div class="col-sm-8">
-           <#list dict.getType('sys_post_type')>
-              <#assign hobbyList = test.hobby?default("")?split(",") />
-                <#items as d>
-                    <#if d.status =='0' >
-                            <label><input type="checkbox" id="hobby_${d.dictCode}" name="hobby"
-                                   value="${d.dictValue}" <#if hobbyList?seq_contains(d.dictValue) >checked</#if>>
-                            <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label></label>
-                    </#if>
-                </#items>
-            </#list>
-        </div>
-    </div>
-     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "离职日期"/>：</label>
         <div class="col-sm-8">
             <div class="input-group date">
@@ -109,6 +61,34 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "员工编号"/>：
+       </label>
+        <div class="col-sm-8"><input name="pin" value="${test.pin?default("")}" class="form-control" type="text" >
+        </div>
+     </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "职位"/>：</label>
+        <div class="col-sm-8">
+            <@from.select name="position" dictType="sys_post_type" value="${test.position?default('')}"    multiple="true" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "爱好"/>：</label>
+        <div class="col-sm-8">
+          <!-- <@from.checkbox name="hobby" dictType="sys_post_type" value="${test.hobby?default('')}" />  -->
+          <#list dict.getType('sys_post_type')>
+              <#assign hobbyList = test.hobby?default("")?split(",") />
+                <#items as d>
+                   <#if d.status =='0' >
+                            <label><input type="checkbox" id="hobby_${(d.id)?default('')}" name="hobby"
+                                   value="${d.dictValue}" <#if hobbyList?seq_contains(d.dictValue) >checked</#if>>
+                            <label for="${(d.id)?default('')}" text="${d.dictLabel}">${d.dictLabel}</label></label>
+                    </#if>
+                </#items>
+           </#list>
+        </div>
+    </div>
+     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "入职日期"/>：</label>
         <div class="col-sm-8">
             <div class="input-group date">
@@ -118,29 +98,35 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "上级领导"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "身份证号"/>：
        </label>
-        <div class="col-sm-8"><input name="leader" value="${test.leader?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="noationalId" value="${test.noationalId?default("")}" class="form-control" type="text" >
         </div>
      </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "身份证号"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "education"/>：</label>
+        <div class="col-sm-8">
+            <@from.select name="education" dictType="sys_post_type" value="${test.education?default('')}"   />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "上级领导"/>：
        </label>
-        <div class="col-sm-8"><input name="noationalId" value="${test.noationalId?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="leader" value="${test.leader?default("")}" class="form-control" type="text" >
         </div>
      </div>
-        <div class="form-group">    
+        <div class="form-group">
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "公司"/>：</label>
                 <div class="col-sm-8">
                       <@from.treeselect id="company"  name="company.id"  value="${(test.company.id)?default('')}"
                         labelValue="${(test.company.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
                 </div>
             </div>
-			    
+
     <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "deptIds"/>：                
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "deptIds"/>：
        </label>
-        <div class="col-sm-8"><input name="dept" value="${test.dept?default("")}" class="form-control" type="text" >                
+        <div class="col-sm-8"><input name="dept" value="${test.dept?default("")}" class="form-control" type="text" >
         </div>
      </div>
     <div class="form-group">
@@ -149,14 +135,7 @@
             <textarea name="roleIds" class="form-control">${test.roleIds?default("")}</textarea>
         </div>
     </div>
-               
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><@ctx.i18n text = "备注信息"/>：</label>
-        <div class="col-sm-8">
-            <textarea name="remark" class="form-control">${test.remark?default("")}</textarea>
-        </div>
-    </div>
-               
+
 </@addorEdit>
 <@footer>
     <script type="text/javascript">

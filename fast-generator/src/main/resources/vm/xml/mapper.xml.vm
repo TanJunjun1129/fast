@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join sys_dept dept001 ON dept001.id = a.$c.columnName
 #end
 #end##foreach
-		<!--  left join sys_comp c ON c.comp_id = a.comp_id   关联查询后，需手动修改 ${className}Columns 中属性值      -->
+		<!--  left join sys_comp c ON c.id = a.$c.columnName   关联查询后，需手动修改 ${className}Columns 中属性值      -->
     </sql>
     
     

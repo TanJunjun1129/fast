@@ -599,6 +599,16 @@
 		        	}
 		        },
 		        {
+					field: 'isEdit',
+					title: '编辑',
+					width: "32",
+					formatter: function (value, row, index) {
+						var isCheck = value == 1 ? 'checked' : '';
+						var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isEdit' value='1' %s></label>", index, isCheck);
+						return html;
+					}
+				},
+		        {
 		            field: 'isList',
 		            title: '列表',
 					titleTooltip:'数据展示页面表格列表',
@@ -655,16 +665,6 @@
 					formatter: function (value, row, index) {
 						var isCheck = value == 1 ? 'checked' : '';
 						var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isTableSort' value='1' %s></label>", index, isCheck);
-						return html;
-					}
-				},
-				{
-					field: 'isEdit',
-					title: '编辑',
-					width: "32",
-					formatter: function (value, row, index) {
-						var isCheck = value == 1 ? 'checked' : '';
-						var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isEdit' value='1' %s></label>", index, isCheck);
 						return html;
 					}
 				},
