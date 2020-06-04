@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  * 单表范例Service接口
  * @author: mfksn001@163.com
- * @date 2020-06-03 14:10
+ * @date 2020-06-04 16:47
  */
 @Service
 public class TestService extends ServiceImpl<TestMapper,TestEntity> {
@@ -47,7 +47,7 @@ public class TestService extends ServiceImpl<TestMapper,TestEntity> {
         queryWrapper.between(ToolUtil.isNotEmpty(beginBirthday) || ToolUtil.isNotEmpty(endBirthday), "birthday", beginBirthday,endBirthday);
           String leaveDate = (String) params.get("leaveDate");
          queryWrapper.eq(ToolUtil.isNotEmpty(leaveDate), "leave_date", leaveDate);
-                            String pin = (String) params.get("pin");
+             String pin = (String) params.get("pin");
         queryWrapper.lt(ToolUtil.isNotEmpty(pin), "pin", pin);
           String position = (String) params.get("position");
          queryWrapper.eq(ToolUtil.isNotEmpty(position), "position", position);
@@ -61,11 +61,11 @@ public class TestService extends ServiceImpl<TestMapper,TestEntity> {
          queryWrapper.eq(ToolUtil.isNotEmpty(education), "education", education);
           String leader = (String) params.get("leader");
          queryWrapper.eq(ToolUtil.isNotEmpty(leader), "leader_id", leader);
-             String dept = (String) params.get("dept");
+                String dept = (String) params.get("dept");
          queryWrapper.eq(ToolUtil.isNotEmpty(dept), "dept_ids", dept);
           String roleIds = (String) params.get("roleIds");
          queryWrapper.eq(ToolUtil.isNotEmpty(roleIds), "role_ids", roleIds);
-  		Page<TestEntity> page = testMapper.selectPage(new Query<TestEntity>(params).getPage(), queryWrapper);
+              		Page<TestEntity> page = testMapper.selectPage(new Query<TestEntity>(params).getPage(), queryWrapper);
 		return new PageUtil(page);
     }
 

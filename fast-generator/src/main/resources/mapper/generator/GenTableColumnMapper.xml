@@ -72,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          <include refid="genTableColumns"/>
        from gen_table_column
        where table_id = #{tableId}
+       order by sort
     </select>
     
 

@@ -17,7 +17,7 @@ import com.j2eefast.framework.sys.entity.SysCompEntity;
 /**
  * example_test
  * @author: mfksn001@163.com
- * @date 2020-06-03 14:10
+ * @date 2020-06-04 16:47
  */
 @Data
 @TableName("example_test")
@@ -59,15 +59,10 @@ public class TestEntity extends BaseEntity{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
     private Date leaveDate;
 
-  
       /** 删除标记 */
     @TableLogic(value="0",delval="1")
     private String delFlag;
 
-  
-  
-  
-  
       /** 员工编号 */
     private String pin;
 
@@ -90,6 +85,7 @@ public class TestEntity extends BaseEntity{
       /** 上级领导 */
     private Long leader;
 
+  
       /** 公司 */
     @TableField(exist=false) 
     private SysCompEntity company;
@@ -100,5 +96,9 @@ public class TestEntity extends BaseEntity{
       /** roleIds */
     private String roleIds;
 
+  
+  
+  
+  
 
 }
