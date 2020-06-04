@@ -14,3 +14,29 @@ ALTER TABLE sys_menu CHANGE menu_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_oper_log CHANGE oper_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_post CHANGE post_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_role CHANGE role_id id BIGINT(20) COMMENT '主键';
+
+-- 任务表修改,解决不能关闭问题，新增失败策略
+alter table sys_job drop column bean_name;
+alter table sys_job drop column method_name;
+alter table sys_job drop column params;
+alter table `sys_job` add `invoke_target` varchar(1000) DEFAULT '' COMMENT '调用目标字符串';
+alter table `sys_job` add `misfire_policy` char(1) DEFAULT '3' COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）';
+alter table `sys_job` add `concurrent` char(1) DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）';
+
+alter table sys_job_log drop column bean_name;
+alter table sys_job_log drop column method_name;
+alter table sys_job_log drop column params;
+alter table `sys_job_log` add `invoke_target` varchar(1000) DEFAULT '' COMMENT '调用目标字符串';
+
+-- 修改定时任务基础数据
+truncate table sys_job;
+TRUNCATE TABLE qrtz_cron_triggers;
+TRUNCATE TABLE qrtz_locks;
+TRUNCATE TABLE qrtz_scheduler_state;
+DELETE FROM qrtz_triggers;
+DELETE FROM qrtz_job_details;
+
+insert  into `sys_job`(`id`,`job_name`,`job_group`,`invoke_target`,`cron_expression`,`del_flag`,`misfire_policy`,`concurrent`,`status`,`remark`,`create_time`,`create_by`,`update_by`,`update_time`) values
+(1239107312446103553,'测试任务','DEFAULT','jobTaskTest.fastParams(\'123\')','0 0/10 * * * ? *','0','3','1','1','fastParams有参数','2020-03-15 16:32:59','admin','admin','2020-05-29 22:08:05'),
+(1243581612249190401,'公告通知时效性','DEFAULT','jobNoticeTask.fastNotice','0 0/5 * * * ? *','0','3','1','1','公告通知时效性排查','2020-03-28 00:52:16','admin','admin','2020-03-28 15:30:18');
+
