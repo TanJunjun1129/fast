@@ -41,7 +41,7 @@
                     <div class="radio-box">
                         <input type="radio" id="sex" name="sex" value="${d.dictValue}"
                                <#if d.dictValue == test.sex?default("") >checked</#if>  required/>
-                        <label for="${d.dictCode}">${d.dictLabel}</label>
+                        <label for="${d.id}">${d.dictLabel}</label>
                     </div>
                 </#items>
             </#list>
@@ -91,9 +91,9 @@
               <#assign hobbyList = test.hobby?default("")?split(",") />
                 <#items as d>
                     <#if d.status =='0' >
-                            <label><input type="checkbox" id="hobby_${d.dictCode}" name="hobby"
+                            <label><input type="checkbox" id="hobby_${d.id}" name="hobby"
                                    value="${d.dictValue}" <#if hobbyList?seq_contains(d.dictValue) >checked</#if>>
-                            <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label></label>
+                            <label text="${d.dictLabel}">${d.dictLabel}</label></label>
                     </#if>
                 </#items>
             </#list>
