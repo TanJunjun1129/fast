@@ -187,7 +187,7 @@ public class SysUserEntity extends BaseEntity {
 	 */
 	@TableField(exist = false)
 	private String postCode;
-	
+
 	/**
 	 * 部门ID --暂时不用
 	 */

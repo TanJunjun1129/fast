@@ -13,10 +13,9 @@ import lombok.Data;
  * @date 2017-03-12 16:54
  */
 @Data
-public class BaseEntity implements Serializable{
-	
-	private static final long 					serialVersionUID 					= 1L;
+public class BaseEntity implements Serializable {
 
+    private static final long 					serialVersionUID 					= 1L;
 
     /** 创建者 */
     @TableField(value = "create_by", fill = FieldFill.INSERT)

@@ -2520,11 +2520,11 @@ if (typeof jQuery === "undefined") {
                 * */
                 var curParams = {
                     // 传递参数查询参数
-                    limit:       params.limit,
-                    page:        params.offset / params.limit + 1,
+                    __limit:       params.limit,
+                    __page:        params.offset / params.limit + 1,
                     searchValue:    params.search,
-                    sidx:           params.sort,
-                    order:          params.order
+                    __sidx:           params.sort,
+                    __order:          params.order
                 };
                 var currentId = opt.common.isEmpty(opt.table.options.formId) ? $('form').attr('id') : opt.table.options.formId;
                 return $.extend(curParams, opt.common.formToJSON(currentId));
@@ -2838,11 +2838,11 @@ if (typeof jQuery === "undefined") {
                             search[key] = data[key];
                         });
                     }
-                    search.limit = params.limit;
-                    search.page = params.offset / params.limit + 1;
+                    search.__limit = params.limit;
+                    search.__page = params.offset / params.limit + 1;
                     search.searchValue = params.search;
-                    search.sidx = params.sort;
-                    search.order = params.order;
+                    search.__sidx = params.sort;
+                    search.__order = params.order;
                     return search;
                 }
                 if(opt.common.isNotEmpty(tableId)){
@@ -3097,6 +3097,7 @@ if (typeof jQuery === "undefined") {
                     height: 0,
                     rootIdValue: null,
                     ajaxParams: {},
+                    async: false,
                     toolbar: "toolbar",
                     striped: false,
                     expandColumn: 1,
@@ -3127,6 +3128,7 @@ if (typeof jQuery === "undefined") {
                     parentCode: options.parentCode,                     // 用于设置父子关系
                     type: 'post',                                       // 请求方式（*）
                     url: options.url,                                   // 请求后台的URL（*）
+                    async: options.async,                             // 是否异步加载数据
                     data: options.data,                                 // 无url时用于渲染的数据
                     ajaxParams: options.ajaxParams,                     // 请求数据的ajax的data属性
                     rootIdValue: options.rootIdValue,                   // 设置指定根节点id值

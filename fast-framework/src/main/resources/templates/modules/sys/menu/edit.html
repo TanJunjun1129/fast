@@ -3,7 +3,7 @@
 <@header title="修改菜单" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-menu-edit" class="form-horizontal">
-	<@from.hidden id="id" value="${menu.id?default('')}"/>
+	<@from.hidden name="id" value="${menu.id?default('')}"/>
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><@ctx.i18n text = "上级菜单"/>：</label>
 		<div class="col-sm-8">
