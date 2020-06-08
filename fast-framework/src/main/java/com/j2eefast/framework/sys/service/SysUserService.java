@@ -156,10 +156,10 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		if(this.save(user)){
 
 			// 保存用户与角色关系
-			sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+			sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
 
 			// 保存用户与公司地区关系
-			sysUserDeptService.saveOrUpdate(user.getUserId(), user.getDeptIdList());
+			sysUserDeptService.saveOrUpdate(user.getId(), user.getDeptIdList());
 
 
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getAddUserHard(),JSONArray.toJSONString(user),
@@ -187,13 +187,13 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		if(this.updateById(user)){
 
 			// 保存用户与角色关系
-			sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+			sysUserRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
 
 			// 保存用户与公司地区关系
-			sysUserDeptService.saveOrUpdate(user.getUserId(), user.getDeptIdList());
+			sysUserDeptService.saveOrUpdate(user.getId(), user.getDeptIdList());
 
 			//岗位关联
-			sysUserPostService.saveOrUpdate(user.getUserId(), user.getPostCodes());
+			sysUserPostService.saveOrUpdate(user.getId(), user.getPostCodes());
 
 
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getUpdateUserHard(),JSONArray.toJSONString(user),
@@ -234,7 +234,7 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		userEntity.setName(name);
 		userEntity.setMobile(phone);
 		userEntity.setEmail(email);
-		userEntity.setUserId(userId);
+		userEntity.setId(userId);
 		return this.updateById(userEntity);
 	}
 
@@ -252,16 +252,16 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 	}
 
 	public boolean checkMobileUnique(SysUserEntity user) {
-		Long userId = ToolUtil.isEmpty(user.getUserId())?-1L:user.getUserId();
+		Long userId = ToolUtil.isEmpty(user.getId())?-1L:user.getId();
 		SysUserEntity info = this.getOne(new QueryWrapper<SysUserEntity>().eq("mobile",user.getMobile()));
-		if(ToolUtil.isNotEmpty(info) && !info.getUserId().equals(userId)){
+		if(ToolUtil.isNotEmpty(info) && !info.getId().equals(userId)){
 			return  false;
 		}
 		return true;
 	}
 
 	public boolean changeStatus(SysUserEntity user) {
-		return sysUserMapper.setStatus(user.getUserId(),user.getStatus()) > 0;
+		return sysUserMapper.setStatus(user.getId(),user.getStatus()) > 0;
 	}
 
 	public SysUserEntity findUserByUserId(Long userId){

@@ -360,6 +360,7 @@
                 height = "300" <#-- 高度-->
                 type = "html" <#--获取数据类型 html (整个html的内容), content (内容), txt(纯文本), plaintxt (带格式的纯文本)-->
 >
+#if(id == "")set($htmId = f+ramdom(5)) #end 
     <input id="<#if id == "">${name}<#else>${id}</#if>" name="<#if name == "">${id}<#else>${name}</#if>" value="<#if value != "">${value}</#if>" type="hidden">
     <script id="<#if id == "">${name}<#else>${id}</#if>ContentUE" type="text/plain" style="width:100%;height:${height}px;"></script>
     <script type="text/javascript">

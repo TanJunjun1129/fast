@@ -38,11 +38,11 @@ public @interface DataFilter {
 	String setField() default "";
 	
 	/** sys_dept 字段关联 */
-	String deptId() default "dept_id";
+	String deptId() default "id";
 	
 	/** sys_comp 字段关系*/
-	String compId() default "comp_id";
+	String compId() default "id";
 
 	/** 用户ID */
-	String userId() default "user_id";
+	String userId() default "id";
 }

@@ -112,7 +112,7 @@ public class SysCompService extends ServiceImpl<SysCompMapper,SysCompEntity> {
 		if (userId.equals(Constant.SUPER_ADMIN)) {
 			list = this.list();
 		}else{
-			list = this.list(new QueryWrapper<SysCompEntity>().eq("parent_id",compId).or().eq("comp_id",compId));
+			list = this.list(new QueryWrapper<SysCompEntity>().eq("parent_id",compId).or().eq("id",compId));
 		}
 		List<Ztree> ztrees = initZtree(list);
 		return ztrees;

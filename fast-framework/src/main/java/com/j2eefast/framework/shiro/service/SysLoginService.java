@@ -135,10 +135,10 @@ public class SysLoginService implements AuthService {
 		LoginUserEntity loginUser = UserFactory.createLoginUser(user);
 
 		//设置授权
-		this.authorization(loginUser,user.getUserId());
+		this.authorization(loginUser,user.getId());
 
 		//设置登陆
-		this.setLoginDetails(loginUser,user.getUserId());
+		this.setLoginDetails(loginUser,user.getId());
 		return loginUser;
 	}
 
