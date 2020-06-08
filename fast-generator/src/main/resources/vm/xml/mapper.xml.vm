@@ -107,10 +107,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #set($AttrName=$c.javaField.substring(0,1).toUpperCase() + ${c.javaField.substring(1)})##
                  <if test="begin${AttrName} != null and end${AttrName} != null #if(${c.javaType}=="String") and begin${AttrName} != '' and end${AttrName} != '' #end">
                     and a.${c.columnName} between #{begin${AttrName}}  and  #{end${AttrName}}
-                 </if>             
+                 </if>          
 #end ##queryType
 #end ##isQuery 
-#end ##foreach 	   
+#end ##foreach 	 
+               <if test = "sql_filter !=null and sql_filter!=''">
+                   and ${sql_filter}
+               </if>    
 		</where>
 	 </select>
 	 
@@ -153,7 +156,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                  </if>
 #end ##queryType
 #end ##isQuery 
-#end ##foreach 	   
+#end ##foreach### 	 
+             <if test = "sql_filter !=null and sql_filter!=''">
+               and ${sql_filter}
+             </if>  
 		</where>
 	 </select>
 	 

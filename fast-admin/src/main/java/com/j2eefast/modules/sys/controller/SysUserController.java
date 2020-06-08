@@ -218,8 +218,8 @@ public class SysUserController extends BaseController {
 	}
 
 	@RequiresPermissions("sys:user:resetPwd")
-	@GetMapping("/resetPwd/{userId}")
-	public String resetPwd(@PathVariable("userId") Long userId, ModelMap mmap){
+	@GetMapping("/resetPwd/{id}")
+	public String resetPwd(@PathVariable("id") Long userId, ModelMap mmap){
 		mmap.put("user", sysUserService.getById(userId));
 		return urlPrefix + "/resetPwd";
 	}
@@ -244,11 +244,11 @@ public class SysUserController extends BaseController {
 		// 新密码
 		String newPassword = UserUtils.sha256(user.getPassword(), salt);
 
-		boolean flag = sysUserService.updatePassWord(user.getUserId(), newPassword,salt,user.getPwdSecurityLevel());
+		boolean flag = sysUserService.updatePassWord(user.getId(), newPassword,salt,user.getPwdSecurityLevel());
 		if (!flag) {
 			return error(ToolUtil.message("sys.user.oldPasswordError"));
 		}
-		if (loginUser.getId().equals(user.getUserId())){
+		if (loginUser.getId().equals(user.getId())){
 			loginUser.setPwdSecurityLevel(user.getPwdSecurityLevel());
 			loginUser.setPassword(newPassword);
 			loginUser.setSalt(salt);

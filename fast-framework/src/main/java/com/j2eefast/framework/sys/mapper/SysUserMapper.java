@@ -71,7 +71,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
     /**
      * 查询用户的所有菜单ID
      */
-    List<Long> findAllMenuId(Long userId);
+    List<Long> findAllMenuId(Long id);
 
     /**
      * 修改用户密码
@@ -81,7 +81,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
      * @param pwdSecurityLevel 密码安全等级
      * @return
      */
-    int updatePassWord(@Param("userId") Long userId,
+    int updatePassWord(@Param("id") Long userId,
                        @Param("password") String password,
                        @Param("salt") String salt,
                        @Param("pwdSecurityLevel") String pwdSecurityLevel);
@@ -92,7 +92,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
      * @param avatar 头像路径
      * @return
      */
-    int updateAvatar(@Param("userId") Long userId,
+    int updateAvatar(@Param("id") Long userId,
                      @Param("avatar") String avatar);
 
 
@@ -102,7 +102,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
      * @param status
      * @return
      */
-    int setStatus(@Param("userId") Long userId,
+    int setStatus(@Param("id") Long userId,
                   @Param("status") String status);
 
 
@@ -135,7 +135,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
      * @param userId
      * @return
      */
-    String findCompNameByUserId(@Param("userId") Long userId);
+    String findCompNameByUserId(@Param("id") Long id);
 
 
     /**
@@ -143,5 +143,5 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
     * @param userId
      * @return
      */
-    SysUserEntity findUserByUserId(@Param("userId") Long userId);
+    SysUserEntity findUserByUserId(@Param("id") Long id);
 }

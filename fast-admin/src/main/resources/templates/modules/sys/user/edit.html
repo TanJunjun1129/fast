@@ -2,7 +2,7 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改用户"/>
 <@addorEdit fromId="form-user-edit">   
-    <@from.hidden id="userId" value="${user.userId?default('')}"/>
+    <@from.hidden id="id" value="${user.userId?default('')}"/>
 <#--    <input type="hidden" id="compId" name="compId" value="${user.compId?default('')}"/>-->
 <#--    <input type="hidden" id="deptId" name="deptIdList" value=""/>-->
     <div class="row">

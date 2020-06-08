@@ -42,7 +42,7 @@ public class SysUserEntity extends BaseEntity {
 	 */
 	@TableId
 	@ExcelProperty("用户ID")
-	private Long userId;
+	private Long id;
 
 	/**
 	 * 用户名
