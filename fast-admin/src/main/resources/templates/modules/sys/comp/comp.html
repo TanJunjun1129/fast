@@ -37,6 +37,7 @@
     var editFlag = "${permission.hasPermi('sys:comp:edit')}";
     var delFlag = "${permission.hasPermi('sys:comp:del')}";
     var datas = ${dict.getDictListJson('sys_normal_disable')};
+    var types = ${dict.getDictListJson('sys_comp_type')};
     var visible = ${permission.isPermitteds("sys:comp:edit,sys:comp:del")?string('true', 'false')};
     var prefix = baseURL + "sys/comp";
 
@@ -53,7 +54,10 @@
             columns: [
                 {field: 'selectItem', radio: true},
                 {field: 'name', title: "<@ctx.i18n text = "公司名称"/>", align: "left",halign:"left"},
-                {field: 'orderNum', title: "<@ctx.i18n text = "排序"/>"},
+                {field: 'type', title: "<@ctx.i18n text = "类型"/>", formatter: function(value, item, index) {
+                        return $.table.selectDictLabel(types, item.type);}
+                },
+                {field: 'orderNum', title: "<@ctx.i18n text = "排序"/>",align: "center"},
                 {field: 'status', title: "<@ctx.i18n text = "状态"/>", formatter: function(value, item, index) {
                         return $.table.selectDictLabel(datas, item.status);}
                 },

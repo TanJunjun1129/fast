@@ -45,6 +45,8 @@ public class SysCompEntity extends BaseEntity {
 	@NotBlank(message = "公司名称不能为空")
 	private String name;
 
+	@NotBlank(message = "类型不能为空")
+	private String type;   //0：公司 ，  1：部门， 
 
 	private String status;
 

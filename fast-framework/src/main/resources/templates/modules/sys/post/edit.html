@@ -3,7 +3,7 @@
 <@header title="新增岗位信息" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-post-edit" class="form-horizontal">
-    <@from.hidden id="id" value="${sysPost.id}"/>
+    <@from.hidden id="id" name="id" value="${sysPost.id}"/>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "岗位编码"/>：
         </label>

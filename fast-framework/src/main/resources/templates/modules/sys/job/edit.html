@@ -3,7 +3,7 @@
 <@header title="修改定时任务" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-job-edit" class="form-horizontal">
-	<@from.hidden id="id" value="${job.id}"/>
+	<@from.hidden id="id" name="id" value="${job.id}"/>
 	<h4 class="form-header h4">基本信息</h4>
 	<div class="row">
 		<div class="col-xs-6">

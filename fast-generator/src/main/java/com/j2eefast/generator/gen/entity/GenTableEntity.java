@@ -110,15 +110,13 @@ public class GenTableEntity extends BaseEntity {
     private List<GenTableColumnEntity> columns;
 
     /** 树编码字段 */
-    @TableField(exist = false)
+
     private String treeCode;
 
     /** 树父编码字段 */
-    @TableField(exist = false)
     private String treeParentCode;
 
     /** 树名称字段 */
-    @TableField(exist = false)
     private String treeName;
 
     public int getMenuOrder() {

@@ -3,7 +3,7 @@
 <@header title="修改参数" bodyClass="white-bg"/>
 <div class="wrapper wrapper-content ibox-content">
 	<@from.from id="form-config-edit" class="form-horizontal">
-	   <@from.hidden  id="id"  value="${cfg.id}"/>
+	   <@from.hidden  id="id" name="id" value="${cfg.id}"/>
        <div class="form-group">
            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>参数名称：</label>
            <div class="col-sm-8">

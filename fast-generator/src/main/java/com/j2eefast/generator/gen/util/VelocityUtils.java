@@ -109,24 +109,27 @@ public class VelocityUtils
 
     public static void setTreeVelocityContext(VelocityContext context, GenTableEntity genTable)
     {
-        String options = genTable.getOptions();
+       /* String options = genTable.getOptions();
         JSONObject paramsObj = JSONObject.parseObject(options);
         String treeCode = getTreecode(paramsObj);
         String treeParentCode = getTreeParentCode(paramsObj);
         String treeName = getTreeName(paramsObj);
-
-        context.put("treeCode", treeCode);
-        context.put("treeParentCode", treeParentCode);
-        context.put("treeName", treeName);
+      */
+        context.put("treeCode", genTable.getTreeCode());
+        context.put("treeParentCode", genTable.getTreeParentCode());
+        context.put("treeName", genTable.getTreeName());
+        context.put("tree_name", genTable.getTreeName());
+        context.put("tree_parent_code", genTable.getTreeParentCode());
+        
         context.put("expandColumn", getExpandColumn(genTable));
-        if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE))
+     /*   if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE))
         {
             context.put("tree_parent_code", paramsObj.getString(GenConstants.TREE_PARENT_CODE));
         }
         if (paramsObj.containsKey(GenConstants.TREE_NAME))
         {
             context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
-        }
+        }*/
     }
 
     /**
@@ -352,9 +355,9 @@ public class VelocityUtils
      */
     public static int getExpandColumn(GenTableEntity genTable)
     {
-        String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
-        String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+ /*       String options = genTable.getOptions();
+        JSONObject paramsObj = JSONObject.parseObject(options);*/
+        String treeName = genTable.getTreeName() ; // paramsObj.getString(GenConstants.TREE_NAME);
         int num = 0;
         for (GenTableColumnEntity column : genTable.getColumns())
         {

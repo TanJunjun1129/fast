@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import ${packageName}.entity.${ClassName}Entity;
 import ${packageName}.service.${ClassName}Service;
 #if($table.tree)
-import com.j2eefast.common.core.domain.Ztree;
+import com.j2eefast.common.core.base.entity.Ztree;
 #end
 
 /**

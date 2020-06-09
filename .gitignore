@@ -16,5 +16,5 @@ target/
 /fast-admin/src/test/java/com/framework/CSTest.java
 /fast-admin/src/main/resources/application-Test.yml
 dbmysqlgen
-.erm
-.lck
+*.erm
+*.lck

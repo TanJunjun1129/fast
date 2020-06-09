@@ -108,7 +108,7 @@ public class SysDeptController extends BaseController {
 	}
 
 	/**
-	 * 加载部门列表树
+	 * 加载部门列表树// 0:表示地区，1：线路
 	 */
 	@GetMapping("/treeData/{type}")
 	@ResponseBody

@@ -311,7 +311,7 @@
 					                                <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if gen_table.treeCode == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -326,7 +326,7 @@
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if gen_table.treeParentCode == d.columnName?default("")>selected = "selected"</#if>   >${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -343,7 +343,7 @@
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"    <#if gen_table.treeName == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>

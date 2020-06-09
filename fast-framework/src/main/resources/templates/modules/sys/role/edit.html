@@ -3,7 +3,7 @@
 <@header title="角色修改" bodyClass="white-bg" libs=["zTree"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-role-edit" class="form-horizontal">
-    <@from.hidden id="id" value="${role.id?default('')}"/>
+    <@from.hidden id="id" name="id" value="${role.id?default('')}"/>
     <div class="form-group">
         <label class="col-sm-3 control-label "><span style="color: red; ">*</span>角色名称：</label>
         <div class="col-sm-8">

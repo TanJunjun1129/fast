@@ -6,7 +6,7 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级公司：</label>
 		<div class="col-sm-8">
-			<@from.treeselect id="parentId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true" value="${comp.id}" labelValue="${comp.name?default('总公司')}"
+			<@from.treeselect id="parentId" name="parentId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true" value="${comp.id}" labelValue="${comp.name?default('总公司')}"
 			placeholder="请选择归属公司" required="true"/>
 		</div>
 	</div>
@@ -14,6 +14,12 @@
 		<label class="col-sm-3 control-label"><span style="color: red; ">*</span>名称：</label>
 		<div class="col-sm-8">
 			<@from.input name="name" required="true"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "类型"/>：</label>
+		<div class="col-sm-8">
+			<@from.radio name="type" dictType="sys_comp_type"/>
 		</div>
 	</div>
 	<div class="form-group">

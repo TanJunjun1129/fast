@@ -9,7 +9,7 @@
 
 
     <sql id="selectDeptVo">
-        SELECT d.id, d.parent_id, d.name, d.order_num,d.status,d.create_time,
+        SELECT d.id, d.parent_id, d.name,d.type, d.order_num,d.status,d.create_time,
 		(SELECT NAME FROM sys_comp WHERE id = d.parent_id) parent_name
 		FROM sys_comp d
     </sql>

@@ -2,7 +2,7 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改用户"/>
 <@addorEdit fromId="form-user-edit">   
-    <@from.hidden id="id" value="${user.userId?default('')}"/>
+    <@from.hidden id="id" name="id" value="${user.userId?default('')}"/>
 <#--    <input type="hidden" id="compId" name="compId" value="${user.compId?default('')}"/>-->
 <#--    <input type="hidden" id="deptId" name="deptIdList" value=""/>-->
     <div class="row">
@@ -20,7 +20,7 @@
                 <div class="col-sm-8">
 <#--                        <input name="compName"  id="compName" value="${user.compName?default("")}" type="text" placeholder="请选择归属公司" onclick="selectCompTree()" class="form-control" required>-->
 <#--                        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
-                        <@from.treeselect id="compId" value="${user.compId?default('')}"
+                        <@from.treeselect id="compId" name="compId" value="${user.compId?default('')}"
                         labelValue="${user.compName?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true" placeholder="请选择归属公司"/>
                 </div>
             </div>

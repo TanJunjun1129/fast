@@ -3,7 +3,7 @@
 <@header title="修改地区" bodyClass="white-bg"/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-dept-edit" class="form-horizontal">
-        <@from.hidden id="id"  value="${dept.id}"/>
+        <@from.hidden id="id" name="id"  value="${dept.id}"/>
         <input id="treeId" name="parentId" type="hidden" value="${dept.parentId}"   />
         <div class="form-group">
             <label class="col-sm-3 control-label"><span style="color: red; ">*(不能修改)</span>类型：</label>
@@ -14,7 +14,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级地区：</label>
             <div class="col-sm-8">
-                    <@from.treeselect id="parentId" boxTitle="请选择地区" url="sys/dept/treeData/0" expandLevel="true" value="${dept.id}" labelValue="${dept.parentName?default('')}"
+                    <@from.treeselect id="parentId" name="parentId" boxTitle="请选择地区" url="sys/dept/treeData/0" expandLevel="true" value="${dept.id}" labelValue="${dept.parentName?default('')}"
                     placeholder="请选择地区"/>
             </div>
         </div>
