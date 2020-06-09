@@ -39,7 +39,7 @@ public class Ztree implements Serializable{
     private boolean isParent = false;
 
     /** 是否能勾选 */
-    private boolean nocheck = false;
+    private boolean nocheck = true;
 
     public boolean getIsParent() {
         return isParent;

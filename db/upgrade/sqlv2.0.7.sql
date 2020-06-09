@@ -14,6 +14,7 @@ ALTER TABLE sys_menu CHANGE menu_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_oper_log CHANGE oper_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_post CHANGE post_id id BIGINT(20) COMMENT '主键';
 ALTER TABLE sys_role CHANGE role_id id BIGINT(20) COMMENT '主键';
+ALTER TABLE sys_user CHANGE user_id id BIGINT(20) COMMENT '主键';
 
 -- 任务表修改,解决不能关闭问题，新增失败策略
 alter table sys_job drop column bean_name;
@@ -39,4 +40,11 @@ DELETE FROM qrtz_job_details;
 insert  into `sys_job`(`id`,`job_name`,`job_group`,`invoke_target`,`cron_expression`,`del_flag`,`misfire_policy`,`concurrent`,`status`,`remark`,`create_time`,`create_by`,`update_by`,`update_time`) values
 (1239107312446103553,'测试任务','DEFAULT','jobTaskTest.fastParams(\'123\')','0 0/10 * * * ? *','0','3','1','1','fastParams有参数','2020-03-15 16:32:59','admin','admin','2020-05-29 22:08:05'),
 (1243581612249190401,'公告通知时效性','DEFAULT','jobNoticeTask.fastNotice','0 0/5 * * * ? *','0','3','1','1','公告通知时效性排查','2020-03-28 00:52:16','admin','admin','2020-03-28 15:30:18');
+
+alter table `gen_table` add `tree_code` VARCHAR(50) DEFAULT NULL COMMENT '树表id column名称';
+alter table `gen_table` add `tree_parent_code` VARCHAR(50) DEFAULT NULL COMMENT '树表父id column名称';
+alter table `gen_table` add `tree_name` VARCHAR(100) DEFAULT NULL COMMENT '树表name column名称';
+alter table `sys_comp` add `type` CHAR(1) DEFAULT '0' COMMENT '类型标志 0 公司 1部门';
+
+
 
