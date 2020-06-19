@@ -1,17 +1,18 @@
 //前端模板说明
 <#--
-    J2eeFAST 前端引擎采用FreeMarker,官方中文文档 http://freemarker.foofun.cn/
-    J2eeFAST 前端主要由4部分组成
-    1. 引入核心模板
+    J2eeFAST 前端模板引擎采用FreeMarker,官方中文文档 http://freemarker.foofun.cn/
+    J2eeFAST 前端引擎主要由4部分组成
+    1. 引入核心模板引擎
     2. 引入页面压缩引擎
     3. 引入头部
     4. 引入底部
 
     //头部标签与底部标签 中间为我们自行设计区域
     //这样设计的目的就是为了最大程度的将前端代码中重复部分抽出，你只需要关心页面变化部分
+    //你可以仿照二次开发或者自定义模板引擎
  -->
-<#-- 引入J2eeFAST 前端核心模板 页面必须添加-->
-<#include "/common/include1.html"/>
+<#-- 引入J2eeFAST 前端核心模板引擎 页面必须添加-->
+<#include "/common/defaultEngine.html"/>
 <#-- pageTheme 标签为页面压缩标签 后台系统参数控制页面是否压缩输出-->
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <#--
