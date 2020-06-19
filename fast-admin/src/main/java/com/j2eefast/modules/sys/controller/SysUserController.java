@@ -51,7 +51,7 @@ public class SysUserController extends BaseController {
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
-	private SysUserDeptService sysUserDeptService;
+	private SysPostService sysPostService;
 	@Autowired
 	private SysLoginInfoSerice  sysLoginInfoService;
 	@Autowired
@@ -65,14 +65,11 @@ public class SysUserController extends BaseController {
 	@RequiresPermissions("sys:user:view")
 	@GetMapping()
 	public String user(ModelMap mmap){
-		LoginUserEntity loginUser = UserUtils.getUserInfo();
-		List<Ztree> ztrees = sysCompService.findCompTree(loginUser.getCompId(),loginUser.getId());
-		mmap.put("comps",  ztrees);
 		return urlPrefix + "/user";
 	}
 	
 	/**
-	 * 用户列表
+	 * 页面用户表格分页查询
 	 * @author zhouzhou
 	 * @date 2020-03-07 13:31
 	 */
@@ -91,7 +88,8 @@ public class SysUserController extends BaseController {
 	 */
 	@GetMapping("/add")
 	public String add(ModelMap mmap){
-		mmap.put("roles", sysRoleService.list());
+		mmap.put("roles", sysRoleService.getRolesAll());
+		mmap.put("posts",sysPostService.getPostAll());
 		return urlPrefix + "/add";
 	}
 
@@ -119,18 +117,11 @@ public class SysUserController extends BaseController {
 	public String edit(@PathVariable("userId") Long userId,ModelMap mmap){
 		
 		SysUserEntity user = sysUserService.findUserByUserId(userId);
-		// 获取用户所属的角色列表resetPwd
-		List<SysUserDeptEntity> deptIdList = sysUserDeptService.findListByUserId(userId);
-		List<SysRoleEntity> roles = sysRoleService.findByRolesByUserId(userId);
-		String selectRoles = "";
-		List<SysRoleEntity> selectRole = sysRoleService.selectRolesByUserId(userId);
-		for(SysRoleEntity sysRole: selectRole){
-			selectRoles +=sysRole.getId() +",";
-		}
-		mmap.put("roles", roles);
-		mmap.put("selectRoles", selectRoles.substring(0,selectRoles.length()));
+		mmap.put("roles", sysRoleService.getRolesAll());
+		mmap.put("posts",sysPostService.getPostAll());
+		mmap.put("selectRoles", sysRoleService.getRolesByUserIdToStr(userId));
+		mmap.put("selectPosts",sysPostService.getPostByUserIdToStr(userId));
 		mmap.put("user", user);
-		mmap.put("deptList",deptIdList);
 		return urlPrefix + "/edit";
 	}
 
@@ -301,9 +292,6 @@ public class SysUserController extends BaseController {
 		return sysUserService.add(user)?success(): error("新增失败!");
 	}
 
-
-
-	
 	/**
 	 * 更新用户
 	 */
@@ -312,7 +300,6 @@ public class SysUserController extends BaseController {
 	@RequiresPermissions("sys:user:edit")
 	@ResponseBody
 	public ResponseData edit(@Validated SysUserEntity user) {
-
 		ValidatorUtil.validateEntity(user);
 		return sysUserService.update(user) ? success() : error("修改失败!");
 	}

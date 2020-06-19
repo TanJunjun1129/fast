@@ -1,51 +1,58 @@
 <#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="修改地区" bodyClass="white-bg"/>
+<@header title="修改组织机构" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-dept-edit" class="form-horizontal">
-        <@from.hidden id="id" name="id"  value="${dept.id}"/>
-        <input id="treeId" name="parentId" type="hidden" value="${dept.parentId}"   />
-        <div class="form-group">
-            <label class="col-sm-3 control-label"><span style="color: red; ">*(不能修改)</span>类型：</label>
-            <div class="col-sm-8">
-                <@from.radio name="type" dictType="sys_dept_line" value="${dept.type?c}"/>
-            </div>
+    <@from.hidden id="id" name="id"  value="${dept.id}"/>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span>机构类型：</label>
+        <div class="col-sm-8">
+            <@from.select name="type" dictType="sys_comp_type" value="${dept.type}"/>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级地区：</label>
-            <div class="col-sm-8">
-                    <@from.treeselect id="parentId" name="parentId" boxTitle="请选择地区" url="sys/dept/treeData/0" expandLevel="true" value="${dept.id}" labelValue="${dept.parentName?default('')}"
-                    placeholder="请选择地区"/>
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级机构：</label>
+        <div class="col-sm-8">
+            <@from.treeselect id="parentId" name="parentId" boxTitle="请选择上级机构" url="sys/comp/treeData"
+            expandLevel="true" isParentIds="true" value="${dept.parentId}" labelValue="${dept.parentName?default('总公司')}" isParentIds="true"
+            parenIdsValue="${dept.parentIds}"
+            placeholder="请选择上级机构" required="true"/>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>名称：</label>
-            <div class="col-sm-8">
-                <@from.input name="name" value="${dept.name}" required="true"/>
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span>机构名称：</label>
+        <div class="col-sm-8">
+            <@from.input name="name" value="${dept.name}" required="true"/>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>显示排序：</label>
-            <div class="col-sm-8">
-                <@from.input name="orderNum"  value="${dept.orderNum?default(0)}" required="true"/>
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span>机构全称：</label>
+        <div class="col-sm-8">
+            <@from.input name="fullName" value="${dept.fullName}" required="true"/>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
-            <div class="col-sm-8">
-                <@from.radio name="status" value="${dept.status}" dictType="sys_normal_disable"/>
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span>显示排序：</label>
+        <div class="col-sm-8">
+            <@from.input name="orderNum"  value="${dept.orderNum?default(0)}" required="true"/>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">备注：</label>
-            <div class="col-sm-8">
-                <@from.textarea name="remark" value="${dept.remark?default('')}"/>
-            </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
+        <div class="col-sm-8">
+            <@from.radio name="status" value="${dept.status}" dictType="sys_normal_disable"/>
         </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">备注：</label>
+        <div class="col-sm-8">
+            <@from.textarea name="remark" value="${dept.remark?default('')}"/>
+        </div>
+    </div>
 </@from.from>
 </div>
 <@footer>
-<script>
+<script type="text/javascript">
     var prefix = baseURL + "sys/dept";
 
     $("#form-dept-edit").validate({
@@ -53,7 +60,7 @@
         rules:{
             name:{
                 remote: {
-                    url: prefix + "/checkDeptNameUnique",
+                    url: prefix + "/checkCompNameUnique",
                     type: "POST",
                     dataType: "html",
                     data: {

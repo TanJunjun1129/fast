@@ -146,10 +146,14 @@
         }
     }
 
-    $(function() {
-
-        $('input[name="type"]').on('ifChecked', function(event){
-            var menuType = $(event.target).val();
+    /**
+     * 利用redio 组件回调事件处理 数据权限数据控制显示还是隐藏
+     * 回传两个参数 name 当前控制名称, data 当前点击对象, event 事件对象
+     **/
+    function redioCallback(name, data, event) {
+        if(name == "type"){
+            if ($(data).is(':checked')){
+                var menuType = $(event.target).val();
                 if (menuType == "0") {
                     $("#url").parents(".form-group").hide();
                     $("#perms").parents(".form-group").hide();
@@ -169,8 +173,9 @@
                     $("#target").parents(".form-group").hide();
                     $("input[name='hide']").parents(".form-group").show();
                 }
-        });
-    });
+            }
+        }
+    }
 
     /*菜单管理-新增-选择菜单树*/
     // function selectMenuTree() {

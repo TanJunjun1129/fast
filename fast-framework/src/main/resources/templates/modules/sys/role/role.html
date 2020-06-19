@@ -14,13 +14,6 @@
             <li>
                 <@ctx.i18n text = "权限字符"/>：<input type="text" name="roleKey"/>
             </li>
-            <!--<li class="select-time">
-                <label>创建时间： </label>
-                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
-                <span>-</span>
-                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
-            </li>
-            -->
             <li>
                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
                 <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
@@ -49,6 +42,7 @@
     var editFlag = "${permission.hasPermi('sys:role:edit')}";
     var delFlag = "${permission.hasPermi('sys:role:del')}";
     var datas = ${dict.getDictListJson('sys_normal_disable')};
+    var dataScope = ${dict.getDictListJson('sys_role_data_scope')};
     var visible = ${permission.isPermitteds("sys:role:edit,sys:role:del")?string('true', 'false')};
     var prefix = baseURL + 'sys/role';
     $(function() {
@@ -69,6 +63,9 @@
                     {field: 'id',title: "<@ctx.i18n text = "角色编码"/>", sortable: true},
                     {field: 'roleName', title: "<@ctx.i18n text = "角色名称"/>"},
                     {field: 'roleKey', title: "<@ctx.i18n text = "权限字符"/>"},
+                    {field: 'dataScope', title: "<@ctx.i18n text = "数据范围"/>", formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(dataScope, value);
+                    }},
                     {field: 'roleSort', title: "<@ctx.i18n text = "顺序"/>",sortable:true},
                     {field: 'status', title: "<@ctx.i18n text = "状态"/>", align: 'center', formatter: function(value, row, index) {
                             return $.table.selectDictLabel(datas, value);
@@ -89,6 +86,7 @@
                             }
                             actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="opt.operate.del(\'' + row.id + '\')"><i class="fa fa-trash-o"></i></a> ');
                             var info = "<a  class='btn btn-default btn-xs' onclick=javascript:authorization(\'" + row.id + "\');><i class='fa icon-check'></i> <@ctx.i18n text = "授权菜单"/></a>&nbsp;";
+                            info += "<a  class='btn btn-default btn-xs' onclick=javascript:authData(\'" + row.id + "\');><i class='fa fa-shield'></i> <@ctx.i18n text = "数据授权"/></a>&nbsp;";
                             info += "<a  class='btn btn-default btn-xs' onclick=javascript:authUser(\'" + row.id + "\');><i class='fa icon-user'></i> <@ctx.i18n text = "分配用户"/></a>&nbsp;";
                             actions.push('<a tabindex="0" class="' + delFlag + '" role="button" data-container="body" data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" data-content="'+info+'"><i class="fa fa-chevron-circle-right"  title="<@ctx.i18n text = "更多操作"/>"></i></a>');
                             return actions.join('');
@@ -100,7 +98,7 @@
     /* 用户管理-停用 */
     function disable(roleId) {
         opt.modal.confirm("确认要停用角色吗？", function() {
-            opt.operate.post(prefix + "/changeStatus", { "roleId": roleId, "status": 1 });
+            opt.operate.post(prefix + "/changeStatus", { "id": roleId, "status": 1 });
         });
         return;
     }
@@ -108,7 +106,7 @@
     /* 用户管理启用 */
     function enable(roleId) {
         opt.modal.confirm("确认要启用角色吗？", function() {
-            opt.operate.post(prefix + "/changeStatus", { "roleId": roleId, "status": 0 });
+            opt.operate.post(prefix + "/changeStatus", { "id": roleId, "status": 0 });
         });
         return;
     }
@@ -118,10 +116,17 @@
         opt.modal.open("<@ctx.i18n text = "授权菜单"/>", prefix + "/authorization/" + roleId,1100,500);
         return;
     }
+
     /*角色分配用户*/
     function authUser(roleId) {
         var url = prefix + '/authUser/' + roleId;
         opt.modal.openTab("<@ctx.i18n text = "角色分配用户"/>", url);
+    }
+
+    /*角色分配数据权限*/
+    function authData(roleId){
+        var url = prefix + '/authData/' + roleId;
+        opt.modal.openTab("<@ctx.i18n text = "角色分配数据权限"/>", url);
     }
 </script>
 </@footer>

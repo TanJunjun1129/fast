@@ -145,6 +145,12 @@
         var _target = $a.data('target');
         var href = $a.data('url');
         var module = $a.data('module');
+        //如果菜单url-># 则不做操作
+        if(href === "#"){
+            opt.modal.alertInfo("菜单页面URL地址配置为[#]不展示页面!");
+            return;
+        }
+
         if(_target === "_tab" || _target == "" || _target ==="_fullscreen"){ //TAB打开
             var id = $a.data('id');
             var icon = $a.children('i:first').data('icon');

@@ -35,6 +35,18 @@ a:focus {
     outline: none;
 }
 
+.width-120{
+    width: 120px !important;
+}
+
+.width-80{
+    width: 80px !important;
+}
+
+.width-150{
+    width: 150px !important;
+}
+
 .nav>li>a {
     color: #a7b1c2;
     font-weight: 600;
@@ -3964,7 +3976,7 @@ table.table-mail tr td {
     width: 40px;
 }
 
-.form-control[readonly], fieldset[disabled] .form-control {
+.inputZtree[readonly], fieldset[disabled] .form-control {
     background-color: #fff!important;
 }
 
@@ -7394,6 +7406,11 @@ border-radius: 0px 4px 4px 0px;
 height: 30px;
 padding: 3px 7px 4px 7px;
 border-color: #caced6;
+}
+.control-div {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle
 }
 .jump5 {
     animation-iteration-count: 5;

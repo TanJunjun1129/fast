@@ -19,15 +19,6 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "管理模块"/>：</label>
 		<div class="col-sm-8">
-<#--			<#list modules>-->
-<#--				<#items as d>-->
-<#--					<#if d.status =='0' >-->
-<#--						<label>-->
-<#--							<label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>-->
-<#--						</label>-->
-<#--					</#if>-->
-<#--				</#items>-->
-<#--			</#list>-->
 			<@from.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
 		</div>
 	</div>
@@ -40,7 +31,7 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label">状态：</label>
 		<div class="col-sm-8">
-			<@from.switch id="status"/>
+			<@from.switch name="status" value="0"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -50,10 +41,24 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-3 control-label">菜单权限:</label>
-		<div class="col-sm-8">
-			<div class="box box-solid" style="background:#FAFAFA;border-top: 0;">
-				<div id="menuTrees" class="ztree"></div>
+		<label class="col-sm-3 control-label">菜单权限: </label>
+		<div  class="col-sm-8">
+			<div class="box box-solid" style="background:#FAFAFA;border-top: 1px solid rgb(210, 214, 222);">
+				<div class="box-header">
+					<div class="box-title">
+						<label class="check-box">
+							<input type="checkbox" id="checkall"/> 全部勾选
+						</label>
+					</div>
+					<div class="box-tools pull-right" style="top:8px;">
+						<a class="btn btn-box-tool" id="expand"
+						   value="dataScopeTree" >展开</a>/
+						<a class="btn btn-box-tool" id="collapse" value="dataScopeTree" >折叠</a>
+					</div>
+				</div>
+				<div class="box-body">
+					<div id="menuTrees" class="ztree">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -91,6 +96,23 @@
 
 				});
 			})
+		});
+
+		$('#checkall').on('ifChecked ifUnchecked', function(){
+			if(this.checked){
+				$.tree.checkAllNodes(true);
+			}else{
+				$.tree.checkAllNodes(false);
+			}
+		})
+		/* 树展开事件 */
+		$('#expand').click(function() {
+			$.tree.expand();
+		});
+
+		/* 树折叠事件 */
+		$('#collapse').click(function() {
+			$.tree.collapse();
 		});
 		
 		$("#form-role-add").validate({
@@ -146,12 +168,15 @@
 	        	add();
 	        }
 	    }
-	
+
+		/**
+		 * 不用from 表单提交案例
+		 */
 		function add() {
 			var roleName = $("input[name='roleName']").val();
 			var roleKey = $("input[name='roleKey']").val();
 			var roleSort = $("input[name='roleSort']").val();
-			var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+			var status = $("input[id='status']").val();
 			var remark = $("input[name='remark']").val();
 			var menuIds = $.tree.getCheckedNodes();
 			var moduleCodes = opt.common.getCheckboxValue("moduleCodes");

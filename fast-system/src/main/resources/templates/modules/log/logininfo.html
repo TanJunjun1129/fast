@@ -17,6 +17,14 @@
 					</li>
 				</#if>
 				<li>
+					<label><@ctx.i18n text = "机构查询"/></label>：
+					<div class="control-div width-150">
+						<@from.treeselect name="deptId" boxTitle="请选择归属机构" url="sys/comp/treeData"
+						expandLevel="true"
+						placeholder="请选择上级机构"/>
+					</div>
+				</li>
+				<li>
 					<label>登录状态：</label>
 					<select name="status" class="form-control">
 						<option value="">所有</option>
@@ -81,6 +89,9 @@
 				{field: 'username', title: '登录名称', sortable: true},
 				{field: 'ipaddr', title: '登录地址'},
 				{field: 'loginLocation', title: '登录地点'},
+				{field: 'compName', title: "<@ctx.i18n text = "归属公司"/>",formatter: function (value, row, index) {
+						return $.table.tooltip(value,5);}
+				},
 				{field: 'browser', title: '浏览器'},
 				{field: 'os', title: '操作系统'},
 				{field: 'status', title: '登录状态', align: 'center', formatter: function(value, row, index) {
@@ -100,6 +111,15 @@
 		};
 		$.table.init(options);
 	});
+
+	function treeCallback(id, event, index, layero, nodes) {
+		if(id == "deptId"){
+			if(event == "ok"){
+				/* 点击确认按钮直接刷新表格*/
+				$.table.search();
+			}
+		}
+	}
 	function unlock() {
 		opt.operate.post(prefix + "/unlock?loginName=" + $.table.selectColumns("loginName"));
 	}

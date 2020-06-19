@@ -1532,7 +1532,9 @@
         if (!(j.isEmptyObject(this.filterColumnsPartial))) {
             x.filter = JSON.stringify(this.filterColumnsPartial, null)
         }
+        console.log("--<<<:" +JSON.stringify(this.options.queryParams) );
         v = q(this.options, this.options.queryParams, [x], v);
+        console.log("-->>:" +JSON.stringify(v) );
         j.extend(v, w || {});
         if (v === false) {
             return

@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!--  实体栏位  --> 
     <sql id="sysAreaColumns">
-         a.id as "id"   ,                 
+          a.id as "id"   ,
           a.parent_id as "parentId"   ,                 
           a.name as "name"   ,                 
           a.level as "level"   ,                 
@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
      <!--  根据获取实体List   -->
-     <select id="selectList" resultType="com.j2eefast.framework.sys.entity.SysAreaEntity">
+     <select id="selectAreaList" resultType="com.j2eefast.framework.sys.entity.SysAreaEntity">
 		SELECT 
 			<include refid="sysAreaColumns"/>
 			,(a.`level` != 4) AS nodes

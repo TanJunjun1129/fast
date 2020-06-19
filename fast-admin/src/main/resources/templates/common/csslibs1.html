@@ -7,7 +7,6 @@
 -->
 <#macro css Libs=""
 >
-<script src="${ctxStatic}/static/libs/jquery.min.js?V=${config.getDvVersion()}"></script>
 <link rel="stylesheet" href="${ctxStatic}/static/css/font-awesome.min.css?V=${config.getDvVersion()}"/>
 <link rel="stylesheet" href="${ctxStatic}/static/css/Ionicons/css/ionicons.min.css?V=${config.getDvVersion()}"/>
 <link rel="stylesheet" href="${ctxStatic}/static/css/bootstrap.min.css?V=${config.getDvVersion()}"/>
@@ -16,6 +15,7 @@
 <#compress>
 <#if !(Libs?is_string) && Libs?? && (Libs?size > 0) >
     <#list Libs as x>
+        <#-- 对应CSS样式-->
         <#if x == "table">
             <link rel="stylesheet" href="${ctxStatic}/static/plugins/select2/select2-bootstrap.css?V=${config.getDvVersion()}"/>
             <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap-table/bootstrap-table.min.css?V=${config.getDvVersion()}"/>
@@ -28,36 +28,39 @@
         </#if>
         <#if x == "bootstrapSelect">
             <link rel="stylesheet" href="${ctxStatic}/static/plugins/select2/select2-bootstrap.css?V=${config.getDvVersion()}"/>
-            <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap-select/bootstrap-select.css?V=${config.getDvVersion()}" />
+            <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap-select/bootstrap-select.css?V=${config.getDvVersion()}"/>
         </#if>
         <#if x == "cropbox">
-            <link rel="stylesheet" href="${ctxStatic}/static/plugins/cropbox/cropbox.css?V=${config.getDvVersion()}" />
+            <link rel="stylesheet" href="${ctxStatic}/static/plugins/cropbox/cropbox.css?V=${config.getDvVersion()}"/>
         </#if>
         <#if x == "prism">
-            <link rel="stylesheet" src="${ctxStatic}/static/plugins/prism/prism.css?V=${config.getDvVersion()}"></link>
+<#--            <link rel="stylesheet" src="${ctxStatic}/static/plugins/prism/prism.css?V=${config.getDvVersion()}"/>-->
+            <#include "/common/code.html"/>
         </#if>
-        <#if x == "selectpage">
-            <link rel="stylesheet" src="${ctxStatic}/static/plugins/selectpage/selectpage.css?V=${config.getDvVersion()}"></link>
+        <#if x == "selectPage">
+            <link rel="stylesheet" src="${ctxStatic}/static/plugins/selectpage/selectpage.css?V=${config.getDvVersion()}"/>
         </#if>
         <#if x == "summernote">
-            <link href="${ctxStatic}/static/plugins/summernote/summernote.css?V=${config.getDvVersion()}" rel="stylesheet"/>
-            <link href="${ctxStatic}/static/plugins/summernote/summernote-bs3.css?V=${config.getDvVersion()}" rel="stylesheet"/>
+            <link rel="stylesheet" href="${ctxStatic}/static/plugins/summernote/summernote.css?V=${config.getDvVersion()}"/>
+            <link rel="stylesheet" href="${ctxStatic}/static/plugins/summernote/summernote-bs3.css?V=${config.getDvVersion()}"/>
         </#if>
         <#if x == "bmp">
-            <link href="${ctxStatic}/flowable/modeler/display/jquery.qtip.min.css?V=${config.getDvVersion()}" rel="stylesheet"/>
-            <link href="${ctxStatic}/flowable/modeler/display/displaymodel.css?V=${config.getDvVersion()}" rel="stylesheet"/>
+            <link rel="stylesheet" href="${ctxStatic}/flowable/modeler/display/jquery.qtip.min.css?V=${config.getDvVersion()}"/>
+            <link rel="stylesheet" href="${ctxStatic}/flowable/modeler/display/displaymodel.css?V=${config.getDvVersion()}"/>
+        </#if>
+        <#if x == "layout-latest">
+            <link rel="stylesheet" href="${ctxStatic}/static/plugins/jquery-layout/jquery.layout-latest.css?V=${config.getDvVersion()}"/>
         </#if>
     </#list>
 </#if>
-</#compress>
-
 <#--<link rel="stylesheet" href="${ctxStatic}/static/css/all-skins.css?V=${config.getDvVersion()}">-->
-<link rel="stylesheet" href="${ctxStatic}/static/css/all-skins.min.css?V=${config.getDvVersion()}">
+<link rel="stylesheet" href="${ctxStatic}/static/css/all-skins.min.css?V=${config.getDvVersion()}" />
 <#-- iCheck -->
-<link rel="stylesheet" href="${ctxStatic}/static/css/iCheck/all.css?V=${config.getDvVersion()}">
+<link rel="stylesheet" href="${ctxStatic}/static/css/iCheck/all.css?V=${config.getDvVersion()}" />
 <#--  layui-->
 <link rel="stylesheet" href="${ctxStatic}/static/plugins/layui/css/layui.css?V=${config.getDvVersion()}"/>
-<link rel="stylesheet" href="${ctxStatic}/static/css/style.css?V=${config.getDvVersion()}">
+<link rel="stylesheet" href="${ctxStatic}/static/css/style.css?V=${config.getDvVersion()}" />
 <#--<link rel="stylesheet" href="${ctxStatic}/static/js/fast-ui.min.css?V=${config.getDvVersion()}"/>-->
-<link rel="stylesheet" href="${ctxStatic}/static/js/fast-ui.css?V=${config.getDvVersion()}"/>
+<link rel="stylesheet" href="${ctxStatic}/static/js/fast-ui.css?V=${config.getDvVersion()}" />
+</#compress>
 </#macro>

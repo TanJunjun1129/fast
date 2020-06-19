@@ -34,13 +34,13 @@ public class SecurityKeyInterceptorAdapter extends HandlerInterceptorAdapter{
 		//获取登录安全Key
 		if(request.getCookies() == null){
 			_secretKey = IdUtil.simpleUUID().toLowerCase();
-			CookieUtil.setReadCookie(response,ConfigConstant.SECRETKEY, _secretKey,60*30);
+			CookieUtil.setReadCookie(response,ConfigConstant.SECRETKEY, _secretKey,60*60*24*7);
 
 		}else{
 			_secretKey = CookieUtil.getCookie(request,ConfigConstant.SECRETKEY);
 			if(ToolUtil.isEmpty(_secretKey)){
 				_secretKey = IdUtil.simpleUUID().toLowerCase();
-				CookieUtil.setReadCookie(response,ConfigConstant.SECRETKEY, _secretKey,60*30);
+				CookieUtil.setReadCookie(response,ConfigConstant.SECRETKEY, _secretKey,60*60*24*7);
 			}
 		}
 		request.setAttribute(ConfigConstant.SECRETKEY, _secretKey);

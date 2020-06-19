@@ -365,11 +365,20 @@ public class ToolUtil{
 	 * @param s 分隔符
 	 * @return 拼装之后的字符串
 	 */
-    public static String conversion(Long[] value, String s){
+    public static String conversion(Object value, String s){
     	String src = "";
-    	for(Long l: value){
-			src += l+s;
-		}
+    	if(value instanceof  Long[]){
+    	    Long[] a = (Long[]) value;
+            for(Long l: a){
+                src += l+s;
+            }
+        }
+    	if(value instanceof List){
+            List<String> a = (List) value;
+            for(int i=0; i< a.size(); i++){
+                src += a.get(i)+s;
+            }
+        }
 		return  src.substring(0,src.length()-s.length());
 	}
 

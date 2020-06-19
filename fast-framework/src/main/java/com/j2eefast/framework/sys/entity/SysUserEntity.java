@@ -189,7 +189,7 @@ public class SysUserEntity extends BaseEntity {
 	private String postCode;
 
 	/**
-	 * 部门ID --暂时不用
+	 * 部门ID
 	 */
 	private Long deptId;
 

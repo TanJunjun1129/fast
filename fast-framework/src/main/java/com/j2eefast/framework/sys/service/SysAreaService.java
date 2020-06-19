@@ -1,11 +1,15 @@
 package com.j2eefast.framework.sys.service;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.framework.sys.entity.SysAreaEntity;
+import com.j2eefast.framework.sys.entity.SysDeptEntity;
 import com.j2eefast.framework.sys.mapper.SysAreaMapper;
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
+import com.j2eefast.framework.utils.Constant;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +17,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import javax.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
@@ -54,7 +59,7 @@ public class SysAreaService extends ServiceImpl<SysAreaMapper,SysAreaEntity> {
 	}
 
 	public List<SysAreaEntity> selectList(SysAreaEntity sysAreaEntity){
-		return this.baseMapper.selectList(sysAreaEntity);
+		return this.baseMapper.selectAreaList(sysAreaEntity);
 	}
 	/**
      * 批量删除
@@ -90,5 +95,55 @@ public class SysAreaService extends ServiceImpl<SysAreaMapper,SysAreaEntity> {
      */
 	public SysAreaEntity getSysAreaById(Long id){
 		return getById(id);
+	}
+
+
+	/**
+	 * 通过地区ids 集合获取地区名称 逗号分割
+	 * @param ids
+	 * @return
+	 */
+	public String getAreaNames(String ids){
+		if(ToolUtil.isEmpty(ids)) {
+			return StrUtil.EMPTY;
+		}
+		List<SysAreaEntity> areaList = this.list(new QueryWrapper<SysAreaEntity>().in("id",ids.split(StrUtil.COMMA)));
+		StringBuffer sb = new StringBuffer("");
+		for(SysAreaEntity area: areaList){
+			sb.append(area.getName()).append(StrUtil.COMMA);
+		}
+		if(sb.toString().length() > 0){
+			return sb.substring(0 , sb.toString().length()-1);
+		}else {
+			return sb.toString();
+		}
+	}
+
+
+	/**
+	 * 获取地区所有数据树
+	 * @return
+	 */
+	public List<Ztree> getAllAreaZtree(){
+		List<SysAreaEntity> listArea = this.list();
+		return initZtree(listArea);
+	}
+
+	/**
+	 *  地区对象转树对象
+	 * @param areaList
+	 * @return
+	 */
+	public List<Ztree> initZtree(List<SysAreaEntity> areaList) {
+		List<Ztree> ztrees = new ArrayList<Ztree>(areaList.size());
+		for (SysAreaEntity area : areaList) {
+				Ztree ztree = new Ztree();
+				ztree.setId(area.getId());
+				ztree.setpId(area.getParentId());
+				ztree.setName(area.getName());
+				ztree.setTitle(area.getName());
+				ztrees.add(ztree);
+		}
+		return ztrees;
 	}
 }

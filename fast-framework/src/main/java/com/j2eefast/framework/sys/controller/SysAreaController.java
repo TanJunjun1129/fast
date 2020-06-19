@@ -1,5 +1,6 @@
 package com.j2eefast.framework.sys.controller;
 
+import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
 import com.j2eefast.common.core.utils.*;
@@ -43,9 +44,13 @@ public class SysAreaController extends BaseController{
     public ResponseData list(@RequestParam Map<String, Object> params,SysAreaEntity sysAreaEntity) {
 		List<SysAreaEntity> list = sysAreaService.selectList(sysAreaEntity);
         return success().put("list", list);
-    }    
-        
-    
+    }
 
-    
+    @RequestMapping("/treeData")
+    @RequiresPermissions("sys:area:tree")
+    @ResponseBody
+    public ResponseData treeData() {
+        List<Ztree> list = sysAreaService.getAllAreaZtree();
+        return success().put("list", list);
+    }
 }

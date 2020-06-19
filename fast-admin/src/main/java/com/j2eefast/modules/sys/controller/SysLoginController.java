@@ -115,7 +115,7 @@ public class SysLoginController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseData login(String username, String password,Boolean rememberMe) {
-		String secretKey = super.getCookieToDel(ConfigConstant.SECRETKEY);
+		String secretKey = super.getCookie(ConfigConstant.SECRETKEY);
 		Subject subject = null;
 		try {
 			username =new String(SoftEncryption.decryptBySM4(Base64.decode(username),
@@ -125,6 +125,7 @@ public class SysLoginController extends BaseController {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password,rememberMe);
 			subject = UserUtils.getSubject();
 			subject.login(token);
+			super.deleteCookieByName(ConfigConstant.SECRETKEY);
 		}catch (ServiceException e){
 			return error("50006",ToolUtil.message("sys.login.sm4"));
 		}
@@ -226,7 +227,7 @@ public class SysLoginController extends BaseController {
 						number++;
 						redisUtil.set(RedisKeys.getUserLoginKey(username), number, RedisUtil.MINUTE * Global.getLockTime());
 					}
-					AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,loginUser.getCompId(), "50010","锁屏账号或密码不正确,输入错误"+number+" 次!"));
+					AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,loginUser.getCompId(),loginUser.getDeptId(), "50010","锁屏账号或密码不正确,输入错误"+number+" 次!"));
 					if(number >= Global.getLoginNumCode()) { //错误3次
 						throw new RxcException(ToolUtil.message("sys.login.password.retry.limit.count",Global.getLoginMaxCount()),"50004"); //错误3次
 					}

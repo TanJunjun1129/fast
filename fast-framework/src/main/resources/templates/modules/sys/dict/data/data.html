@@ -83,7 +83,7 @@
                 addUrl: prefix + "/add/{id}",
                 editUrl: prefix + "/edit/{id}",
                 delUrl: prefix + "/del",
-                sortName: "id",
+                sortName: "dictSort",
                 queryParams: this.queryParams, /*初始化请求参数*/
                 modalName: "字典数据",
                 columns: [
@@ -91,11 +91,21 @@
                     {field: 'id', title: "<@ctx.i18n text = "字典编码"/>", sortable: true},
                     {field: 'dictLabel', title: "<@ctx.i18n text = "字典标签"/>", formatter: function(value, row, index) {
                             var actions = [];
-                            var listClass = opt.common.equals("default", row.listClass) || opt.common.isEmpty(row.listClass) ? "" : "badge badge-" + row.listClass;
+                            var listClass = "";
                             if(!opt.common.isEmpty(row.cssClass)){
                                 listClass = opt.common.isEmpty(row.cssClass) ? "" : row.cssClass;
                             }
-                            actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, value));
+                            if(!opt.common.isEmpty(row.cssStyle)){
+                                listClass = row.cssStyle;
+                            }
+                            if(opt.common.isEmpty(listClass)){
+                                listClass = opt.common.equals("default", row.listClass) || opt.common.isEmpty(row.listClass) ? "" : "badge badge-" + row.listClass;
+                            }
+                            if(!opt.common.isEmpty(row.cssStyle)) {
+                                actions.push(opt.common.sprintf("<span style='%s'>%s</span>", listClass, value));
+                            }else{
+                                actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, value));
+                            }
                             return actions.join('');
                     }},
                     {field: 'dictValue', title: "<@ctx.i18n text = "字典键值"/>"},

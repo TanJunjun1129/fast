@@ -46,5 +46,25 @@ alter table `gen_table` add `tree_parent_code` VARCHAR(50) DEFAULT NULL COMMENT 
 alter table `gen_table` add `tree_name` VARCHAR(100) DEFAULT NULL COMMENT '树表name column名称';
 alter table `sys_comp` add `type` CHAR(1) DEFAULT '0' COMMENT '类型标志 0 公司 1部门';
 
+-- 清空无用表数据
+DELETE FROM sys_user_dept
+DELETE FROM sys_user_comp
+DELETE FROM sys_comp_dept
+DELETE FROM sys_dept
 
+ALTER TABLE `fastdb`.`sys_comp`
+MODIFY COLUMN `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '类型标志 0 公司 1部门' AFTER `id`,
+ADD COLUMN `parent_ids` varchar(1000) NULL COMMENT '所有父级编号集合' AFTER `parent_id`,
+ADD COLUMN `full_name` varchar(250) CHARACTER SET utf8 NULL DEFAULT '' COMMENT '公司或组织全称' AFTER `name`,
+ADD COLUMN `tenant_id` varchar(64) NULL DEFAULT '' COMMENT '租户号' AFTER `full_name`,
+ADD COLUMN `tenant_name` varchar(250) NULL DEFAULT '' COMMENT '租户名称' AFTER `tenant_id`,
+MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '创建者' AFTER `create_time`,
+MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '更新者' AFTER `create_by`,
+MODIFY COLUMN `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间' AFTER `update_by`,
+COMMENT = '公司组织表';
+
+
+ALTER TABLE `fastdb`.`sys_login_infor`
+DROP COLUMN `dept_id`,
+ADD COLUMN `dept_id` bigint(20) NULL COMMENT '部门id' AFTER `comp_id`;
 

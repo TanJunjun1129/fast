@@ -3,7 +3,7 @@
 <@header title="角色授权" bodyClass="white-bg" libs=["table"]/>
 <div class="wrapper wrapper-content ibox-content">
 <@from.from id="form-role-authorization" class="form-horizontal">
-    <input id="userId" name="userId" type="hidden" value="${user.userId?default("")}"/>
+    <input id="userId" name="userId" type="hidden" value="${user.id?default("")}"/>
     <h4 class="form-header h4"><@ctx.i18n text = "基本信息"/></h4>
     <div class="row">
         <div class="col-sm-5">

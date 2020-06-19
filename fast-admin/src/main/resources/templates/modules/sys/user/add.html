@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属公司：</label>
                 <div class="col-sm-8">
-                    <@from.treeselect name="compId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"
+                    <@from.treeselect name="compId" boxTitle="选择归属公司" url="sys/comp/treeData?type=0" expandLevel="true" required="true"
                     placeholder="请选择归属公司"/>
                 </div>
             </div>
@@ -34,10 +34,10 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>管理地区：</label>
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属部门：</label>
                 <div class="col-sm-8">
-                    <@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
-                        checked="true" correlationId="compId" isSelectParent="true"  placeholder="请选择管理地区"/>
+                    <@from.treeselect  name="deptId" boxTitle="请选择归属部门" url="sys/dept/selectZtree" required="true"
+                    correlationId="compId" isSelectParent="true"  placeholder="请选择归属部门"/>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
                 <div class="col-sm-8">
-                    <@from.select name="_role" multiple = "true"  items=roles itemLabel="roleName" itemValue="id" required="true"/>
+                    <@from.select name="roleIdList" multiple = "true"  items=roles itemLabel="roleName" itemValue="id" required="true"/>
                 </div>
             </div>
         </div>
@@ -73,16 +73,16 @@
                 <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <@from.input name="mobile"  maxlength="11" butClass="fa fa-fw fa-mobile"  placeholder="请输入手机号码" />
+                        <@from.input name="mobile"  maxlength="11" butClass="fa fa-fw fa-mobile"  placeholder="请输入手机号码" required="true"/>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label class="col-sm-4 control-label">卡号：</label>
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所在岗位：</label>
                 <div class="col-sm-8">
-                    <@from.input name="cardId"  maxlength="30" placeholder="请输入卡号" />
+                    <@from.select name="postCodes" multiple = "true"  items=posts itemLabel="postName" itemValue="postCode" required="true"/>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">用户状态：</label>
                 <div class="col-sm-8">
-                    <@from.switch id="status"/>
+                    <@from.switch name="status" value="0"/>
                 </div>
             </div>
         </div>
@@ -118,92 +118,119 @@
  </div>
 </div>
 <@footer>
-	<script>
-	    var prefix = baseURL + "sys/user";
+<script type="text/javascript">
+    var prefix = baseURL + "sys/user";
 
-        $("#form-user-add").validate({
-            onkeyup: false,
-            rules:{
-                username:{
-                    minlength: 3,
-                    maxlength: 10,
-                    isUserName: opt.common.trim($("#username").val()),
-                    remote: {
-                        url: prefix + "/checkUserNameUnique",
-                        type: "POST",
-                        dataType: "html",
-                        data: {
-                            "username": function() {
-                                return opt.common.trim($("#username").val());
-                            }
-                        },
-                        dataFilter: function(data, type) {
-                            return opt.validate.unique(data);
+    $("#form-user-add").validate({
+        onkeyup: false,
+        rules:{
+            username:{
+                minlength: 3,
+                maxlength: 10,
+                isUserName: opt.common.trim($("#username").val()),
+                remote: {
+                    url: prefix + "/checkUserNameUnique",
+                    type: "POST",
+                    dataType: "html",
+                    data: {
+                        "username": function() {
+                            return opt.common.trim($("#username").val());
                         }
-                    }
-                },
-                password:{
-                    minlength: 5,
-                    maxlength: 20
-                },
-                _role:{
-                    minlength: 1
-                },
-                mobile:{
-                    isMobile: opt.common.trim($("#mobile").val()),
-                    remote: {
-                        url: prefix + "/checkMobileUnique",
-                        type: "POST",
-                        dataType: "html",
-                        data: {
-                            "mobile": function() {
-                                return opt.common.trim($("#mobile").val());
-                            }
-                        },
-                        dataFilter: function(data, type) {
-                            return opt.validate.unique(data);
-                        }
+                    },
+                    dataFilter: function(data, type) {
+                        return opt.validate.unique(data);
                     }
                 }
             },
-            messages: {
-                "username": {
-                    remote:"<@ctx.i18n text = "sys.msg.user.already"/>"
-                },
-                "mobile":{
-                    remote:"<@ctx.i18n text = "sys.msg.mobile.already"/>"
-                }
+            password:{
+                minlength: 5,
+                maxlength: 20
             },
-            focusCleanup: true
-        });
-
-        function submitHandler() {
-	        if (opt.validate.form()) {
-                var options = {
-                    id:'form-user-add',
-                    delete:['compName','deptName'], /*需要删除提交表单数据*/
-                    conversion:[ /*需要转数据*/
-                        {
-                            name:'deptIdList',
-                            value:'arr'
+            _role:{
+                minlength: 1
+            },
+            _posts:{
+                minlength: 1
+            },
+            mobile:{
+                isMobile: opt.common.trim($("#mobile").val()),
+                remote: {
+                    url: prefix + "/checkMobileUnique",
+                    type: "POST",
+                    dataType: "html",
+                    data: {
+                        "mobile": function() {
+                            return opt.common.trim($("#mobile").val());
                         }
-                    ]
-                };
-                var data = opt.form.dataUp(options);
-                var postIds = opt.form.selectSelects("_role");
-                var status = $("input[id='status']").is(':checked') == true ? 0 :1;
-                data.push({"name": "status", "value": status});
-                data.push({"name": "roleIdList", "value": postIds});
-                opt.operate.saveTab(prefix + "/add", data);
-	        }
-	    }
+                    },
+                    dataFilter: function(data, type) {
+                        return opt.validate.unique(data);
+                    }
+                }
+            }
+        },
+        messages: {
+            "username": {
+                remote:"<@ctx.i18n text = "sys.msg.user.already"/>"
+            },
+            "mobile":{
+                remote:"<@ctx.i18n text = "sys.msg.mobile.already"/>"
+            }
+        },
+        focusCleanup: true
+    });
 
-		$(function() {
-            $('#_role').select2({
-                placeholder:"请选择角色",
-                allowClear: true
-            });
-        })
-    </script>
+    function submitHandler() {
+        if (opt.validate.form()) {
+            // var options = {
+            //     id:'form-user-add',
+            //     delete:['compName','deptName'], /*需要删除提交表单数据*/
+            //     conversion:[ /*需要转数据*/
+            //         {
+            //             name:'deptIdList',
+            //             value:'arr'
+            //         }
+            //     ]
+            // };
+            // var data = opt.form.dataUp(options);
+            // var postIds = opt.form.selectSelects("_role");
+            // var status = $("input[id='status']").is(':checked') == true ? 0 :1;
+            // // data.push({"name": "status", "value": status});
+            // data.push({"name": "roleIdList", "value": postIds});
+            opt.operate.saveTab(prefix + "/add", $('#form-user-add').serialize());
+        }
+    }
+    //
+    //  $(function() {
+    // $("#__roleIdListslt").select2({
+    //     placeholder:"请选择值",
+    //     allowClear: true
+    // });
+    // //     $("#_role").on("change",function(e){
+    //         // e 的话就是一个对象 然后需要什么就 “e.参数” 形式 进行获取
+    //         console.log(opt.form.selectSelects("_role"));
+    //     })
+    //
+    //
+    //     $('#_posts').select2({
+    //         placeholder:"请选择所在岗位",
+    //         allowClear: true
+    //     });
+    //})
+
+    /**
+     * select 回调事件
+     * @param id 那个select控件发出的事件
+     * @param event change 当控件改变时
+     * @param data 选中数据对象
+     */
+    function selectCallback(id, event, data){
+        if(id === "roleIdList"){
+            console.log("roleIdList:" + data);
+        }else if(id === "postCodes"){
+            console.log("postCodes:" + data);
+        }
+    }
+</script>
 </@footer>
 </@pageTheme>

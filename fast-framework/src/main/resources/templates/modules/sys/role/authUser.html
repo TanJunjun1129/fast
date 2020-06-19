@@ -5,7 +5,7 @@
 	<div class="row">
 	<div class="col-sm-12 search-collapse">
 	<@from.from id="user-form">
-     <@from.hidden id="roleId" value="${roleId}"/>
+     <@from.hidden name="roleId" value="${roleId}" refresh="false" />
      <div class="select-list">
              <li>
                  <@ctx.i18n text = "登陆账号"/>:<input type="text" name="username"/>
@@ -17,8 +17,12 @@
                  <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
              </li>
              <li>
-                 <label><@ctx.i18n text = "所属公司"/></label>：
-                 <@from.select name="compId" blankValue="" blankLabel="所有" items=comps itemLabel="name" itemValue="id" />
+                 <label><@ctx.i18n text = "机构查询"/></label>：
+                 <div class="control-div width-150">
+                     <@from.treeselect name="compId" boxTitle="请选择归属机构" url="sys/comp/treeData"
+                     expandLevel="true"
+                     placeholder="请选择上级机构"/>
+                 </div>
              </li>
              <li>
                  <@ctx.i18n text = "用户状态"/>：
@@ -46,7 +50,7 @@
     </div>
 </div>
 <@footer>
-<script>
+<script type="text/javascript">
     var editFlag = "${permission.hasPermi('sys:user:edit')}";
     var delFlag = "${permission.hasPermi('sys:user:del')}";
     var resetPwdFlag = "${permission.hasPermi('sys:user:resetPwd')}";
@@ -62,7 +66,7 @@
             addUrl: prefix + "/add",
             sortName: "createTime",
             queryParams: queryParams,
-            uniqueId: "userId", /* 唯一ID */
+            uniqueId: "id", /* 唯一ID */
             modalName: "用户角色权限",
             columns: [
                 {
@@ -72,7 +76,8 @@
                 },
                 {field: 'username', title: "<@ctx.i18n text = "账号"/>"},
                 {field: 'name', title: "<@ctx.i18n text = "姓名"/>"},
-                {field: 'compName', title: "<@ctx.i18n text = "公司"/>"},
+                {field: 'compName', title: "<@ctx.i18n text = "归属公司"/>"},
+                {field: 'deptName', title:  "<@ctx.i18n text = "归属机构"/>"},
                 {field: 'email', title: "<@ctx.i18n text = "邮箱"/>"},
                 {field: 'mobile', title: "<@ctx.i18n text = "手机"/>"},
                 {
@@ -87,7 +92,7 @@
                     class: 'action',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="cancelAuthUser(\'' + row.userId + '\')"><i class="fa fa-trash-o"></i></a> ');
+                        actions.push('<a class="' + delFlag + '" href="javascript:void(0)" title="<@ctx.i18n text = "删除"/>" onclick="cancelAuthUser(\'' + row.id + '\')"><i class="fa fa-trash-o"></i></a> ');
                         return actions.join('');
                     }
                 }
@@ -100,6 +105,15 @@
         var search = $.table.queryParams(params);
         search.roleId = $("#roleId").val();
         return search;
+    }
+
+    function treeCallback(id, event, index, layero, nodes) {
+        if(id == "compId"){
+            if(event == "ok"){
+                /* 点击确认按钮直接刷新表格*/
+                $.table.search();
+            }
+        }
     }
     
     /*取消授权*/
@@ -115,7 +129,7 @@
     /*批量添加用户*/
     function selectUser(){
         var url = prefix + '/selectUser/' + $("#roleId").val();
-        opt.modal.open("<@ctx.i18n text ="选择用户"/>", url,1000);
+        opt.modal.open("<i class='fa fa-address-book-o'/> <@ctx.i18n text ="选择用户"/>", url,1000);
     }
 
     /* 分配用户-批量取消授权 */

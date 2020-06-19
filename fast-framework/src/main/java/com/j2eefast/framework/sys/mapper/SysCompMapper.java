@@ -24,4 +24,27 @@ public interface SysCompMapper extends BaseMapper<SysCompEntity> {
 
 	List<Long> findDetpIdList(@Param("parentId") Long parentId);
 
+	/**
+	 * 根据角色ID查询部门
+	 *
+	 * @param roleId 角色ID
+	 * @return 部门列表
+	 */
+	List<String> selectRoleDeptTree(Long roleId);
+
+	/**
+	 * 获取机构数据
+	 * @param parentId
+	 * @param name
+	 * @param status
+	 * @param sql_filter
+	 * @return
+	 */
+	List<SysCompEntity> getDeptList(@Param("id") String id,
+									@Param("parentId") String parentId,
+									@Param("name") String name,
+									@Param("status") String status,
+									@Param("type") String type,
+									@Param("sql_filter") String sql_filter);
+
 }

@@ -26,6 +26,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
                                  @Param("mobile") String mobile,
                                  @Param("email") String email,
                                  @Param("compId") String compId,
+                                 @Param("deptId") String deptId,
                                  @Param("sql_filter") String sql_filter);
 
 
@@ -132,7 +133,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
 
     /**
      * 通过用户ID获取所属公司
-     * @param userId
+     * @param id
      * @return
      */
     String findCompNameByUserId(@Param("id") Long id);
@@ -140,7 +141,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
 
     /**
      * 通过用户ID获取完整用户信息
-    * @param userId
+    * @param id
      * @return
      */
     SysUserEntity findUserByUserId(@Param("id") Long id);

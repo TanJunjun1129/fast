@@ -3,30 +3,33 @@
 <@header title="新增公司" bodyClass="white-bg"/>
 <div class="wrapper wrapper-content ibox-content">
 	<@from.from id="form-comp-add" class="form-horizontal">
+	<@from.hidden name="type" value="0"/>
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>上级公司：</label>
 		<div class="col-sm-8">
-			<@from.treeselect id="parentId" name="parentId" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true" value="${comp.id}" labelValue="${comp.name?default('总公司')}"
-			placeholder="请选择归属公司" required="true"/>
+			<@from.treeselect id="parentId" name="parentId" boxTitle="选择上级公司" url="sys/comp/treeData?type=0"
+			expandLevel="true" value="${comp.id}" labelValue="${comp.name?default('总公司')}" isParentIds="true"
+			parenIdsValue="${comp.id}${(comp.parentIds == '1')?string('',',${comp.parentIds}')}"
+			placeholder="请选择上级公司" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-3 control-label"><span style="color: red; ">*</span>名称：</label>
+		<label class="col-sm-3 control-label"><span style="color: red; ">*</span>公司名称：</label>
 		<div class="col-sm-8">
 			<@from.input name="name" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "类型"/>：</label>
+		<label class="col-sm-3 control-label"><span style="color: red; ">*</span>公司全称：</label>
 		<div class="col-sm-8">
-			<@from.radio name="type" dictType="sys_comp_type"/>
+			<@from.input name="fullName" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>管理地区：</label>
+		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>归属地区：</label>
 		<div class="col-sm-8">
-			<@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree"
-			checked="true" correlationId="parentId" isSelectParent="true"  placeholder="请选择管理地区"/>
+			<@from.treeselect id="areaId" name="areaIds" boxTitle="请选择管理地区" url="sys/area/treeData"
+			checked="true" correlationId="parentId" placeholder="请选择管理地区"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -50,7 +53,7 @@
 </div>
 </@from.from>
 <@footer>
-<script>
+<script type="text/javascript">
 	var prefix = baseURL + "sys/comp";
 
 	$("#form-comp-add").validate({
@@ -88,17 +91,18 @@
 
 	function submitHandler() {
 		if (opt.validate.form()) {
-			var options = {
-				id:'form-comp-add',
-				conversion:[ /*//需要转数据*/
-					{
-						name:'deptIdList',
-						value:'arr'
-					}
-				]
-			};
-			var data = opt.form.dataUp(options);
-			opt.operate.save(prefix + "/add", data);
+			// var options = {
+			// 	id:'form-comp-add',
+			// 	conversion:[ /*//需要转数据*/
+			// 		{
+			// 			name:'deptIdList',
+			// 			value:'arr'
+			// 		}
+			// 	]
+			// };
+			// var data = opt.form.dataUp(options);
+			// opt.operate.save(prefix + "/add", data);
+			opt.operate.save(prefix + "/add", $('#form-comp-add').serialize());
 		}
 	}
 

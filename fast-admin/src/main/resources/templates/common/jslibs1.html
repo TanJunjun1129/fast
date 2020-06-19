@@ -33,34 +33,43 @@
                 <#-- bootstrap-treetable 表单树插件-->
                 <script src="${ctxStatic}/static/plugins/bootstrap-treetable/bootstrap-treetable.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- zTree 树-->
             <#if x == "zTree">
                 <script src="${ctxStatic}/static/plugins/ztree/3.5/js/jquery.ztree.all.min.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/ztree/3.5/js/jquery.ztree.exhide.min.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- JSON试图脚本-->
             <#if x == "jsonview">
                 <script src="${ctxStatic}/static/plugins/jsonview/jquery.jsonview.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 页面下拉框-->
             <#if x == "bootstrapSelect">
                 <script src="${ctxStatic}/static/plugins/bootstrap-select/bootstrap-select.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 头像裁剪-->
             <#if x == "cropbox">
                 <script src="${ctxStatic}/static/plugins/cropbox/cropbox.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 页面代码格式化-->
             <#if x == "prism">
                 <script src="${ctxStatic}/static/plugins/prism/prism.js?V=${config.getDvVersion()}"></script>
             </#if>
-            <#if x == "selectpage">
+            <#-- SelectPage 插件-->
+            <#if x == "selectPage">
                 <script src="${ctxStatic}/static/plugins/selectpage/selectpage.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- summernotef副文本编辑器-->
             <#if x == "summernote">
                 <script src="${ctxStatic}/static/plugins/summernote/summernote.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/summernote/summernote-zh-CN.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 百度富文本编辑器-->
             <#if x == "ueditor">
                 <script src="${ctxStatic}/static/plugins/ueditor/1.4.33/ueditor.config.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/ueditor/1.4.33/ueditor.all.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/ueditor/1.4.33/lang/zh-cn/zh-cn.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 工作流流程图画板-->
             <#if x == "bmp">
                 <script src="${ctxStatic}/flowable/modeler/display/jquery.qtip.min.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/flowable/modeler/display/raphael.min.js?V=${config.getDvVersion()}"></script>
@@ -69,10 +78,13 @@
                 <script src="${ctxStatic}/flowable/modeler/display/Polyline.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/flowable/modeler/display/displaymodel.min.js?V=${config.getDvVersion()}"></script>
             </#if>
+            <#-- 左右布局-->
+            <#if x == "layout-latest">
+                <script src="${ctxStatic}/static/plugins/jquery-layout/jquery.layout-latest.js?V=${config.getDvVersion()}"></script>
+            </#if>
+            <#-- 可自行扩展, 如果插件有CSS样式请在 cssLibs 相应添加-->
         </#list>
 </#if>
-</#compress>
-
 <#-- jquery-validate 表单验证插件 -->
 <script src="${ctxStatic}/static/plugins/validate/jquery.validate.min.js?V=${config.getDvVersion()}"></script>
 <script src="${ctxStatic}/static/plugins/validate/jquery.validate.extend.js?V=${config.getDvVersion()}"></script>
@@ -80,4 +92,5 @@
 <#--<script src="${request.contextPath}/static/js/fastJS.min.js?V=${config.getDvVersion()}"></script>-->
 <#--VUE-->
 <script src="${ctxStatic}/static/libs/vue.min.js?V=${config.getDvVersion()}"></script>
+</#compress>
 </#macro>

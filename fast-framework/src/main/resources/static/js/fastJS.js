@@ -576,11 +576,19 @@ if (typeof jQuery === "undefined") {
                     return "-";
                 }
             },
-            hideStr:function(value,len){
+            hideStr:function(value,len, tag){
                 if (opt.common.isEmpty(value)) {
                     return "-";
                 }else{
-                    return "..."+value.substr(value.length-len,len);
+                    if(tag == 0){
+                        if(value.length > len){
+                            return value.substr(0,len) + "...";
+                        }else{
+                            return value;
+                        }
+                    }else{
+                        return "..."+value.substr(value.length-len,len);
+                    }
                 }
             },
             // 比较两个字符串（大小写敏感）
@@ -1813,7 +1821,7 @@ if (typeof jQuery === "undefined") {
                 }  else {
                     opt.modal.error(result.msg);
                 }
-                //opt.modal.enable();
+                opt.modal.enable();
             },
             // 选项卡成功回调执行事件（父窗体静默更新）
             successTabCallback: function(result) {
@@ -1944,7 +1952,20 @@ if (typeof jQuery === "undefined") {
                 }else{
                     currentId = formId;
                 }
-                $("#" + currentId)[0].reset();
+                //$("#" + currentId)[0].reset();
+                var inpt = $("#" + currentId).find('input, select');
+                $.each(inpt, function() {
+                    if(this.tagName == "SELECT"){
+                        $(this).val(null).trigger("change");
+                    }
+                    else if(this.tagName == "INPUT"){
+                        //表单域输入框
+                        if(!(this.type == "hidden" && opt.common.isNotEmpty($(this).data("refresh"))
+                            && !$(this).data("refresh"))){
+                            this.value = "";
+                        }
+                    }
+                });
                 //重置表单select2
                 $("#" + currentId +" select").each(function(i) {
                     if(!opt.common.isEmpty($(this).attr("data-select2-id"))){
@@ -2625,6 +2646,7 @@ if (typeof jQuery === "undefined") {
                     var uniqueId = opt.table.options.uniqueId;
                     // 工具栏按钮控制
                     var rows = opt.common.isEmpty(uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(uniqueId);
+                    console.log("=======" + rows);
                     // 非多个禁用
                     $('#' + toolbar + ' .multiple').toggleClass('disabled', !rows.length);
                     // 非单个禁用
@@ -2845,6 +2867,7 @@ if (typeof jQuery === "undefined") {
                     search.__order = params.order;
                     return search;
                 }
+                console.log(params);
                 if(opt.common.isNotEmpty(tableId)){
                     $("#" + tableId).bootstrapTable('refresh', params);
                 } else{
@@ -3013,7 +3036,6 @@ if (typeof jQuery === "undefined") {
                     }
                     rows = $.table.affectedRowIds(rows);
                 }
-                opt.debug(rows);
                 return opt.common.uniqueFn(rows);
             },
             // 回显数据字典
@@ -3025,7 +3047,14 @@ if (typeof jQuery === "undefined") {
                         if(!opt.common.isEmpty(dict.cssClass)){
                             listClass = opt.common.isEmpty(dict.cssClass) ? "" : dict.cssClass;
                         }
-                        actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, $.i18n.prop(dict.dictLabel)));
+                        if(!opt.common.isEmpty(dict.cssStyle)){
+                            listClass = dict.cssStyle;
+                        }
+                        if(!opt.common.isEmpty(dict.cssStyle)){
+                            actions.push(opt.common.sprintf("<span style='%s'>%s</span>", listClass, $.i18n.prop(dict.dictLabel)));
+                        }else{
+                            actions.push(opt.common.sprintf("<span class='%s'>%s</span>", listClass, $.i18n.prop(dict.dictLabel)));
+                        }
                         return false;
                     }
                     //兼容客户端数据为空 -- 则匹配字典默认值
@@ -3097,6 +3126,8 @@ if (typeof jQuery === "undefined") {
                     height: 0,
                     rootIdValue: null,
                     ajaxParams: {},
+                    sortName: "",           //排序字段
+                    sortOrder: "asc",       //默认升序
                     async: false,
                     toolbar: "toolbar",
                     striped: false,
@@ -3128,9 +3159,11 @@ if (typeof jQuery === "undefined") {
                     parentCode: options.parentCode,                     // 用于设置父子关系
                     type: 'post',                                       // 请求方式（*）
                     url: options.url,                                   // 请求后台的URL（*）
-                    async: options.async,                             // 是否异步加载数据
+                    async: options.async,                               // 是否异步加载数据
                     data: options.data,                                 // 无url时用于渲染的数据
                     ajaxParams: options.ajaxParams,                     // 请求数据的ajax的data属性
+                    sortName: options.sortName,                         // 排序字段
+                    sortOrder: options.sortOrder,                       // 默认升序
                     rootIdValue: options.rootIdValue,                   // 设置指定根节点id值
                     height: options.height,                             // 表格树的高度
                     expandColumn: options.expandColumn,                 // 在哪一列上面显示展开按钮
@@ -3169,6 +3202,9 @@ if (typeof jQuery === "undefined") {
                     opt.modal.error(data.msg);
                     return [];
                 } else {
+                    if (typeof opt.table.options.responseHandler == "function") {
+                        opt.table.options.responseHandler(data);
+                    }
                     return data;
                 }
             },
@@ -3187,14 +3223,16 @@ if (typeof jQuery === "undefined") {
             init: function(options) {
                 var defaults = {
                     id: "tree",                    // 属性ID
-                    expandLevel: 0,                // 展开等级节点
+                    expandLevel: 0,                // 展开等级节点 0-默认 1-展开根节点(不包含子节点) 2-展开所有节点
                     view: {
                         selectedMulti: false,      // 设置是否允许同时选中多个节点
                         nameIsHTML: true           // 设置 name 属性是否支持 HTML 脚本
                     },
                     check: {
-                        enable: false,             // 置 zTree 的节点上是否显示 checkbox / radio
-                        nocheckInherit: true,      // 设置子节点是否自动继承
+                        enable: true,             // 置 zTree 的节点上是否显示 checkbox / radio
+                        //radioType: "level",
+                        chkStyle: "radio",
+                        nocheckInherit: true      // 设置子节点是否自动继承
                     },
                     data: {
                         key: {
@@ -3205,6 +3243,7 @@ if (typeof jQuery === "undefined") {
                             enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式
                         }
                     },
+                    displayLen: 0
                 };
                 var options = $.extend(defaults, options);
                 $.tree._option = options;
@@ -3254,19 +3293,31 @@ if (typeof jQuery === "undefined") {
                         }
                     }
 
+                    if(options.displayLen != 0){
+                        for(var i=0; i<list.length; i++){
+                            for(var key  in list[i]){
+                                if(key == "title"){
+                                    list[i][key] = opt.common.hideStr(list[i][key],options.displayLen,0);
+                                }
+                            }
+                        }
+                    }
+
                     var treeId = $("#treeId").val();
-                    console.log("-->" + treeId);
                     tree = $.fn.zTree.init($("#" + options.id), setting, list);
                     $._tree = tree;
-
                     // var nodes = tree.getNodesByParam("level", options.expandLevel - 1);
                     //
                     // for (var i = 0; i < nodes.length; i++) {
                     //     tree.expandNode(nodes[i], true, false, false);
                     // }
-
-                    //全部展开
-                    if(options.expandLevel != 0){
+                    //展开根节点 不包含子节点
+                    if(options.expandLevel == 1){
+                        var node = tree.getNodesByFilter(function (node) { return node.level == 0 }, true);
+                        tree.expandNode(node, true, null, null);
+                    }
+                    //展开所有节点
+                    if(options.expandLevel == 2){
                         tree.expandAll(true);
                     }
                     //
@@ -3274,30 +3325,41 @@ if (typeof jQuery === "undefined") {
                         if(!opt.common.isEmpty(options._list)){
                             var _l = options._list.split(",");
                             for(var i=0; i<_l.length; i++){
-                                var node = tree.getNodeByParam(options.data.simpleData.idKey,_l[i],null);
+                                var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
+                                    "id":options.data.simpleData.idKey, _l[i]);
                                 if(node !=null){
                                     tree.checkNode(node,true);
+                                    tree.selectNode(node);
                                 }
                             }
                         }
-                        // if(!opt.common.isEmpty(treeId)){
-                        //     var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
-                        //         "id":options.data.simpleData.idKey, treeId);
-                        //     console.log(">>>" + node)
-                        //     if(!opt.common.isEmpty(node)){
-                        //         tree.checkNode(node,true);
-                        //         if($.tree._option.check.chkStyle == 'radio') tree.selectNode(node);
-                        //     }
-                        // }
-                    }
-
-                    if(!opt.common.isEmpty(treeId) && !options.check.enable){
-                        var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
-                            "id":options.data.simpleData.idKey, treeId);
-                        if(!opt.common.isEmpty(node)){
-                            tree.selectNode(node);
+                        if(!opt.common.isEmpty(treeId)){
+                            var _l = treeId.split(",");
+                            for(var i=0; i<_l.length; i++){
+                                var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
+                                    "id":options.data.simpleData.idKey, _l[i]);
+                                console.log(node);
+                                if(node !=null){
+                                    tree.checkNode(node,true);
+                                    tree.selectNode(node);
+                                }
+                            }
+                            // var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
+                            //     "id":options.data.simpleData.idKey, treeId);
+                            // if(!opt.common.isEmpty(node)){
+                            //     tree.checkNode(node,true);
+                            //     if($.tree._option.check.chkStyle == 'radio') tree.selectNode(node);
+                            // }
                         }
                     }
+
+                    // if(!opt.common.isEmpty(treeId) && !options.check.enable){
+                    //     var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
+                    //         "id":options.data.simpleData.idKey, treeId);
+                    //     if(!opt.common.isEmpty(node)){
+                    //         tree.selectNode(node);
+                    //     }
+                    // }
                     //回调方法
                     if(typeof(options.callBack) === "function"){
                         callBack($._tree);
@@ -3364,6 +3426,16 @@ if (typeof jQuery === "undefined") {
                     $._tree.expandNode(parentNode, true, false, false);
                     treeNode = parentNode;
                 }
+            },
+            // 获取所有 节点所有的父节点
+            getParentIds: function(treeNode){
+                if(opt.common.isEmpty(treeNode)) return "";
+                var ids = treeNode.id;
+                var node = treeNode.getParentNode();
+                if(node != null){
+                    ids = ids + "," + $.tree.getParentIds(node);
+                }
+                return ids;
             },
             // 显示所有孩子节点
             showChildren: function(treeNode) {
@@ -3435,6 +3507,10 @@ if (typeof jQuery === "undefined") {
                 $('#btnHide').toggle();
                 $('#keyword').focus();
             },
+            //勾选 或 取消勾选 全部节点
+            checkAllNodes: function(checked){
+                $._tree.checkAllNodes(checked);
+            },
             // 折叠
             collapse: function() {
                 $._tree.expandAll(false);
@@ -3443,13 +3519,16 @@ if (typeof jQuery === "undefined") {
             expand: function() {
                 $._tree.expandAll(true);
             },
-            //处理回调之后获取id 与name
+            //处理回调之后获取id 与name 选取的所有父节点
             callBackTree:function (_p,_m) {
                 var tree = _p.find("iframe")[0].contentWindow.$._tree;
                 if ($.tree.notAllowParents(tree)) {
+                    console.log("00000");
                     var body = layer.getChildFrame('body', _m);
                     var treeId = body.find('#treeId').val()
                     var treeName = body.find('#treeName').val();
+                    var parentIds = body.find('#parentIds').val();
+                    var type = body.find('#type').val();
                     if(opt.common.isEmpty(treeName)){
                         if(tree.setting.check.enable){
                             var _l = treeId.split(",");
@@ -3464,7 +3543,7 @@ if (typeof jQuery === "undefined") {
                             treeName = tree.getNodesByParam(tree.setting.data.simpleData.idKey, treeId, null)[0].name;
                         }
                     }
-                    var _n = "{\"id\":\""+treeId+"\",\"name\":\""+treeName+"\"}";
+                    var _n = "{\"id\":\""+treeId+"\",\"name\":\""+treeName+"\",\"parentIds\":\""+parentIds+"\",\"type\":\""+type+"\"}";
                     return $.parseJSON(_n);
                 }else{
                     return false;
@@ -3828,3 +3907,29 @@ if (typeof jQuery === "undefined") {
     });
   });
 }(jQuery);
+
+/**
+ * 表单序列号成对象 使用--> $('').serializeJson()
+ * 表单序列号成 字符串 使用-->$('').serialize()
+ */
+(function(window, $) {
+    $.fn.serializeJson = function() {
+        var serializeObj = {};
+        var array = this.serializeArray();
+        //var str = this.serialize();
+        $(array).each(
+            function() {
+                if (serializeObj[this.name]) {
+                    if ($.isArray(serializeObj[this.name])) {
+                        serializeObj[this.name].push(this.value);
+                    } else {
+                        serializeObj[this.name] = [
+                            serializeObj[this.name], this.value ];
+                    }
+                } else {
+                    serializeObj[this.name] = this.value;
+                }
+            });
+        return serializeObj;
+    };
+})(window, jQuery);

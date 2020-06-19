@@ -8,6 +8,7 @@ import com.j2eefast.common.core.utils.*;
 import com.j2eefast.framework.log.entity.SysLoginInfoEntity;
 import com.j2eefast.framework.sys.constant.factory.ConstantFactory;
 import com.j2eefast.framework.sys.entity.SysModuleEntity;
+import com.j2eefast.framework.sys.entity.SysRoleEntity;
 import com.j2eefast.framework.sys.factory.UserFactory;
 import com.j2eefast.framework.sys.mapper.SysMenuMapper;
 import com.j2eefast.framework.sys.mapper.SysModuleMapper;
@@ -57,7 +58,7 @@ public class SysLoginService implements AuthService {
 
 		//用户错误次数大于设定数值直接拒绝
 		if( ToolUtil.isNotEmpty(number) && number >= Global.getLoginMaxCount()) {
-			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L, "50003","账户被锁定,"+Global.getLockTime()+" 分钟后解锁!"));
+			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L,-1L, "50003","账户被锁定,"+Global.getLockTime()+" 分钟后解锁!"));
 			throw new RxcException(ToolUtil.message("sys.login.failedNumLock",Global.getLockTime()),"50003");
 		}
 
@@ -76,7 +77,7 @@ public class SysLoginService implements AuthService {
 
 		//用户名或者密码为空
 		if(StrUtil.isBlankOrUndefined(username) || StrUtil.isBlankOrUndefined(password) ) {
-			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L, "50005","账号或密码错误,请重试."));
+			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L,-1L, "50005","账号或密码错误,请重试."));
 			throw new RxcException(ToolUtil.message("sys.login.failure"),"50005");
 		}
 
@@ -107,7 +108,7 @@ public class SysLoginService implements AuthService {
 		}
 
 		if(ToolUtil.isEmpty(user)){
-			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L, "50001","账号或密码错误,请重试."));
+			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,-1L,-1L, "50001","账号或密码错误,请重试."));
 			throw new RxcException(ToolUtil.message("sys.login.failure"),"50001");
 		}
 
@@ -120,7 +121,7 @@ public class SysLoginService implements AuthService {
 				number++;
 				redisUtil.set(RedisKeys.getUserLoginKey(user.getUsername()), number, RedisUtil.MINUTE * Global.getLockTime());
 			}
-			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,user.getCompId(), "50004","账号或密码不正确,输入错误"+number+" 次!"));
+			AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,user.getCompId(),user.getDeptId(), "50004","账号或密码不正确,输入错误"+number+" 次!"));
 			//错误次数大于设定
 			if(number >= Global.getLoginNumCode()) {
 				throw new RxcException(ToolUtil.message("sys.login.password.retry.limit.count",Global.getLoginMaxCount()),"50004");
@@ -155,9 +156,15 @@ public class SysLoginService implements AuthService {
 			List<Long> roleList = ConstantFactory.me().getRoleIds(userId);
 			List<String> roleNameList = new ArrayList<>();
 			List<String> roleKeyList = new ArrayList<>();
+			int dataScope = 0;
 			for (Long roleId : roleList) {
-				roleNameList.add(ConstantFactory.me().getSingleRoleName(roleId));
-				roleKeyList.add(ConstantFactory.me().getSingleRoleKey(roleId));
+				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
+				int temp = Integer.parseInt(role.getDataScope());
+				if(dataScope < temp){
+					dataScope = temp;
+				}
+				roleNameList.add(role.getRoleName());
+				roleKeyList.add(role.getRoleKey());
 			}
 			loginUser.setRoleList(roleList);
 			loginUser.setRoleNames(roleNameList);
@@ -187,6 +194,7 @@ public class SysLoginService implements AuthService {
 				}
 			}
 			loginUser.setPermissions(permissionSet);
+			loginUser.setDataScope(String.valueOf(dataScope));
 		}else{
 			//根居角色ID获取模块列表
 			List<SysModuleEntity> modules = this.sysModuleMapper.findModules();
@@ -206,6 +214,7 @@ public class SysLoginService implements AuthService {
 			Set<String> permissionSet = new HashSet<>();
 			permissionSet.add("*:*:*");
 			loginUser.setPermissions(permissionSet);
+			loginUser.setDataScope("1");
 		}
 	}
 
@@ -229,7 +238,7 @@ public class SysLoginService implements AuthService {
 
 		//插入登陆表
 		AsyncManager.me().execute(AsyncFactory.recordLogininfor(loginUser.getUsername(),
-				loginUser.getCompId(), "00000","登陆成功!",loginUser.getNowLoginTime(),
+				loginUser.getCompId(),loginUser.getDeptId(), "00000","登陆成功!",loginUser.getNowLoginTime(),
 				loginUser.getNowLoginLocation(), loginUser.getLoginLocation()));
 
 	}

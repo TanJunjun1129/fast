@@ -71,11 +71,13 @@
                 editUrl: prefix + "/edit/{id}",
                 delUrl: prefix + "/del",
                 sortName: "id",
+                pageSize: 12,
+                pageList: [12, 24, 36],
                 modalName: "字典管理",
                 columns: [
-                    /*{title: "序号",width:15,align:"center", formatter: function (value, row, index) {
+                    {title: "序号",width:15,align:"center", formatter: function (value, row, index) {
                             return $.table.serialNumber(index);
-                    }},*/
+                    }},
                     /*{checkbox: true},*/
                     {field: 'id',title: '字典主键', sortable: true},
                     {field: 'dictName', title: '字典名称'},

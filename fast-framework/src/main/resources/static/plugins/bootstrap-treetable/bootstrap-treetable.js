@@ -1,14 +1,13 @@
 /**
  * 基于bootstrapTreeTable/bootstrap-table-treegrid修改
  * Copyright (c) 2019 ruoyi
- * J2eeFast 二次修改 增强功能 支持异步加载数据
+ * J2eeFast 二次修改 增强功能、支持异步加载数据、增加排序
  */
 (function($) {
     "use strict";
 
     $.fn.bootstrapTreeTable = function(options, param) {
         var target = $(this).data('bootstrap.tree.table');
-        console.log(target);
         target = target ? target : $(this);
         // 如果是调用方法
         if (typeof options == 'string') {
@@ -166,6 +165,18 @@
             // 加载数据前先清空
             target.data_list = {};
             target.data_obj = {};
+            // 新增排序
+            if(options.sortName !== ""){
+                var curParams = {
+                    __sidx:           options.sortName,
+                    __order:          options.sortOrder
+                };
+                if(parms){
+                    parms = $.extend(curParams, parms);
+                }else{
+                    parms = curParams;
+                }
+            }
             var $tbody = target.find("tbody");
             // 添加加载loading
             var $loading = '<tr><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">正在努力地加载数据中，请稍候……</div></td></tr>'
@@ -177,7 +188,6 @@
                     data: parms ? parms : options.ajaxParams,
                     dataType: "JSON",
                     success: function(data, textStatus, jqXHR) {
-                        console.log("--->>>");
                     	data = calculateObjectValue(options, options.responseHandler, [data], data);
                         renderTable(data);
                     },
@@ -529,7 +539,6 @@
                                     $(item).css("display", "none");
                                 });
                             }else {
-                                console.log("--<<<>><>><>>>)))))))))))))");
                                 $.each(_ls, function(index, item) {
                                     console.log( $(item).attr("pid"));
                                     // 父icon
@@ -551,7 +560,6 @@
                                         data: parms,
                                         dataType: "JSON",
                                         success: function(data, textStatus, jqXHR) {
-                                            console.log("--->>>");
                                             //data = calculateObjectValue(options, options.responseHandler, [data], data);
                                             //兼容返回数据
                                             var list;
@@ -603,12 +611,12 @@
             if(parms){
                 target.lastAjaxParams=parms;
             }
+            //$.extend(curParams, opt.common.formToJSON(currentId));
             initServer(target.lastAjaxParams);
         }
         // 添加数据刷新表格
         target.appendData = function(data) {
             // 下边的操作主要是为了查询时让一些没有根节点的节点显示
-            console.log(data);
             $.each(data, function(i, item) {
                 if(options.async){
                     item.__nodes = (item["nodes"] == 1? true: false) || ((item["nodes"] == 'true' || item["nodes"] == true)? true: false);
@@ -873,14 +881,16 @@
         columns: [],               // 列
         toolbar: null,             // 顶部工具条
         height: 0,                 // 表格高度
+        sortName: "",              // 排序字段
+        sortOrder: "asc",          // 默认升序
         showTitle: true,           // 是否采用title属性显示字段内容（被formatter格式化的字段不会显示）
         showSearch: true,          // 是否显示检索信息
         showColumns: true,         // 是否显示内容列下拉框
         showRefresh: true,         // 是否显示刷新按钮
         expanderExpandedClass: 'glyphicon glyphicon-chevron-down', // 展开的按钮的图标
         expanderCollapsedClass: 'glyphicon glyphicon-chevron-right', // 缩起的按钮的图标
-        async: false, //异步加载数据
-        asynUrl: null, //异步加载数据URL
+        async: false,              //异步加载数据
+        asynUrl: null,             //异步加载数据URL
         responseHandler: function(res) {
             return false;
         }

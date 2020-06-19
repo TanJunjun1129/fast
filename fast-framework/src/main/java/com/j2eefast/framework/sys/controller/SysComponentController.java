@@ -27,14 +27,26 @@ public class SysComponentController extends BaseController {
 	 */
 	@RequestMapping(value = "/treeselect", method = RequestMethod.POST)
 	public String treeselect(ModelMap mmap) {
-		mmap.put("url",super.getPara("url")); // 树结构数据URL
-		mmap.put("treeId",super.getPara("treeId")); //树节点ID
-		mmap.put("treeName",super.getPara("treeName"));//节点名称
-		mmap.put("correlationId",super.getPara("correlationId")); //关联ID
-		mmap.put("expandLevel",super.getPara("expandLevel")); //是否展开树
-		mmap.put("isSelectParent",super.getPara("isSelectParent")); //是否可以选中父节点
-		mmap.put("checked", super.getPara("checked")); // 是否可复选
-		mmap.put("chkboxType", super.getPara("chkboxType")); //  复选框级联选择规则 默认：{'Y':'ps','N':'ps'}
+		// 树结构数据URL
+		mmap.put("url",super.getPara("url"));
+		//树节点ID
+		mmap.put("treeId",super.getPara("treeId"));
+		//节点名称
+		mmap.put("treeName",super.getPara("treeName"));
+		//关联ID
+		mmap.put("correlationId",super.getPara("correlationId"));
+		//是否展开树
+		mmap.put("expandLevel",super.getPara("expandLevel"));
+		//是否可以选中父节点
+		mmap.put("isSelectParent",super.getPara("isSelectParent"));
+		//是否可复选 单选还是多选
+		mmap.put("checked", super.getPara("checked"));
+		// 单选分组范围 同级互斥 - 或者  整个树互斥
+		mmap.put("radioType",super.getPara("radioType"));
+		//复选框级联选择规则 默认：{'Y':'ps','N':'ps'}
+		mmap.put("chkboxType", super.getPara("chkboxType","{'Y':'ps','N':'ps'}"));
+		//编辑回传此节点所有父节点
+		mmap.put("parentIds",super.getPara("parentIds",""));
 		return urlPrefix + "/treeselect";
 	}
 

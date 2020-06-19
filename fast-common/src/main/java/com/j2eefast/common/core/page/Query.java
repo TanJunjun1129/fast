@@ -75,4 +75,12 @@ public class Query <T> extends LinkedHashMap<String, Object> {
 	public int getLimit() {
 		return limit;
 	}
+
+//	public String getSidx(){
+//		return  (String)this.get("sidx");
+//	}
+//
+//	public String getOrder(){
+//		return  (String)this.get("order");
+//	}
 }

@@ -313,9 +313,9 @@
 
 .box-header .box-title {
 	display: inline-block;
-	font-size: 18px;
-	margin: 0;
-	line-height: 1;
+	/* font-size: 18px; */
+	margin: 0px 5px;
+	/* line-height: 1; */
 }
 
 .time-label{

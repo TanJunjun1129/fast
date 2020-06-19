@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.j2eefast.common.core.base.entity.LoginUserEntity;
 import com.j2eefast.framework.sys.constant.factory.ConstantFactory;
 import com.j2eefast.framework.sys.entity.SysModuleEntity;
+import com.j2eefast.framework.sys.entity.SysRoleEntity;
 import com.j2eefast.framework.sys.mapper.SysMenuMapper;
 import com.j2eefast.framework.sys.mapper.SysModuleMapper;
 import com.j2eefast.framework.utils.UserUtils;
@@ -58,10 +59,9 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		LoginUserEntity user = (LoginUserEntity) principals.getPrimaryPrincipal();
 		Long userId = user.getId();
-		List<String> permsList;
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		// 系统管理员，拥有最高权限
-		if (userId.equals(Constant.SUPER_ADMIN)){
+		if (userId.equals(Constant.SUPER_ADMIN) || user.getRoleKey().contains(Constant.SU_ADMIN)){
 			info.addRole("ADMIN");
 			info.addStringPermission("*:*:*");
 		} else {
@@ -127,16 +127,22 @@ public class UserRealm extends AuthorizingRealm {
 
 		//清理缓存
 		ConstantFactory.me().clearMenu();
-
-		if(!loginUser.getId().equals(Constant.SUPER_ADMIN)){
+		ConstantFactory.me().clearRole();
+		if(!loginUser.getId().equals(Constant.SUPER_ADMIN) || !loginUser.getRoleKey().contains(Constant.SU_ADMIN)){
 
 			//获取用户角色列表
 			List<Long> roleList = ConstantFactory.me().getRoleIds(loginUser.getId());
 			List<String> roleNameList = new ArrayList<>();
 			List<String> roleKeyList = new ArrayList<>();
+			int dataScope = 0;
 			for (Long roleId : roleList) {
-				roleNameList.add(ConstantFactory.me().getSingleRoleName(roleId));
-				roleKeyList.add(ConstantFactory.me().getSingleRoleKey(roleId));
+				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
+				int temp = Integer.parseInt(role.getDataScope());
+				if(dataScope < temp){
+					dataScope = temp;
+				}
+				roleNameList.add(role.getRoleName());
+				roleKeyList.add(role.getRoleKey());
 			}
 			loginUser.setRoleList(roleList);
 			loginUser.setRoleNames(roleNameList);
@@ -166,6 +172,7 @@ public class UserRealm extends AuthorizingRealm {
 				}
 			}
 			loginUser.setPermissions(permissionSet);
+			loginUser.setDataScope(String.valueOf(dataScope));
 			//刷新用户
 			UserUtils.reloadUser(loginUser);
 		}

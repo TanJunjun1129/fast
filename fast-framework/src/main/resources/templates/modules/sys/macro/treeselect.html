@@ -8,6 +8,8 @@
 </@header>
 	<@from.hidden  name="treeId" value="${treeId?default(0)}"/>
 	<@from.hidden  name="treeName" value="${treeName?default('')}"/>
+	<@from.hidden  name="parentIds" value="${parentIds?default('')}" />
+	<@from.hidden  name="type" />
 	<div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
 		<label id="btnShow" title="显示搜索" style="display:none;">︾</label>
 		<label id="btnHide" title="隐藏搜索">︽</label>
@@ -28,14 +30,20 @@
 			<#if checked== "false">
 				var options = {
 					url: url,
-					<#if expandLevel=="true">expandLevel : 1,</#if>
-					onClick : zOnClick
+					<#if expandLevel=="true">expandLevel : 2,</#if>
+					onClick : zOnClick,
+					onCheck : onCheck,
+					check: {
+						enable: true,
+						chkStyle: "radio",
+						radioType: "${radioType}"
+					},
 				};
 			<#else>
 				var options = {
 					url: url,
 					_list:$("#treeId").val(),
-					<#if expandLevel=="true">expandLevel : 1,</#if>
+					<#if expandLevel=="true">expandLevel : 2,</#if>
 					data: {
 						simpleData: {
 							enable: true,
@@ -64,8 +72,28 @@
 				return;
 			}
 			</#if>
+			$._tree.checkNode(treeNode, !treeNode.checked, null, true);
+			console.log($.tree.getParentIds(treeNode));
+			$("#parentIds").val($.tree.getParentIds(treeNode));
 			var treeId = treeNode.id;
 			var treeName = treeNode.name;
+			if(opt.common.isNotEmpty(treeNode.type)){
+				$("#type").val(treeNode.type);
+			}
+			$("#treeId").val(treeId);
+			$("#treeName").val(treeName);
+		}
+
+		function onCheck(event, treeId, treeNode) {
+			//选中指定节点
+			$._tree.selectNode(treeNode);
+			console.log($.tree.getParentIds(treeNode));
+			$("#parentIds").val($.tree.getParentIds(treeNode));
+			var treeId = treeNode.id;
+			var treeName = treeNode.name;
+			if(opt.common.isNotEmpty(treeNode.type)){
+				$("#type").val(treeNode.type);
+			}
 			$("#treeId").val(treeId);
 			$("#treeName").val(treeName);
 		}
@@ -86,6 +114,7 @@
 				</#if>
 				ids += _p[i].id + ",";
 				names += _p[i].name + ",";
+				$._tree.selectNode(_p);
 			}
 			$("#treeId").val(ids.substr(0,ids.length-1));
 			$("#treeName").val(names.substr(0,names.length-1));

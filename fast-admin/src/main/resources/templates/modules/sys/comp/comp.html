@@ -4,7 +4,7 @@
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 search-collapse">
-            <@from.from id="comp-form">
+            <@from.from name="comp-form">
                 <div class="select-list">
                     <ul>
                         <li>
@@ -32,7 +32,7 @@
      </div>
 </div>
 <@footer>
-<script>
+<script type="text/javascript">
     var addFlag = "${permission.hasPermi('sys:comp:add')}";
     var editFlag = "${permission.hasPermi('sys:comp:edit')}";
     var delFlag = "${permission.hasPermi('sys:comp:del')}";

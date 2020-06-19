@@ -87,6 +87,12 @@ public class BaseController {
                 this.getHttpServletResponse(),name);
     }
 
+    protected String getCookie(String name){
+        return CookieUtil.getCookie(this.getHttpServletRequest(),
+                name);
+    }
+
+
     /**
      * 返回页面错误
      * @param msg

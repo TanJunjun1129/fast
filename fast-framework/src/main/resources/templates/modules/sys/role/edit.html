@@ -19,68 +19,80 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "管理模块"/>：</label>
         <div class="col-sm-8">
-            <#list modules>
-                <#items as d>
-                    <#if d.status =='0' >
-                        <#if lisModule?? && (lisModule?size > 0)>
-                            <#assign a=0 />
-                            <#list lisModule as c>
-                                <#if c == d.moduleCode >
-                                    <#assign a=1 />
-                                </#if>
-                            </#list>
-                            <#if a== 1>
-                                 <label>
-                                    <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" checked required/><@ctx.i18n text = "${d.moduleName}" /></label>
-                                </label>
-                            <#else>
-                                 <label>
-                                    <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>
-                                </label>
-                            </#if>
-                        <#else>
-                            <label>
-                                <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>
-                            </label>
-                        </#if>
-                    </#if>
-                </#items>
-            </#list>
+            <@from.checkbox name="moduleCodes" value="${selectModules}" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
+<#--            <#list modules>-->
+<#--                <#items as d>-->
+<#--                    <#if d.status =='0' >-->
+<#--                        <#if lisModule?? && (lisModule?size > 0)>-->
+<#--                            <#assign a=0 />-->
+<#--                            <#list lisModule as c>-->
+<#--                                <#if c == d.moduleCode >-->
+<#--                                    <#assign a=1 />-->
+<#--                                </#if>-->
+<#--                            </#list>-->
+<#--                            <#if a== 1>-->
+<#--                                 <label>-->
+<#--                                    <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" checked required/><@ctx.i18n text = "${d.moduleName}" /></label>-->
+<#--                                </label>-->
+<#--                            <#else>-->
+<#--                                 <label>-->
+<#--                                    <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>-->
+<#--                                </label>-->
+<#--                            </#if>-->
+<#--                        <#else>-->
+<#--                            <label>-->
+<#--                                <label class="check-box"><input type="checkbox" name="moduleCodes" value="${d.moduleCode}" required/><@ctx.i18n text = "${d.moduleName}" /></label>-->
+<#--                            </label>-->
+<#--                        </#if>-->
+<#--                    </#if>-->
+<#--                </#items>-->
+<#--            </#list>-->
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span>显示顺序：</label>
         <div class="col-sm-8">
-            <input class="form-control" type="text" name="roleSort" id="roleSort" value="${role.roleSort?default("")}" required>
+            <@from.input name="roleSort" value="${role.roleSort?default('')}"  required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span>状态：</label>
         <div class="col-sm-8">
-            <label class="toggle-switch switch-solid">
-                <input type="checkbox" id="status" <#if role.status == "0">checked="true"</#if>">
-                <span></span>
-            </label>
+            <@from.switch name="status" value="${role.status}"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">备注：</label>
         <div class="col-sm-8">
-            <input id="remark" name="remark" class="form-control" type="text" value="${role.remark?default("")}">
+            <@from.textarea name="remark" value="${role.remark?default('')}"/>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label">菜单权限</label>
-        <div class="col-sm-8">
-            <div class="box box-solid" style="background:#FAFAFA;border-top: 0;">
-                <div id="menuTrees" class="ztree"></div>
+        <label class="col-sm-3 control-label">菜单权限: </label>
+        <div  class="col-sm-8">
+            <div class="box box-solid" style="background:#FAFAFA;border-top: 1px solid rgb(210, 214, 222);">
+                <div class="box-header">
+                    <div class="box-title">
+                        <label class="check-box">
+                            <input type="checkbox" id="checkall"/> 全部勾选
+                        </label>
+                    </div>
+                    <div class="box-tools pull-right" style="top:8px;">
+                        <a class="btn btn-box-tool" id="expand"
+                           value="dataScopeTree" >展开</a>/
+                        <a class="btn btn-box-tool" id="collapse" value="dataScopeTree" >折叠</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                        <div id="menuTrees" class="ztree"></div>
+                </div>
             </div>
         </div>
     </div>
 </@from.from>
 </div>
 <@footer>
-<script>
+<script type="text/javascript">
     $(function() {
         var txt = opt.common.getCheckboxValue("moduleCodes");
         var url = baseURL + "sys/menu/roleModuleMenuTreeData?id=" + $("#id").val() + "&moduleCodes=" + txt;
@@ -111,6 +123,23 @@
                 $.tree.init(options);
             });
         })
+    });
+
+    $('#checkall').on('ifChecked ifUnchecked', function(){
+        if(this.checked){
+            $.tree.checkAllNodes(true);
+        }else{
+            $.tree.checkAllNodes(false);
+        }
+    })
+    /* 树展开事件 */
+    $('#expand').click(function() {
+        $.tree.expand();
+    });
+
+    /* 树折叠事件 */
+    $('#collapse').click(function() {
+        $.tree.collapse();
     });
 
     /*校验表单*/
@@ -178,17 +207,9 @@
     /*提交*/
     function submitHandler(index, layero){
         if (opt.validate.form()) {
-            var options = {
-                id:'form-role-edit',
-                del:['moduleCodes']
-            };
-            var data = opt.form.dataUp(options);
+            var data = $('#form-role-edit').serializeArray();
             var menuIds = $.tree.getCheckedNodes();
-            var status = $("input[id='status']").is(':checked') == true ? "0" : "1";
-            var moduleCodes = opt.common.getCheckboxValue("moduleCodes");
-            data.push({"name": "status", "value": status});
             data.push({"name": "menuIds", "value": menuIds});
-            data.push({"name": "moduleCodes", "value": moduleCodes});
             opt.operate.save(baseURL+'sys/role/edit',data);
         }
     }

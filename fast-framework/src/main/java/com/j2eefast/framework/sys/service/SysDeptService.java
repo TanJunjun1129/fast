@@ -28,7 +28,7 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper,SysDeptEntity> {
 	@Resource
 	private SysDeptMapper sysDeptMapper;
 
-	@DataFilter(subDept = true, user = false, tableAlias="d")
+	@DataFilter(compAlias="c")
 	public List<SysDeptEntity> findPage(Map<String, Object> params) {
 		String type = (String) params.get("type");
 		return this.list(new QueryWrapper<SysDeptEntity>().eq("del_flag","0")
@@ -37,13 +37,13 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper,SysDeptEntity> {
 				.apply(params.get(Constant.SQL_FILTER) != null, (String) params.get(Constant.SQL_FILTER)));
 	}
 
-	@DataFilter(subDept = true, tableAlias="d")
+	@DataFilter(compAlias="c")
 	public List<SysDeptEntity> findDeptList(Map<String, Object> params) {
 		return sysDeptMapper.findDeptList((String)params.get("name"),(String) params.get("type"),
 				(String) params.get(Constant.SQL_FILTER));
 	}
 
-	@DataFilter(subDept = true,  tableAlias="u")
+	@DataFilter(compAlias="c")
 	public List<SysDeptEntity> findByDeptNameId(Map<String, Object> params) {
 		return sysDeptMapper.findByDeptNameId((Long)params.get("compId"),
 				(String) params.get(Constant.SQL_FILTER));

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import cn.hutool.core.util.StrUtil;
 import com.j2eefast.common.core.base.entity.LoginUserEntity;
 import com.j2eefast.framework.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,14 +38,6 @@ import cn.hutool.core.bean.BeanUtil;
 @Aspect
 @Component
 public class DataFilterAspect {
-	@Autowired
-	private SysDeptService sysDeptService;
-	
-	@Autowired
-	private SysUserDeptService sysUserDeptService;
-	
-	@Autowired
-	private SysCompService sysCompService;
 
 	@Pointcut("@annotation(com.j2eefast.framework.annotation.DataFilter)")
 	public void dataFilterCut() {
@@ -53,18 +47,10 @@ public class DataFilterAspect {
 	@SuppressWarnings("unchecked")
 	@Before("dataFilterCut()")
 	public void dataFilter(JoinPoint point) throws Throwable {
-		
-		System.out.println("目标方法名为:" + point.getSignature().getName());
-        System.out.println("目标方法所属类的简单类名:" +        point.getSignature().getDeclaringType().getSimpleName());
-        System.out.println("目标方法所属类的类名:" + point.getSignature().getDeclaringTypeName());
-        System.out.println("目标方法声明类型:" + Modifier.toString(point.getSignature().getModifiers()));
 
-        //Object result =  point.proceed()
 		Object params = point.getArgs()[0];
 		if (params != null && params instanceof Map) {
-
 			LoginUserEntity user = UserUtils.getUserInfo();
-
 			// 如果不是超级管理员，则进行数据过滤
 			if (!user.getId().equals(Constant.SUPER_ADMIN)) {
 				//若用户为最大管理员切公司为总公司
@@ -88,108 +74,55 @@ public class DataFilterAspect {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		DataFilter dataFilter = signature.getMethod().getAnnotation(DataFilter.class);
 		// 获取表的别名
-		String tableAlias = dataFilter.tableAlias();
-		
-		StringBuilder sqlFilter = new StringBuilder();
-		
-		if (ToolUtil.isNotEmpty(tableAlias)) {
-			tableAlias += ".";
+		String compAlias = dataFilter.compAlias();
+		String deptAlias = dataFilter.deptAlias();
+		String userAlias = dataFilter.userAlias();
+		StringBuilder sqlFilter = new StringBuilder(StrUtil.EMPTY);
+		if (ToolUtil.isEmpty(compAlias)) {
+			return sqlFilter.toString();
 		}
-		
-		
-		
-		// 获取 sys_dept 表关联 subDept ture
-		if(dataFilter.subDept()) {
-			
-			// 用户对应sys_dept 
-			Set<Long> deptIdList = new HashSet<>();
-			
-			// 用户对应sys_dept ID列表
-			List<Long> roleIdList = sysUserDeptService.findDeptIdList(user.getId());
-			if(roleIdList!=null && roleIdList.size() > 0) {
-				deptIdList.addAll(roleIdList);
-				//获取子列表
-				for(Long l : roleIdList) {
-					List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(l);
-					if(subDeptIdList.size() > 0) {
-						deptIdList.addAll(subDeptIdList);
-					}
-				}
-			}
-			if(deptIdList != null && deptIdList.size() > 0) {
-				sqlFilter.append(" (");
-				sqlFilter.append(tableAlias).append(dataFilter.deptId()).append(" in(")
-				.append(StringUtils.join(deptIdList, ",")).append(")");
-			}
-			
-			if(ToolUtil.isNotEmpty(sqlFilter.toString())) {
-				sqlFilter.append(")");
-			}
-			
-		}
-		
-		
-		//用户对应sys_comp 表关联
-		if(dataFilter.subComp()) {
-			if("sys_poi.".equals(tableAlias)) {
-				sqlFilter.append(" and");
-			}
-			
-			// 用户对应sys_comp 
-			Set<Long> deptIdList = new HashSet<>();
-			
-			List<Long> compChildId = sysCompService.getSubDeptIdList(user.getCompId());
-			
-			compChildId.add(user.getCompId());
-			
-			deptIdList.addAll(compChildId);
-			
-			if(deptIdList != null && deptIdList.size() > 0) {
-				sqlFilter.append(" (");
-				sqlFilter.append(tableAlias).append(dataFilter.compId()).append(" in(")
-				.append(StringUtils.join(deptIdList, ",")).append(")");
-			}
-			
-			if(ToolUtil.isNotEmpty(sqlFilter.toString())) {
-				sqlFilter.append(")");
-			}
+		String dataScope = user.getDataScope();
+		//所有数据权限与未设置
+		if (Constant.DATA_SCOPE_ALL.equals(dataScope) || Constant.DATA_SCOPE_NULL.equals(dataScope)){
+			return sqlFilter.toString();
 		}
 
-		//用户对
-		if(dataFilter.subData()){
-			sqlFilter.append(" (");
-			sqlFilter.append(tableAlias).append(dataFilter.compId()).append(" = ")
-					.append(user.getCompId()+"").append(")");
+		// 公司以下数据权限
+		if(Constant.DATA_SCOPE_COMP.equals(dataScope)){
+			sqlFilter.append(StrUtil.format(
+					"({}.id IN ( SELECT id FROM sys_comp WHERE id = {} OR FIND_IN_SET( {} , parent_ids )))",
+					compAlias, user.getCompId(), user.getCompId()));
 		}
 
-//		// 用户角色对应的部门ID列表
-//		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(user.getUserId());
-//		if (roleIdList.size() > 0) {
-//			List<Long> userDeptIdList = sysRoleDeptService
-//					.queryDeptIdList(roleIdList.toArray(new Long[roleIdList.size()]));
-//			deptIdList.addAll(userDeptIdList);
-//		}
-//
-//		// 用户子部门ID列表
-//		if (dataFilter.subDept()) {
-//			List<Long> subDeptIdList = sysDeptService.getSubDeptIdList(user.getDeptId());
-//			deptIdList.addAll(subDeptIdList);
-//		}
-//
-//		StringBuilder sqlFilter = new StringBuilder();
-//		sqlFilter.append(" (");
-//
-//		if (deptIdList.size() > 0) {
-//			sqlFilter.append(tableAlias).append(dataFilter.deptId()).append(" in(")
-//					.append(StringUtils.join(deptIdList, ",")).append(")");
-//		}
-//
-//		// 只针对用户ID
-		if (dataFilter.user()) {
-			sqlFilter.append(ToolUtil.isNotEmpty(sqlFilter.toString())?" and ":"")
-					.append(dataFilter.setField()+"='"+ BeanUtil.getFieldValue(user,dataFilter.setField()) +"'");
+		// 部门以下数据权限
+		if(Constant.DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)){
+			sqlFilter.append(StrUtil.format(
+					"({}.id IN ( SELECT id FROM sys_comp WHERE id = {} OR FIND_IN_SET( {} , parent_ids )))",
+					deptAlias, user.getDeptId(), user.getDeptId()));
 		}
-		System.out.println(sqlFilter.toString());
+		//本部门数据权限
+		if(Constant.DATA_SCOPE_DEPT.equals(dataScope)){
+			sqlFilter.append(StrUtil.format(
+					"({}.id = {})",
+					deptAlias, user.getDeptId()));
+		}
+		//自定义数据
+		if (Constant.DATA_SCOPE_CUSTOM.equals(dataScope)){
+			sqlFilter.append(StrUtil.format(
+					"({}.id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id IN ({}))) ", deptAlias,
+					StrUtil.join(StrUtil.COMMA,user.getRoleList())));
+		}
+		//仅本人数据权限
+		if(Constant.DATA_SCOPE_SELF.equals(dataScope)){
+			if(!userAlias.equals(StrUtil.EMPTY)){
+				sqlFilter.append(StrUtil.format(
+						"({}.id = {})",
+						userAlias, user.getId()));
+			}else{
+				// 如果注解不填表别名则不允许任何查询
+				sqlFilter.append(" 1=0");
+			}
+		}
 		return sqlFilter.toString();
 	}
 }

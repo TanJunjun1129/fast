@@ -24,7 +24,7 @@ public interface SysAreaMapper extends BaseMapper<SysAreaEntity> {
 
      SysAreaEntity selectById(Serializable id);
      
-     List<SysAreaEntity> selectList(SysAreaEntity sysAreaEntity);
+     List<SysAreaEntity> selectAreaList(SysAreaEntity sysAreaEntity);
      
      int insert(SysAreaEntity sysAreaEntity);   
      

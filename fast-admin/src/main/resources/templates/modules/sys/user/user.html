@@ -1,59 +1,83 @@
 <#include "/common/include1.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="用户列表" libs=["table"]/>
-<div class="container-div">
-    <div class="row">
-        <div class="col-sm-12 search-collapse">
-            <@from.from id="user-form">
-                <div class="select-list">
-                    <ul>
-                        <li>
-                            <label><@ctx.i18n text = "登陆账号"/></label>：<input type="text" name="username"/>
-                        </li>
-                        <li>
-                            <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
-                        </li>
-                        <li>
-                            <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
-                        </li>
-                        <li>
-                            <label><@ctx.i18n text = "所属公司"/></label>：
-                            <@from.select name="compId" blankValue="" blankLabel="所有" items=comps itemLabel="name" itemValue="id"/>
-                        </li>
-                        <li>
-                            <label><@ctx.i18n text = "用户状态"/></label>：
-                            <@from.select name="status" dictType="sys_normal_disable" blankValue="" blankLabel="所有"/>
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
-                            <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
-                        </li>
-                    </ul>
-                </div>
-            </@from.from>
+<@header title="用户列表" bodyClass="gray-bg animated fadeInRight" isAnimation="false" libs=["table","zTree","layout-latest"]/>
+<div class="ui-layout-west">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-grid"></i> 组织机构
+            </div>
+            <div class="box-tools pull-right">
+                <a type="button" class="btn btn-box-tool" href="#" onclick="comp()" title="公司管理"><i class="fa fa-edit"></i></a>
+                <button type="button" class="btn btn-box-tool" id="btnExpand" title="展开" style="display:none;"><i class="fa fa-chevron-up"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnCollapse" title="折叠"><i class="fa fa-chevron-down"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新部门"><i class="fa fa-refresh"></i></button>
+            </div>
         </div>
-        <@table id="bootstrap-table">
-            <@shiro.hasPermission name="sys:user:add">
-                <a class="btn btn-success" onclick="opt.operate.addTab()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="sys:user:edit">
-                <a class="btn btn-primary single disabled" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="sys:user:del">
-                <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
-                    <i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/>
-                </a>
-            </@shiro.hasPermission>
-            <@shiro.hasPermission name="sys:user:export">
-                <a class="btn btn-warning" onclick="$.table.exportExcel()">
-                    <i class="fa fa-download"></i> 导出
-                </a>
-            </@shiro.hasPermission>
-        </@table>
+        <div class="ui-layout-content">
+            <div id="tree" class="ztree"></div>
+        </div>
+    </div>
+</div>
+<div class="ui-layout-center">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <@from.from id="user-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label><@ctx.i18n text = "登陆账号"/></label>：<input type="text" name="username"/>
+                            </li>
+                            <li>
+                                <@ctx.i18n text = "邮箱"/>:<input type="text" name="email"/>
+                            </li>
+                            <li>
+                                <@ctx.i18n text = "手机号码"/>:<input type="text" name="mobile"/>
+                            </li>
+                            <li>
+                                <label><@ctx.i18n text = "机构查询"/></label>：
+                                <div class="control-div width-150">
+                                <@from.treeselect name="compId" boxTitle="请选择归属机构" url="sys/comp/treeData"
+                                expandLevel="true"
+                                placeholder="请选择上级机构"/>
+                                </div>
+                            </li>
+                            <li>
+                                <label><@ctx.i18n text = "用户状态"/></label>：
+                                <@from.select name="status" dictType="sys_normal_disable" blankValue="" blankLabel="所有"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;<@ctx.i18n text = "查询"/></a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                </@from.from>
+            </div>
+            <@table id="bootstrap-table">
+                <@shiro.hasPermission name="sys:user:add">
+                    <a class="btn btn-success" onclick="opt.operate.addTab()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="sys:user:edit">
+                    <a class="btn btn-primary single disabled" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="sys:user:del">
+                    <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
+                        <i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/>
+                    </a>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="sys:user:export">
+                    <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                        <i class="fa fa-download"></i> 导出
+                    </a>
+                </@shiro.hasPermission>
+            </@table>
+        </div>
     </div>
 </div>
 <@footer>
-<script>
+<script type="text/javascript">
     var editFlag = "${permission.hasPermi('sys:user:edit')}";
     var delFlag = "${permission.hasPermi('sys:user:del')}";
     var resetPwdFlag = "${permission.hasPermi('sys:user:resetPwd')}";
@@ -62,6 +86,18 @@
     var prefix = baseURL + 'sys/user';
 
     $(function() {
+        /*初始化页面布局*/
+        var panehHidden = false;
+        if ($(this).width() < 767) {
+            panehHidden = true;
+        }
+        $('body').layout({ initClosed: panehHidden, west__size: 200 });
+        /*加载 树、树表格*/
+        initTable();
+        initLeftZtree();
+    });
+
+    function initTable() {
         /* 初始表格对象 */
         var options = {
             url: prefix + "/list",
@@ -70,9 +106,9 @@
             delUrl: prefix + "/del",
             exportUrl:  prefix + "/export",
             sortName: "createTime",
-            uniqueId: "userId", /* 唯一ID */
+            uniqueId: "id", /* 唯一ID */
             modalName: "用户",
-            columns: [
+            columns:[
                 {
                     title: "<@ctx.i18n text = "序号"/>", width: 10, formatter: function (value, row, index) {
                         return $.table.serialNumber(index);
@@ -81,7 +117,10 @@
                 /* {field: 'id', title: "<@ctx.i18n text = "用户ID"/>", sortable: true}, */
                 {field: 'username', title: "<@ctx.i18n text = "账号"/>"},
                 {field: 'name', title:  "<@ctx.i18n text = "姓名"/>"},
-                {field: 'compName', title:  "<@ctx.i18n text = "公司"/>"},
+                {field: 'compName', title: "<@ctx.i18n text = "归属公司"/>",formatter: function (value, row, index) {
+                        return $.table.tooltip(value,5);}
+                },
+                {field: 'deptName', title:  "<@ctx.i18n text = "归属机构"/>"},
                 {field: 'roleName', title: "<@ctx.i18n text = "角色"/>",formatter: function (value, row, index) {
                         return $.table.tooltip(value,5);}
                 },
@@ -113,12 +152,74 @@
             ]
         };
         $.table.init(options);
+    }
+
+
+    /*初始化左侧树*/
+    function initLeftZtree() {
+        var options = {
+            url: baseURL+"sys/comp/treeData",
+            displayLen: 8,
+            expandLevel:1,
+            onClick : onClick,
+            check: {
+                enable: false
+            }
+        };
+        $.tree.init(options);
+    }
+
+    /* 点击左侧数节点 回调事件 刷新表格*/
+    function onClick(event, treeId, treeNode) {
+        /* 设置属性值*/
+        $("#compId").val(treeNode.id);
+        $("#compIdName").val(treeNode.name);
+        $.table.search();
+    }
+
+    /* 左侧数刷新事件*/
+    $('#btnRefresh').click(function() {
+        initLeftZtree();
     });
 
+    /* 左侧树展开事件 */
+    $('#btnExpand').click(function() {
+        $._tree.expandAll(true);
+        $(this).hide();
+        $('#btnCollapse').show();
+    });
+
+    /* 左侧树折叠事件 */
+    $('#btnCollapse').click(function() {
+        $._tree.expandAll(false);
+        $(this).hide();
+        $('#btnExpand').show();
+    });
+
+    function comp() {
+        var url = baseURL + "sys/dept";
+        opt.modal.openTab("机构管理", url);
+    }
+
+    /* 点击树组件 回调事件案例 回调方法名固定 刷新表格*/
+    /**
+     *  id 为组件id
+     *  event 为组件点击按钮名称 ok 确定 clear 清除 cancel 取消
+     *  index 弹出窗口index
+     *  layero
+     *  nodes 确认事件传的参数
+     **/
+    function treeCallback(id, event, index, layero, nodes) {
+        if(id == "compId"){
+            if(event == "ok"){
+                /* 点击确认按钮直接刷新表格*/
+                $.table.search();
+            }
+        }
+    }
 
     /* 用户管理-重置密码 */
     function resetPwd(userId) {
-        console.log("userId:" +userId)
         var url = prefix + '/resetPwd/' + userId;
         opt.modal.open("重置密码", url,'800', '225');
     }

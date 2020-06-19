@@ -35,6 +35,26 @@ public class SysCompEntity extends BaseEntity {
 	private String parentName;
 
 	/**
+	 * 所有父级节点ID集合
+	 */
+	private String parentIds;
+
+	/**
+	 * 公司所属地区ID集合
+	 */
+	private String  areaIds;
+
+	/**
+	 * 租户号
+	 */
+	private String tenantId;
+
+	/**
+	 * 租户名称
+	 */
+	private String tenantName;
+
+	/**
 	 *排序
 	 */
 	private Integer orderNum;
@@ -45,9 +65,20 @@ public class SysCompEntity extends BaseEntity {
 	@NotBlank(message = "公司名称不能为空")
 	private String name;
 
-	@NotBlank(message = "类型不能为空")
-	private String type;   //0：公司 ，  1：部门， 
+	/**
+	 * 公司全称
+	 */
+	private String fullName;
 
+	/**
+	 * 0：公司 ，  1：部门，
+	 */
+	@NotBlank(message = "类型不能为空")
+	private String type;
+
+	/**
+	 * 状态
+	 */
 	private String status;
 
 	/**

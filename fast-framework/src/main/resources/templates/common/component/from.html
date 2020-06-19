@@ -138,13 +138,17 @@
                    value=""
                    labelValue=""
                    checked="false"
+                   radioType="all" <#-- 当checked=false 单选时 控制同级单选互斥还是整个树互斥 all 整个树互斥 level, checked=true 多选此值无效-->
                    required="false" <#-- 是否必输-->
                    readonly="true" <#-- 是否只读模式-->
                    correlationId="" <#-- 关联ID-->
-                   correlationValue= "0"  <#-- 关联默认值-->
+                   correlationValue= "-1"  <#-- 关联默认值-->
                    class = "form-control" <#-- 输入框样式-->
                    butClass = "fa fa-fw fa-search"
                    expandLevel = "false" <#--是否展开树 -->
+                   isParentIds = "false" <#-- 单选是否需要获取树的父节点集合-->
+                   parenName = "parentIds" <#-- 单选父节点集合Name-->
+                   parenIdsValue = "" <#-- 所有父节点集合默认值-->
                    isSelectParent = "false" <#-- 是否只能选中叶子节点-->
                    isInput = "false" <#-- 是否允许手动label框输入 -->
                    isClear = "true" <#-- 弹出是否出现清除按钮-->
@@ -163,8 +167,11 @@
         <#local AssId="${id}"/>
     </#if>
     <input id="${AssId?replace(".","_")}" name="<#if name != "">${name}<#else>${AssId}</#if>"  type="hidden" value="${value}"/>
+    <#if isParentIds == "true">
+        <input name="${parenName}" <#if parenIdsValue!="">value="${parenIdsValue}"</#if> type="hidden"/>
+    </#if>
     <div class="input-group" id="${AssId?replace(".","_")}Div" data-url="${url}">
-        <input id="${AssId?replace(".","_")}Name" type="text" placeholder="${placeholder}" class="${class}" value="${labelValue}" <#if readonly =="true"> readonly = "readonly"</#if> <#if required !="false"> required</#if>/>
+        <input id="${AssId?replace(".","_")}Name" type="text" placeholder="${placeholder}" class="${class} inputZtree" value="${labelValue}" <#if readonly =="true"> readonly = "readonly"</#if> <#if required =="true"> required</#if>/>
         <span class="input-group-btn" id="${AssId?replace(".","_")}But"><a  href="javascript:;" class="btn"><i class="${butClass}"></i></a></span>
     </div>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
@@ -192,7 +199,12 @@
                     expandLevel: "${expandLevel}",
                     isSelectParent: "${isSelectParent}",
                     correlationId: correlationId,
-                    checked: "${checked}"
+                    checked: "${checked}",
+                    <#if isParentIds == "true">
+                    parentIds: $('input[name="${parenName}"]').val(),
+                    </#if>
+                    radioType: "${radioType}"
+
                 },
                 callBack: func_${AssId?replace(".","_")}doSubmit,
                 cancel:  func_${AssId?replace(".","_")}cancel
@@ -205,6 +217,11 @@
             var nodes = $.tree.callBackTree(layero,index);
             $("#${AssId?replace(".","_")}").val(nodes.id).change(); /* 赋值主页面隐藏ID */
             $("#${AssId?replace(".","_")}Name").val(nodes.name).change();/* 回显主页面控件 */
+            console.log("--->>" + nodes.parentIds);
+            <#if isParentIds == "true">
+            $('input[name="${parenName}"]').val(nodes.parentIds).change();
+            </#if>
+
             if(typeof treeCallback == 'function'){
                 treeCallback('${Assname?replace(".","_")}', 'ok', index, layero, nodes);
             }
@@ -214,6 +231,9 @@
         function func_${AssId?replace(".","_")}clear(index, layero,selfLayer) {
             $("#${AssId?replace(".","_")}").val("").change();
             $("#${AssId?replace(".","_")}Name").val("").change();
+            <#if isParentIds == "true">
+            $('input[name="${parenName}"]').val("").change();
+            </#if>
             if(typeof treeCallback == 'function'){
                 treeCallback('${Assname?replace(".","_")}', 'clear', index, layero, '');
             }
@@ -238,8 +258,9 @@
              id = "" <#-- ID 如果ID 不传则跟name一致-->
             value = ""
             type = "hidden"
+            refresh = "true" <#-- 隐藏域在from 表单中能否被重置按钮清空-->
 >
-    <input id="<#if id=="">${name}<#else>${id}</#if>" name="<#if name != "">${name}<#else>${id}</#if>" type="${type}" value="${value}"/>
+    <input id="<#if id=="">${name}<#else>${id}</#if>" name="<#if name != "">${name}<#else>${id}</#if>" <#if refresh=="false"> data-refresh="false"</#if>  type="${type}" value="${value}"/>
 </#macro>
 
 <#--
@@ -292,6 +313,15 @@
             </#items>
         </#list>
     </#if>
+    <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
+    <script type="text/javascript">
+        $('input[name="<#if id == ''>${name}<#else>${id}</#if>"]').on('ifCreated ifChecked', function(event){
+            /* 选择redio 回调事件*/
+            if(typeof redioCallback == 'function'){
+                redioCallback("<#if id == ''>${name}<#else>${id}</#if>", this, event);
+            }
+        }).change();
+    </script>
 </#macro>
 
 <#--
@@ -367,10 +397,33 @@
                default = "true" <#-- 默认开-->
                judgeVlue = "0" <#-- 判断值默认0 开-->
 >
+    <#local  Assname="${id}"/>
+    <#if name != "">
+        <#local Assname="${name}"/>
+    </#if>
+    <#local AssId=""/>
+    <#if id == "">
+        <#local AssId="${Assname}"/>
+    <#else>
+        <#local AssId="${id}"/>
+    </#if>
     <label class="toggle-switch switch-solid">
-          <input type="checkbox" id="<#if id == "">${name}<#else>${id}</#if>" <#if value == "" && default=="true">checked="true"</#if> <#if value != "" && value == judgeVlue>checked="true"</#if>"/>
-          <span></span>
+        <input id="${AssId?replace(".","_")}" name="<#if name != "">${name}<#else>${AssId}</#if>" value="<#if value != "">${value}</#if>" type="hidden"/>
+        <input type="checkbox" id="__${AssId?replace(".","_")}swh" <#if value == "" && default=="true">checked="true"</#if> <#if value != "" && value == judgeVlue>checked="true"</#if>/>
+        <span></span>
     </label>
+    <script type="text/javascript">
+        $('#__${AssId?replace(".","_")}swh').on('click',function(e){
+            if($(this).is(':checked') == true){
+                $('#${AssId?replace(".","_")}').val("0");
+            }else{
+                $('#${AssId?replace(".","_")}').val("1");
+            }
+            if(typeof switchCallback == 'function'){
+                switchCallback("<#if name != "">${name}<#else>${AssId}</#if>", this, e);
+            }
+        });
+    </script>
 </#macro>
 
 <#macro ueditor name
@@ -391,7 +444,7 @@
     <#else>
         <#local AssId="${id}"/>
     </#if>
-    <input id="${AssId?replace(".","_")}" name="<#if name != "">${name}<#else>${AssId}</#if>" value="<#if value != "">${value}</#if>" type="hidden">
+    <input id="${AssId?replace(".","_")}" name="<#if name != "">${name}<#else>${AssId}</#if>" value="<#if value != "">${value}</#if>" type="hidden"/>
     <script id="${AssId?replace(".","_")}ContentUE" type="text/plain" style="width:100%;height:${height}px;"></script>
     <script type="text/javascript">
         $(function() {
@@ -445,18 +498,29 @@
                 items = "" <#-- 列表数据，可接受对象集合  -->
                 itemLabel = ""	<#--  指定列表数据中的什么属性名作为option的标签名 -->
                 itemValue =  ""	<#-- 指定列表数据中的什么属性名作为option的value值 -->
-                status = "status" <#-- 检测状态-->
+                status = "true" <#-- 检测状态-->
                 multiple= "false" <#--  是否为多选框 -->
                 blankValue =  "false" <#-- 是否默认有个空白选择项目 -->
 	            blankLabel =  "" <#-- 空白选择默认值 -->
+                placeholder="请选择值"
 >
+    <#local  Assname="${id}"/>
+    <#if name != "">
+        <#local Assname="${name}"/>
+    </#if>
+    <#local AssId=""/>
+    <#if id == "">
+        <#local AssId="${Assname}"/>
+    <#else>
+        <#local AssId="${id}"/>
+    </#if>
     <#if multiple == "false">
-        <select id="<#if id == "">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>" class="${class}" <#if required !="false"> required</#if>>
+        <select id="${AssId?replace(".","_")}" name="<#if id == "">${name}<#else>${AssId}</#if>" class="${class}" <#if required !="false"> required</#if>>
         <#if blankValue!="false"><option value="${blankValue}"><@ctx.i18n text = "${blankLabel}"/></option></#if>
         <#if dictType !="">
             <#list dict.getType('${dictType}')>
                 <#items as d>
-                    <#if status == "status" && d.status?default('') !=''>
+                    <#if status == "true" && d.status?default('') !=''>
                         <#if d.status =='0' >
                             <#if value == "" && blankValue == "false">
                                 <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
@@ -488,7 +552,7 @@
         <#else>
             <#list items>
                 <#items as d>
-                    <#if status == "status" && d.status?default('') !=''>
+                    <#if status == "true" && d.status?default('') !=''>
                         <#if d.status =='0' >
                             <#if value == "">
                                 <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
@@ -522,11 +586,13 @@
     </#if>
 
     <#if multiple == "true">
-        <select id="<#if id == "">${name}<#else>${id}</#if>" class="${class}" multiple <#if required !="false"> required</#if>>
+        <input id="${AssId?replace(".","_")}" type="hidden" name="<#if id == "">${name}<#else>${AssId}</#if>"/>
+        <select id="__${AssId?replace(".","_")}slt" class="${class}" multiple="true" <#if class= "selectpicker">data-none-selected-text="请选择"</#if> <#if required !="false"> required</#if>>
+            <#if blankValue!="false"><option value="${blankValue}"><@ctx.i18n text = "${blankLabel}"/></option></#if>
             <#if dictType !="">
                 <#list dict.getType('${dictType}')>
                     <#items as d>
-                        <#if status == "status">
+                        <#if status == "true">
                             <#if d.status =='0' >
                                 <#if value == "" && blankValue == "false">
                                     <option value="${d.dictValue}" <#if d.isDefault =='Y' >selected="selected"</#if>><@ctx.i18n text = "${d.dictLabel}"/></option>
@@ -558,7 +624,7 @@
             <#else>
                 <#list items>
                     <#items as d>
-                        <#if status == "status">
+                        <#if status == "true">
                             <#if d.status =='0' >
                                 <#if value == "">
                                         <option value="${d['${itemValue}']}"><@ctx.i18n text = "${d['${itemLabel}']}"/></option>
@@ -589,6 +655,25 @@
                 </#list>
             </#if>
         </select>
+        <script type="text/javascript">
+            $(function() {
+                <#--$("#__${AssId?replace(".","_")}slt").select2({-->
+                <#--    placeholder:"${placeholder}",-->
+                <#--    allowClear: true-->
+                <#--});-->
+                <#if value !="">
+                $("#${AssId?replace(".","_")}").val(opt.form.selectSelects("__${AssId?replace(".","_")}slt"));
+                </#if>
+                $("#__${AssId?replace(".","_")}slt").on("change",function(e){
+                    $("#${AssId?replace(".","_")}").val(opt.form.selectSelects("__${AssId?replace(".","_")}slt"));
+                    /* 选择框回调事件*/
+                    if(typeof selectCallback == 'function'){
+                        var data = $("#__${AssId?replace(".","_")}slt").select2("data");
+                        selectCallback('${Assname?replace(".","_")}', 'change', data);
+                    }
+                })
+            })
+        </script>
     </#if>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
 </#macro>

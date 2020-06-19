@@ -1,6 +1,7 @@
 package com.j2eefast.framework.sys.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.j2eefast.common.core.config.RabbitmqProducer;
 import com.j2eefast.common.core.exception.RxcException;
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
+import com.j2eefast.common.core.utils.SpringUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
 import com.j2eefast.common.rabbit.constant.RabbitBeanInfo;
 import com.j2eefast.common.rabbit.constant.RabbitInfo;
@@ -24,6 +26,7 @@ import com.j2eefast.framework.sys.entity.SysRoleEntity;
 import com.j2eefast.framework.sys.entity.SysRoleModuleEntity;
 import com.j2eefast.framework.sys.mapper.SysRoleMapper;
 import com.j2eefast.framework.utils.Constant;
+import com.j2eefast.framework.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,18 +48,35 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 	private SysRoleModuleService sysRoleModuleService;
 	@Autowired
 	private RabbitmqProducer rabbitmqProducer;
+	@Autowired
+	private SysRoleDeptService sysRoleDeptService;
 	/**
 	 * 页面展示查询翻页
 	 */
-	//@DataFilter(subDept = true, user = false)
+	@DataFilter(deptAlias = "c")
 	public PageUtil findPage(Map<String, Object> params) {
 		String roleName = (String) params.get("roleName");
 		String roleKey = (String) params.get("roleKey");
-		Page<SysRoleEntity> page = this.sysRoleMapper.findPage(	new Query<SysRoleEntity>(params).getPage(),
+		Page<SysRoleEntity> page = this.baseMapper.findPage(new Query<SysRoleEntity>(params).getPage(),
 																roleName,
 																roleKey,
 																(String) params.get(Constant.SQL_FILTER));
 		return new PageUtil(page);
+	}
+
+	@DataFilter(deptAlias = "c")
+	public List<SysRoleEntity> getRoleList(Map<String, Object> params){
+		String roleName = (String) params.get("roleName");
+		String roleKey = (String) params.get("roleKey");
+		return this.baseMapper.getRoleList(roleName,roleKey,(String) params.get(Constant.SQL_FILTER));
+	}
+
+	/**
+	 * 获取所有角色信息
+	 * @return
+	 */
+	public List<SysRoleEntity> getRolesAll(){
+		return SpringUtil.getAopProxy(this).getRoleList(new HashMap<>(1));
 	}
 
 	/**
@@ -116,6 +136,9 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getUpdateRoleHard(), JSONArray.toJSONString(role),
 					IdUtil.fastSimpleUUID(), RabbitInfo.EXCHANGE_NAME, RabbitInfo.KEY);
+
+			//清理权限缓存
+			UserUtils.clearCachedAuthorizationInfo();
 			return true;
 		}
 		return false;
@@ -124,14 +147,18 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 	@Transactional(rollbackFor = Exception.class)
 	public boolean deleteBatchByIds(Long[] ids) {
 
+		// 检查用户与角色关联
 		List<SysRoleEntity> list = sysRoleMapper.findRoleByIds(ids);
 
-		if(list != null && list.size() > 0){
+		if(ToolUtil.isNotEmpty(list)){
 			throw new RxcException(String.format("%1$s已分配,不能删除", list.get(0).getRoleName()));
 		}
 
 		// 删除角色与菜单关联
 		sysRoleMenuService.deleteBatchByRoleIds(ids);
+
+		// 删除角色与机构关联
+		sysRoleDeptService.deleteBatchByRoleIds(ids);
 
 		if(this.removeByIds(Arrays.asList(ids))){
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getDelRoleHard(), ToolUtil.conversion(ids,","),
@@ -164,10 +191,48 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 		return sysRoleMapper.getRolesByUserId(userId);
 	}
 
+	/**
+	 * 通过用户id获取用户角色权限id 用逗号隔开
+	 * @param userId
+	 * @return
+	 */
+	public String getRolesByUserIdToStr(Long userId){
+		List<SysRoleEntity> roles = this.selectRolesByUserId(userId);
+		if(ToolUtil.isNotEmpty(roles)){
+			StringBuffer sb = new StringBuffer(StrUtil.EMPTY);
+			for(SysRoleEntity role: roles){
+				sb.append(role.getId()).append(StrUtil.COMMA);
+			}
+			return  sb.substring(0,sb.length()-1);
+		}else{
+			return StrUtil.EMPTY;
+		}
+	}
+
 	public boolean changeStatus(SysRoleEntity role) {
 		return this.updateById(role);
 	}
 
+	public void checkRoleAllowed(SysRoleEntity role){
+		if(role.getRoleKey().equals(Constant.SU_ADMIN)){
+			new RxcException("超级管理员不允许操作!");
+		}
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public boolean authDataScope(SysRoleEntity role){
+
+		//修改角色表
+		if(this.updateById(role)){
+			//
+			this.sysRoleDeptService.saveOrUpdate(role.getId(),Arrays.asList(role.getDeptIds()));
+
+			UserUtils.clearCachedAuthorizationInfo(); //清理权限缓存
+
+			return true;
+		}
+		return false;
+	}
 
 	public List<SysRoleEntity> findByRolesByUserId(Long userId){
 //		List<SysRoleEntity> userRole =  sysRoleMapper.getRolesByUserId(userId);
