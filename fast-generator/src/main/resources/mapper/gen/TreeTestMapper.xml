@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j2eefast.generator.gen.mapper.TreeTestMapper">
+
+
+    
+    <resultMap type="TreeTestEntity" id="TreeTestResult">
+  <result property="id"    column="id"    />
+   <result property="parentId"    column="parent_id"    />
+   <result property="parentIds"    column="parent_ids"    />
+   <result property="name"    column="name"    />
+   <result property="status"    column="status"    />
+   <result property="createBy"    column="create_by"    />
+   <result property="remark"    column="remark"    />
+   <result property="updateTime"    column="update_time"    />
+   <result property="updateBy"    column="update_by"    />
+   <result property="createTime"    column="create_time"    />
+   <result property="delFlag"    column="del_flag"    />
+         <result property="parentName" column="parent_name" />
+    </resultMap>
+    
+    <!--  实体栏位  --> 
+    <sql id="treeTestColumns">
+         a.id as "id"   ,                 
+          a.parent_id as "parentId"   ,                 
+          a.parent_ids as "parentIds"   ,                 
+          a.name as "name"   ,                 
+          a.status as "status"   ,                 
+          a.create_by as "createBy"   ,                 
+          a.remark as "remark"   ,                 
+          a.update_time as "updateTime"   ,                 
+          a.update_by as "updateBy"   ,                 
+          a.create_time as "createTime"   ,                 
+          a.del_flag as "delFlag"                   
+       </sql>
+    
+     <!-- 外联表  --> 
+	<sql id="treeTestJoins">
+		<!--  left join sys_comp c ON c.id = a.$c.columnName   关联查询后，需手动修改 treeTestColumns 中属性值      -->
+    </sql>
+    
+    
+    <!--  根据主键获取实体   -->
+     <select id="selectById"  resultType="com.j2eefast.generator.gen.entity.TreeTestEntity" > 
+          SELECT 
+			<include refid="treeTestColumns"/>
+		FROM  example_tree_test a
+		<include refid="treeTestJoins"/>
+		WHERE a.id = #{id}
+    </select>
+    
+     <!--  根据获取实体List   -->
+     <select id="selectList" resultType="com.j2eefast.generator.gen.entity.TreeTestEntity">
+		SELECT 
+			<include refid="treeTestColumns"/>
+		FROM example_tree_test a
+		<include refid="treeTestJoins"/>
+		<where>
+      a.del_flag = '0'             <if test="parentId != null "> and a.parent_id = #{parentId} </if>
+    
+            <if test="name != null  and name != ''">
+                     and a.name LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{name}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{name}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			
+              <if test="status != null  and status != ''"> and a.status = #{status} </if>
+                        <if test = "sql_filter !=null and sql_filter!=''">
+                   and ${sql_filter}
+               </if>    
+		</where>
+	 </select>
+	 
+	 
+	 
+	  <!--  根据获取实体 page   -->
+     <select id="findPage" resultType="com.j2eefast.generator.gen.entity.TreeTestEntity">
+		SELECT 
+			<include refid="treeTestColumns"/>
+		FROM example_tree_test a
+		<include refid="treeTestJoins"/>
+		<where>
+     a.del_flag = '0'         
+              <if test="treeTest.parentId != null "> and a.parent_id = #{treeTest.parentId} </if>
+                <if test="treeTest.name != null  and treeTest.name != ''">
+                     and a.name LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{treeTest.name}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{treeTest.name}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{treeTest.name},'%')</if>
+			</if>
+               <if test="treeTest.status != null  and treeTest.status != ''"> and a.status = #{treeTest.status} </if>
+                      <if test = "sql_filter !=null and sql_filter!=''">
+               and ${sql_filter}
+             </if>  
+		</where>
+	 </select>
+	 
+		<!--  更新获取实体 updateById    -->
+	<update id="updateById">
+		UPDATE  example_tree_test  <set>	
+              parent_id = #{parentId}  ,              
+              parent_ids = #{parentIds}  ,              
+              name = #{name}  ,              
+              status = #{status}  ,              
+              remark = #{remark}  ,              
+              update_time = #{updateTime}  ,              
+              update_by = #{updateBy}  ,              
+  		</set>
+		WHERE id = #{id}
+	</update>
+	   
+	 
+	<!--  新增实体 insert    --> 
+	 <insert id="insert">
+	 INSERT INTO example_tree_test(
+          id ,          
+          parent_id ,          
+          parent_ids ,          
+          name ,          
+          status ,          
+          create_by ,          
+          remark ,          
+          update_time ,          
+          update_by ,          
+          create_time ,          
+          del_flag          
+       ) VALUES (
+        #{id},        
+        #{parentId},        
+        #{parentIds},        
+        #{name},        
+        #{status},        
+        #{createBy},        
+        #{remark},        
+        #{updateTime},        
+        #{updateBy},        
+        #{createTime},        
+        #{delFlag}        
+		)
+	</insert>
+	 
+
+	<!--  删除 使用mybatits-plus 自带的，    --> 
+  
+
+<!--
+
+
+    <update id="updateTreeTest" parameterType="com.j2eefast.generator.gen.entity.TreeTestEntity">
+        update example_tree_test
+        <trim prefix="SET" suffixOverrides=",">
+        <if test="parentId != null ">parent_id = #{parentId},</if>
+        <if test="parentIds != null  and parentIds != ''">parent_ids = #{parentIds},</if>
+        <if test="name != null  and name != ''">name = #{name},</if>
+        <if test="status != null  and status != ''">status = #{status},</if>
+        <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+        <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        <if test="updateTime != null ">update_time = #{updateTime},</if>
+        <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+        <if test="createTime != null ">create_time = #{createTime},</if>
+        <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTreeTestById" parameterType="Long">
+        delete from example_tree_test where id = #{id}
+    </delete>
+
+    <delete id="deleteBatch" parameterType="Long">
+        delete from example_tree_test where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+-->
+</mapper>
