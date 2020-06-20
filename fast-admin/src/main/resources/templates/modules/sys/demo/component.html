@@ -1,0 +1,139 @@
+<#include "/common/defaultEngine.html"/>
+<@pageTheme mark="${config.optimize()?string('true', 'false')}">
+<@header title="前端组件使用说明" bodyClass="white-bg" libs=["prism"]/>
+<div class="wrapper wrapper-content ibox-content">
+    <@from.tip class="warning"><strong>重要提示:</strong>J2eeFAST平台 前端模板引擎组件写法类似 HTML 本身控件写法,属性值方式.</@from.tip>
+    <@from.code>
+        <#noparse>
+        //
+        //页面提示组件标签:<@from.tip>&lt;/@from.tip&gt; 例如上面展示效果
+        //参数: 1. class="info"  <#-- 默认info 蓝色 -->
+        //
+        <@from.tip class="warning"><strong>重要提示:</strong>如果选择发布公告,等级是<u>严重</u>才会在登陆页面Top提示,等级是<u>紧急</u>只在登陆之后Top提示,等级是<u>普通</u>则在Top提醒栏提示!&lt;/@from.tip&gt;
+        </#noparse>
+    </@from.code>
+    <@from.from id="form-user-add" class="form-horizontal" style="margin-top: 40px;">
+        <h4 class="form-header h4">常用组件信息</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span style="color: red; ">*</span>输入框组件：</label>
+                    <div class="col-sm-10">
+                        <@from.input name="username" placeholder="请输入登录账号" required="true" helpTip="登录账号数字加字母组合,至少3位"/>
+                        <pre class="line-numbers">
+                            <code  class="language-html">
+                             <#noparse>
+                                 //输入框组件标签:<@from.input/>
+                                 //
+                                 <@from.input name="username" placeholder="请输入登录账号" required="true" helpTip="登录账号数字加字母组合,至少3位"/>
+                             </#noparse>
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+
+            </div>
+<#--            <div class="col-sm-6">-->
+<#--                <div class="form-group">-->
+<#--                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属公司：</label>-->
+<#--                    <div class="col-sm-8">-->
+<#--                        <@from.treeselect name="compId" boxTitle="选择归属公司" url="sys/comp/treeData?type=0" expandLevel="true" required="true"-->
+<#--                        placeholder="请选择归属公司"/>-->
+<#--                    </div>-->
+<#--                </div>-->
+<#--            </div>-->
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>用户姓名：</label>
+                    <div class="col-sm-8">
+                        <input name="name" id="name" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属部门：</label>
+                    <div class="col-sm-8">
+                        <@from.treeselect  name="deptId" boxTitle="请选择归属部门" url="sys/dept/selectZtree" required="true"
+                        correlationId="compId" isSelectParent="true"  placeholder="请选择归属部门"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录密码：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <@from.input name="password" placeholder="请输入登录密码" required="true" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}"/>
+                            <span class="input-group-addon" title="<@ctx.i18n text = "登录密码,鼠标按下显示密码"/>"
+                                  data-toggle="tooltip"
+                                  data-placement="bottom" data-custom-class="tooltip-warning"
+                                  onmousedown="$('#password').attr('type','text')"
+                                  onmouseup="$('#password').attr('type','password')"><i class="fa fa-fw fa-key"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
+                    <div class="col-sm-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <@from.input name="mobile"  maxlength="11" butClass="fa fa-fw fa-mobile"  placeholder="请输入手机号码" required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所在岗位：</label>
+                    <div class="col-sm-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">邮箱：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <@from.input name="email" class="form-control email" butClass="fa fa-fw fa-envelope" maxlength="50" placeholder="请输入邮箱" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">用户状态：</label>
+                    <div class="col-sm-8">
+                        <@from.switch name="status" value="0"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </@from.from>
+    <div class="hr-line-dashed"></div>
+    <div class="row" id="_addTab">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="opt.form.submit()"><i class="fa fa-check"></i><@ctx.i18n text = "保存"/></button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="opt.modal.closeTab()"><i class="fa fa-reply-all"></i><@ctx.i18n text = "关闭"/></button>
+        </div>
+    </div>
+    </div>
+<@footer>
+</@footer>
+</@pageTheme>

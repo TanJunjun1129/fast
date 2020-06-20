@@ -24,8 +24,9 @@
             method	= "" <#-- 用于发送 form-data 的 HTTP 方法-->
             enctype = "" <#-- 发送表单数据之前如何对其进行编码-->
             class = "" <#-- css 样式-->
+            style = "" <#-- 表单from style 样式-->
 >
-    <form id="<#if id=="">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>" <#if class!=""> class ="${class}"</#if>  <#if action !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
+    <form id="<#if id=="">${name}<#else>${id}</#if>" name="<#if id == "">${name}<#else>${id}</#if>" <#if style!=""> style ="${style}"</#if> <#if class!=""> class ="${class}"</#if>  <#if action !=""> action = ${action}</#if> <#if method !=""> action = ${method}</#if> <#if enctype !=""> action = ${enctype}</#if>>
     <#nested>
     </form>
 </#macro>
@@ -678,3 +679,22 @@
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
 </#macro>
 
+<#--
+    页面提示框组件
+-->
+<#macro tip class = "info" <#--样式 默认info -->
+            icon = "fa fa-info" <#-- 提示语句前的小图标-->
+            >
+    <div class="alert alert-dismissible callout callout-${class} animated bounceInDown">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <p><i class="icon ${icon}"></i><#nested></p>
+    </div>
+</#macro>
+
+<#macro code>
+    <pre class="line-numbers">
+        <code  class="language-html">
+             <#nested>
+        </code>
+    </pre>
+</#macro>

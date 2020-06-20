@@ -29,13 +29,6 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><span style="color: red; ">*</span>管理地区：</label>
 		<div class="col-sm-8">
-<#--			<div class="input-group">-->
-<#--				<input class="form-control" type="text" onclick="selectDeptTree()" id="deptName" value="${deptName}" readonly="true">-->
-<#--				<span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>-->
-<#--			</div>-->
-<#--			<@from.treeselect id="deptId" name="deptIdList" boxTitle="请选择管理地区" url="sys/dept/selectZtree" labelValue="${deptName}" value="${deptIdList}"-->
-<#--			checked="true" correlationId="parentId" isSelectParent="true"  placeholder="请选择管理地区"/>-->
-
 			<@from.treeselect id="areaId" name="areaIds" boxTitle="请选择管理地区" url="sys/area/treeData" labelValue="${areaNames}" value="${comp.areaIds?default('')}"
 			checked="true" correlationId="parentId" placeholder="请选择管理地区"/>
 		</div>
@@ -102,56 +95,9 @@
 
 	function submitHandler() {
 		if (opt.validate.form()) {
-			// var options = {
-			// 	id:'form-comp-edit',
-			// 	conversion:[
-			// 		{
-			// 			name:'deptIdList',
-			// 			value:'arr'
-			// 		}
-			// 	]
-			// };
-			// var data = opt.form.dataUp(options);
 			opt.operate.save(prefix + "/edit", $('#form-comp-edit').serialize());
-			// opt.operate.save(prefix + "/edit", data);
 		}
 	}
-
-	<#--/*部门管理-新增-选择父部门树*/-->
-	<#--function selectCompTree() {-->
-	<#--	var options = {-->
-	<#--		title: '公司选择',-->
-	<#--		width: "380",-->
-	<#--		url: prefix + "/selectCompTree/" + $("#parentId").val(),-->
-	<#--		callBack: doSubmit-->
-	<#--	};-->
-	<#--	opt.modal.openOptions(options);-->
-	<#--}-->
-
-	<#--function doSubmit(index, layero){-->
-	<#--	var _v = $.tree.callBackTree(layero,index);-->
-	<#--	$("#parentId").val(_v.id);-->
-	<#--	$("#compName").val(_v.name);-->
-	<#--	layer.close(index);-->
-	<#--}-->
-
-	<#--/*获取公司对应地区*/-->
-	<#--function selectDeptTree(){-->
-	<#--	var options = {-->
-	<#--		title:"<@ctx.i18n text = "sys.select.dept"/>",-->
-	<#--		width: "380",-->
-	<#--		url: baseURL+'sys/dept/selectDeptTree',-->
-	<#--		obj:{"id":$("#parentId").val(),"list":$("#deptId").val()},-->
-	<#--		callBack: DeptDoSubmit-->
-	<#--	};-->
-	<#--	opt.modal.openOptions(options);-->
-	<#--}-->
-	<#--function DeptDoSubmit(index, layero){-->
-	<#--	var _v = $.tree.callBackTree(layero,index);-->
-	<#--	$("#deptId").val(_v.id);-->
-	<#--	$("#deptName").val(_v.name);-->
-	<#--	layer.close(index);-->
-	<#--}-->
 </script>
 </@footer>
 </@pageTheme>

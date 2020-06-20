@@ -47,7 +47,6 @@ public class PropertiesUtils {
 			for(Resource resource : resources){
 				configSet.add("classpath:config/"+resource.getFilename());
 			}
-			//configSet.add("classpath:config/jeesite.yml");
 			// 获取全局设置默认的配置文件（以下是支持环境配置的属性文件）
 			Set<String> set = new LinkedHashSet<>();
 			for (String configFile : DEFAULT_CONFIG_FILE){

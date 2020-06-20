@@ -125,32 +125,9 @@
         focusCleanup: true
     });
 
-    // $(function() {
-    //     $('#_role').select2({
-    //         placeholder:"请选择岗位",
-    //         allowClear: true
-    //     });
-    // })
-
     /*提交*/
     function submitHandler(index, layero){
         if (opt.validate.form()) {
-            // var options = {
-            //     id:'form-user-edit',
-            //     delete:['compName','deptName'], /* 需要删除提交表单数据 */
-            //     conversion:[ /*//需要转数据*/
-            //         {
-            //             name:'deptIdList',
-            //             value:'arr'
-            //         }
-            //     ]
-            // };
-            // var data = opt.form.dataUp(options);
-            // var postIds = opt.form.selectSelects("_role");
-            // var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
-            // data.push({"name": "status", "value": status});
-            // data.push({"name": "roleIdList", "value": postIds});
-            // opt.operate.save(baseURL+'sys/user/edit',data);
             opt.operate.saveTab(prefix + "/edit", $('#form-user-edit').serialize());
         }
     }

@@ -44,7 +44,7 @@
     </@header>
  -->
 <@header title="前端模板说明" bodyClass="white-bg" libs=["bootstrapSelect"]/>
-<!--页面主体部分 -->
+<!--页面主体部分 就是除去页面body部分-->
 <div class="wrapper wrapper-content ibox-content">
 </div>
 <#--

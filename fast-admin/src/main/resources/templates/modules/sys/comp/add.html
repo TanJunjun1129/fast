@@ -91,56 +91,9 @@
 
 	function submitHandler() {
 		if (opt.validate.form()) {
-			// var options = {
-			// 	id:'form-comp-add',
-			// 	conversion:[ /*//需要转数据*/
-			// 		{
-			// 			name:'deptIdList',
-			// 			value:'arr'
-			// 		}
-			// 	]
-			// };
-			// var data = opt.form.dataUp(options);
-			// opt.operate.save(prefix + "/add", data);
 			opt.operate.save(prefix + "/add", $('#form-comp-add').serialize());
 		}
 	}
-
-	<#--/*部门管理-新增-选择父部门树*/-->
-	<#--function selectCompTree() {-->
-	<#--	var options = {-->
-	<#--		title: '公司选择',-->
-	<#--		width: "380",-->
-	<#--		url: prefix + "/selectCompTree/" + $("#parentId").val(),-->
-	<#--		callBack: doSubmit-->
-	<#--	};-->
-	<#--	opt.modal.openOptions(options);-->
-	<#--}-->
-
-	<#--function doSubmit(index, layero){-->
-	<#--	var _v = $.tree.callBackTree(layero,index);-->
-	<#--	$("#parentId").val(_v.id);-->
-	<#--	$("#compName").val(_v.name);-->
-	<#--	layer.close(index);-->
-	<#--}-->
-
-	<#--/*获取公司对应地区*/-->
-	<#--function selectDeptTree(){-->
-	<#--	var options = {-->
-	<#--		title:"<@ctx.i18n text = "sys.select.dept"/>",-->
-	<#--		width: "380",-->
-	<#--		url: baseURL+'sys/dept/selectDeptTree',-->
-	<#--		obj:{"id":$("#parentId").val(),"list":$("#deptId").val()},-->
-	<#--		callBack: DeptDoSubmit-->
-	<#--	};-->
-	<#--	opt.modal.openOptions(options);-->
-	<#--}-->
-	<#--function DeptDoSubmit(index, layero){-->
-	<#--	var _v = $.tree.callBackTree(layero,index);-->
-	<#--	$("#deptId").val(_v.id);-->
-	<#--	$("#deptName").val(_v.name);-->
-	<#--	layer.close(index);-->
-	<#--}-->
 </script>
 </@footer>
 </@pageTheme>

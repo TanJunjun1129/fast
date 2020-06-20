@@ -47,7 +47,7 @@
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "请求地址"/>：</label>
 		<div class="col-sm-8">
-			<@from.input name="url" value="${menu.url?default('#')}"/>
+			<@from.input name="url" value="${menu.url?default('#')}" helpTip="Controller类中Mapping 如：@RequestMapping(\"/sys/demo\") 填写:sys/demo + 具体方法@GetMapping"/>
 		</div>
 	</div>
 	<div class="form-group">

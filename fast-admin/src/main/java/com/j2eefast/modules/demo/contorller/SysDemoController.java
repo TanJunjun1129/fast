@@ -21,10 +21,23 @@ public class SysDemoController extends BaseController {
     private String urlPrefix = "modules/sys/demo";
 
 
+    /**
+     * 前端模板引擎说明
+     * @param mmap
+     * @return
+     */
     @RequiresPermissions("sys:demo:mode")
-    @GetMapping()
+    @GetMapping("/mode")
     public String mode(ModelMap mmap) {
         mmap.put("mode",FileUtil.readUtf8String(Constant.BASE_WEB_HTML +urlPrefix+ "/mode.txt"));
         return urlPrefix + "/mode";
     }
+
+    @RequiresPermissions("sys:demo:component")
+    @GetMapping("/component")
+    public String component(ModelMap mmap) {
+
+        return urlPrefix + "/component";
+    }
+
 }
