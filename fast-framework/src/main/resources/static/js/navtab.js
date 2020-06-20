@@ -260,7 +260,7 @@ layui.define(['element'], function(exports){
 					function () {
 						opt.unblock('#content-main');
 					}
-					, 50);
+					, 30);
 			});
 
 			//切换到当前打开的选项卡

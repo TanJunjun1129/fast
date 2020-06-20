@@ -380,7 +380,7 @@ $(function () {
                     target.attr('src', url).on("load",function () {
                         setTimeout(function(){
                             window.opt.unblock('#content-main')
-                        }, 50);
+                        }, 30);
                     });
                 }
             },
