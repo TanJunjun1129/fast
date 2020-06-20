@@ -33,9 +33,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="menuOrder"     column="menu_order"     />
 		<result property="menuTarget"     column="menu_target"     />
 		<result property="remark"         column="remark"          />
-		<result property="treeCode"         column="tree_code"    />
-		<result property="treeParentCode"   column="tree_parent_code"  />
-		<result property="treeName"         column="tree_name"          />
 	<!-- 	<collection  property="columns"  javaType="java.util.List"  resultMap="GenTableColumnResult" /> -->
 	</resultMap>
 	
@@ -83,9 +80,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		,t.actions_type  as actionsType
 		,t.is_cover  as isCover
 		,t.db_name  as dbName
-		,t.tree_code as treeCode
-		,t.tree_parent_code as treeParentCode
-		,t.tree_name as treeName
 		,t.options   as options
 		,t.create_by  as createBy
 		,t.create_time as createTime
@@ -164,9 +158,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="runPath != null and runPath != ''">run_path = #{runPath},</if>
 			<if test="isDel != null and isDel != ''">is_del = #{isDel},</if>
 			<if test="dbName != null and dbName != ''">db_name = #{dbName},</if>
-			<if test="treeCode != null and treeCode != ''">tree_code = #{treeCode},</if>
-			<if test="treeParentCode != null and treeParentCode != ''">tree_parent_code = #{treeParentCode},</if>
-			<if test="treeName != null and treeName != ''">tree_name = #{treeName},</if>
 			<if test="actionsType != null and actionsType != ''">actions_type = #{actionsType},</if>
 			<if test="isCover != null and isCover != ''">is_cover = #{isCover},</if>
 			<if test="options != null and options != ''">options = #{options},</if>

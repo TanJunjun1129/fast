@@ -307,11 +307,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树显示的编码字段名， 如：dept_id"><span style="color: red; ">*</span>树编码字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeCode" name='treeCode' style="width: 100%">
+					                            <select class='form-control' id="treeCode" name='option.treeCode' style="width: 100%">
 					                                <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}"   <#if gen_table.treeCode == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if (gen_table.option.treeCode)?default("") == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -322,11 +322,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树显示的父编码字段名， 如：parent_Id"><span style="color: red; ">*</span>树父编码字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeParentCode" name='treeParentCode' style="width: 100%">
+					                            <select class='form-control' id="treeParentCode" name='option.treeParentCode' style="width: 100%">
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}"   <#if gen_table.treeParentCode == d.columnName?default("")>selected = "selected"</#if>   >${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if (gen_table.option.treeParentCode)?default("") == d.columnName?default("")>selected = "selected"</#if>   >${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -339,11 +339,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树节点的显示名称字段名， 如：dept_name"><span style="color: red; ">*</span>树名称字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeName" name='treeName' style="width: 100%">
+					                            <select class='form-control' id="treeName" name='option.treeName' style="width: 100%">
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}"    <#if gen_table.treeName == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"    <#if (gen_table.option.treeName)?default("") == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>

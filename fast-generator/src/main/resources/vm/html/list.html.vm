@@ -1,10 +1,12 @@
-<<@>include "/common/include.html"/>
+<<@>include "/common/defaultEngine.html"/>
 ${pageTheme}
-<@header title="${functionName}列表">
-</@header>
-<@search fromId="${businessName}-form">
-<div class="select-list">
-    <ul>
+<@header title="${functionName}列表" bodyClass="gray-bg animated fadeInRight" isAnimation="false" libs=["table","zTree","layout-latest"]/>
+<div class="container-div">
+ <div class="row">
+  <div class="col-sm-12 search-collapse">
+    <@from.from id="${businessName}-form" class="form-inline">
+     <div class="select-list">
+      <ul>
 #foreach($column in $columns)##
 #if($column.query)##
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
@@ -64,10 +66,11 @@ ${pageTheme}
           <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;&nbsp;<@ctx.i18n text = "查询"/></a>
           <a class="btn btn-warning btn-rounded btn-sm" onclick="opt.form.reset()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "重置"/></a>
        </li>
-    </ul>
-</div>
-</@search>
-<@table tableId="bootstrap-table">
+      </ul>
+   </div>
+  </@from.from>
+ </div>
+  <@table id="bootstrap-table">
 #if($table.crud)####
     <@shiro.hasPermission name="${permissionPrefix}:add">
                     <a class="btn btn-success" onclick="opt.operate.add()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>
@@ -87,8 +90,9 @@ ${pageTheme}
         </a>
     </@shiro.hasPermission>
 #end###
-
-</@table>
+   </@table>
+  <div>
+</div>
 <@footer>
 <script>
 #if($table.crud)####$table.crud CURD权限

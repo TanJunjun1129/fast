@@ -5,6 +5,8 @@ import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,6 +24,7 @@ import com.j2eefast.generator.gen.entity.GenTableColumnEntity;
 import com.j2eefast.generator.gen.entity.GenTableEntity;
 import com.j2eefast.generator.gen.mapper.GenTableMapper;
 import com.j2eefast.generator.gen.util.GenUtils;
+import com.j2eefast.generator.gen.util.Option;
 import com.j2eefast.generator.gen.util.VelocityInitializer;
 import com.j2eefast.generator.gen.util.VelocityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -40,11 +43,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -209,12 +210,26 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
      */
     public GenTableEntity findGenTableById(Long id) {
     	GenTableEntity table = genTableMapper.findByTableId(id);
+    	if (StringUtils.isNotBlank(table.getOptions())) {
+    	    try {
+				table.setOption(JSONObject.parseObject(table.getOptions(), Option.class));
+			} catch (Exception e) {
+				 throw new RxcException("树相关编码解析失败"); 
+			}
+    	}
     	table.setColumns(genTableColumnService.findListByTableId(id));
         return table;
     }
     
     public GenTableEntity findGenTableByName(String tableName) {
     	GenTableEntity table = genTableMapper.findByName(tableName);
+    	if (StringUtils.isNotBlank(table.getOptions())) {
+    	    try {
+				table.setOption(JSONObject.parseObject(table.getOptions(), Option.class));
+			} catch (Exception e) {
+				 throw new RxcException("树相关编码解析失败"); 
+			}
+    	}
     	table.setColumns(genTableColumnService.findListByTableId(table.getId()));
         return table;
     }
@@ -225,19 +240,26 @@ public class GenTableService extends ServiceImpl<GenTableMapper,GenTableEntity> 
 
     public void validateEdit(GenTableEntity genTable) {
         if (genTable.isTree()) {
-            if (StringUtils.isEmpty(genTable.getTreeCode())) {
+        	if(null == genTable.getOption()) {
+        		throw new RxcException("树相关设定字段不能为空");
+        	}       	
+            if (StringUtils.isEmpty(genTable.getOption().getTreeCode())) {
                 throw new RxcException("树编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(genTable.getTreeParentCode())) {
+            else if (StringUtils.isEmpty(genTable.getOption().getTreeParentCode())) {
                 throw new RxcException("树父编码字段不能为空");
             }
-            else if (StringUtils.isEmpty(genTable.getTreeName())) {
+            else if (StringUtils.isEmpty(genTable.getOption().getTreeName())) {
                 throw new RxcException("树名称字段不能为空");
             }
         }
     }
 
     public boolean update(GenTableEntity genTable) {
+    	//其它扩展设置
+    	if (null != genTable.getOption()) { 
+    		genTable.setOptions(JSONObject.toJSONString(genTable.getOption()));
+    	}    	
         int row = this.genTableMapper.updateGenTable(genTable);
         if (row > 0) {
             for (GenTableColumnEntity cenTableColumn : genTable.getColumns())

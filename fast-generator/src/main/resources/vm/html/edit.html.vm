@@ -1,13 +1,13 @@
-<<@>include "/common/include.html"/>
+<<@>include "/common/defaultEngine.html"/>
 ${pageTheme}
-<@header title="修改${functionName}">
+<@header title="修改${functionName}" bodyClass="white-bg" />
 #foreach($column in $columns)
 #if($column.edit && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")
 #break
 #end
 #end
-</@header>
-<@addorEdit fromId="form-${businessName}-edit">
+<div class="wrapper wrapper-content ibox-content">
+    <@from.from id="form-${businessName}-edit"  class="form-horizontal">
     <input name="${pkColumn.javaField}" value="${${className}.${pkColumn.javaField}}" type="hidden">
 #foreach($column in $columns)
 #if($column.edit && !$column.pk)
@@ -195,7 +195,7 @@ ${pageTheme}
 #end
 #end
 #end
-</@addorEdit>
+</@from.from>
 <@footer>
 #foreach($column in $columns)
 #if($column.edit && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")

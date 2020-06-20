@@ -1,13 +1,13 @@
-<<@>include "/common/include.html"/>
+<<@>include "/common/defaultEngine.html"/>
 ${pageTheme}
-<@header title="新增${functionName}">
+<@header title="新增${functionName}" bodyClass="white-bg"/>
 #foreach($column in $columns)
 #if($column.insert && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")
 #break
 #end
 #end
-</@header>
-<@addorEdit fromId="form-${businessName}-add">
+<div class="wrapper wrapper-content ibox-content">
+    <@from.from id="form-${businessName}-add"  class="form-horizontal">
 #foreach($column in $columns)
 #set($field=$column.javaField)
 #if($column.insert && !$column.pk)
@@ -201,7 +201,8 @@ ${pageTheme}
 #end
 #end
 #end
-</@addorEdit>
+</@from.from>
+</div>
 <@footer>
 #foreach($column in $columns)
 #if($column.insert && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")
@@ -268,7 +269,7 @@ ${pageTheme}
                $("#treeName").val(body.find('#treeName').val());
                layer.close(index);
         }
-#end
+#end##
 </script>
 </@footer>
 </@pageTheme>
