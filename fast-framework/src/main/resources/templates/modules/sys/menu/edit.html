@@ -2,19 +2,19 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改菜单" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
-<@from.from id="form-menu-edit" class="form-horizontal">
-	<@from.hidden name="id" value="${menu.id?default('')}"/>
+<@form.form id="form-menu-edit" class="form-horizontal">
+	<@form.hidden name="id" value="${menu.id?default('')}"/>
 	<div class="form-group">
 		<label class="col-sm-3 control-label "><@ctx.i18n text = "上级菜单"/>：</label>
 		<div class="col-sm-8">
-			<@from.treeselect id="treeId" value="${menu.parentId}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
+			<@form.treeselect id="treeId" value="${menu.parentId}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
 			labelValue="${menu.parentName?default('主目录')}"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "菜单类型"/>：</label>
 		<div class="col-sm-8">
-			<@from.radio name="type" dictType="sys_menu_type" value="${menu.type}"/>
+			<@form.radio name="type" dictType="sys_menu_type" value="${menu.type}"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -41,13 +41,13 @@
 <#--					</#if>-->
 <#--				</#items>-->
 <#--			</#list>-->
-			<@from.checkbox name="moduleCodes" items=modules itemLabel="moduleName" value="${menu.moduleCodes}" itemValue="moduleCode" required="true"/>
+			<@form.checkbox name="moduleCodes" items=modules itemLabel="moduleName" value="${menu.moduleCodes}" itemValue="moduleCode" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "请求地址"/>：</label>
 		<div class="col-sm-8">
-			<@from.input name="url" value="${menu.url?default('#')}" helpTip="Controller类中Mapping 如：@RequestMapping(\"/sys/demo\") 填写:sys/demo + 具体方法@GetMapping"/>
+			<@form.input name="url" value="${menu.url?default('#')}" helpTip="Controller类中Mapping 如：@RequestMapping(\"/sys/demo\") 填写:sys/demo + 具体方法@GetMapping"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -67,7 +67,7 @@
 <#--					</#items>-->
 <#--				</#list>-->
 <#--			</select>-->
-			<@from.select name="target" dictType="sys_menu_target" value="${menu.target}"/>
+			<@form.select name="target" dictType="sys_menu_target" value="${menu.target}"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -78,14 +78,14 @@
 		<div class="col-sm-8">
 <#--			<input id="perms" name="perms" class="form-control" type="text" value="${menu.perms?default("")}">-->
 <#--			<span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>控制器中定义的权限标识，如：<#noparse><@shiro.hasPermission name="sys:menu:add"></#noparse></span>-->
-			<@from.input name="perms" value="${menu.perms?default('')}" helpTip="控制器中定义的权限标识，如：<@shiro.hasPermission name=\"sys:menu:add\">"/>
+			<@form.input name="perms" value="${menu.perms?default('')}" helpTip="控制器中定义的权限标识，如：<@shiro.hasPermission name=\"sys:menu:add\">"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "排序"/>：</label>
 		<div class="col-sm-8">
 <#--			<input class="form-control" type="text" name="orderNum" value="${menu.orderNum?default(0)}" required>-->
-			<@from.input name="orderNum" value="${menu.orderNum?default(0)}" required="true"/>
+			<@form.input name="orderNum" value="${menu.orderNum?default(0)}" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -95,7 +95,7 @@
 				<i class="fa fa-question-circle-o" style="color: orange"></i></a>
 		</label>
 		<div class="col-sm-8">
-			<@from.iconselect name="icon" placeholder="选择图标" value="${menu.icon?default('')}"/>
+			<@form.iconselect name="icon" placeholder="选择图标" value="${menu.icon?default('')}"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -110,10 +110,10 @@
 <#--					</div>-->
 <#--				</#items>-->
 <#--			</#list>-->
-			<@from.radio name="hide" value="${menu.hide?c}" dictType="sys_show_hide"/>
+			<@form.radio name="hide" value="${menu.hide?c}" dictType="sys_show_hide"/>
 		</div>
 	</div>
-</@from.from>
+</@form.form>
 <@footer>
  <script>
 	var prefix = baseURL + "sys/menu";
@@ -238,40 +238,6 @@
 			$("input[name='hide']").parents(".form-group").hide();
 		}
 	}
-
-	/*菜单管理-修改-选择菜单树*/
-	/*// function selectMenuTree() {
-	// 	var menuId = $("#treeId").val();
-	// 	if(menuId > 0) {
-	// 		var url = prefix + "/selectMenuTree/" + menuId;
-	// 		opt.modal.open("选择菜单", url, '380', '380');
-	// 	} else {
-	// 		opt.modal.warning("主菜单不能选择");
-	// 	}
-	// }*/
-
-	// function selectMenuTree() {
-	// 	var menuId = $("#treeId").val();
-	// 	if(menuId > 0) {
-	// 		var url = prefix + "/selectMenuTree/" + menuId;
-	// 		var options = {
-	// 			title: '菜单选择',
-	// 			width: "380",
-	// 			url: url,
-	// 			callBack: doSubmit
-	// 		};
-	// 		opt.modal.openOptions(options);
-	// 	} else {
-	// 		opt.modal.warning("主菜单不能选择");
-	// 	}
-	// }
-	//
-	// function doSubmit(index, layero){
-	// 	var body = layer.getChildFrame('body', index);
-	// 	$("#treeId").val(body.find('#treeId').val());
-	// 	$("#treeName").val(body.find('#treeName').val());
-	// 	layer.close(index);
-	// }
 
 </script>
 </@footer>

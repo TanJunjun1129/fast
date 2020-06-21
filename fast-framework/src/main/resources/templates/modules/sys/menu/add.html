@@ -2,36 +2,36 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增菜单" bodyClass="white-bg" libs=["bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
-<@from.from id="form-menu-add" class="form-horizontal">
+<@form.form id="form-menu-add" class="form-horizontal">
     <div class="form-group">
         <label class="col-sm-3 control-label "><@ctx.i18n text = "上级菜单"/>：</label>
         <div class="col-sm-8">
-            <@from.treeselect id="treeId" value="${menu.id}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
+            <@form.treeselect id="treeId" value="${menu.id}" name="parentId" boxTitle="上级菜单选择" url="sys/menu/menuTreeData"
                 labelValue="${menu.name}"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单类型"/>：</label>
         <div class="col-sm-8">
-            <@from.radio name="type" dictType="sys_menu_type"/>
+            <@form.radio name="type" dictType="sys_menu_type"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单名称"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="name" required="true"/>
+            <@form.input name="name" required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "所属模块"/>：</label>
         <div class="col-sm-8">
-            <@from.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
+            <@form.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "请求地址"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="url" helpTip="Controller类中Mapping 如：@RequestMapping(\"/sys/demo\") 填写:sys/demo + 具体方法@GetMapping"/>
+            <@form.input name="url" helpTip="Controller类中Mapping 如：@RequestMapping(\"/sys/demo\") 填写:sys/demo + 具体方法@GetMapping"/>
         </div>
     </div>
     <div class="form-group">
@@ -41,20 +41,20 @@
                 <i class="fa fa-question-circle-o" style="color: orange"></i></a>
         </label>
         <div class="col-sm-8">
-            <@from.select name="target" dictType="sys_menu_target" />
+            <@form.select name="target" dictType="sys_menu_target" />
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "权限标识"/>：
         </label>
         <div class="col-sm-8">
-            <@from.input name="perms" helpTip="控制器中定义的权限标识，如：<@shiro.hasPermission name=\"sys:menu:add\">"/>
+            <@form.input name="perms" helpTip="控制器中定义的权限标识，如：<@shiro.hasPermission name=\"sys:menu:add\">"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "排序"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="orderNum" required="true"/>
+            <@form.input name="orderNum" required="true"/>
         </div>
     </div>
     <div class="form-group">
@@ -64,16 +64,16 @@
                 <i class="fa fa-question-circle-o" style="color: orange"></i></a>
         </label>
         <div class="col-sm-8">
-            <@from.iconselect name="icon" placeholder="选择图标"/>
+            <@form.iconselect name="icon" placeholder="选择图标"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "菜单状态"/>：</label>
         <div class="col-sm-8">
-            <@from.radio name="hide" dictType="sys_show_hide"/>
+            <@form.radio name="hide" dictType="sys_show_hide"/>
         </div>
     </div>
-</@from.from>
+</@form.form>
 </div>
 <@footer>
 <script>

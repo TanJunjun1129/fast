@@ -4,7 +4,7 @@
 <div class="container-div">
 <div class="row">
 <div class="col-sm-12 search-collapse">
-<@from.from id="test-form" class="form-inline">
+<@form.form id="test-form" class="form-inline">
 <div class="select-list">
     <ul>
            <li>
@@ -90,7 +90,7 @@
             </li>
        <li>
          <label> <@ctx.i18n text = "公司"/>：</label>
-         <@from.treeselect id="company" name="company.id"  boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
+         <@form.treeselect id="company" name="company.id"  boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
        </li>
 
            <li>
@@ -104,7 +104,7 @@
     </ul>
 </div>
 </div>
-</@from.from>
+</@form.form>
 <@table id="bootstrap-table">
     <@shiro.hasPermission name="gen:test:add">
                     <a class="btn btn-success" onclick="opt.operate.add()"><i class="fa fa-plus"></i>&nbsp;<@ctx.i18n text = "新增"/></a>

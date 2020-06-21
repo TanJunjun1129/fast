@@ -18,7 +18,7 @@
 <#--
     // from表单
 -->
-<#macro from name ="" <#-- 表单的名称-->
+<#macro form name ="" <#-- 表单的名称-->
             id = ""
             action = "" <#-- 当提交表单时向何处发送表单数据-->
             method	= "" <#-- 用于发送 form-data 的 HTTP 方法-->
@@ -32,7 +32,7 @@
 </#macro>
 
 <#--
-    //from textarea
+    //form textarea
 -->
 <#macro textarea name
              id = ""
@@ -46,7 +46,7 @@
 </#macro>
 
 <#--
-    //from 图标选择控件
+    //form 图标选择控件
 -->
 <#macro iconselect  name
                     id=""
@@ -253,7 +253,7 @@
 </#macro>
 
 <#--
-    //from hidden 隐藏域标签
+    //form hidden 隐藏域标签
 -->
 <#macro hidden name
              id = "" <#-- ID 如果ID 不传则跟name一致-->
@@ -265,7 +265,7 @@
 </#macro>
 
 <#--
-    //from input 输入框标签
+    //form input 输入框标签
 -->
 <#macro input name
               id = "" <#-- ID 如果ID 不传则跟name一致-->
@@ -297,7 +297,7 @@
 </#macro>
 
 <#--
-    //from radio 单选按钮
+    //form radio 单选按钮
 -->
 <#macro radio   name <#-- 如果name不传则于id一直-->
                 id = "" <#-- ID 如果ID 不传则跟name一致-->
@@ -334,7 +334,7 @@
 </#macro>
 
 <#--
-    //from checkbox 复选框
+    //form checkbox 复选框
 -->
 <#macro checkbox name <#-- 如果name不传则于id一直-->
                 id = "" <#-- ID 如果ID 不传则跟name一致-->
@@ -398,7 +398,7 @@
 </#macro>
 
 <#--
-    //from switch 开关组件
+    //form switch 开关组件
 -->
 <#macro switch name
                id = ""
@@ -494,7 +494,7 @@
 </#macro>
 
 <#--
-    //from select 下拉框标签
+    //form select 下拉框标签
 -->
 <#macro select  name <#--如果name不传则于id一直-->
                 id = "" <#-- ID 如果ID 不传则跟name一致-->

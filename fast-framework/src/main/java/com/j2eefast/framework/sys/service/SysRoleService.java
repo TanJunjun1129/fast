@@ -160,6 +160,9 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 		// 删除角色与机构关联
 		sysRoleDeptService.deleteBatchByRoleIds(ids);
 
+		//清理权限缓存
+		UserUtils.clearCachedAuthorizationInfo();
+
 		if(this.removeByIds(Arrays.asList(ids))){
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getDelRoleHard(), ToolUtil.conversion(ids,","),
 					IdUtil.fastSimpleUUID(), RabbitInfo.EXCHANGE_NAME, RabbitInfo.KEY);

@@ -2,7 +2,7 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="修改单范例" bodyClass="white-bg" />
 <div class="wrapper wrapper-content ibox-content">
-    <@from.from id="form-test-edit"  class="form-horizontal">
+    <@form.form id="form-test-edit"  class="form-horizontal">
     <input name="id" value="${test.id}" type="hidden">
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "员工编号"/>：
@@ -31,7 +31,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "性别"/>：</label>
         <div class="col-sm-8">
-           <@from.radio name="sex" dictType="sys_user_sex" value="${test.sex?default('')}" />
+           <@form.radio name="sex" dictType="sys_user_sex" value="${test.sex?default('')}" />
         </div>
 
     </div>
@@ -95,7 +95,7 @@
         <div class="form-group">
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "company"/>：</label>
                 <div class="col-sm-8">
-                      <@from.treeselect id="company" name="company.id" value="${(test.company.id)?default('')}"
+                      <@form.treeselect id="company" name="company.id" value="${(test.company.id)?default('')}"
                         labelValue="${(test.company.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
                 </div>
             </div>
@@ -106,7 +106,7 @@
         <div class="col-sm-8"><input name="remark" value="${test.remark?default("")}" class="form-control" type="text" >
         </div>
      </div>
-</@from.from>
+</@form.form>
 <@footer>
 <script type="text/javascript">
     var prefix = baseURL + "gen/test";

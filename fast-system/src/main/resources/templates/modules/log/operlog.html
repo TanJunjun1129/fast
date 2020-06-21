@@ -4,7 +4,7 @@
 <div class="container-div">
 	<div class="row">
 	<div class="col-sm-12 search-collapse">
-	<@from.from id="operlog-form">
+	<@form.form id="operlog-form">
 	<div class="select-list">
 		<ul>
 			<li>
@@ -24,11 +24,11 @@
 <#--						</#items>-->
 <#--					</#list>-->
 <#--				</select>-->
-				<@from.select name="businessTypes" multiple = "true" class="selectpicker" dictType="sys_oper_type" required="true"/>
+				<@form.select name="businessTypes" multiple = "true" class="selectpicker" dictType="sys_oper_type" required="true"/>
 			</li>
 			<li>
 				<label>操作状态：</label>
-				<@from.select name="status" blankValue="" blankLabel="所有" dictType="sys_common_status" />
+				<@form.select name="status" blankValue="" blankLabel="所有" dictType="sys_common_status" />
 			</li>
 			<li class="select-time">
 				<label>操作时间： </label>
@@ -42,7 +42,7 @@
 			</li>
 		</ul>
 	</div>
-	</@from.from>
+	</@form.form>
 	</div>
 	<@table id="bootstrap-table">
 		<@shiro.hasPermission name="sys:log:del">

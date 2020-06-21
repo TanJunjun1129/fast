@@ -2,17 +2,17 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增模块" bodyClass="white-bg"/>
 <div class="wrapper wrapper-content ibox-content">
-<@from.from id="form-sysModule-add" class="form-horizontal">
+<@form.form id="form-sysModule-add" class="form-horizontal">
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "模块名称"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="moduleName" required="true"/>
+            <@form.input name="moduleName" required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "模块编码"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="moduleCode" required="true"/>
+            <@form.input name="moduleCode" required="true"/>
         </div>
     </div>
     <div class="form-group">
@@ -22,34 +22,34 @@
             <i class="fa fa-question-circle-o" style="color: orange"></i></a>
     </label>
     <div class="col-sm-8">
-        <@from.iconselect name="icon" placeholder="选择图标"/>
+        <@form.iconselect name="icon" placeholder="选择图标"/>
     </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "模块描述"/>：</label>
         <div class="col-sm-8">
-            <@from.textarea name="description" required="true"/>
+            <@form.textarea name="description" required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "主类全名"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="mainClassName" required="true" helpTip = "该模块的状态验证类，如果该类检测不存在，则该模块状态提示 \"未安装\",验证原理：Class.forName()"/>
+            <@form.input name="mainClassName" required="true" helpTip = "该模块的状态验证类，如果该类检测不存在，则该模块状态提示 \"未安装\",验证原理：Class.forName()"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><span style="color: red; ">*</span><@ctx.i18n text = "版本"/>：</label>
         <div class="col-sm-8">
-            <@from.input name="currentVersion" required="true"/>
+            <@form.input name="currentVersion" required="true"/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label"><@ctx.i18n text = "备注信息"/>：</label>
         <div class="col-sm-8">
-            <@from.textarea name="remark"/>
+            <@form.textarea name="remark"/>
         </div>
     </div>
-</@from.from>
+</@form.form>
 </div>
 <@footer>
     <script type="text/javascript">

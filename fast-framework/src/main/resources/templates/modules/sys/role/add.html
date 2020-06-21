@@ -2,42 +2,42 @@
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="新增角色" bodyClass="white-bg" libs=["zTree"]/>
 <div class="wrapper wrapper-content ibox-content">
-<@from.from id="form-role-addt" class="form-horizontal">
+<@form.form id="form-role-addt" class="form-horizontal">
 	<div class="form-group">
 		<label class="col-sm-3 control-label ">角色名称：</label>
 		<div class="col-sm-8">
-			<@from.input name="roleName" required="true"/>
+			<@form.input name="roleName" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label">权限字符：</label>
 		<div class="col-sm-8">
-			<@from.input name="roleKey" required="true"/>
+			<@form.input name="roleKey" required="true"/>
 			<span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i> 前端页面使用定义的权限字符，如：<#noparse>${permission.isRole("ADMIN")}</#noparse></span>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label"><@ctx.i18n text = "管理模块"/>：</label>
 		<div class="col-sm-8">
-			<@from.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
+			<@form.checkbox name="moduleCodes" items=modules itemLabel="moduleName" itemValue="moduleCode" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label">显示顺序：</label>
 		<div class="col-sm-8">
-			<@from.input name="roleSort" required="true"/>
+			<@form.input name="roleSort" required="true"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label">状态：</label>
 		<div class="col-sm-8">
-			<@from.switch name="status" value="0"/>
+			<@form.switch name="status" value="0"/>
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label">备注：</label>
 		<div class="col-sm-8">
-			<@from.textarea name="remark"/>
+			<@form.textarea name="remark"/>
 		</div>
 	</div>
 	<div class="form-group">
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-</@from.from>
+</@form.form>
 </div>
 <@footer>
 <script>

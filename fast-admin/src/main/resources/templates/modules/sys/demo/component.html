@@ -1,29 +1,30 @@
 <#include "/common/defaultEngine.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
-<@header title="前端组件使用说明" bodyClass="white-bg" libs=["prism"]/>
+<@header title="前端组件使用说明" bodyClass="white-bg" libs=["prism","bootstrapSelect"]/>
 <div class="wrapper wrapper-content ibox-content">
-    <@from.tip class="warning"><strong>重要提示:</strong>J2eeFAST平台 前端模板引擎组件写法类似 HTML 本身控件写法,属性值方式.</@from.tip>
-    <@from.code>
+    <@form.tip class="warning"><strong>重要提示:</strong>J2eeFAST平台 前端模板引擎组件写法类似 HTML 本身控件写法,属性值方式.</@form.tip>
+    <@form.code>
         <#noparse>
         //
-        //页面提示组件标签:<@from.tip>&lt;/@from.tip&gt; 例如上面展示效果
+        //页面提示组件标签:<@form.tip>&lt;/@form.tip&gt; 例如上面展示效果
         //参数: 1. class="info" 不是必输 <#-- 默认 info 蓝色 warning 警告黄色 success 成功绿色 danger 危险红色 -->
         //     2. icon=""      不是必输 <#-- 提示小图标 默认 fa fa-info -->
-        <@from.tip class="warning"><strong>重要提示:</strong>如果选择发布公告,等级是<u>严重</u>才会在登陆页面Top提示,等级是<u>紧急</u>只在登陆之后Top提示,等级是<u>普通</u>则在Top提醒栏提示!&lt;/@from.tip&gt;
+        //栗子 🌰
+        <@form.tip class="warning"><strong>重要提示:</strong>如果选择发布公告,等级是<u>严重</u>才会在登陆页面Top提示,等级是<u>紧急</u>只在登陆之后Top提示,等级是<u>普通</u>则在Top提醒栏提示!&lt;/@form.tip&gt;
         </#noparse>
-    </@from.code>
-    <@from.from id="form-user-add" class="form-horizontal" style="margin-top: 40px;">
+    </@form.code>
+    <@form.form id="form-user-add" class="form-horizontal" style="margin-top: 40px;">
         <h4 class="form-header h4">常用组件信息</h4>
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span style="color: red; ">*</span>输入框组件：</label>
                     <div class="col-sm-10">
-                        <@from.input name="username" placeholder="请输入登录账号"  butClass="fa fa-envelope-open" required="true" helpTip="登录账号数字加字母组合,至少3位"/>
-                        <#-- from.code 是为了演示说明 可以删除-->
-                        <@from.code>
+                        <@form.input name="username" placeholder="请输入登录账号"  butClass="fa fa-envelope-open" required="true" helpTip="登录账号数字加字母组合,至少3位"/>
+                        <#-- form.code 是为了演示说明 可以删除-->
+                        <@form.code>
                          <#noparse>
-                             //输入框组件标签:<@from.input/>
+                             //输入框组件标签:<@form.input/>
                              //参数: 1. name 控件name 必输
                                     2. id 控件id 不是必输 如果不输则与name名称一样
                                     3. value 控件值 不是必输 默认""
@@ -36,18 +37,20 @@
                                     10.helpTip 帮助提示 不是必输 默认""
                                     11.readonly 控件是否可以编辑 不是必输 默认""
                                     12.maxlength 控件输入最大长度 不是必输 默认 ""
-                             <@from.input name="username" butClass="fa fa-envelope-open" placeholder="请输入登录账号" required="true"
+                             //栗子 🌰
+                             <@form.input name="username" butClass="fa fa-envelope-open" placeholder="请输入登录账号" required="true"
                              helpTip="登录账号数字加字母组合,至少3位"/>
 
-                             //表单隐藏域标签:<@from.hidden/>
+                             //表单隐藏域标签:<@form.hidden/>
                              //参数: 1. name 控件name 必输
                                     2. id 控件id 不是必输 如果不输则与name名称一样
                                     3. value 控件值 不是必输 默认""
                                     4. type 控件类型 不是必输 默认 hidden
                                     5. refresh 隐藏域在from 表单中能否被重置按钮清空 不是必输 默认 true
-                             <@from.hidden name="id"/>
+                             //栗子 🌰
+                             <@form.hidden name="id"/>
                          </#noparse>
-                        </@from.code>
+                        </@form.code>
                     </div>
                 </div>
             </div>
@@ -57,10 +60,10 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span style="color: red; ">*</span>多行文本：</label>
                     <div class="col-sm-10">
-                        <@from.textarea name="text" rows="6"/>
-                        <@from.code>
+                        <@form.textarea name="text" rows="6"/>
+                        <@form.code>
                         <#noparse>
-                            //多行文本组件标签: <@from.textarea/>
+                            //多行文本组件标签: <@form.textarea/>
                             //参数: 1. name 控件name 必输
                                    2. id 控件id 不是必输 如果不输则与name名称一样
                                    3. class 控件样式 不是必输 默认 "form-control"
@@ -68,9 +71,10 @@
                                    5. required 控件在from 不是必输 默认 false 表单中是否必输 true为表单中必输
                                    6. readOnly 控件是否可以修改 不是必输 默认 false
                                    7. rows 控件多行 不是必输 默认 5
-                            <@from.textarea name="text" rows="6"/>
+                            //栗子 🌰
+                            <@form.textarea name="text" rows="6"/>
                         </#noparse>
-                        </@from.code>
+                        </@form.code>
                     </div>
                 </div>
             </div>
@@ -78,23 +82,60 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录密码：</label>
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>下拉单选：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <@from.input name="password" placeholder="请输入登录密码" required="true" type="password" value="${config.getKey('SYS_USER_INITPASSWORD')}"/>
-                            <span class="input-group-addon" title="<@ctx.i18n text = "登录密码,鼠标按下显示密码"/>"
-                                  data-toggle="tooltip"
-                                  data-placement="bottom" data-custom-class="tooltip-warning"
-                                  onmousedown="$('#password').attr('type','text')"
-                                  onmouseup="$('#password').attr('type','password')"><i class="fa fa-fw fa-key"></i></span>
-                        </div>
+                        <@form.select name="status" dictType="sys_normal_disable" blankValue="" blankLabel="所有"/>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所属角色：</label>
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>下拉多选：</label>
                     <div class="col-sm-8">
+                        <@form.select name="businessTypes" multiple = "true"  dictType="sys_oper_type" required="true"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <@form.code>
+                            <#noparse>
+                                //下拉框组件标签: <@form.select/>
+                                //参数: 1. name 控件name 必输
+                                       2. id 控件id 不是必输 如果不输则与name名称一样
+                                       3. class 控件样式 不是必输 默认 "form-control"
+                                       4. value 控制值 不是必输 默认 ""
+                                       5. required 控件在from 不是必输 默认 false 表单中是否必输 true为表单中必输
+                                       6. readOnly 控件是否可以修改 不是必输 默认 false
+                                       7. butClass 控件后面追加图标  不是必输 默认""
+                                       8. helpTip 帮助提示 不是必输 默认""
+                                       9. dictType 字典类型，从数据从字典里获取 不是必输 默认""
+                                       10.items 列表数据，可接受对象集合后台传入 不是必输
+                                       11.itemLabel 指定列表数据中的什么属性名作为option的标签名 不是必输
+                                       12.itemValue 指定列表数据中的什么属性名作为option的value值 不是必输
+                                       13.status 检测状态 不是必输
+                                       14.multiple 是否多选 不是必输 默认 "false" 单选
+                                       15.blankValue 是否默认有个空白选择项目 不是必输 默认"false"
+                                       16.blankLabel 空白选择默认值 不是必输 默认""
+                                       17.placeholder 默认输入框提示 不是必输 默认 "请输入"
+                                //此组件页面会有回调事件:
+                                //回调方法参数: id 回调控件的id,用于区分控件名称,若你的页面有多个下拉框组件
+                                              event 回调控件的事件 change
+                                              data 回调控件的数据
+                                selectCallback(id,event,data);
+                                * 如果你需要此回调页面添加此函数 不需要则忽略
+
+                                //从字典获取栗子 🌰:
+                                <@form.select name="status" dictType="sys_normal_disable" blankValue="" blankLabel="所有"/>
+                                //从后台传入值栗子 🌰:
+                                <@form.select name="roleIdList" multiple = "true" value="${selectRoles}"  items=roles itemLabel="roleName" itemValue="id"
+                                required="true"/>
+                            </#noparse>
+                        </@form.code>
                     </div>
                 </div>
             </div>
@@ -102,18 +143,74 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>单选框：</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <@from.input name="mobile"  maxlength="11" butClass="fa fa-fw fa-mobile"  placeholder="请输入手机号码" required="true"/>
+                            <@form.radio name="type" dictType="sys_menu_type"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>所在岗位：</label>
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>多选框：</label>
                     <div class="col-sm-8">
+                        <@form.checkbox name="postType" dictType="sys_post_type" required="true"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-2"></label>
+                    <div class="col-sm-10">
+                        <div class="col-sm-6">
+                            <@form.code>
+                                <#noparse>
+                                    //单选按钮组件标签: <@form.radio/>
+                                    //参数: 1. name 控件name 必输
+                                           2. id 控件id 不是必输 如果不输则与name名称一样
+                                           3. class 控件样式 不是必输 默认 "radio-box"
+                                           4. value 控制值 不是必输 默认 ""
+                                           5. required 控件在from 不是必输 默认 false
+                                    表单中是否必输 true为表单中必输
+                                           6. readOnly 控件是否可以修改 不是必输 默认 false
+                                           7. helpTip  帮助提示 不是必输 默认""
+                                           8. dictType 字典类型，从字典里获取
+                                    //控件回调事件:
+                                    //回传参数 id 控件名称, data 回传对象, event 回传事件
+                                    redioCallback(id,data,event)
+                                    * 如果你需要此回调页面添加此函数 不需要则忽略
+                                    //栗子 🌰
+                                    <@form.radio name="type" dictType="sys_menu_type"/>
+                                </#noparse>
+                            </@form.code>
+                        </div>
+                        <div class="col-sm-6">
+                            <@form.code>
+                                <#noparse>
+                                    //多选按钮组件标签: <@form.checkbox/>
+                                    //参数: 1. name 控件name 必输
+                                           2. id 控件id 不是必输 如果不输则与name名称一样
+                                           3. class 控件样式 不是必输 默认 "radio-box"
+                                           4. value 控制值 不是必输 默认 ""
+                                           5. required 控件在from 不是必输 默认 false
+                                    表单中是否必输 true为表单中必输
+                                           6. status 检测状态 不是必输 默认 status
+                                           7. dictType 字典类型，从字典里获取  不是必输 默认""
+                                           8. helpTip  帮助提示 不是必输 默认""
+                                           9.items 列表数据，可接受对象集合后台传入 不是必输
+                                           10.itemLabel 指定列表数据中的什么属性名作为option
+                                    的标签名 不是必输
+                                           11.itemValue 指定列表数据中的什么属性名作为option
+                                    的value值 不是必输
+                                    //栗子 🌰
+                                    <@form.checkbox name="postType" dictType="sys_post_type"
+                                    required="true"/>
+                                </#noparse>
+                            </@form.code>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,11 +218,9 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">邮箱：</label>
+                    <label class="col-sm-4 control-label">图标选择控件：</label>
                     <div class="col-sm-8">
-                        <div class="input-group">
-                            <@from.input name="email" class="form-control email" butClass="fa fa-fw fa-envelope" maxlength="50" placeholder="请输入邮箱" />
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -133,12 +228,12 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">用户状态：</label>
                     <div class="col-sm-8">
-                        <@from.switch name="status" value="0"/>
+                        <@form.switch name="status" value="0"/>
                     </div>
                 </div>
             </div>
         </div>
-    </@from.from>
+    </@form.form>
     <div class="hr-line-dashed"></div>
     <div class="row" id="_addTab">
         <div class="col-sm-offset-5 col-sm-10">
