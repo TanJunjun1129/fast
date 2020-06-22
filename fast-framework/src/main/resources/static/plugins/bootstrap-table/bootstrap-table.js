@@ -7,13 +7,15 @@
 /*!
  * 基于源码修改
  * @author ZhouHuan
- * @version 2020-02-10
+ * @version 2020-06-21
  * --------------------------------------------------
  * 1.后台分页时前台删除最后一页所有数据refresh刷新后无数据问题
  * 2.新增表格头自动居中适配问题
  * 3.新增columns 列 class:'action' 样式适配图标按钮
  * 4.修改点击toolbar 视图切换 -->浮动提示框特效
  * 5.修改记住我选择实例组 删除BUG问题
+ * 6.修复压缩源码增加源码可读性
+ * 7.新增表格行title提示
  * --------------------------------------------------
  */
 (function ($) {
@@ -1732,6 +1734,10 @@
                 if (item['_' + field + '_title']) {
                     title_ = sprintf(' title="%s"', item['_' + field + '_title']);
                 }
+                //TODO 扩增表格行titel提示
+                if(title_ === ""){
+                    title_ = sprintf(' title="%s"', value);
+                }
                 cellStyle = calculateObjectValue(that.header,
                     that.header.cellStyles[j], [value, item, i, field], cellStyle);
                 if (cellStyle.classes) {
@@ -1786,6 +1792,8 @@
 
                     //TODO 扩增如果数据为""空 则显示设置字符
                     value = value === "" ? that.options.emptyText : value;
+
+
 
                     text = that.options.cardView ? ['<div class="card-view">',
                         that.options.showHeader ? sprintf('<span class="title" %s>%s</span>', style,

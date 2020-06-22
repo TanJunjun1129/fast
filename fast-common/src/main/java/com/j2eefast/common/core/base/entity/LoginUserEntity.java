@@ -114,12 +114,17 @@ public class LoginUserEntity implements Serializable {
 	 * 有 角色1-数据范围6   角色2-数据权限5  角色3-数据权限1
 	 * 如果都把这些角色都分配给这个用户- 则此用户权限为6 所有数据权限
 	 */
-	private String dataScope;
+//	private List<String> dataScope;
 
 	/**
 	 * 系统标识集合
 	 */
 	private List<Map<String, Object>> modules;
+
+	/**
+	 * 用户角色对应菜单的权限
+	 */
+	private List<Map<Object,Object>> rolePerm;
 
 	/**
 	 * 拥有菜单的权限

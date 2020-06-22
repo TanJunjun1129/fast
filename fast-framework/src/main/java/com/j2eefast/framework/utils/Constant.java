@@ -48,6 +48,8 @@ public class Constant {
 	/** 数据权限过滤 */
 	public static final String SQL_FILTER = "sql_filter";
 
+	public static final String REQUIRES_PERMISSIONS = "REQUIRESPERMISSIONS";
+
 	/** 硬件代码 **/
 	public static final String IDS_CODE_0000 = "0000";
 	public static final String IDS_CODE_0001 = "0001";

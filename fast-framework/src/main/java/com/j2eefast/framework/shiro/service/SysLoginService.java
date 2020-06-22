@@ -156,19 +156,6 @@ public class SysLoginService implements AuthService {
 			List<Long> roleList = ConstantFactory.me().getRoleIds(userId);
 			List<String> roleNameList = new ArrayList<>();
 			List<String> roleKeyList = new ArrayList<>();
-			int dataScope = 0;
-			for (Long roleId : roleList) {
-				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
-				int temp = Integer.parseInt(role.getDataScope());
-				if(dataScope < temp){
-					dataScope = temp;
-				}
-				roleNameList.add(role.getRoleName());
-				roleKeyList.add(role.getRoleKey());
-			}
-			loginUser.setRoleList(roleList);
-			loginUser.setRoleNames(roleNameList);
-			loginUser.setRoleKey(roleKeyList);
 
 			//根居角色ID获取模块列表
 			List<SysModuleEntity> modules = this.sysModuleMapper.findModuleByRoleIds(roleList);
@@ -180,21 +167,35 @@ public class SysLoginService implements AuthService {
 			loginUser.setModules(results);
 			//设置权限列表
 			Set<String> permissionSet = new HashSet<>();
+			List<Map<Object,Object>> xzz = new ArrayList<>(roleList.size());
+
 			for (Long roleId : roleList) {
+				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
 				List<String> permissions = this.findPermissionsByRoleId(roleId);
 				if (permissions != null) {
+					Map<Object, Object> map = new HashMap<>();
+					Set<String> tempSet = new HashSet<>();
 					for (String permission : permissions) {
 						if (ToolUtil.isNotEmpty(permission)) {
 							String[] perm = StrUtil.split(permission,",");
 							for(String s: perm){
 								permissionSet.add(s);
+								tempSet.add(s);
 							}
 						}
 					}
+					map.put(role,tempSet);
+					xzz.add(map);
 				}
+				roleNameList.add(role.getRoleName());
+				roleKeyList.add(role.getRoleKey());
 			}
+
+			loginUser.setRoleList(roleList);
+			loginUser.setRoleNames(roleNameList);
+			loginUser.setRoleKey(roleKeyList);
+			loginUser.setRolePerm(xzz);
 			loginUser.setPermissions(permissionSet);
-			loginUser.setDataScope(String.valueOf(dataScope));
 		}else{
 			//根居角色ID获取模块列表
 			List<SysModuleEntity> modules = this.sysModuleMapper.findModules();
@@ -214,7 +215,7 @@ public class SysLoginService implements AuthService {
 			Set<String> permissionSet = new HashSet<>();
 			permissionSet.add("*:*:*");
 			loginUser.setPermissions(permissionSet);
-			loginUser.setDataScope("1");
+//			loginUser.setDataScope("1");
 		}
 	}
 

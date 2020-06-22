@@ -113,6 +113,7 @@ public class SysCompController extends BaseController {
 	 * 加载公司列表树
 	 */
 	@GetMapping("/treeData")
+	@RequiresPermissions("sys:user:list")
 	@ResponseBody
 	public List<Ztree> treeData(){
 		List<Ztree> ztrees = sysCompService.findCompTree(super.getPara("type"));

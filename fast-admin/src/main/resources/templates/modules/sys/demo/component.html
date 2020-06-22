@@ -163,54 +163,47 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label class="col-sm-2"></label>
+                    <div class="col-sm-2"></div>
                     <div class="col-sm-10">
-                        <div class="col-sm-6">
-                            <@form.code>
-                                <#noparse>
-                                    //单选按钮组件标签: <@form.radio/>
-                                    //参数: 1. name 控件name 必输
-                                           2. id 控件id 不是必输 如果不输则与name名称一样
-                                           3. class 控件样式 不是必输 默认 "radio-box"
-                                           4. value 控制值 不是必输 默认 ""
-                                           5. required 控件在from 不是必输 默认 false
-                                    表单中是否必输 true为表单中必输
-                                           6. readOnly 控件是否可以修改 不是必输 默认 false
-                                           7. helpTip  帮助提示 不是必输 默认""
-                                           8. dictType 字典类型，从字典里获取
-                                    //控件回调事件:
-                                    //回传参数 id 控件名称, data 回传对象, event 回传事件
-                                    redioCallback(id,data,event)
-                                    * 如果你需要此回调页面添加此函数 不需要则忽略
-                                    //栗子 🌰
-                                    <@form.radio name="type" dictType="sys_menu_type"/>
-                                </#noparse>
-                            </@form.code>
-                        </div>
-                        <div class="col-sm-6">
-                            <@form.code>
-                                <#noparse>
-                                    //多选按钮组件标签: <@form.checkbox/>
-                                    //参数: 1. name 控件name 必输
-                                           2. id 控件id 不是必输 如果不输则与name名称一样
-                                           3. class 控件样式 不是必输 默认 "radio-box"
-                                           4. value 控制值 不是必输 默认 ""
-                                           5. required 控件在from 不是必输 默认 false
-                                    表单中是否必输 true为表单中必输
-                                           6. status 检测状态 不是必输 默认 status
-                                           7. dictType 字典类型，从字典里获取  不是必输 默认""
-                                           8. helpTip  帮助提示 不是必输 默认""
-                                           9.items 列表数据，可接受对象集合后台传入 不是必输
-                                           10.itemLabel 指定列表数据中的什么属性名作为option
-                                    的标签名 不是必输
-                                           11.itemValue 指定列表数据中的什么属性名作为option
-                                    的value值 不是必输
-                                    //栗子 🌰
-                                    <@form.checkbox name="postType" dictType="sys_post_type"
-                                    required="true"/>
-                                </#noparse>
-                            </@form.code>
-                        </div>
+                        <@form.code>
+                            <#noparse>
+                                //单选按钮组件标签: <@form.radio/>
+                                //参数: 1. name 控件name 必输
+                                       2. id 控件id 不是必输 如果不输则与name名称一样
+                                       3. class 控件样式 不是必输 默认 "radio-box"
+                                       4. value 控制值 不是必输 默认 ""
+                                       5. required 控件在from 不是必输 默认 false
+                                 表单中是否必输 true为表单中必输
+                                       6. readOnly 控件是否可以修改 不是必输 默认 false
+                                       7. helpTip  帮助提示 不是必输 默认""
+                                       8. dictType 字典类型，从字典里获取
+                                //控件回调事件:
+                                //回传参数 id 控件名称, data 回传对象, event 回传事件
+                                redioCallback(id,data,event)
+                                * 如果你需要此回调页面添加此函数 不需要则忽略
+                                //栗子 🌰
+                                <@form.radio name="type" dictType="sys_menu_type"/>
+
+                                //多选按钮组件标签: <@form.checkbox/>
+                                //参数: 1. name 控件name 必输
+                                       2. id 控件id 不是必输 如果不输则与name名称一样
+                                       3. class 控件样式 不是必输 默认 "radio-box"
+                                       4. value 控制值 不是必输 默认 ""
+                                       5. required 控件在from 不是必输 默认 false
+                                表单中是否必输 true为表单中必输
+                                       6. status 检测状态 不是必输 默认 status
+                                       7. dictType 字典类型，从字典里获取  不是必输 默认""
+                                       8. helpTip  帮助提示 不是必输 默认""
+                                       9.items 列表数据，可接受对象集合后台传入 不是必输
+                                       10.itemLabel 指定列表数据中的什么属性名作为option
+                                的标签名 不是必输
+                                       11.itemValue 指定列表数据中的什么属性名作为option
+                                的value值 不是必输
+                                //栗子 🌰
+                                <@form.checkbox name="postType" dictType="sys_post_type"
+                                required="true"/>
+                            </#noparse>
+                        </@form.code>
                     </div>
                 </div>
             </div>
@@ -220,15 +213,63 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">图标选择控件：</label>
                     <div class="col-sm-8">
-
+                        <@form.iconselect name="icon" placeholder="选择图标"/>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">用户状态：</label>
+                    <label class="col-sm-4 control-label">Switch状态控件：</label>
                     <div class="col-sm-8">
                         <@form.switch name="status" value="0"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <@form.code>
+                            <#noparse>
+                                //单选按钮组件标签: <@form.radio/>
+                                //参数:  1. name 控件name 必输
+                                        2. id 控件id 不是必输 如果不输则与name名称一样
+                                        3. class 控件样式 不是必输 默认 "radio-box"
+                                        4. value 控制值 不是必输 默认 ""
+                                        5. required 控件在from 不是必输 默认 false
+                                表单中是否必输 true为表单中必输
+                                        6. readOnly 控件是否可以修改 不是必输 默认 false
+                                        7. helpTip  帮助提示 不是必输 默认""
+                                        8. dictType 字典类型，从字典里获取
+                                //控件回调事件:
+                                //回传参数 id 控件名称, data 回传对象, event 回传事件
+                                redioCallback(id,data,event)
+                                * 如果你需要此回调页面添加此函数 不需要则忽略
+                                //栗子 🌰
+                                <@form.radio name="type" dictType="sys_menu_type"/>
+
+                                //多选按钮组件标签: <@form.checkbox/>
+                                //参数:  1. name 控件name 必输
+                                        2. id 控件id 不是必输 如果不输则与name名称一样
+                                        3. class 控件样式 不是必输 默认 "radio-box"
+                                        4. value 控制值 不是必输 默认 ""
+                                        5. required 控件在from 不是必输 默认 false
+                                表单中是否必输 true为表单中必输
+                                        6. status 检测状态 不是必输 默认 status
+                                        7. dictType 字典类型，从字典里获取  不是必输 默认""
+                                        8. helpTip  帮助提示 不是必输 默认""
+                                        9.items 列表数据，可接受对象集合后台传入 不是必输
+                                        10.itemLabel 指定列表数据中的什么属性名作为option
+                                的标签名 不是必输
+                                        11.itemValue 指定列表数据中的什么属性名作为option
+                                的value值 不是必输
+                                //栗子 🌰
+                                <@form.checkbox name="postType" dictType="sys_post_type"
+                                required="true"/>
+                            </#noparse>
+                        </@form.code>
                     </div>
                 </div>
             </div>

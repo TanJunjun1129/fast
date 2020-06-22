@@ -134,21 +134,29 @@ public class UserRealm extends AuthorizingRealm {
 			List<Long> roleList = ConstantFactory.me().getRoleIds(loginUser.getId());
 			List<String> roleNameList = new ArrayList<>();
 			List<String> roleKeyList = new ArrayList<>();
-			int dataScope = 0;
-			for (Long roleId : roleList) {
-				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
-				int temp = Integer.parseInt(role.getDataScope());
-				if(dataScope < temp){
-					dataScope = temp;
-				}
-				roleNameList.add(role.getRoleName());
-				roleKeyList.add(role.getRoleKey());
-			}
-			loginUser.setRoleList(roleList);
-			loginUser.setRoleNames(roleNameList);
-			loginUser.setRoleKey(roleKeyList);
+//			List<String> datalist = new ArrayList<>();
+//			int dataScope = -1;
+//			for (Long roleId : roleList) {
+//				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
+//				int temp = Integer.parseInt(role.getDataScope());
+//				if(temp == 5){
+//					datalist.add(String.valueOf(temp));
+//				}else{
+//					if(dataScope < temp){
+//						dataScope = temp;
+//					}
+//				}
+//				roleNameList.add(role.getRoleName());
+//				roleKeyList.add(role.getRoleKey());
+//			}
+//			if(dataScope == 6){
+//				datalist.clear();
+//			}
+//			loginUser.setRoleList(roleList);
+//			loginUser.setRoleNames(roleNameList);
+//			loginUser.setRoleKey(roleKeyList);
 
-			//根居角色ID获取模块列表
+			// 根居角色ID获取模块列表
 			List<SysModuleEntity> modules = this.sysModuleMapper.findModuleByRoleIds(roleList);
 			List<Map<String, Object>>  results = new ArrayList<>(modules.size());
 			modules.forEach(module->{
@@ -158,21 +166,34 @@ public class UserRealm extends AuthorizingRealm {
 			loginUser.setModules(results);
 			//设置权限列表
 			Set<String> permissionSet = new HashSet<>();
+			List<Map<Object,Object>> xzz = new ArrayList<>(roleList.size());
 			for (Long roleId : roleList) {
+				SysRoleEntity role = ConstantFactory.me().getRoleById(roleId);
 				List<String> permissions = this.sysMenuMapper.findPermsByRoleId(roleId);
 				if (permissions != null) {
+					Map<Object, Object> map = new HashMap<>();
+					Set<String> tempSet = new HashSet<>();
 					for (String permission : permissions) {
 						if (ToolUtil.isNotEmpty(permission)) {
 							String[] perm = StrUtil.split(permission,",");
 							for(String s: perm){
 								permissionSet.add(s);
+								tempSet.add(s);
 							}
 						}
 					}
+					map.put(role,tempSet);
+					xzz.add(map);
 				}
+				roleNameList.add(role.getRoleName());
+				roleKeyList.add(role.getRoleKey());
 			}
+			loginUser.setRoleList(roleList);
+			loginUser.setRoleNames(roleNameList);
+			loginUser.setRoleKey(roleKeyList);
+			loginUser.setRolePerm(xzz);
 			loginUser.setPermissions(permissionSet);
-			loginUser.setDataScope(String.valueOf(dataScope));
+
 			//刷新用户
 			UserUtils.reloadUser(loginUser);
 		}
