@@ -14,7 +14,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 23/06/2020 11:02:58
+ Date: 23/06/2020 21:42:20
 */
 
 SET NAMES utf8mb4;
@@ -680,7 +680,7 @@ CREATE TABLE `sys_role` (
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID[暂停使用]',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `role_key` varchar(100) COLLATE utf8mb4_bin DEFAULT '' COMMENT '角色权限字符串',
-  `data_scope` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '权限范围 0=未设置, 1=仅本人数据, 2=本公司数据,3=本部门及以下数据权限,4=本部门数据权限, 5=自定义数据权限  6 所有数据权限',
+  `data_scope` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '权限范围 1=所有数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限',
   `role_sort` int(4) DEFAULT NULL COMMENT '显示顺序',
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
   `status` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '角色状态（0正常 1停用）',
@@ -761,11 +761,7 @@ CREATE TABLE `sys_user_comp` (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `comp_id` bigint(20) DEFAULT NULL COMMENT '公司ID',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `comp_id` (`comp_id`),
-  CONSTRAINT `sys_user_comp_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`),
-  CONSTRAINT `sys_user_comp_ibfk_2` FOREIGN KEY (`comp_id`) REFERENCES `sys_comp` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户关联公司表';
 
 -- ----------------------------
