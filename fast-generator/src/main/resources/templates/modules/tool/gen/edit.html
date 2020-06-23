@@ -777,7 +777,7 @@
 		};
 		function doSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
-   			var id = body.find('#id').val();
+   			var id = body.find('#columnId').val();
    			var dictType = body.find('#dictType').val();
    			console.log("--->>:" +"#columns_dict_" + id);
    			$("#columns_dict_" + id).val(dictType);
@@ -799,7 +799,7 @@
 		};
 		function inputDoSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
-			var id = body.find('#id').val();
+			var id = body.find('#columnId').val();
 			var text = body.find('#inputEdit').val();
 			$("#columns_edit_info_" + id).val(text);
 			layer.close(index);

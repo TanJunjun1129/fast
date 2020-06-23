@@ -7,7 +7,7 @@ ${pageTheme}
 #end
 #end
 <div class="wrapper wrapper-content ibox-content">
-    <@from.from id="form-${businessName}-add"  class="form-horizontal">
+    <@form.form id="form-${businessName}-add"  class="form-horizontal">
 #foreach($column in $columns)
 #set($field=$column.javaField)
 #if($column.insert && !$column.pk)
@@ -77,7 +77,7 @@ ${pageTheme}
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
-            <@from.select name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}"  #if($column.required) required="true"#end  multiple="true" />  
+            <@form.select name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}"  #if($column.required) required="true"#end  multiple="true" />
         </div>
     </div>
 #elseif($column.htmlType == "select" && $dictType)
@@ -94,7 +94,7 @@ ${pageTheme}
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
-            <!--  <@from.radio name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" /> -->
+            <!--  <@form.radio name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" /> -->
             <<@>list dict.getType('${dictType}')>
                 <<@>items as d>
                     <div class="radio-box">
@@ -110,14 +110,14 @@ ${pageTheme}
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
-             <@from.radio name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />
+             <@form.radio name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />
         </div>
     </div>
  #elseif($column.htmlType == "checkbox" && "" != $dictType)
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
-          <!-- <@from.checkbox name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />  -->
+          <!-- <@form.checkbox name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />  -->
           <<@>list dict.getType('${dictType}')>
               <#assign ${field}List = ${className}.${field}?default("")?split(",") />
                 <<@>items as d>
@@ -161,7 +161,7 @@ ${pageTheme}
               <div class="form-group">    
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
                 <div class="col-sm-8">
-                        <@from.treeselect id="${field}" name="${field}.id" value="${(${className}.${field}.id)?default('')}"
+                        <@form.treeselect id="${field}" name="${field}.id" value="${(${className}.${field}.id)?default('')}"
                         labelValue="${${className}.${field}.name?default('')}" boxTitle="请选择管理地区" url="sys/dept/selectZtree"  checked="true" correlationId="company.id"  placeholder="请选择管理地区"/>
                 </div>
             </div>
@@ -170,7 +170,7 @@ ${pageTheme}
         <div class="form-group">    
                 <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
                 <div class="col-sm-8">
-                      <@from.treeselect id="${field}"  name="${field}.id"  value="${(${className}.${field}.id)?default('')}"
+                      <@form.treeselect id="${field}"  name="${field}.id"  value="${(${className}.${field}.id)?default('')}"
                         labelValue="${(${className}.${field}.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
                 </div>
             </div>
@@ -201,7 +201,7 @@ ${pageTheme}
 #end
 #end
 #end
-</@from.from>
+</@form.form>
 </div>
 <@footer>
 #foreach($column in $columns)

@@ -971,7 +971,7 @@ if (typeof jQuery === "undefined") {
             },
             // 成功提示
             alertInfo: function(content) {
-                opt.modal.alert(content, "3");
+                opt.modal.alert(content, "");
             },
             // 成功提示
             success: function(msg, callback) {
@@ -1189,10 +1189,16 @@ if (typeof jQuery === "undefined") {
                         if(options.clear){
                             options.clear(index, layero,opt.selfLayer);
                         }else{
+                            if (!opt.common.isEmpty(options.cancel)) {
+                                options.cancel(index,layero);
+                            }
                             opt.selfLayer.close(index);
                         }
                     },
                     btn3: function(index, layero){
+                        if (!opt.common.isEmpty(options.cancel)) {
+                            options.cancel(index,layero);
+                        }
                         opt.selfLayer.close(index);
                     },
                     success: function(layero, index){
@@ -1207,7 +1213,7 @@ if (typeof jQuery === "undefined") {
                         }
                     },
                     cancel: function(index, layero){
-                        if (opt.common.isEmpty(options.cancel)) {
+                        if (!opt.common.isEmpty(options.cancel)) {
                             options.cancel(index,layero);
                         }
                         return true;

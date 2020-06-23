@@ -33,9 +33,10 @@
             <a class="btn btn-primary single disabled" onclick="opt.operate.edit()"><i class="fa fa-pencil-square-o"></i>&nbsp;<@ctx.i18n text = "修改"/></a>
         </@shiro.hasPermission>
         <@shiro.hasPermission name="sys:dict:del">
-            <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()">
-                <i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/>
-            </a>
+            <a class="btn btn-danger multiple disabled" onclick="opt.operate.delAll()"><i class="fa fa-remove"></i> <@ctx.i18n text = "删除"/></a>
+        </@shiro.hasPermission>
+        <@shiro.hasPermission name="sys:dict:clear">
+            <a class="btn btn-danger" onclick="clearRedis()"><i class="fa fa-refresh"></i>&nbsp;<@ctx.i18n text = "清除缓存"/></a>
         </@shiro.hasPermission>
     </@table>
     </div>
@@ -105,6 +106,10 @@
             $.table.init(options);
         }
     })
+
+    function clearRedis() {
+        opt.operate.get(prefix + "/clearDict")
+    }
 </script>
 </@footer>
 </@pageTheme>

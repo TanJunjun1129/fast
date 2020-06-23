@@ -30,7 +30,6 @@ public class ApplicationContext implements WebMvcConfigurer, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		log.info("---->>><>><");
 		// 获取SpringMvc的ReturnValueHandlers
 		List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
 		// 新建一个List来保存替换后的Handler的List

@@ -76,17 +76,6 @@ public class SysConfigController extends BaseController {
 		return success(page);
 	}
 
-//	/**
-//	 * 配置信息
-//	 */
-//	@RequestMapping("/info/{id}")
-//	@RequiresPermissions("sys:config:info")
-//	public ResponseDatainfo(@PathVariable("id") Long id) {
-//		SysConfigEntity config = sysConfigService.selectById(id);
-//
-//		return success().put("config", config);
-//	}
-
 	/**
 	 * 保存配置
 	 */
@@ -144,4 +133,11 @@ public class SysConfigController extends BaseController {
 		return sysConfigService.deleteBatchByIds(ids)?success():error("删除失败!");
 	}
 
+	@BussinessLog(title = "参数管理", businessType = BusinessType.CLEAN)
+	@RequestMapping(value = "/clearConfig", method = RequestMethod.GET)
+	@RequiresPermissions("sys:config:clear")
+	@ResponseBody
+	public ResponseData clearConfig(){
+		return sysConfigService.clearConfigRedis()?success():error("Redis没有开启无需清理!");
+	}
 }

@@ -86,14 +86,8 @@ public class SysDeptController extends BaseController {
 	 */
 	@GetMapping("/edit/{deptId}")
 	public String edit(@PathVariable("deptId") Long deptId, ModelMap mmap){
-//		SysDeptEntity dept = sysDeptService.findDeptById(deptId);
-//		mmap.put("dept", dept);
-//		return urlPrefix + "/edit";
 		SysCompEntity sysCompEntity = sysCompService.findCompById(deptId);
 		mmap.put("dept",  sysCompEntity);
-//		if(sysCompEntity.getType().equals("0")){
-//			mmap.put("areaNames",  sysAreaService.getAreaNames(sysCompEntity.getAreaIds()));
-//		}
 		return urlPrefix + "/edit";
 	}
 

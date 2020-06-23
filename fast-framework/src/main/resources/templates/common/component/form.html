@@ -53,12 +53,15 @@
                     placeholder="请输入值"
                     class = "form-control" <#-- 输入框样式-->
                     butClass = "fa fa-fw fa-search"
+                    required = "false"
+                    readonly = "false"
                     value = ""
                     width=""
                     height=""
                     type = "text"
                     isClear = "true" <#-- 弹出是否出现清除按钮-->
                     boxTitle = ""
+                    helpTip =""
 >
     <#local  Assname="${id}"/>
     <#if name != "">
@@ -72,8 +75,9 @@
     </#if>
     <div class="input-group">
         <span class="input-group-addon"><i id="menuIcon${AssId?replace(".","_")}" class="fa fa-fw ${value}"></i></span>
-        <input id="${AssId?replace(".","_")}" name="<#if id == "">${name}<#else>${AssId}</#if>" class="${class}" type="${type}" value="${value}" class="${class}" placeholder="${placeholder}" >
+        <input id="${AssId?replace(".","_")}" name="<#if id == "">${name}<#else>${AssId}</#if>" class="${class}" type="${type}" value="${value}" class="${class}" <#if readonly =="true"> readonly = "readonly"</#if> placeholder="${placeholder}" <#if required =="true"> required</#if>>
         <span class="input-group-btn"><a id="menuIconButton${AssId?replace(".","_")}" href="javascript:" class="btn"><i class="${butClass}"></i></a></span>
+        <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
     </div>
     <script type="text/javascript">
         $("#menuIconButton${AssId?replace(".","_")}").click(function(){
@@ -461,27 +465,28 @@
                 maximumWords: ${maxlength},
                 readonly: ${readonly}, initialFrameHeight: ${height},
             })
-            // 更新编辑器内容  remarksUE.updateContent();
+            /* 更新编辑器内容  remarksUE.updateContent();*/
             remarksUE.updateContent = function(){
+                var ${AssId?replace(".","_")}_html = "";
                 if (!remarksUE.hasContents()){
                     $('#<#if id == "">${name}<#else>${id}</#if>').val("").change();
                 }else{
                     <#if type == "html">
-                    var ${AssId?replace(".","_")}_html = remarksUE.getAllHtml().replace('<!--HTML-->','');
+                    ${AssId?replace(".","_")}_html = remarksUE.getAllHtml().replace('<!--HTML-->','');
                     <#elseif type == "content">
-                    var ${AssId?replace(".","_")}_html = remarksUE.getContent().replace('<!--HTML-->','');
+                    ${AssId?replace(".","_")}_html = remarksUE.getContent().replace('<!--HTML-->','');
                     <#elseif type == "txt">
-                    var ${AssId?replace(".","_")}_html = remarksUE.getContentTxt().replace('<!--HTML-->','');
+                    ${AssId?replace(".","_")}_html = remarksUE.getContentTxt().replace('<!--HTML-->','');
                     <#elseif type == "plaintxt">
-                    var ${AssId?replace(".","_")}_html = remarksUE.getPlainTxt().replace('<!--HTML-->','');
+                    ${AssId?replace(".","_")}_html = remarksUE.getPlainTxt().replace('<!--HTML-->','');
                     </#if>
-                    $('#${AssId?replace(".","_")}').val("<!--HTML-->" + html).change();
+                    $('#${AssId?replace(".","_")}').val("<!--HTML-->" + ${AssId?replace(".","_")}_html).change();
                 }
                 if (typeof window.webuploaderRefresh == 'function'){
-                    window.webuploaderRefresh();
+                    window.webuploaderRefresh(${AssId?replace(".","_")}_html);
                 }
             };
-            // 编辑器加载完成事件
+            /* 编辑器加载完成事件*/
             remarksUE.ready(function(){
                 remarksUE.execCommand('insertHtml', $("#${AssId?replace(".","_")}").val())
                 remarksUE.addListener('contentchange', function(){
@@ -592,6 +597,17 @@
             </#list>
         </#if>
         </select>
+        <script type="text/javascript">
+            $(function() {
+                $("#${AssId?replace(".","_")}").on("change",function(e){
+                    /* 选择框回调事件*/
+                    if(typeof selectCallback == 'function'){
+                        var data = $("#${AssId?replace(".","_")}").select2("data");
+                        selectCallback('${Assname?replace(".","_")}', 'change', data);
+                    }
+                })
+            })
+        </script>
     </#if>
 
     <#if multiple == "true">
@@ -666,10 +682,6 @@
         </select>
         <script type="text/javascript">
             $(function() {
-                <#--$("#__${AssId?replace(".","_")}slt").select2({-->
-                <#--    placeholder:"${placeholder}",-->
-                <#--    allowClear: true-->
-                <#--});-->
                 <#if value !="">
                 $("#${AssId?replace(".","_")}").val(opt.form.selectSelects("__${AssId?replace(".","_")}slt"));
                 </#if>

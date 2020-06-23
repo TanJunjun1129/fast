@@ -43,7 +43,6 @@ public class ResultWarpReturnValueHandler  implements HandlerMethodReturnValueHa
 	 */
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		log.info("判断返回类型是否需要转成字符串返回");
 		return delegate.supportsReturnType(returnType);
 	}
 
@@ -53,11 +52,9 @@ public class ResultWarpReturnValueHandler  implements HandlerMethodReturnValueHa
 	@Override
 	public void handleReturnValue(@Nullable Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
 		// 委托SpringMVC默认的RequestResponseBodyMethodProcessor进行序列化
-		log.info("返回值转换");
 		Method method = returnType.getMethod();
 		BussinessLog annotation = method.getAnnotation(BussinessLog.class);
 		if(annotation != null){
-			log.info("有打印日志！！！！！！！！");
 		}
 //		for(Annotation s: a){
 //			log.info(s.toString());

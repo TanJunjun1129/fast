@@ -7,12 +7,13 @@ import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.exception.RxcException;
 import com.j2eefast.common.core.page.Query;
 import com.j2eefast.common.core.utils.PageUtil;
+import com.j2eefast.common.core.utils.RedisUtil;
 import com.j2eefast.common.core.utils.ToolUtil;
 import com.j2eefast.framework.sys.entity.SysDictTypeEntity;
 import com.j2eefast.framework.sys.mapper.SysDictTypeMapper;
+import com.j2eefast.framework.utils.RedisKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,8 @@ public class SysDictTypeSerive extends ServiceImpl<SysDictTypeMapper,SysDictType
 
     @Autowired
     private SysDictDataService sysDictDataService;
+    @Autowired
+    private RedisUtil redisUtil;
 
     /**
      * 页面展示查询翻页
@@ -61,8 +64,8 @@ public class SysDictTypeSerive extends ServiceImpl<SysDictTypeMapper,SysDictType
             if ("0".equals(dict.getStatus())){
                 Ztree ztree = new Ztree();
                 ztree.setId(dict.getId());
-                ztree.setName(transDictName(dict));
-                ztree.setTitle(dict.getDictType());
+                ztree.setTitle(transDictName(dict));
+                ztree.setName(dict.getDictType());
                 ztrees.add(ztree);
             }
         }
@@ -86,4 +89,10 @@ public class SysDictTypeSerive extends ServiceImpl<SysDictTypeMapper,SysDictType
         }
        return  this.removeByIds(Arrays.asList(ids));
     }
+
+
+    public boolean clearDictRedis(){
+        return redisUtil.deletes(RedisKeys.getDictConfigKey("*"));
+    }
+
 }

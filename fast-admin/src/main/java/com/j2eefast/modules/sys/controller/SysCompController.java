@@ -132,48 +132,6 @@ public class SysCompController extends BaseController {
 		return  sysCompService.findList(params);
 	}
 
-//	/**
-//	 * 选择部门(添加、修改菜单)
-//	 */
-//	@RequestMapping("/select")
-//	@RequiresPermissions("sys:comp:select")
-//	@ResponseBody
-//	public ResponseData select() {
-//		List<SysCompEntity> compList = sysCompService.findList(new HashMap<String, Object>());
-//		return success().put("compList", compList);
-//	}
-
-//	/**
-//	 *
-//	 * @Description:上级公司ID(总公司为0)
-//	 * @author zhouzhou 18774995071@163.com
-//	 * @time 2018-12-05 12:26
-//	 * @return
-//	 *
-//	 */
-//	@RequestMapping("/info")
-//	@RequiresPermissions("sys:comp:list")
-//	@ResponseBody
-//	public ResponseData info() {
-//		long deptId = 0;
-//		if (UserUtils.getUserId() != Constant.SUPER_ADMIN) {
-//			List<SysCompEntity> comptList = sysCompService.findList(new HashMap<String, Object>());
-//			Long parentId = null;
-//			for (SysCompEntity compEntity : comptList) {
-//				if (parentId == null) {
-//					parentId = compEntity.getParentId();
-//					continue;
-//				}
-//
-//				if (parentId > compEntity.getParentId().longValue()) {
-//					parentId = compEntity.getParentId();
-//				}
-//			}
-//			deptId = parentId;
-//		}
-//		return success().put("compId", deptId);
-//	}
-
 	/**
 	 * 根据公司ID获取信息
 	 */

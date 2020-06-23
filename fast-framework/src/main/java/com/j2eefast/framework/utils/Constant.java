@@ -60,6 +60,10 @@ public class Constant {
 	public static final String IDS_CODE_0006 = "0006";
 	public static final String IDS_CODE_0007 = "0007";
 
+	public static final String BANNER = "spring.main.banner-mode";
+
+	public static final String FALSE = "false";
+
 	/** 公司正常状态 */
 	public static final String COMP_NORMAL = "0";
 	public static final String DEPT_NORMAL = "0";

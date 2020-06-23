@@ -215,27 +215,6 @@ public class SysRoleController extends BaseController {
 		return success().put("list", list);
 	}
 
-//	/**
-//	 * 角色信息
-//	 */
-//	@RequestMapping("/info/{roleId}")
-//	@RequiresPermissions("sys:role:info")
-//	@ResponseBody
-//	public ResponseData info(@PathVariable("roleId") Long roleId) {
-//		SysRoleEntity role = sysRoleService.getById(roleId);
-//
-//		// 查询角色对应的菜单
-//		List<Long> menuIdList = sysRoleMenuService.findMenuIdList(roleId);
-//		//role.setMenuIdList(menuIdList);
-//
-//		// 查询角色对应的部门
-//		List<Long> deptIdList = sysRoleDeptService.findDeptIdList(new Long[] { roleId });
-//		//role.setDeptIdList(deptIdList);
-//
-//		return  success().put("role", role);
-//	}
-
-
 
 	/**
 	 * 保存角色

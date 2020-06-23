@@ -1,16 +1,12 @@
 package com.j2eefast.modules.sys.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.excel.EasyExcel;
 import com.j2eefast.common.core.base.entity.LoginUserEntity;
-import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.utils.*;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
@@ -21,7 +17,6 @@ import com.j2eefast.framework.sys.entity.*;
 import com.j2eefast.framework.sys.service.*;
 import com.j2eefast.framework.utils.Global;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +89,7 @@ public class SysUserController extends BaseController {
 	}
 
 	@BussinessLog(title = "用户管理", businessType = BusinessType.EXPORT)
-	@RequiresPermissions("system:user:export")
+	@RequiresPermissions("sys:user:export")
 	@PostMapping("/export")
 	@ResponseBody
 	public ResponseData export(@RequestParam Map<String, Object> params) throws Exception {
