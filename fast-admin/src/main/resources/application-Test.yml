@@ -56,12 +56,12 @@ license:
 spring:
     datasource:
         #默认(主)数据库配置
-        default:
+        master:
             driverClassName:
             url:
             username:
             password:
-            filters: wall,mergeStat
+            filters: mergeStat
         ###############工作流数据库配置
         flowable:
             driverClassName:

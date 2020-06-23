@@ -111,7 +111,7 @@ public class SysLoginController extends BaseController {
 	 * @author zhouzhou
 	 * @date 2020-03-07 14:47
 	 */
-	//@FastLicense
+	@FastLicense
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseData login(String username, String password,Boolean rememberMe) {

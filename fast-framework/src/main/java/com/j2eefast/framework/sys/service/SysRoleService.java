@@ -160,6 +160,9 @@ public class SysRoleService  extends ServiceImpl<SysRoleMapper, SysRoleEntity> {
 		// 删除角色与机构关联
 		sysRoleDeptService.deleteBatchByRoleIds(ids);
 
+		// 删除角色与模块关联
+		sysRoleModuleService.deleteBatchByRoleIds(ids);
+
 		//清理权限缓存
 		UserUtils.clearCachedAuthorizationInfo();
 
