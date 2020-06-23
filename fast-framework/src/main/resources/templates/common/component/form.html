@@ -79,6 +79,7 @@
         <span class="input-group-btn"><a id="menuIconButton${AssId?replace(".","_")}" href="javascript:" class="btn"><i class="${butClass}"></i></a></span>
         <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
     </div>
+    <@compress single_line=true>
     <script type="text/javascript">
         $("#menuIconButton${AssId?replace(".","_")}").click(function(){
             var var_${AssId?replace(".","_")}iconValue =  $("#${AssId?replace(".","_")}").val();
@@ -129,6 +130,7 @@
             }
         }
     </script>
+    </@compress>
 </#macro>
 <#--
     //弹窗树组件
@@ -160,7 +162,6 @@
                    placeholder="请输入值"
                    helpTip = ""  <#--帮助提示 -->
                    ext...>
-<#--<@compress single_line=true>-->
     <#local  Assname="${id}"/>
     <#if name != "">
         <#local Assname="${name}"/>
@@ -180,6 +181,7 @@
         <span class="input-group-btn" id="${AssId?replace(".","_")}But"><a  href="javascript:;" class="btn"><i class="${butClass}"></i></a></span>
     </div>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
+    <@compress single_line=true>
     <script type="text/javascript">
         $("#${AssId?replace(".","_")}But, #${AssId?replace(".","_")}Name").click(function(){
             var treeId = $("#${AssId?replace(".","_")}").val();
@@ -253,7 +255,7 @@
             }
         }
     </script>
-<#--</@compress>-->
+</@compress>
 </#macro>
 
 <#--
@@ -327,6 +329,7 @@
         </#list>
     </#if>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
+    <@compress single_line=true>
     <script type="text/javascript">
         $('input[name="<#if id == ''>${name}<#else>${id}</#if>"]').on('ifCreated ifChecked', function(event){
             /* 选择redio 回调事件*/
@@ -335,6 +338,7 @@
             }
         }).change();
     </script>
+    </@compress>
 </#macro>
 
 <#--
@@ -425,6 +429,7 @@
         <input type="checkbox" id="__${AssId?replace(".","_")}swh" <#if value == "" && default=="true">checked="true"</#if> <#if value != "" && value == judgeVlue>checked="true"</#if>/>
         <span></span>
     </label>
+    <@compress single_line=true>
     <script type="text/javascript">
         $('#__${AssId?replace(".","_")}swh').on('click',function(e){
             if($(this).is(':checked') == true){
@@ -437,6 +442,7 @@
             }
         });
     </script>
+    </@compress>
 </#macro>
 
 <#macro ueditor name
@@ -464,7 +470,7 @@
             var remarksUE = UE.getEditor('${AssId?replace(".","_")}ContentUE', {
                 maximumWords: ${maxlength},
                 readonly: ${readonly}, initialFrameHeight: ${height},
-            })
+            });
             /* 更新编辑器内容  remarksUE.updateContent();*/
             remarksUE.updateContent = function(){
                 var ${AssId?replace(".","_")}_html = "";
@@ -493,7 +499,6 @@
                     remarksUE.updateContent();
                 });
             });
-            //
         });
     </script>
 </#macro>
@@ -597,6 +602,7 @@
             </#list>
         </#if>
         </select>
+        <@compress single_line=true>
         <script type="text/javascript">
             $(function() {
                 $("#${AssId?replace(".","_")}").on("change",function(e){
@@ -608,6 +614,7 @@
                 })
             })
         </script>
+        </@compress>
     </#if>
 
     <#if multiple == "true">
@@ -680,6 +687,7 @@
                 </#list>
             </#if>
         </select>
+        <@compress single_line=true>
         <script type="text/javascript">
             $(function() {
                 <#if value !="">
@@ -695,6 +703,7 @@
                 })
             })
         </script>
+        </@compress>
     </#if>
     <#if helpTip!=""><span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${helpTip}</span></#if>
 </#macro>
