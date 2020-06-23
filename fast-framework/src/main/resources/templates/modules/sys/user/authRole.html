@@ -54,7 +54,7 @@
                 showToggle: false,
                 showColumns: false,
                 clickToSelect: true,
-                responseHandler:responseHandler,
+                responseHandler:resptHandler,
                 modalName: "角色",
                 columns: [
                     {
@@ -82,7 +82,7 @@
             $.table.init(options);
         });
 
-        function responseHandler(res) {
+        function resptHandler(res) {
             /**********************初始化默认选择记住我**********/
             // $.each(res.page.list, function(i, row) {
             //     for(var i=0; i<data.length; i++){
