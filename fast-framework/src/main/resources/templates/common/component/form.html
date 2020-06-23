@@ -224,7 +224,6 @@
             var nodes = $.tree.callBackTree(layero,index);
             $("#${AssId?replace(".","_")}").val(nodes.id).change(); /* 赋值主页面隐藏ID */
             $("#${AssId?replace(".","_")}Name").val(nodes.name).change();/* 回显主页面控件 */
-            console.log("--->>" + nodes.parentIds);
             <#if isParentIds == "true">
             $('input[name="${parenName}"]').val(nodes.parentIds).change();
             </#if>
