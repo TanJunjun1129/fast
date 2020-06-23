@@ -3,22 +3,228 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${packageName}.mapper.${ClassName}Mapper">
+
+## 小写开始的className     
+#set($className=$ClassName.substring(0,1).toLowerCase() + ${ClassName.substring(1)})
+
     
     <resultMap type="${ClassName}Entity" id="${ClassName}Result">
-#foreach ($column in $columns)
-        <result property="${column.javaField}"    column="${column.columnName}"    />
+#foreach ($c in $columns)
+#if($c.javaType == "SysCompEntity") ##关联系统实体
+#elseif($c.javaType == "SysDeptEntity")
+#elseif( $c.javaType == "SysUserEntity")
+#else####关联系统实体
+  <result property="${c.javaField}"    column="${c.columnName}"    />
+#end ###关联系统实体     
 #end
 #if($table.tree)
         <result property="parentName" column="parent_name" />
 #end
     </resultMap>
-
-    <sql id="select${ClassName}Vo">
-        select#foreach($column in $columns) $column.columnName#if($velocityCount != $columns.size()),#end#end from ${tableName}
+    
+    <!--  实体栏位  --> 
+    <sql id="${className}Columns">
+#foreach($c in $columns)##
+#if($c.javaType == "SysCompEntity")##  
+          a.$c.columnName as "${c.javaField}.id"  ,
+          comp001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end    
+               
+#elseif($c.javaType == "SysDeptEntity")## 
+          a.$c.columnName as "${c.javaField}.id" ,
+          dept001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end 
+          
+#elseif($c.javaType == "SysUserEntity" ) ##关联系统实体
+         a.$c.columnName as "${c.javaField}.id" ,
+         user001.name as "${c.javaField}.name" #if($foreach.hasNext) ,#end 
+                
+#else####关联系统实体
+         a.$c.columnName as "${c.javaField}"  #if($foreach.hasNext) ,#end
+                 
+#end ###关联系统实体
+#if($c.columnName =="del_flag")#set($delFlagExist ="1") #end##是否存在逻辑删除         
+#if($velocityCount != $columns.size())#end##
+#end ##
     </sql>
+    
+     <!-- 外联表  --> 
+	<sql id="${className}Joins">
+#foreach($c in $columns)##
+#if($c.javaType == "SysCompEntity")##
+        left join sys_comp comp001 ON comp001.id = a.$c.columnName
+#end
+#if($c.javaType == "SysUserEntity")##
+        left join sys_user user001 ON user001.id = a.$c.columnName
+#end
+#if($c.javaType == "SysDeptEntity")##
+        left join sys_dept dept001 ON dept001.id = a.$c.columnName
+#end
+#end##foreach
+		<!--  left join sys_comp c ON c.id = a.$c.columnName   关联查询后，需手动修改 ${className}Columns 中属性值      -->
+    </sql>
+    
+    
+    <!--  根据主键获取实体   -->
+     <select id="selectById"  resultType="${packageName}.entity.${ClassName}Entity" > 
+          SELECT 
+			<include refid="${className}Columns"/>
+		FROM  ${tableName} a
+		<include refid="${className}Joins"/>
+		WHERE a.${pkColumn.columnName} = #{${pkColumn.javaField}}
+    </select>
+    
+     <!--  根据获取实体List   -->
+     <select id="selectList" resultType="${packageName}.entity.${ClassName}Entity">
+		SELECT 
+			<include refid="${className}Columns"/>
+		FROM ${tableName} a
+		<include refid="${className}Joins"/>
+		<where>
+#if($delFlagExist == "1")      a.del_flag = '0'#end##
+#foreach($c in $columns)##
+#if($c.isQuery == "1" )## isQuery 
+#if($c.queryType == 'EQ')## queryType  /** 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围） */
+#if($c.javaType == "SysCompEntity" || $c.javaType == "SysDeptEntity" || $c.javaType == "SysUserEntity") 
+             <if test="${c.javaField} != null and ${c.javaField}.id !=null and ${c.javaField}.id != '' "> and a.${c.columnName} = #{${c.javaField}.id} </if>
+#else
+            <if test="${c.javaField} != null #if(${c.javaType}=="String") and ${c.javaField} != ''#end"> and a.${c.columnName} = #{${c.javaField}} </if>
+#end
+#elseif($c.queryType == 'NE')##
+            <if test="${c.javaField} != null #if(${c.javaType}=="String") and ${c.javaField} != ''#end"> and a.${c.columnName} != #{${c.javaField}} </if>
+#elseif($c.queryType == 'GT')##
+             <if test="${c.javaField} != null #if(${c.javaType}=="String") and ${c.javaField} != ''#end"> and a.${c.columnName} &gt; #{${c.javaField}} </if>
+#elseif($c.queryType == 'LT')##
+            <if test="${c.javaField} != null #if(${c.javaType}=="String") and ${c.javaField} != ''#end"> and a.${c.columnName} &lt; #{${c.javaField}}</if>
+#elseif($c.queryType == 'LIKE') ##
 
+            <if test="${c.javaField} != null #if(${c.javaType}=="String") and ${c.javaField} != ''#end">
+                     and a.${c.columnName} LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{${c.javaField}}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{${c.javaField}}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{${c.javaField}},'%')</if>
+			</if>
+			
+#elseif($c.queryType == 'BETWEEN')##
+#set($AttrName=$c.javaField.substring(0,1).toUpperCase() + ${c.javaField.substring(1)})##
+                 <if test="begin${AttrName} != null and end${AttrName} != null #if(${c.javaType}=="String") and begin${AttrName} != '' and end${AttrName} != '' #end">
+                    and a.${c.columnName} between #{begin${AttrName}}  and  #{end${AttrName}}
+                 </if>          
+#end ##queryType
+#end ##isQuery 
+#end ##foreach 	 
+               <if test = "sql_filter !=null and sql_filter!=''">
+                   and ${sql_filter}
+               </if>    
+		</where>
+	 </select>
+	 
+	 
+	 
+	  <!--  根据获取实体 page   -->
+     <select id="findPage" resultType="${packageName}.entity.${ClassName}Entity">
+		SELECT 
+			<include refid="${className}Columns"/>
+		FROM ${tableName} a
+		<include refid="${className}Joins"/>
+		<where>
+#if($delFlagExist == "1")     a.del_flag = '0' #end##
+        
+#foreach($c in $columns)##
+#if($c.isQuery == "1" )## isQuery 
+#if($c.queryType == 'EQ')## queryType  /** 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围） */
+#if($c.javaType == "SysCompEntity" || $c.javaType == "SysDeptEntity" || $c.javaType == "SysUserEntity") 
+             <if test="${className}.${c.javaField} != null and ${className}.${c.javaField}.id !=null and ${className}.${c.javaField}.id != '' "> and a.${c.columnName} = #{${className}.${c.javaField}.id} </if>
+#else
+             <if test="${className}.${c.javaField} != null #if(${c.javaType}=="String") and ${className}.${c.javaField} != ''#end"> and a.${c.columnName} = #{${className}.${c.javaField}} </if>
+#end
+#elseif($c.queryType == 'NE')##
+            <if test="${className}.${c.javaField} != null #if(${c.javaType}=="String") and ${className}.${c.javaField} != ''#end"> and a.${c.columnName} != #{${className}.${c.javaField}} </if>
+#elseif($c.queryType == 'GT')##
+             <if test="${className}.${c.javaField} != null #if(${c.javaType}=="String") and ${className}.${c.javaField} != ''#end"> and a.${c.columnName} &gt; #{${className}.${c.javaField}} </if>
+#elseif($c.queryType == 'LT')##
+            <if test="${className}.${c.javaField} != null #if(${c.javaType}=="String") and ${className}.${c.javaField} != ''#end"> and a.${c.columnName} &lt; #{${className}.${c.javaField}}</if>
+#elseif($c.queryType == 'LIKE') ##
+            <if test="${className}.${c.javaField} != null #if(${c.javaType}=="String") and ${className}.${c.javaField} != ''#end">
+                     and a.${c.columnName} LIKE
+                     <if test="_databaseId == 'oracle'"> '%'||#{${className}.${c.javaField}}||'%'</if>
+                     <if test="_databaseId == 'mssql'">'%'+#{${className}.${c.javaField}}+'%'</if>
+                     <if test="_databaseId == 'mysql'">concat('%',#{${className}.${c.javaField}},'%')</if>
+			</if>
+#elseif($c.queryType == 'BETWEEN')##
+#set($AttrName=$c.javaField.substring(0,1).toUpperCase() + ${c.javaField.substring(1)})##
+                 <if test="${className}.begin${AttrName} != null and ${className}.end${AttrName} != null #if(${c.javaType}=="String") and ${className}.begin${AttrName} != '' and ${className}.end${AttrName} != '' #end">
+                    and a.${c.columnName} between #{${className}.begin${AttrName}}  and  #{${className}.end${AttrName}}
+                 </if>
+#end ##queryType
+#end ##isQuery 
+#end ##foreach### 	 
+             <if test = "sql_filter !=null and sql_filter!=''">
+               and ${sql_filter}
+             </if>  
+		</where>
+	 </select>
+	 
+		<!--  更新获取实体 updateById    -->
+	<update id="updateById">
+		UPDATE  ${tableName}  <set>	
+#foreach ($c in $columns)##
+#if($c.isEdit =="1")##
+#if($c.javaType == "SysCompEntity")##实体对象
+              $c.columnName = #{${c.javaField}.id} #if($foreach.hasNext) ,#end
+              
+#elseif($c.javaType == "SysDeptEntity")
+             $c.columnName = #{${c.javaField}.id} #if($foreach.hasNext) ,#end
+              
+#elseif($c.javaType == "SysUserEntity")
+              $c.columnName = #{${c.javaField}.id} #if($foreach.hasNext) ,#end
+              
+#else
+              $c.columnName = #{$c.javaField} #if($foreach.hasNext) ,#end
+              
+#end##实体对象            
+#end##isEdit
+#end##
+  		</set>
+		WHERE ${pkColumn.columnName} = #{${pkColumn.javaField}}
+	</update>
+	   
+	 
+	<!--  新增实体 insert    --> 
+	 <insert id="insert">
+	 INSERT INTO ${tableName}(
+#foreach ($c in $columns)##
+#if($c.isInsert =="1")##
+          ${c.columnName}#if($foreach.hasNext) ,#end
+          
+#end
+#end
+       ) VALUES (
+#foreach ($c in $columns)##
+#if($c.isInsert =="1")##
+#if($c.javaType == "SysCompEntity")##实体对象
+        #{${c.javaField}.id}#if($foreach.hasNext) ,#end
+        
+#elseif($c.javaType == "SysDeptEntity")
+        #{${c.javaField}.id}#if($foreach.hasNext) ,#end##
+        
+#elseif($c.javaType == "SysUserEntity")
+        #{${c.javaField}.id}#if($foreach.hasNext),#end## 
+
+#else
+        #{${c.javaField}}#if($foreach.hasNext),#end##
+        
+#end##实体对象          
+#end##isInsert
+#end
+		)
+	</insert>
+	 
+
+	<!--  删除 使用mybatits-plus 自带的，    --> 
+  
 
 <!--
+
+
     <update id="update${ClassName}" parameterType="${packageName}.entity.${ClassName}Entity">
         update ${tableName}
         <trim prefix="SET" suffixOverrides=",">

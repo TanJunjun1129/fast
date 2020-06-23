@@ -35,6 +35,18 @@ a:focus {
     outline: none;
 }
 
+.width-120{
+    width: 120px !important;
+}
+
+.width-80{
+    width: 80px !important;
+}
+
+.width-150{
+    width: 150px !important;
+}
+
 .nav>li>a {
     color: #a7b1c2;
     font-weight: 600;
@@ -3928,6 +3940,9 @@ code5 {
     border-image: none;
     border-style: solid solid none;
     border-width: 1px 0px;
+    /*box-shadow: 1px 1px 3px rgba(0,0,0,.2);*/
+    /*border-bottom-right-radius: 6px;*/
+    /*border-bottom-left-radius: 6px;*/
 }
 
 .layui-layer-btn1 {
@@ -3959,6 +3974,10 @@ table.table-mail tr td {
 
 .star-mail, .check-mail {
     width: 40px;
+}
+
+.inputZtree[readonly], fieldset[disabled] .form-control {
+    background-color: #fff!important;
 }
 
 .unread td a, .unread td {
@@ -7385,8 +7404,13 @@ border-radius: 0px 4px 4px 0px;
 }
 .input-group-btn .btn {
 height: 30px;
-padding: 3px 10px 4px 10px;
+padding: 3px 7px 4px 7px;
 border-color: #caced6;
+}
+.control-div {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle
 }
 .jump5 {
     animation-iteration-count: 5;

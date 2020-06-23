@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.j2eefast.common.core.base.entity.BaseEntity;
 import com.j2eefast.generator.gen.util.GenConstants;
+import com.j2eefast.generator.gen.util.Option;
+
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
@@ -26,7 +28,7 @@ public class GenTableEntity extends BaseEntity {
 
     /** 编号 */
     @TableId
-    private Long tableId;
+    private Long id;
 
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
@@ -90,7 +92,7 @@ public class GenTableEntity extends BaseEntity {
     private String isDel;
 
   /** 主从数据库*/
-    private String dbType;
+    private String dbName;
 
     /** 操作按钮风格(default,icon)*/
     private String actionsType;
@@ -100,6 +102,9 @@ public class GenTableEntity extends BaseEntity {
 
     /** 其它生成选项 */
     private String options;
+    
+    @TableField(exist = false)
+    private Option option;
 
     /** 主键信息 */
     @TableField(exist = false)
@@ -109,17 +114,7 @@ public class GenTableEntity extends BaseEntity {
     @TableField(exist = false)
     private List<GenTableColumnEntity> columns;
 
-    /** 树编码字段 */
-    @TableField(exist = false)
-    private String treeCode;
-
-    /** 树父编码字段 */
-    @TableField(exist = false)
-    private String treeParentCode;
-
-    /** 树名称字段 */
-    @TableField(exist = false)
-    private String treeName;
+ 
 
     public int getMenuOrder() {
         return menuOrder;
@@ -209,12 +204,12 @@ public class GenTableEntity extends BaseEntity {
         this.runPath = runPath;
     }
 
-    public Long getTableId() {
-        return tableId;
+    public Long getId() {
+        return id;
     }
 
-    public void setTableId(Long tableId) {
-        this.tableId = tableId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTableName() {
@@ -313,29 +308,6 @@ public class GenTableEntity extends BaseEntity {
         this.columns = columns;
     }
 
-    public String getTreeCode() {
-        return treeCode;
-    }
-
-    public void setTreeCode(String treeCode) {
-        this.treeCode = treeCode;
-    }
-
-    public String getTreeParentCode() {
-        return treeParentCode;
-    }
-
-    public void setTreeParentCode(String treeParentCode) {
-        this.treeParentCode = treeParentCode;
-    }
-
-    public String getTreeName() {
-        return treeName;
-    }
-
-    public void setTreeName(String treeName) {
-        this.treeName = treeName;
-    }
 
     public boolean isRDel(){
         return isDelType(this.isDel);
@@ -404,12 +376,12 @@ public class GenTableEntity extends BaseEntity {
     }
 
 
-    public String getDbType() {
-        return dbType;
+    public String getDbName() {
+        return dbName;
     }
 
-    public void setDbType(String dbType) {
-        this.dbType = dbType;
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
 
     public boolean isInsert(String isInsert)
@@ -423,6 +395,14 @@ public class GenTableEntity extends BaseEntity {
 
     public boolean isDbTypeTb()
     {
-        return isInsert(this.dbType);
+        return isInsert(this.dbName);
     }
+
+	public Option getOption() {
+		return option;
+	}
+
+	public void setOption(Option option) {
+		this.option = option;
+	}
 }

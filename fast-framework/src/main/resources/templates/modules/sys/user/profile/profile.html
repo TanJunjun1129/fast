@@ -1,7 +1,6 @@
-<#include "/common/include.html"/>
+<#include "/common/defaultEngine.html"/>
 <@pageTheme mark="${config.optimize()?string('true', 'false')}">
 <@header title="用户个人信息"/>
-<body class="gray-bg animated fadeInRight">
     <input id="userId" name="userId" type="hidden" value="${user.id}" />
     <section class="section-content">
     <div class="row">

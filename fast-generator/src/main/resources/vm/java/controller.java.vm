@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import ${packageName}.entity.${ClassName}Entity;
 import ${packageName}.service.${ClassName}Service;
 #if($table.tree)
-import com.j2eefast.common.core.domain.Ztree;
+import com.j2eefast.common.core.base.entity.Ztree;
 #end
 
 /**
@@ -47,8 +47,8 @@ public class ${ClassName}Controller extends BaseController{##
     @RequestMapping("/list")
     @RequiresPermissions("${permissionPrefix}:list")
     @ResponseBody
-    public ResponseData list(@RequestParam Map<String, Object> params) {
-		PageUtil page = ${className}Service.findPage(params);
+    public ResponseData list(@RequestParam Map<String, Object> params,${ClassName}Entity ${className}Entity) {
+		PageUtil page = ${className}Service.findPage(params,${className}Entity);
 		return success(page);
     }##
     #end
@@ -81,7 +81,9 @@ public class ${ClassName}Controller extends BaseController{##
     #if($table.crud || $table.c)##
     #*新增*#
     @GetMapping("/add")
-    public String add(){
+    public String add(ModelMap mmap){
+         ${ClassName}Entity ${className} = new ${ClassName}Entity();
+          mmap.put("${className}", ${className});
         return prefix + "/add";
     }##
 

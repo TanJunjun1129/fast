@@ -1,19 +1,16 @@
-<<@>include "/common/include.html"/>
+<<@>include "/common/defaultEngine.html"/>
 ${pageTheme}
-<@header title="修改${functionName}">
+<@header title="修改${functionName}" bodyClass="white-bg" />
 #foreach($column in $columns)
 #if($column.edit && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")
 #break
 #end
 #end
-</@header>
-<@addorEdit fromId="form-${businessName}-edit">
+<div class="wrapper wrapper-content ibox-content">
+    <@form.form id="form-${businessName}-edit"  class="form-horizontal">
     <input name="${pkColumn.javaField}" value="${${className}.${pkColumn.javaField}}" type="hidden">
-#foreach($c in $columns)##
-#set($indexTag = $velocityCount)
 #foreach($column in $columns)
 #if($column.edit && !$column.pk)
-#if($column.sort == $indexTag)
 #if(($column.usableColumn) || (!$column.superColumn))
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
@@ -25,8 +22,7 @@ ${pageTheme}
 #set($dictType=$column.dictType)
 #if("" != $treeParentCode && $column.javaField == $treeParentCode)##
     <div class="form-group">
-        <label class="col-sm-3 control-label">${comment}：
-        </label>
+        <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>： </label>
         <div class="col-sm-8">
             <div class="input-group">
 #set($BusinessName=$businessName.substring(0,1).toUpperCase() + ${businessName.substring(1)})
@@ -39,7 +35,7 @@ ${pageTheme}
 #elseif($column.htmlType == "input")##
     <div class="form-group">##
 
-        <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}">：##
+        <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：##
                 #if($column.required && $column.info)##
 #if($column.circleType == "Q")##
                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom"##
@@ -80,16 +76,8 @@ ${pageTheme}
 #elseif($column.htmlType == "select" && "" != $dictType)
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
-        <div class="col-sm-8">
-            <select name="${field}" class="form-control m-b"#if($column.required) required#end>
-                <<@>list dict.getType('${dictType}')>
-                    <<@>items as d>
-                        <<@>if d.status =='0' >
-                           <option  value="${d.dictValue}" text="${d.dictLabel}" <<@>if d.dictValue==${className}.${field}?default("") >selected = "selected"</<@>if>>${d.dictLabel}</option>
-                        </<@>if>
-                    </<@>items>
-                 </<@>list>
-            </select>
+        <div class="col-sm-8">          
+             <@form.select name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}"  #if($column.required) required="true"#end  multiple="" />
         </div>
     </div>
 #elseif($column.htmlType == "select" && $dictType)
@@ -106,25 +94,17 @@ ${pageTheme}
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
-            <<@>list dict.getType('${dictType}')>
-                <<@>items as d>
-                    <div class="radio-box">
-                        <input type="radio" id="${field}" name="${field}" value="${d.dictValue}"
-                               <<@>if d.dictValue == ${className}.${field}?default("") >checked</<@>if> #if($column.required) required#end/>
-                        <label for="${d.dictCode}">${d.dictLabel}</label>
-                    </div>
-                </<@>items>
-            </<@>list>
+           <@form.radio name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />
         </div>
+
     </div>
 #elseif($column.htmlType == "radio" && $dictType)
     <div class="form-group">
         <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：</label>
         <div class="col-sm-8">
             <div class="radio-box">
-                <input type="radio" name="${field}" value=""#if($column.required) required#end/>
+                <input type="radio" name="${field}" value=""#if($column.required) required#end/><span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
             </div>
-            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
         </div>
     </div>
  #elseif($column.htmlType == "checkbox" && "" != $dictType)
@@ -135,12 +115,13 @@ ${pageTheme}
               <#assign ${field}List = ${className}.${field}?default("")?split(",") />
                 <<@>items as d>
                     <<@>if d.status =='0' >
-                            <label><input type="checkbox" id="${field}_${d.dictCode}" name="${field}"
+                            <label><input type="checkbox" id="${field}_${(d.id)?default('')}" name="${field}"
                                    value="${d.dictValue}" <<@>if ${field}List?seq_contains(d.dictValue) >checked</<@>if>>
-                            <label for="${d.dictCode}" text="${d.dictLabel}">${d.dictLabel}</label></label>
+                            <label for="${(d.id)?default('')}" text="${d.dictLabel}">${d.dictLabel}</label></label>
                     </<@>if>
                 </<@>items>
             </<@>list>
+       <!--  <@form.checkbox name="${field}" dictType="${dictType}" value="${${className}.${field}?default('')}" />     -->
         </div>
     </div>
  #elseif($column.htmlType == "checkbox" && $dictType)
@@ -149,8 +130,9 @@ ${pageTheme}
         <div class="col-sm-8">
                <label><input type="checkbox" name="${field}" value=""#if($column.required) required#end>
                 <label th:for="${field}" th:text="未知"></label></label>
+                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
             </div>
-            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+            
     </div>
 #elseif($column.htmlType == "datetime")
     <div class="form-group">
@@ -169,13 +151,51 @@ ${pageTheme}
             <textarea name="${field}" class="form-control"#if($column.required) required#end>${${className}.${field}?default("")}</textarea>
         </div>
     </div>
+               
+#elseif($column.htmlType == "dept")
+              <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                        <@form.treeselect id="${field}" name="${field}.id" value="${(${className}.${field}.id)?default('')}"
+                        labelValue="${${className}.${field}.name?default('')}" boxTitle="请选择管理地区" url="sys/dept/selectZtree"  checked="true" correlationId="companyId"  placeholder="请选择管理地区"/>
+                </div>
+            </div>
+            
+ #elseif($column.htmlType == "comp")    
+        <div class="form-group">    
+                <label class="col-sm-3 control-label"><@ctx.i18n text = "${comment}"/>：</label>
+                <div class="col-sm-8">
+                      <@form.treeselect id="${field}" name="${field}.id" value="${(${className}.${field}.id)?default('')}"
+                        labelValue="${(${className}.${field}.name)?default('')}" boxTitle="选择归属公司" url="sys/comp/treeData" expandLevel="true"  placeholder="请选择归属公司"/>
+                </div>
+            </div>
+			    
+#else
+          <div class="form-group">    
+                <label class="col-sm-3 control-label">#if($column.required)<span style="color: red; ">*</span>#end<@ctx.i18n text = "${comment}"/>：
+                 #if($column.required && $column.info)
+                 #if($column.circleType == "Q")
+                 <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom"  data-content="${column.editInfo}">
+                 <i class="fa fa-question-circle-o" style="color: orange"></i></a>
+                 #elseif($column.circleType == "T")
+                 <i class="fa fa-question-circle-o" title="${column.editInfo}"></i>
+                #end
+                #end
+                </label>
+                <div class="col-sm-8">
+                    <input name="${field}" class="form-control" type="text"#if($column.required) required#end>
+                    #if($column.required && $column.info)
+                        #if($column.circleType == "R")
+                            <span class="help-block m-b-none"><i class="fa fa-info-circle" style="color: red"></i>${column.editInfo}</span>
+                        #end
+                    #end
+                </div>
+            </div>	
 #end
 #end
 #end
 #end
-#end
-#end
-</@addorEdit>
+</@form.form>
 <@footer>
 #foreach($column in $columns)
 #if($column.edit && !$column.superColumn && !$column.pk && $column.htmlType == "datetime")

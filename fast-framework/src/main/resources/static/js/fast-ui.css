@@ -236,7 +236,7 @@
 }
 
 .nav-tabs-custom>.nav-tabs>li.active {
-	border-top-color: #1890ff
+	border-top-color: #1890ff !important;
 }
 
 .nav-tabs-custom>.nav-tabs>li.active>a,.nav-tabs-custom>.nav-tabs>li.active:hover>a {
@@ -299,11 +299,11 @@
 }
 
 .box-main {
-	margin: 0;
-	border: 0;
-	padding-top: 2px;
-	border-radius: 0;
-	box-shadow: none
+	margin: 0 !important;
+	border: 0 !important;
+	padding-top: 2px !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
 }
 
 .box-main>.box-header {
@@ -313,9 +313,9 @@
 
 .box-header .box-title {
 	display: inline-block;
-	font-size: 18px;
-	margin: 0;
-	line-height: 1;
+	/* font-size: 18px; */
+	margin: 0px 5px;
+	/* line-height: 1; */
 }
 
 .time-label{

@@ -31,6 +31,10 @@
                             opt.layer.close(index);
                             return;
                         });
+                    /*登录提示音*/
+                    setTimeout(function(){
+                        opt.common.playSound("1");
+                    },50);
                 })
             </script>
         </#if>

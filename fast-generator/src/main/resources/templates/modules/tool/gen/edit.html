@@ -64,8 +64,7 @@
 							</li>
                         </ul>
                         <form id="form-gen-edit" class="form-horizontal">
-                        <input name="tableId" type="hidden" value="${gen_table.tableId?default("")}" />
-
+                        <input name="id" type="hidden" value="${gen_table.id?default("")}" />
 						<input name="parentId" type="hidden" value="${gen_table.parentId?default("")}" />
 						<input name="parentName" type="hidden" value="${gen_table.parentName?default("")}" />
 						<input name="menuOrder" type="hidden" value="${gen_table.menuOrder?default("")}" />
@@ -195,11 +194,11 @@
 										<div class="form-group">
 											<label class="col-sm-4 control-label"><span style="color: red; ">*</span>数据库：</label>
 											<div class="col-sm-8">
-												<select id="dbType" name="dbType" class="form-control">
+												<select id="dbName" name="dbName" class="form-control">
 													<#list listDb>
 														<#items as d>
 															<#if d.status =='0' >
-																<option  value="${d.dbName}" <#if gen_table.dbType == d.dbName>selected = "selected"</#if> >${d.dbName}</option>
+																<option  value="${d.dbName}" <#if gen_table.dbName == d.dbName>selected = "selected"</#if> >${d.dbName}</option>
 															</#if>
 														</#items>
 													</#list>
@@ -219,7 +218,7 @@
 															<input type="radio" name="isCover" value="${d.dictValue}"
 																   <#if (d.isDefault =='Y' && gen_table.isCover == "") ||
 																   (gen_table.isCover ==d.dictValue ) >checked</#if>>
-															<label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>
+															<label><@ctx.i18n text = "${d.dictLabel}"/></label>
 														</div>
 													</#items>
 												</#list>
@@ -292,7 +291,7 @@
 																<input type="radio" name="isDel" value="${d.dictValue}"
 																	   <#if (d.isDefault =='Y' && gen_table.isDel == "") ||
 																	   (gen_table.isDel ==d.dictValue ) >checked</#if>>
-																<label for="${d.dictCode}"><@ctx.i18n text = "${d.dictLabel}"/></label>
+																<label><@ctx.i18n text = "${d.dictLabel}"/></label>
 															</div>
 														</#items>
 													</#list>
@@ -308,11 +307,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树显示的编码字段名， 如：dept_id"><span style="color: red; ">*</span>树编码字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeCode" name='treeCode' style="width: 100%">
+					                            <select class='form-control' id="treeCode" name='option.treeCode' style="width: 100%">
 					                                <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if (gen_table.option.treeCode)?default("") == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -323,11 +322,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树显示的父编码字段名， 如：parent_Id"><span style="color: red; ">*</span>树父编码字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeParentCode" name='treeParentCode' style="width: 100%">
+					                            <select class='form-control' id="treeParentCode" name='option.treeParentCode' style="width: 100%">
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"   <#if (gen_table.option.treeParentCode)?default("") == d.columnName?default("")>selected = "selected"</#if>   >${d.columnName?default("")}-> ${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -340,11 +339,11 @@
 					                    <div class="form-group">
 					                        <label class="col-sm-4 control-label" title="树节点的显示名称字段名， 如：dept_name"><span style="color: red; ">*</span>树名称字段：<i class="fa fa-question-circle-o"></i></label>
 					                        <div class="col-sm-8">
-					                            <select class='form-control' id="treeName" name='treeName' style="width: 100%">
+					                            <select class='form-control' id="treeName" name='option.treeName' style="width: 100%">
 												    <option value="">---请选择---</option>
 													<#list gen_table.columns>
 														<#items as d>
-															<option value="${d.columnName?default("")}">${d.columnName?default("")}->${d.columnComment?default("")}</option>
+															<option value="${d.columnName?default("")}"    <#if (gen_table.option.treeName)?default("") == d.columnName?default("")>selected = "selected"</#if> >${d.columnName?default("")}->${d.columnComment?default("")}</option>
 														</#items>
 													</#list>
 												</select>
@@ -412,7 +411,7 @@
 	      /* 刷新数据库表*/
 		function refreshTableColumn(){
            opt.modal.confirm("请确认更新?", function() {
-        	   var  url = prefix + "/refreshTable/${gen_table.tableId}"; 
+        	   var  url = prefix + "/refreshTable/${gen_table.id}"; 
                opt.operate.get(url,"")
            });
 		}
@@ -434,7 +433,7 @@
 	    }
 
 	    function selectMenu() {
-			opt.modal.open("<@ctx.i18n text = "设置菜单"/>",prefix + "/selectMenu/" +  $('input[name="tableId"]').val(),'','',doSubmitMenu,true)
+			opt.modal.open("<@ctx.i18n text = "设置菜单"/>",prefix + "/selectMenu/" +  $('input[name="id"]').val(),'','',doSubmitMenu,true)
         }
 
 		function doSubmitMenu(index, layero,_layer){
@@ -504,10 +503,10 @@
 					align: 'center',
                     formatter: function (value, row, index) {
                     	/*编号隐藏域*/
-                    	var columnIdHtml = opt.common.sprintf("<input type='hidden' name='columns[%s].columnId' value='%s'>", index, row.columnId);
+                    	var idHtml = opt.common.sprintf("<input type='hidden' name='columns[%s].id' value='%s'>", index, row.id);
                     	/*排序隐藏域*/
-                    	var sortHtml = opt.common.sprintf("<input type='hidden' name='columns[%s].sort' value='%s' id='columns_sort_%s'>", index, row.sort, row.columnId);
-                    	return columnIdHtml + sortHtml +$.table.serialNumber(index);
+                    	var sortHtml = opt.common.sprintf("<input type='hidden' name='columns[%s].sort' value='%s' id='columns_sort_%s'>", index, row.sort, row.id);
+                    	return idHtml + sortHtml +$.table.serialNumber(index);
                     }
                     // ,
                     // cellStyle: function(value, row, index) {
@@ -577,6 +576,17 @@
 		        		return html;
 		        	}
 		        },
+		         {
+		            field: 'isPk',
+		            title: "主键",
+					titleTooltip:'请勿修改',
+		            width: "32",
+		            formatter: function (value, row, index) {
+		            	var isCheck = value == 1 ? 'checked' : '';
+		            	var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isPk' value='1' %s></label>", index, isCheck);
+		        		return html;
+		        	}
+		        },
 		        {
 		            field: 'isInsert',
 		            title: '插入',
@@ -588,6 +598,16 @@
 		        		return html;
 		        	}
 		        },
+		        {
+					field: 'isEdit',
+					title: '编辑',
+					width: "32",
+					formatter: function (value, row, index) {
+						var isCheck = value == 1 ? 'checked' : '';
+						var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isEdit' value='1' %s></label>", index, isCheck);
+						return html;
+					}
+				},
 		        {
 		            field: 'isList',
 		            title: '列表',
@@ -648,16 +668,6 @@
 						return html;
 					}
 				},
-				{
-					field: 'isEdit',
-					title: '编辑',
-					width: "32",
-					formatter: function (value, row, index) {
-						var isCheck = value == 1 ? 'checked' : '';
-						var html = opt.common.sprintf("<label class='check-box'><input type='checkbox' name='columns[%s].isEdit' value='1' %s></label>", index, isCheck);
-						return html;
-					}
-				},
 		        {
 		            field: 'isRequired',
 		            title: '必填',
@@ -693,8 +703,8 @@
 					title: '字段说明',
 					width: "10%",
 					formatter: function (value, row, index) {
-						var html = opt.common.sprintf("<input class='form-control' type='text' name='columns[%s].editInfo' value='%s' id='columns_edit_info_%s'>", index, value, row.columnId);
-						return "<div class='input-group'>" + html + "<span class='input-group-btn'><a  href='javascript:;' onclick='selectinputEdit(\"" + row.columnId +"\", this)'  class='btn btn-default'><i class='fa fa-fw fa-edit'></i></a></span>";
+						var html = opt.common.sprintf("<input class='form-control' type='text' name='columns[%s].editInfo' value='%s' id='columns_edit_info_%s'>", index, value, row.id);
+						return "<div class='input-group'>" + html + "<span class='input-group-btn'><a  href='javascript:;' onclick='selectinputEdit(\"" + row.id +"\", this)'  class='btn btn-default'><i class='fa fa-fw fa-edit'></i></a></span>";
 					}
 				},
 		        {
@@ -702,9 +712,9 @@
 		            title: '字典类型',
 		            width: "15%",
 		            formatter: function (value, row, index) {
-		        		var html = opt.common.sprintf("<input class='form-control' type='text' name='columns[%s].dictType' value='%s' id='columns_dict_%s'>", index, value, row.columnId);
-						return "<div class='input-group'>" + html + "<span class='input-group-btn'><a  href='javascript:;' onclick='selectDictTree(\""+ row.columnId+"\", this)'  class='btn btn-default'><i class='fa fa-fw fa-search'></i></a></span>";
-						//return "<div class='input-group'>" + html + "<span class='input-group-addon' onclick='selectDictTree(" + row.columnId + ", this)'><i class='fa fa-fw fa-search'></i></span></div>";
+		        		var html = opt.common.sprintf("<input class='form-control' type='text' name='columns[%s].dictType' value='%s' id='columns_dict_%s'>", index, value, row.id);
+						return "<div class='input-group'>" + html + "<span class='input-group-btn'><a  href='javascript:;' onclick='selectDictTree(\""+ row.id+"\", this)'  class='btn btn-default'><i class='fa fa-fw fa-search'></i></a></span>";
+						//return "<div class='input-group'>" + html + "<span class='input-group-addon' onclick='selectDictTree(" + row.id + ", this)'><i class='fa fa-fw fa-search'></i></span></div>";
 		        	}
 		        }]
 				// ]
@@ -716,7 +726,7 @@
 		/*当拖拽结束后处理函数*/
 		function onReorderRow(data) {
 	        for (var i = 0; i < data.length; i++) {
-			    $("#columns_sort_" + data[i].columnId).val(i+1);
+			    $("#columns_sort_" + data[i].id).val(i+1);
 			}
        };
 		
@@ -753,10 +763,10 @@
         };
 
 		/*选择字典处理函数*/
-		function selectDictTree(columnId, obj) {
-			console.log("" + columnId);
-			var dictType = opt.common.nullToStr($("#columns_dict_"+columnId).val(),"-");
-        	var url = baseURL + "sys/dict/getDictTree/" + columnId + "/" + dictType;
+		function selectDictTree(id, obj) {
+			console.log("" + id);
+			var dictType = opt.common.nullToStr($("#columns_dict_"+id).val(),"-");
+        	var url = baseURL + "sys/dict/getDictTree/" + id + "/" + dictType;
 			var options = {
 				title: '选择字典类型',
 				width: "380",
@@ -767,17 +777,17 @@
 		};
 		function doSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
-   			var columnId = body.find('#columnId').val();
+   			var id = body.find('#columnId').val();
    			var dictType = body.find('#dictType').val();
-   			console.log("--->>:" +"#columns_dict_" + columnId);
-   			$("#columns_dict_" + columnId).val(dictType);
+   			console.log("--->>:" +"#columns_dict_" + id);
+   			$("#columns_dict_" + id).val(dictType);
 			layer.close(index);
 		};
 
 		/*选择字典处理函数*/
-		function selectinputEdit(columnId, obj) {
-			var text = opt.common.nullToStr($("#columns_edit_info_"+columnId).val(),"-");
-			var url = prefix + "/inputEdit/" + columnId + "/" + text;
+		function selectinputEdit(id, obj) {
+			var text = opt.common.nullToStr($("#columns_edit_info_"+id).val(),"-");
+			var url = prefix + "/inputEdit/" + id + "/" + text;
 			var options = {
 				title: '填写说明',
 				width: "500",
@@ -789,9 +799,9 @@
 		};
 		function inputDoSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
-			var columnId = body.find('#columnId').val();
+			var id = body.find('#columnId').val();
 			var text = body.find('#inputEdit').val();
-			$("#columns_edit_info_" + columnId).val(text);
+			$("#columns_edit_info_" + id).val(text);
 			layer.close(index);
 		};
 
@@ -832,6 +842,9 @@
     <option value="Double" {{if javaType==="Double"}}selected{{/if}}>Double</option>
     <option value="BigDecimal" {{if javaType==="BigDecimal"}}selected{{/if}}>BigDecimal</option>
     <option value="Date" {{if javaType==="Date"}}selected{{/if}}>Date</option>
+    <option value="SysCompEntity" {{if javaType==="SysCompEntity"}}selected{{/if}}>SysCompEntity</option>
+    <option value="SysDeptEntity" {{if javaType==="SysDeptEntity"}}selected{{/if}}>SysDeptEntity</option>
+    <option value="SysUserEntity" {{if javaType==="SysUserEntity"}}selected{{/if}}>SysUserEntity</option>
 </select>
 </div>
 </script>
@@ -863,6 +876,9 @@
     <option value="checkbox" {{if htmlType==="checkbox"}}selected{{/if}}>复选框</option>
     <option value="datetime" {{if htmlType==="datetime"}}selected{{/if}}>日期控件</option>
     <option value="icon" {{if htmlType==="icon"}}selected{{/if}}>选择图标</option>
+    <option value="user" {{if htmlType==="user"}}selected{{/if}}>选择用户</option>
+    <option value="dept" {{if htmlType==="dept"}}selected{{/if}}>选择部门</option>
+    <option value="comp" {{if htmlType==="comp"}}selected{{/if}}>选择公司</option>
 </select>
 </div>
 </script>
