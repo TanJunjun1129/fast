@@ -25,7 +25,7 @@
         <#list Libs as x>
             <#if x == "table">
                 <#--bootstrap-table 表格插件-->
-                <script src="${ctxStatic}/static/plugins/bootstrap-table/bootstrap-table.js?V=${config.getDvVersion()}"></script>
+                <script src="${ctxStatic}/static/plugins/bootstrap-table/bootstrap-table.min.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/extensions/resizable/colResizable-1.5.min.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/extensions/resizable/bootstrap-table-resizable.js?V=${config.getDvVersion()}"></script>
                 <script src="${ctxStatic}/static/plugins/bootstrap-table/locale/bootstrap-table-i18n.js?V=${config.getDvVersion()}"></script>
@@ -91,8 +91,8 @@
 <#-- jquery-validate 表单验证插件 -->
 <script src="${ctxStatic}/static/plugins/validate/jquery.validate.min.js?V=${config.getDvVersion()}"></script>
 <script src="${ctxStatic}/static/plugins/validate/jquery.validate.extend.js?V=${config.getDvVersion()}"></script>
-<script src="${request.contextPath}/static/js/fastJS.js?V=${config.getDvVersion()}"></script>
-<#--<script src="${request.contextPath}/static/js/fastJS.min.js?V=${config.getDvVersion()}"></script>-->
+<#--<script src="${request.contextPath}/static/js/fastJS.js?V=${config.getDvVersion()}"></script>-->
+<script src="${request.contextPath}/static/js/fastJS.min.js?V=${config.getDvVersion()}"></script>
 <#--VUE-->
 <script src="${ctxStatic}/static/libs/vue.min.js?V=${config.getDvVersion()}"></script>
 </#compress>
