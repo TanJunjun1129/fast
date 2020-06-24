@@ -4,7 +4,8 @@
  * @author ZhouHuan 二次封装 新增若干方法优化部分BUG
  * @date 2020-02-20
  *       2020-05-17 修复导出报表问题
- * @version v1.0.10
+ *       2020-06-24 修复表格控件 页面多表格 回调函数错乱问题
+ * @version v1.0.11
  */
 if (typeof jQuery === "undefined") {
     throw new Error("fastJS JavaScript requires jQuery")
@@ -18,7 +19,7 @@ if (typeof jQuery === "undefined") {
             _tabIndex:-999,
             tindex:0,
             pushMenu:null,
-            version:'1.0.1',
+            version:'1.0.11',
             debug:true,
             //表格类型
             table_type : {
@@ -2457,6 +2458,7 @@ if (typeof jQuery === "undefined") {
                 opt.table.config[options.id] = options;
                 $.table.initEvent();
                 $('#' + options.id).bootstrapTable({
+                    id: options.id,                                     // 对象ID
                     url: options.url,                                   // 请求后台的URL（*）
                     contentType: "application/x-www-form-urlencoded",   // 发送到服务器的数据编码类型
                     method: 'post',                                     // 请求方式（*）
@@ -2568,8 +2570,8 @@ if (typeof jQuery === "undefined") {
             },
             // 请求获取数据后处理回调函数
             responseHandler: function(res) {
-                if (typeof opt.table.options.responseHandler == "function") {
-                    opt.table.options.responseHandler(res);
+                if (typeof opt.table.get(this.id).responseHandler == "function") {
+                    opt.table.get(this.id).responseHandler(res);
                 }
                 if (res.code == 0) {
                     if (opt.common.isNotEmpty(opt.table.options.sidePagination) && opt.table.options.sidePagination == 'client') {

@@ -16,6 +16,7 @@
  * 5.修改记住我选择实例组 删除BUG问题
  * 6.修复压缩源码增加源码可读性
  * 7.新增表格行title提示
+ * 8.新增id 对象标识,修复页面多表格 回调函数问题
  * --------------------------------------------------
  */
 (function ($) {
@@ -136,7 +137,6 @@
 
     var calculateObjectValue = function (self, name, args, defaultValue) {
         var func = name;
-
         if (typeof name === 'string') {
             // support obj.func1.func2
             var names = name.split('.');
@@ -300,6 +300,7 @@
     };
 
     BootstrapTable.DEFAULTS = {
+        id: '',
         classes: 'table table-hover',
         locale: undefined,
         height: undefined,
