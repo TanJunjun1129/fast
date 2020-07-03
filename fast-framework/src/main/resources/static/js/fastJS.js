@@ -92,7 +92,7 @@ if (typeof jQuery === "undefined") {
                 }
             })
         },
-
+        
         debug: function (message) {
             if (window.console && opt.variable.debug) {
                 console.log(message)
@@ -2294,9 +2294,9 @@ if (typeof jQuery === "undefined") {
         $('#scroll-up').toTop();
 
         //屏蔽鼠标右键
-        /*document.oncontextmenu = function() {
-            return false
-        }*/
+        //document.oncontextmenu = function() {
+        //    return false
+        //}
 
     });
 
@@ -2654,7 +2654,6 @@ if (typeof jQuery === "undefined") {
                     var uniqueId = opt.table.options.uniqueId;
                     // 工具栏按钮控制
                     var rows = opt.common.isEmpty(uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(uniqueId);
-                    console.log("=======" + rows);
                     // 非多个禁用
                     $('#' + toolbar + ' .multiple').toggleClass('disabled', !rows.length);
                     // 非单个禁用
@@ -2875,7 +2874,6 @@ if (typeof jQuery === "undefined") {
                     search.__order = params.order;
                     return search;
                 }
-                console.log(params);
                 if(opt.common.isNotEmpty(tableId)){
                     $("#" + tableId).bootstrapTable('refresh', params);
                 } else{
@@ -3346,7 +3344,6 @@ if (typeof jQuery === "undefined") {
                             for(var i=0; i<_l.length; i++){
                                 var node = tree.getNodeByParam(opt.common.isEmpty(options.data.simpleData.idKey)?
                                     "id":options.data.simpleData.idKey, _l[i]);
-                                console.log(node);
                                 if(node !=null){
                                     tree.checkNode(node,true);
                                     tree.selectNode(node);
@@ -3531,7 +3528,6 @@ if (typeof jQuery === "undefined") {
             callBackTree:function (_p,_m) {
                 var tree = _p.find("iframe")[0].contentWindow.$._tree;
                 if ($.tree.notAllowParents(tree)) {
-                    console.log("00000");
                     var body = layer.getChildFrame('body', _m);
                     var treeId = body.find('#treeId').val()
                     var treeName = body.find('#treeName').val();

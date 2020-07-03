@@ -51,6 +51,8 @@
 <title>${title}</title>
 <link rel="shortcut icon" href="${ctxStatic}/static/img/favicon.ico"/>
 <script src="${ctxStatic}/static/libs/jquery.2.1.4.min.js?V=${config.getDvVersion()}"></script>
+<script> var baseURL = "${ctxStatic}/", _lang = "${config.getSysLang()}",  _username = "<@shiro.principal property="username"/>"  ,
+ LockScreen = ${config.getKey('SYS_LOCK_SCEREEN')}; function imgUserError(){var img=event.srcElement;img.src=baseURL+"static/img/user2-160x160.jpg"; img.onerror=null;}</script>
 <@cssLibs.css Libs = libs/>
 <#-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <#-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -79,8 +81,6 @@
 </div>
 </#if>
 <a id="scroll-up" href="#" class="btn btn-sm display"><i class="fa fa-angle-double-up"></i></a>
-<script> var baseURL = "${ctxStatic}/", _lang = "${config.getSysLang()}",  _username = "<@shiro.principal property="username"/>"  ,
- LockScreen = ${config.getKey('SYS_LOCK_SCEREEN')}</script>
 <@jsLibs.js Libs = jscssLib/>
 
 <#nested>
