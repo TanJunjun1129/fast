@@ -126,7 +126,7 @@ spring:
 * 如果本项目对你有帮助,[请点击Star收藏](https://gitee.com/zhouhuanOGP/J2EEFAST),**本项目会长期维护**,若你在使用中有任何问题或建议,欢迎在[码云issue提交问题](https://gitee.com/zhouhuanOGP/J2EEFAST/issues)作者会第一时间处理，让我们一起完善J2eeFAST
 * 官网: [http://www.j2eefast.com](http://www.j2eefast.com)
 * 关于文档：[Gitee Wiki 文档](https://gitee.com/zhouhuanOGP/J2EEFAST/wikis/pages)
-* 关于更新：项目每周都会有更新,演示网站会在周五~周日,不定期暂停访问,带来不便尽情谅解!
+* 关于更新：项目现在会放缓更新优化细节,演示网站会不定期暂停访问,带来不便尽情谅解!
 * QQ群：[805468934](https://jq.qq.com/?_wv=1027&k=5xTlnN6)
 #### 免责声明：
 * **本项目代码全部开源，无需任何费用。如果有人向你贩卖本系统都是骗子!**
