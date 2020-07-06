@@ -76,7 +76,6 @@ COMMIT;
 -- Records of sys_database
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_database` VALUES (1275355007700471809, 'MASTER', 'com.mysql.cj.jdbc.Driver', 'CErhgiIz/wClnY3Wwh8Zpg==', 'SXrKSDmiRID4o2e5nYkZYdqA3wFNgZ0q', 'SnqULKiy+FTsXBcE1j17v66Bxoiw2g8e+qiFxoMPTul3CXuiAfqOgtM5i4Eqs5U+cCOpkAt31shTeKsQyc0IwrxXXgtX/OjRNSZfY1BcRoJtJbQIK+N1ccPBlJYxvjUO2TJTOBbNaT0GLLV/vQ15g/8D03tTbQ1rEroMEOVP+Bdvax/4FnaLVlsNz5+LUPPb', '0', '0', 'ENC', '2020-06-23 17:08:23', 'system', NULL, NULL, '主数据源，项目启动数据源！');
 COMMIT;
 
 -- ----------------------------
