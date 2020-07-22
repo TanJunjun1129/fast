@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j2eefast.framework.sys.mapper.SysTeamMapper">
+
+   <select id="findList" resultType="com.j2eefast.framework.sys.entity.SysTeamEntity">
+       SELECT
+            t.id,
+            t.team_name as teamName,
+            t.team_type as teamType,
+            t.comp_id as compId,
+            c.name as compName,
+            t.dept_id as deptId,
+            d.name as deptName,
+            t.team_type as teamType,
+            t.update_time as updateTime,
+            t.update_by as updateBy,
+            t.create_time as createTime,
+            t.create_by as createBy,
+            t.remark,
+            t.del_flag as delFlag,
+            t.status as status
+        FROM
+            sys_team t
+            LEFT JOIN sys_comp c ON t.comp_id = c.id
+            LEFT JOIN sys_comp d ON d.id = t.dept_id
+            where t.del_flag=0
+            <if test="teamname!=null and teamname!=''">
+            and t.team_name=#{teamname}
+            </if>
+           <if test="status!=null and status!=''">
+               and  t.status=#{status}
+           </if>
+           <if test="compId!=null and compId!=''">
+               and  (t.comp_id=#{compId} or t.dept_id=#{compId})
+           </if>
+           <if test = "sql_filter !=null and sql_filter!=''">
+               AND ${sql_filter}
+           </if>
+   </select>
+
+    <select id="getTeamById" resultType="com.j2eefast.framework.sys.entity.SysTeamEntity">
+        SELECT
+        t.id,
+        t.team_name as teamName,
+        t.team_type as teamType,
+        t.comp_id as compId,
+        c.name as compName,
+        t.dept_id as deptId,
+        d.name as deptName,
+        t.team_type as teamType,
+        t.update_time as updateTime,
+        t.update_by as updateBy,
+        t.create_time as createTime,
+        t.create_by as createBy,
+        t.remark,
+        t.del_flag as delFlag,
+        t.status as status
+        FROM
+        sys_team t
+        LEFT JOIN sys_comp c ON t.comp_id = c.id
+        LEFT JOIN sys_comp d ON d.id = t.dept_id
+        where t.del_flag=0
+        and  t.id=#{id}
+    </select>
+
+    <update id="setStatus">
+        update sys_team set status=#{status} where id=#{id}
+    </update>
+
+    <update id="delByIds">
+        update  sys_team set del_flag=1
+        where
+          id in
+        <foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+          #{id}
+        </foreach>
+    </update>
+    
+</mapper>

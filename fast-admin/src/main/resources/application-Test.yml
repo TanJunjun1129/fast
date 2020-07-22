@@ -1,7 +1,7 @@
 fast:
     redis:
         #是否开启redis 内存数据库 <*推荐使用*>
-        enabled: true
+        enabled: false
     #工作流是否开启 如果工作流开启 必须开启 rabbitmq消息队列 否则系统人员 与 角色同步就会有异常
     flowable:
         enabled: true

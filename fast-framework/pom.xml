@@ -99,11 +99,11 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<!-- 不打包资源文件（配置文件和依赖包分开）-->
-					<excludes>
-						<exclude>templates/**</exclude>
-						<exclude>mapper/**</exclude>
-						<exclude>static/**</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>templates/**</exclude>-->
+						<!--<exclude>mapper/**</exclude>-->
+						<!--<exclude>static/**</exclude>-->
+					<!--</excludes>-->
 				</configuration>
 			</plugin>
 		</plugins>

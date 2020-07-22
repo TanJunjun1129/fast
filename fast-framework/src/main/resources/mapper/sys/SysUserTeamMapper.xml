@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j2eefast.framework.sys.mapper.SysUserTeamMapper">
+
+    <select id="countUsersInTeams" resultType="int">
+        select  count(1) from sys_user_team where team_id in
+        <foreach collection="teamids" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="delUserTeam">
+        delete from sys_user_team where user_id in
+        <foreach collection="userIds" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="findUserByTeamPage" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
+        SELECT u.id,
+        u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,
+        u.dept_id,u.comp_id,d.name AS deptName,
+        ifnull(c.name,"总公司") AS comp_name
+        FROM sys_team t
+        LEFT JOIN sys_comp c ON t.comp_id = c.id
+        LEFT JOIN (SELECT id, name, parent_ids FROM sys_comp) d ON t.dept_id = d.id
+        LEFT JOIN sys_user_team ut ON t.id = ut.team_id
+        LEFT JOIN sys_user u ON ut.user_id = u.id
+        WHERE
+        u.del_flag = '0' AND
+        t.id = #{teamId}
+        <if test = "username !=null and username!=''">
+            AND u.username LIKE CONCAT('%', #{username}, '%')
+        </if>
+        <if test = "status !=null and status!=''">
+            AND u.status = #{status}
+        </if>
+        <if test = "mobile !=null and mobile!=''">
+            AND u.mobile LIKE
+            CONCAT('%', #{mobile}, '%')
+        </if>
+        <if test = "email !=null and email!=''">
+            AND u.email LIKE
+         CONCAT('%', #{email}, '%')
+        </if>
+        GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name
+    </select>
+
+    <select id="findUnallocatedList" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
+        SELECT u.id,
+        u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,
+        u.dept_id,u.comp_id,d.name AS deptName,
+        ifnull(c.name,"总公司") AS comp_name
+        FROM
+         sys_user u  left join sys_comp c on u.comp_id=c.id
+         left join sys_comp d on u.dept_id=d.id
+        WHERE
+        u.del_flag = '0'
+        <if test = "username !=null and username!=''">
+            AND u.username LIKE CONCAT('%', #{username}, '%')
+        </if>
+        <if test = "status !=null and status!=''">
+            AND u.status = #{status}
+        </if>
+        <if test = "mobile !=null and mobile!=''">
+            AND u.mobile LIKE
+            CONCAT('%', #{mobile}, '%')
+        </if>
+        <if test = "email !=null and email!=''">
+            AND u.email LIKE
+            CONCAT('%', #{email}, '%')
+        </if>
+        and u.comp_id in (select comp_id from sys_team where id =#{teamId} and del_flag=0)
+        and u.id not in(select user_id from sys_user_team where team_id=#{teamId})
+        GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name
+    </select>
+
+    <delete id="delTeamUser">
+        delete from sys_user_team where team_id=#{teamId} and user_id in
+        <foreach collection="userIds" index="index" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

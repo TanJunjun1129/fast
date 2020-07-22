@@ -8,10 +8,10 @@ fast:
 #        datasourceNames: db1
     redis:
         #是否开启redis 内存数据库 <*推荐使用*>
-        enabled: true
+        enabled: false
     #工作流是否开启 如果工作流开启 必须开启 rabbitmq消息队列 否则系统人员 与 角色同步就会有异常
     flowable:
-        enabled: false
+        enabled: true
     #是否演示模式
     demoMode:
         enabled: false
@@ -38,36 +38,36 @@ fast:
         urlPatterns: /sys/*,/tool/*
 ########################License认证相关#####################
 #License相关配置
-license:
-    #主题
-    subject: fastOS
-    #公钥别称
-    publicAlias: j2eefastCert
-    #访问公钥的密码
-    storePass: j2eefast.com
-    #license位置 如果不是绝对地址 则会找项目资源路径
-    licensePath: license/license.lic
-    #公钥位置 如果不是绝对地址 则会找项目资源路径
-    publicKeysStorePath: license/publicCerts.keystore
-
-    ######生成许可证书信息 *此信息应当绝对保密 正式项目应该分离单独存放用于生成许证书*  你可以屏蔽############私钥库别名
-    privateAlias:
-    #私钥库密码
-    keyPass:
-    #私钥库路径
-    privateKeysStorePath:
-########################License认证相关#####################
+#license:
+#    #主题
+#    subject: fastOS
+#    #公钥别称
+#    publicAlias: j2eefastCert
+#    #访问公钥的密码
+#    storePass: j2eefast.com
+#    #license位置 如果不是绝对地址 则会找项目资源路径
+#    licensePath: license/license.lic
+#    #公钥位置 如果不是绝对地址 则会找项目资源路径
+#    publicKeysStorePath: license/publicCerts.keystore
+#
+#    ######生成许可证书信息 *此信息应当绝对保密 正式项目应该分离单独存放用于生成许证书*  你可以屏蔽############私钥库别名
+#    #privateAlias:
+#    #私钥库密码
+#    #keyPass:
+#    #私钥库路径
+#    #privateKeysStorePath:
+#########################License认证相关#####################
 
 spring:
     datasource:
         #默认(主)数据库配置
         master:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://127.0.0.1:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+            url: jdbc:mysql://127.0.0.1:3306/test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
             #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
             #url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
-            username: fast
-            password: fast@123$
+            username: root
+            password: 123456
             filters: mergeStat
 #             driverClassName: oracle.jdbc.driver.OracleDriver
 #             url: jdbc:oracle:thin:@192.168.20.112:1521/orcl
@@ -75,12 +75,21 @@ spring:
 #             password: fast@123$
 #             filters: wall,mergeStat
         ###############工作流数据库配置
-#        flowable:
-#          driverClassName: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://192.168.20.110:3306/fast_flowabledb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-#          username: fast_flowable
-#          password: fast_flowable@123$
-#          filters: wall,mergeStat
+#        master2:
+#            driverClassName: com.mysql.cj.jdbc.Driver
+#            url: jdbc:mysql://127.0.0.1:3306/test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+#            #url: jdbc:mysql://192.168.20.110:3306/fastdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+#            #url: ENC{6mrUX1SZ/wgmN11iXmMyqplOpIbLBTlo3wh3K7T9qieephrFWPxUeOeswsLG+HKDvzd1wbo0DONij81tZUjIIEX/2gADAjSoJewZaxIeuVD1foEoEjzB/US3uf3gJYkee3IJPFEhABPSefwJGthT4xceWx27axifRKC6SfDzl5A=}
+#            username: root
+#            password: 123456
+#            filters: mergeStat
+#
+        FLOWABLE:
+          driverClassName: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/ttt?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+          username: root
+          password: 123456
+          filters: wall,mergeStat
   #redis数据库服务器
     redis:
         database: 10

@@ -50,6 +50,9 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 	@Autowired
 	private RabbitmqProducer rabbitmqProducer;
 
+	@Autowired
+	private SysUserTeamService sysUserTeamService;
+
 	/**
 	 * 用户页面查询分页
 	 * @param params
@@ -217,6 +220,7 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		//删除 用户与岗位 关联表
 		sysUserPostService.deleteBatchByUserIds(ids);
 
+		sysUserTeamService.delUserTeam(ids);
 		//删除 用户
 		if(this.removeByIds(Arrays.asList(ids))){
 			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getDelUserHard(),ToolUtil.conversion(ids,","),

@@ -77,44 +77,48 @@
 			</plugin>
 
 		<!-- 打jar包的插件 -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-jar-plugin</artifactId>
-			<configuration>
-				<archive>
-					<manifest>
-						<addClasspath>true</addClasspath>
-						<classpathPrefix>lib</classpathPrefix>
-						<!-- 程序启动入口 -->
-						<mainClass>com.j2eefast.FastApplication</mainClass>
-					</manifest>
-					<manifestEntries>
-						<Class-Path>./</Class-Path>
-					</manifestEntries>
-				</archive>
+		<!--<plugin>-->
+			<!--<groupId>org.apache.maven.plugins</groupId>-->
+			<!--<artifactId>maven-jar-plugin</artifactId>-->
+			<!--<configuration>-->
+				<!--<archive>-->
+					<!--<manifest>-->
+						<!--<addClasspath>true</addClasspath>-->
+						<!--<classpathPrefix>lib</classpathPrefix>-->
+						<!--&lt;!&ndash; 程序启动入口 &ndash;&gt;-->
+						<!--<mainClass>com.j2eefast.FastApplication</mainClass>-->
+					<!--</manifest>-->
+					<!--<manifestEntries>-->
+						<!--<Class-Path>./</Class-Path>-->
+					<!--</manifestEntries>-->
+				<!--</archive>-->
 
-				<!-- 不打包资源文件（配置文件和依赖包分开） -->
-				<excludes>
-					<exclude>config/**</exclude>
-					<exclude>statics/**</exclude>
-					<exclude>public/**</exclude>
-					<exclude>mapper/**</exclude>
-					<exclude>templates/**</exclude>
-					<exclude>i18n/**</exclude>
-					<exclude>*.yml</exclude>
-					<exclude>*.txt</exclude>
-					<exclude>*.xml</exclude>
-					<exclude>*.pfx</exclude>
-					<exclude>*.bat</exclude>
-					<exclude>*.sh</exclude>
-					<exclude>build/**</exclude>
-					<exclude>*.properties</exclude>
-					<exclude>license/**</exclude>
-					<exclude>ehcache/**</exclude>
-					<exclude>run/**</exclude>
-				</excludes>
-			</configuration>
-		</plugin>
+				<!--&lt;!&ndash; 不打包资源文件（配置文件和依赖包分开） &ndash;&gt;-->
+				<!--<excludes>-->
+					<!--<exclude>config/**</exclude>-->
+					<!--<exclude>statics/**</exclude>-->
+					<!--<exclude>public/**</exclude>-->
+					<!--<exclude>mapper/**</exclude>-->
+					<!--<exclude>templates/**</exclude>-->
+					<!--<exclude>i18n/**</exclude>-->
+					<!--<exclude>*.yml</exclude>-->
+					<!--<exclude>*.txt</exclude>-->
+					<!--<exclude>*.xml</exclude>-->
+					<!--<exclude>*.pfx</exclude>-->
+					<!--<exclude>*.bat</exclude>-->
+					<!--<exclude>*.sh</exclude>-->
+					<!--<exclude>build/**</exclude>-->
+					<!--<exclude>*.properties</exclude>-->
+					<!--<exclude>license/**</exclude>-->
+					<!--<exclude>ehcache/**</exclude>-->
+					<!--<exclude>run/**</exclude>-->
+				<!--</excludes>-->
+			<!--</configuration>-->
+		<!--</plugin>-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 		<!-- 需要打成完整gz包放开注解
 		<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>

@@ -1,0 +1,95 @@
+<#include "/common/defaultEngine.html"/>
+<@pageTheme mark="${config.optimize()?string('true', 'false')}">
+<@header title="新增队伍" bodyClass="white-bg" libs=["bootstrapSelect"]/>
+<div class="wrapper wrapper-content ibox-content">
+    <@form.form id="form-dept-edit" class="form-horizontal">
+    <@form.hidden id="id" name="id" value="${team.id?default('')}"/>
+    <div class="form-group">
+        <label class="col-sm-3"><span style="color: red; ">*</span>队伍名称：</label>
+        <div class="col-sm-8">
+            <@form.input name="teamName" placeholder="请输入队伍名称" required="true" value="${team.teamName}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3"><span style="color: red; ">*</span>队伍类型：</label>
+        <div class="col-sm-8">
+            <@form.select name="teamType" dictType="sys_team_type" value="${team.teamType?default('')}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3"><span style="color: red; ">*</span>归属公司：</label>
+        <div class="col-sm-8">
+            <@form.treeselect name="compId" boxTitle="选择归属公司" url="sys/comp/treeData?type=0" expandLevel="true" required="true"
+            placeholder="请选择归属公司" value="${team.compId?default('')}" labelValue="${team.teamName?default('')}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3"><span style="color: red; ">*</span>归属部门：</label>
+        <div class="col-sm-8">
+            <@form.treeselect  name="deptId" boxTitle="请选择归属部门" url="sys/dept/selectZtree" required="true"
+            correlationId="compId" isSelectParent="true"  placeholder="请选择归属部门" value="${team.deptId?default('')}"
+            labelValue="${team.deptName?default('')}"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3"><span style="color: red; ">*</span>状态：</label>
+        <div class="col-sm-8">
+            <@form.radio name="status" dictType="sys_normal_disable" value="${team.status}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3">备注：</label>
+        <div class="col-sm-8">
+            <@form.textarea name="remark" value="${team.remark}"/>
+        </div>
+    </div>
+</@form.form>
+</div>
+<@footer>
+<script type="text/javascript">
+    var prefix = baseURL + "sys/team";
+
+    $("#form-dept-add").validate({
+        onkeyup: false,
+        rules:{
+            name:{
+                remote: {
+                    url: prefix + "/checkTeamNameUnique",
+                    type: "POST",
+                    dataType: "html",
+                    data: {
+                        "teamName": function() {
+                            return opt.common.trim($("input[name='teamName']").val());
+                        },
+                        "deptId" : function() {
+                            return opt.common.trim($("#deptId").val());
+                        },
+                        "id":'${team.id}'
+                    },
+                    dataFilter: function(data, type) {
+                        return opt.validate.unique(data);
+                    }
+                }
+            },
+            orderNum:{
+                digits:true
+            }
+        },
+        messages: {
+            "name": {
+                remote: "已经存在"
+            }
+        },
+        focusCleanup: true
+    });
+
+
+    function submitHandler() {
+        if (opt.validate.form()) {
+            opt.operate.save(prefix + "/edit", $('#form-dept-edit').serialize());
+        }
+    }
+</script>
+</@footer>
+</@pageTheme>

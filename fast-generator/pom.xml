@@ -32,12 +32,12 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<!-- 不打包资源文件（配置文件和依赖包分开）-->
-					<excludes>
-						<exclude>templates/**</exclude>
-						<exclude>mapper/**</exclude>
-						<exclude>vm/**</exclude>
-						<exclude>*.yml</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>templates/**</exclude>-->
+						<!--<exclude>mapper/**</exclude>-->
+						<!--<exclude>vm/**</exclude>-->
+						<!--<exclude>*.yml</exclude>-->
+					<!--</excludes>-->
 				</configuration>
 			</plugin>
 		</plugins>

@@ -177,7 +177,7 @@
             AND ${sql_filter}
         </if>
         <if test="_databaseId == 'oracle'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
-        <if test="_databaseId == 'mysql'">GROUP BY u.id</if>
+        <if test="_databaseId == 'mysql'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
     </select>
 
     <select id="findList" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
@@ -241,7 +241,7 @@
             AND ${sql_filter}
         </if>
         <if test="_databaseId == 'oracle'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
-        <if test="_databaseId == 'mysql'">GROUP BY u.id</if>
+        <if test="_databaseId == 'mysql'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
     </select>
 
     <!-- 角色授权用户 还没有授权的用户列表-->
@@ -271,7 +271,7 @@
             AND ${sql_filter}
         </if>
         <if test="_databaseId == 'oracle'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
-        <if test="_databaseId == 'mysql'">GROUP BY u.id</if>
+        <if test="_databaseId == 'mysql'">GROUP BY u.id,u.username, u.name,u.password,u.salt,u.email,u.mobile,u.status,u.card_id,u.create_time,u.dept_id,u.comp_id,c.name</if>
     </select>
 
 

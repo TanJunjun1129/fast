@@ -21,7 +21,6 @@
   </properties>
 
   <dependencies>
-
       <dependency>
           <groupId>com.j2eefast</groupId>
           <artifactId>fast-framework</artifactId>
@@ -134,13 +133,13 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <!-- 不打包资源文件（配置文件和依赖包分开）-->
-                    <excludes>
-                        <exclude>templates/**</exclude>
-                        <exclude>mapper/**</exclude>
-                        <exclude>config/**</exclude>
-                        <exclude>flowable/**</exclude>
-                        <exclude>*.json</exclude>
-                    </excludes>
+                    <!--<excludes>-->
+                        <!--<exclude>templates/**</exclude>-->
+                        <!--<exclude>mapper/**</exclude>-->
+                        <!--<exclude>config/**</exclude>-->
+                        <!--<exclude>flowable/**</exclude>-->
+                        <!--<exclude>*.json</exclude>-->
+                    <!--</excludes>-->
                 </configuration>
             </plugin>
         </plugins>

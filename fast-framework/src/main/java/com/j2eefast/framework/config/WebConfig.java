@@ -12,7 +12,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.j2eefast.common.core.adapter.SecurityKeyInterceptorAdapter;
 import com.j2eefast.common.core.constants.ConfigConstant;
-import com.j2eefast.common.core.license.interceptor.LicenseCheckInterceptor;
+//import com.j2eefast.common.core.license.interceptor.LicenseCheckInterceptor;
 import com.j2eefast.common.core.utils.CookieUtil;
 import com.j2eefast.framework.interceptor.RepeatSubmitInterceptor;
 import com.j2eefast.framework.utils.Constant;
@@ -60,8 +60,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
-    @Autowired
-    private LicenseCheckInterceptor LicenseCheckInterceptor;
+//    @Autowired
+//    private LicenseCheckInterceptor LicenseCheckInterceptor;
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -97,7 +97,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(LicenseCheckInterceptor).addPathPatterns("/**");
+//        registry.addInterceptor(LicenseCheckInterceptor).addPathPatterns("/**");
     	registry.addInterceptor(securityKeyInterceptorAdapter).addPathPatterns("/**");
         registry.addInterceptor(lockHandlerInterceptorAdapter).addPathPatterns("/**");
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
