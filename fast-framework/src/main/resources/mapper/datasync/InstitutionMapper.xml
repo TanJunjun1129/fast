@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.j2eefast.framework.datasync.mapper.InstitutionMapper">
+	<select id="queryAll">
+		select * from dispatch_institution
+	</select>
+
+	<select id="getCompInst" resultType="com.j2eefast.framework.datasync.entity.CompInst">
+		select * from comp_institution where comp_id=#{compId}
+	</select>
+	<insert id="insertInst" useGeneratedKeys="true" keyProperty="institutId">
+		insert into dispatch_institution(institut_name,parent_id,institut_level,creator,created)
+		values (#{institutName},#{parentId},#{institutLevel},#{creator},#{created})
+	</insert>
+	<insert id="insertCompInst">
+		insert  into comp_institution(comp_id,inst_id) values (#{compId},#{instId})
+	</insert>
+	<select id="getCompList" resultType="com.j2eefast.framework.sys.entity.SysCompEntity">
+		 SELECT c.id, c.parent_id, c.name,c.type, c.order_num,c.status,c.create_time,c.full_name,c.area_ids,c.tenant_id,
+        c.tenant_name,c.parent_ids,
+		(SELECT NAME FROM sys_comp WHERE id = c.parent_id) parent_name,c.del_flag
+		FROM sys_comp c
+		where 1=1
+		<if test="type!=null">
+			and c.type=#{type}
+		</if>
+	</select>
+	<select id="getInstitutionById" resultType="com.j2eefast.framework.datasync.entity.Institution">
+		select * from dispatch_institution where institut_id=#{id}
+	</select>
+
+	<update id="updateInst">
+		update dispatch_institution set institut_name=#{institutName},parent_id=#{parentId},is_deleted=#{isDeleted}
+		where institut_id=#{institutId}
+	</update>
+</mapper>

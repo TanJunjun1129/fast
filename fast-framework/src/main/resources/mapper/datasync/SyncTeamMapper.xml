@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.j2eefast.framework.datasync.mapper.SyncTeamMapper">
+	<select id="getAllTeams" resultType="com.j2eefast.framework.sys.entity.SysTeamEntity">
+		select * from sys_team
+	</select>
+
+	<select id="getDisTeam_Team" resultType="com.j2eefast.framework.datasync.entity.DisTeam_Team">
+		select * from dis_team_team where team_id=#{teamId}
+	</select>
+
+	<insert id="addDTeam" useGeneratedKeys="true" keyProperty="teamId">
+		insert into dispatch_person_team(team_name,team_type,team_num,resp_per_ref,resp_pers,resp_pers_tel,institu_ref,
+		creator,created,is_deleted)
+		values (#{teamName},#{teamType},#{teamNum},#{respPerRef},#{respPers},#{respPersTel},#{instituRef},#{creator},#{created}
+		,#{isDeleted})
+	</insert>
+
+	<insert id="addDteamTeam">
+		insert into dis_team_team(d_team_id,team_id) values (#{dTeamId},#{teamId})
+	</insert>
+
+	<update id="updateDTeam">
+		update dispatch_person_team
+		set team_name=#{teamName},team_type=#{teamType},team_num=#{teamNum},resp_per_ref=#{respPerRef},
+		resp_pers=#{respPers},resp_pers_tel=#{respPersTel},institu_ref=#{instituRef},
+		creator=#{creator},created=#{created},is_deleted=#{isDeleted}
+		where team_id=#{teamId}
+	</update>
+
+	<delete id="delAllDPersonTeamRel">
+		delete from dispatch_perteam_relate
+	</delete>
+	<insert id="insertDPersonTeam">
+		insert  into  dispatch_perteam_relate(team_ref,person_ref,created,creator)
+		values (#{teamRef},#{personRef},#{created},#{creator})
+	</insert>
+
+	<select id="getAllPersonTeam" resultType="com.j2eefast.framework.datasync.entity.SysUserTeam">
+		select  * from sys_user_team
+	</select>
+
+	<select id="getUserPostCode" resultType="string">
+		select post_code from sys_user_post where user_id=#{userId}
+	</select>
+
+	<update id="updateDteamResp">
+		update dispatch_person_team
+		set resp_per_ref=#{respPerRef},
+		resp_pers=#{respPers},resp_pers_tel=#{respPersTel}
+		where team_id=#{teamId}
+	</update>
+
+</mapper>

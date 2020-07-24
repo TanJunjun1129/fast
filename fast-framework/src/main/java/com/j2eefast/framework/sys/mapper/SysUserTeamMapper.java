@@ -21,7 +21,7 @@ public interface SysUserTeamMapper extends BaseMapper<SysUserTeamEntity> {
      * @param userIds
      * @return
      */
-    int delUserTeam(Long[] userIds);
+    int delUserTeam(@Param("userIds") Long[] userIds);
 
     /**
      * 查询队伍 已经选择的用户
@@ -31,8 +31,6 @@ public interface SysUserTeamMapper extends BaseMapper<SysUserTeamEntity> {
      * @param status
      * @param mobile
      * @param email
-     * @param compId
-     * @param sql_filter
      * @return
      */
     Page<SysUserEntity> findUserByTeamPage(IPage<?> params,

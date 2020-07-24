@@ -50,9 +50,9 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<!-- 不打包资源文件（配置文件和依赖包分开） -->
-					<excludes>
-						<exclude>templates/**</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>templates/**</exclude>-->
+					<!--</excludes>-->
 				</configuration>
 			</plugin>
 

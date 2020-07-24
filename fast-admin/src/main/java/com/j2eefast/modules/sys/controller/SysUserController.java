@@ -7,6 +7,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.excel.EasyExcel;
 import com.j2eefast.common.core.base.entity.LoginUserEntity;
+import com.j2eefast.common.core.base.entity.Ztree;
 import com.j2eefast.common.core.utils.*;
 import com.j2eefast.common.core.business.annotaion.BussinessLog;
 import com.j2eefast.common.core.enums.BusinessType;
@@ -22,6 +23,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.j2eefast.common.core.utils.ValidatorUtil;
@@ -352,4 +354,45 @@ public class SysUserController extends BaseController {
 		}
 		return sysUserService.delUser(ids)?success(): error("删除失败!");
 	}
+
+
+	/**
+	 * 页面用户表格分页查询
+	 * @author zhouzhou
+	 * @date 2020-03-07 13:31
+	 */
+	@RequestMapping("/tree")
+	@RequiresPermissions("sys:user:list")
+	@ResponseBody
+	public List<Ztree> userTree(@RequestParam Map<String, Object> params) {
+		Long compId = Long.parseLong(super.getPara("correlationId","-1"));
+		Assert.isTrue(compId>0,"请选择机构");
+		params.put("compId",compId.toString());
+		SysCompEntity sysCompEntity=sysCompService.findCompById(compId);
+		List<SysUserEntity> list=sysUserService.findList(params);
+		List<Ztree> ztrees=new ArrayList<>();
+		Ztree root=new Ztree();
+		root.setName(sysCompEntity.getName());
+		root.setTitle(sysCompEntity.getName());
+		root.setIsParent(true);
+		root.setParent(true);
+		root.setId(compId);
+		root.setChkDisabled(true);
+		root.setType("1");
+		ztrees.add(root);
+		for(SysUserEntity user:list){
+			Ztree ztree=new Ztree();
+			ztree.setChecked(false);
+			ztree.setChkDisabled(false);
+			ztree.setId(user.getId());
+			ztree.setIsParent(false);
+			ztree.setTitle(user.getName());
+			ztree.setName(user.getName());
+			ztree.setpId(compId);
+			ztree.setType("0");
+			ztrees.add(ztree);
+		}
+		return ztrees;
+	}
+
 }

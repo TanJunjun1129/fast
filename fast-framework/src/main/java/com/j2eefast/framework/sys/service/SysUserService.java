@@ -84,11 +84,13 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		String mobile = (String) params.get("mobile");
 		String email = (String) params.get("email");
 		String compId = (String) params.get("compId");
+		String postName = (String) params.get("postName");
 		return sysUserMapper.findList(StrUtil.nullToDefault(username,""),
 				StrUtil.nullToDefault(status,""),
 				StrUtil.nullToDefault(mobile,""),
 				StrUtil.nullToDefault(email,""),
 				StrUtil.nullToDefault(compId,""),
+				StrUtil.nullToDefault(postName,""),
 				(String) params.get(Constant.SQL_FILTER));
 	}
 
@@ -223,8 +225,8 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 		sysUserTeamService.delUserTeam(ids);
 		//删除 用户
 		if(this.removeByIds(Arrays.asList(ids))){
-			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getDelUserHard(),ToolUtil.conversion(ids,","),
-					IdUtil.fastSimpleUUID(),RabbitInfo.EXCHANGE_NAME, RabbitInfo.KEY);
+//			rabbitmqProducer.sendSimpleMessage(RabbitInfo.getDelUserHard(),ToolUtil.conversion(ids,","),
+//					IdUtil.fastSimpleUUID(),RabbitInfo.EXCHANGE_NAME, RabbitInfo.KEY);
 			return true;
 		}
 		return false;
@@ -264,6 +266,9 @@ public class SysUserService  extends ServiceImpl<SysUserMapper,SysUserEntity> {
 
 	public boolean checkMobileUnique(SysUserEntity user) {
 		Long userId = ToolUtil.isEmpty(user.getId())?-1L:user.getId();
+		if(user.getMobile()==null){
+			return  true;
+		}
 		SysUserEntity info = this.getOne(new QueryWrapper<SysUserEntity>().eq("mobile",user.getMobile()));
 		if(ToolUtil.isNotEmpty(info) && !info.getId().equals(userId)){
 			return  false;

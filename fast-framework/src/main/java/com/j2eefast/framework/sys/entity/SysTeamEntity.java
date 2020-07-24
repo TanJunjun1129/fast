@@ -83,6 +83,13 @@ public class SysTeamEntity extends BaseEntity {
 	@ColumnWidth(50)
 	private String compName;
 
+	@NotNull(message = "负责人不能为空")
+	private Long respUserId;
+
+	@TableField(exist = false)
+	@ExcelProperty("负责人姓名")
+	private String respUserName;
+
 	//队伍类型
 	private String teamType;
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.j2eefast.framework.datasync.mapper.PersonMapper">
+	<select id="getAllUsers" resultType="com.j2eefast.framework.sys.entity.SysUserEntity">
+		SELECT
+			u.id,
+			u.username,
+			u.NAME,
+			u.PASSWORD,
+			u.salt,
+			u.email,
+			u.mobile,
+			u.STATUS,
+			u.card_id,
+			u.create_time,
+			u.dept_id,
+			u.comp_id,
+			d.NAME AS deptName,
+			ifnull( c.NAME, "总公司" ) AS comp_name,
+			GROUP_CONCAT( l.role_name ) AS role_name,
+			u.del_flag
+		FROM
+			sys_user u
+			LEFT JOIN sys_comp c ON u.comp_id = c.id
+			LEFT JOIN ( SELECT id, NAME, parent_ids FROM sys_comp ) d ON u.dept_id = d.id
+			LEFT JOIN sys_user_role r ON u.id = r.user_id
+			LEFT JOIN sys_role l ON r.role_id = l.id
+		GROUP BY
+			u.id,
+			u.username,
+			u.NAME,
+			u.PASSWORD,
+			u.salt,
+			u.email,
+			u.mobile,
+			u.STATUS,
+			u.card_id,
+			u.create_time,
+			u.dept_id,
+			u.comp_id,
+			c.NAME,
+			u.del_flag
+	</select>
+
+	<select id="getUserPersonByUserId" resultType="com.j2eefast.framework.datasync.entity.UserPerson">
+		select  * from user_person where user_id=#{userId}
+	</select>
+
+	<insert id="addPerson" useGeneratedKeys="true" keyProperty="personId">
+		insert  into dispatch_person(person_name,pers_no,gend,pers_post_ref,pers_tel,institu_ref,institut_level,creator,created)
+		values (#{personName},#{persNo},#{gend},#{persPostRef},#{persTel},#{instituRef},#{institutLevel},#{creator},#{created})
+	</insert>
+
+	<insert id="addUserPerson">
+		insert into user_person(user_id,person_id)
+		values(#{userId},#{personId})
+	</insert>
+
+	<update id="updatePerson">
+		update dispatch_person
+		set person_name=#{personName},pers_no=#{persNo},pers_post_ref=#{persPostRef},pers_tel=#{persTel},institu_ref=#{instituRef},
+		institut_level=#{institutLevel}
+		where person_id=#{personId}
+	</update>
+
+</mapper>

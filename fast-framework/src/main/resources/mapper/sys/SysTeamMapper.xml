@@ -20,11 +20,14 @@
             t.create_by as createBy,
             t.remark,
             t.del_flag as delFlag,
-            t.status as status
-        FROM
+            t.status as status,
+           u.id as resp_user_id,
+           u.name as resp_user_name
+            FROM
             sys_team t
             LEFT JOIN sys_comp c ON t.comp_id = c.id
             LEFT JOIN sys_comp d ON d.id = t.dept_id
+            left join sys_user u on t.resp_user_id=u.id
             where t.del_flag=0
             <if test="teamname!=null and teamname!=''">
             and t.team_name=#{teamname}
@@ -56,11 +59,14 @@
         t.create_by as createBy,
         t.remark,
         t.del_flag as delFlag,
-        t.status as status
+        t.status as status,
+        u.id as resp_user_id,
+        u.name as resp_user_name
         FROM
         sys_team t
         LEFT JOIN sys_comp c ON t.comp_id = c.id
         LEFT JOIN sys_comp d ON d.id = t.dept_id
+        LEFT JOIN sys_user u on t.resp_user_id=u.id
         where t.del_flag=0
         and  t.id=#{id}
     </select>
